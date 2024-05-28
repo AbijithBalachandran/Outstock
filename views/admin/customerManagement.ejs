@@ -1,0 +1,294 @@
+<%- include('../layout/adminHeader') %>
+
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+       
+            <%-include('../layout/adSidebarHeader')%>
+
+            <%-include('../layout/adSidebarFooter')%>
+
+                <!-- Content Start -->
+                <div class="content">
+                    <!-- Navbar Start -->
+                    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                            <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                        </a>
+                        <a href="#" class="sidebar-toggler flex-shrink-0">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                        <form class="d-none d-md-flex ms-4">
+                            <input class="form-control border-0" type="search" placeholder="Search">
+                        </form>
+                        <div class="navbar-nav align-items-center ms-auto">
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                    <i class="fa fa-envelope me-lg-2"></i>
+                                    <span class="d-none d-lg-inline-flex">Message</span>
+                                </a>
+                                <div
+                                    class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                    <a href="#" class="dropdown-item">
+                                        <div class="d-flex align-items-center">
+                                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                                style="width: 40px; height: 40px;">
+                                            <div class="ms-2">
+                                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                                <small>15 minutes ago</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item">
+                                        <div class="d-flex align-items-center">
+                                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                                style="width: 40px; height: 40px;">
+                                            <div class="ms-2">
+                                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                                <small>15 minutes ago</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item">
+                                        <div class="d-flex align-items-center">
+                                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                                style="width: 40px; height: 40px;">
+                                            <div class="ms-2">
+                                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                                <small>15 minutes ago</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item text-center">See all message</a>
+                                </div>
+                            </div>
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                    <i class="fa fa-bell me-lg-2"></i>
+                                    <span class="d-none d-lg-inline-flex">Notificatin</span>
+                                </a>
+                                <div
+                                    class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                    <a href="#" class="dropdown-item">
+                                        <h6 class="fw-normal mb-0">Profile updated</h6>
+                                        <small>15 minutes ago</small>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item">
+                                        <h6 class="fw-normal mb-0">New user added</h6>
+                                        <small>15 minutes ago</small>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item">
+                                        <h6 class="fw-normal mb-0">Password changed</h6>
+                                        <small>15 minutes ago</small>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item text-center">See all notifications</a>
+                                </div>
+                            </div>
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                                        style="width: 40px; height: 40px;">
+                                    <span class="d-none d-lg-inline-flex">John Doe</span>
+                                </a>
+                                <div
+                                    class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                    <a href="/admin/logOut" class="dropdown-item">Log Out</a>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                    <!-- Navbar End -->
+
+                    <form method="post" class="d-none d-md-flex ms-4 mt-4 w-25">
+                        <input class="form-control border-0" type="search" placeholder="Search">
+                    </form>
+
+                    <style>
+                        .classic-table {
+                            font-family: 'Times New Roman', Times, serif;
+                            border-collapse: collapse;
+                            width: 99%;
+                            margin: 20px 0;
+                            background: #ffffff;
+                        }
+
+                        .classic-table th,
+                        .classic-table td {
+                            border: 1px solid #000000;
+                            padding: 8px 12px;
+                            text-align: left;
+                            color: #000;
+                        }
+
+                        .classic-table thead th {
+                            background-color: #f2f2f2;
+                            font-weight: bold;
+                        }
+
+                        .classic-table tbody tr:nth-child(even) {
+                            background-color: #f9f9f9;
+                        }
+
+                        .classic-table tbody tr:hover {
+                            background-color: #e0e0e0;
+                        }
+
+                        .classic-table .btn {
+                            font-size: 0.875em;
+                        }
+                    </style>
+
+                    <!-- Table Start -->
+                    <table class="table table-bordered table-hover classic-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email Address</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Block/UnBlock</th>
+
+                            </tr>
+                        </thead>
+                        <% if(users.length> 0){ %>
+                            <% for(let i=0;i<users.length;i++){ %>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <%= users[i].Fname %>
+                                        </td>
+                                        <td>
+                                            <%= users[i].email %>
+                                        </td>
+                                        <td>
+                                            <%= new Date(users[i].createdAt).toLocaleDateString('en-US', {
+                                                weekday: 'short' , month: 'short' , day: 'numeric' , year:'numeric'})%>
+                                        </td>
+                                        <td>
+                                            <% if(users[i].is_block===false){ %>
+                                                <button class="btn btn-outline-danger"
+                                                    onclick="updateUserStatus('<%= users[i]._id %>', false)">Block</button>
+                                                <% }else{ %>
+                                                    <button class="btn btn-outline-success"
+                                                        onclick="updateUserStatus('<%= users[i]._id %>', true)">UnBlock</button>
+                                                    <% } %>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <%} }else{ %>
+                                    <h6>User Not Found</h6>
+                                    <% } %>
+                    </table>
+                    <!-- Table End -->
+
+
+                    <!-- Pagination Start -->
+
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <% if(currentPage > 1){%>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="/admin/customerManagement?page=<%= currentPage -1 %>">Previous</a>
+                                </li>
+
+                               <% }else{%>
+                                <li class="page-item">
+                                    <a class="page-link" href=" ">Previous</a>
+                                </li>
+                                <% } %>
+
+                                    <% for(let i=1;i<=totalPages;i++){%>
+                                        <li class="page-item  <%= i === currentPage ? 'active' : '' %>">
+                                            <a class="page-link" href="/admin/customerManagement?page=<%= i %>">
+                                                <%=i %>
+                                            </a>
+                                        </li>
+                                        <% } %>
+
+                                            <% if(currentPage > totalPages){%>
+                                                <li class="page-item  <%= i === currentPage ? 'active' : '' %>">
+                                                    <a class="page-link " 
+                                                        href="/admin/customerManagement?page=<%= currentPage + 1 %>">Next</a>
+                                                </li>
+                                                <%}else{%>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href=" ">Next</a>
+                                                    </li>
+                                                <% } %>
+
+
+                        </ul>
+                    </nav>
+
+                    <!-- Pagination End -->
+
+                    <!-- Footer Start -->
+
+                    <!-- Footer End -->
+                </div>
+
+                <!-- Content End -->
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+                <script>
+                    function updateUserStatus(userId, status) {
+                        Swal.fire({
+                            title: "Are you sure?",
+                            text: "You won't be able to revert this!",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: status ? "Yes, unblock user!" : "Yes, block user!",
+                            cancelButtonText: "No, cancel!",
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                fetch(`/admin/blockAndUnblockUser?userId=${userId}`, {
+                                    method: 'PUT'
+                                })
+                                    .then(response => {
+                                        if (response.ok) {
+                                            Swal.fire({
+                                                title: status ? "User Unblocked!" : "User Blocked!",
+                                                text: status ? "The user has been unblocked." : "The user has been blocked.",
+                                                icon: "success"
+                                            }).then(() => {
+                                                window.location.reload();
+                                            });
+                                        } else {
+                                            Swal.fire({
+                                                title: "Error",
+                                                text: "An error occurred while blocking the user.",
+                                                icon: "error"
+                                            });
+                                        }
+                                    })
+                                    .catch(error => {
+
+                                        console.error("Error:", error);
+                                        Swal.fire({
+                                            title: "Error",
+                                            text: "An error occurred while blocking the user.",
+                                            icon: "error"
+                                        });
+                                    });
+                            }
+                        });
+                    }
+
+                </script>
+
+
+
+                <!-- Back to Top -->
+                <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    </div>
+    <!-- <script src="/js/swal.js"></script> -->
+    <%- include('../layout/adminFooter') %>

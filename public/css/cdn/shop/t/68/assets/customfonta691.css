@@ -1,0 +1,12 @@
+
+@font-face {
+    font-family: 'quentin';
+    src:url('quentin7dd9.eot?v=50122446900968282541692842349');
+    src:url('quentin7dd9.eot?v=50122446900968282541692842349') format('embedded-opentype'),
+        url('quentin4690.woff?v=170981935592580920341692842349') format('woff'),
+        url('quentin3a01.woff2?v=34130287029558885991692842349') format('woff2'),
+        url('quentin1eec.ttf?v=154820697784510184241692842349') format('truetype'),
+        url('quentin8611.svg?v=15741647247974719561692842349') format('svg');
+    font-weight: 400;
+    font-style: normal;
+}
