@@ -4,6 +4,7 @@ const otpSchema = require('../Models/otp')
 const bcrypt = require('bcrypt');
 const sendMailer =require('../utils/sendMail');
 const generate4DigitOTP =require('../utils/otpGenarate');
+const { consumers } = require('nodemailer/lib/xoauth2');
 
 
 
@@ -212,7 +213,44 @@ const resendOTP = async(req,res)=>{
 }
 
 
+//-----------------------google Auth------------------
 
+const successGoogleLogin = async(req,res)=>{
+          try {
+            
+            console.log("google"+req.user.email);
+
+            if(req.user){
+             const existingUser = await User.findOne({email:req.user.email});  
+             
+             if(existingUser){
+                 res.redirect('/home');
+             }else{
+                 const newUser = await User({
+                       name:req.user.displayName,
+                       email:req.user.email,
+                       is_varified:true
+                 })
+                 await newUser.save();
+                 res.redirect('/home');
+             }
+            
+            }
+          } catch (error) {
+
+            console.log(error.message);
+          }   
+}
+
+
+const failureGoogleLogin = async(req,res)=>{
+      console.log("failuer");
+      try {
+           res.render('login',{message:"Google Authentication Failed"}) 
+      } catch (error) {
+            console.log(error.message);
+      }
+}
 
 
 module.exports={
@@ -223,5 +261,8 @@ module.exports={
       insertUser,
       insertOTP,
       validLogin,
-      resendOTP
+      resendOTP,
+      successGoogleLogin,
+      failureGoogleLogin
+
 }

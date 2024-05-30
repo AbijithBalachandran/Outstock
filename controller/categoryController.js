@@ -71,7 +71,7 @@ const addNewcategory = async (req,res)=>{
         
   let message = categoryInfo.is_block ? "User Blocked successfully" : "User Unblocked successfully";
 
-       res.status(200).json({ message })
+       res.status(200).json({ message });
  });
 
  //--------------------------------Edit Category page Loading ----------------------------------------------------------------//

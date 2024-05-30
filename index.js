@@ -1,7 +1,7 @@
 const mongoose =require('mongoose');
 mongoose.connect('mongodb://127.0.0.1:27017/user_storing_system');
 const session = require('express-session');
-
+const { sessionSecret } = require('./Config/config');
 require('dotenv').config();
 
 
@@ -10,7 +10,7 @@ const app = express();
 const path = require('path');
 
 app.use(session({
-      secret:process.env.AUTH_SESSION_SECRET,
+      secret:sessionSecret,
       resave:false,
       saveUninitialized:false
 }));
@@ -28,6 +28,8 @@ const adminRouter = require('./routes/adminRouter');
 app.use('/admin',adminRouter);
 
 const userRouter = require('./routes/userRouter');
+
+
 app.use('/',userRouter);
  
 

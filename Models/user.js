@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
       createdAt :{
             type: Date,
             default:new Date()
+      },
+      is_varified:{
+            type:Boolean,
+            default:false
       }
 })
 
