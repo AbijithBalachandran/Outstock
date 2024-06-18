@@ -19,8 +19,9 @@ const signinLoad = async (req, res) => {
 const adminLoad = async (req, res) => {
       try {
             email = req.body.email,
-                  password = req.body.password;
+            password = req.body.password;
             const adminData = await User.findOne({ email: email });
+            console.log('admin' + adminData);
             if (adminData) {
                   const passwordCheck = await bcrypt.compare(password, adminData.password);
 
@@ -59,14 +60,17 @@ const dashboard = async (req, res) => {
 
 const userLoad = async (req, res) => {
       try {
-            const FirstPage = 10;
-            const currentPage = parseInt(req.query.page);
 
-            const start = (FirstPage - 1) * currentPage;
+
+            const FirstPage = 10;
+            const currentPage = parseInt(req.query.page) || 1;
+
+            const start = (currentPage - 1) * FirstPage;
 
             const userData = await User.find({ is_Admin: false }).skip(start).limit(FirstPage);
-            const user = await User.countDocuments();
-            const totalPages = Math.ceil(user / currentPage);
+            const user = await User.countDocuments({ is_Admin: false });
+            const totalPages = Math.ceil(user / FirstPage);
+
 
 
             res.render('customerManagement', { users: userData, currentPage, totalPages });
@@ -86,7 +90,7 @@ const updateUserStatus = async (req, res) => {
             await userData.save();
 
             if (userData.is_block) {
-                  delete req.session.userId;
+                  delete req.session.userData_id;
             }
 
             let message = userData.is_block ? "User Blocked successfully" : "User Unblocked successfully";
@@ -106,11 +110,39 @@ const logOut = asyncHandler(async (req, res) => {
 })
 
 
+//-------------------------------Search User -----------------------------------------//
+
+const SearchUser = asyncHandler(async (req, res) => {
+
+      let users = [];
+      const currentPage = parseInt(req.query.page);
+      const FirstPage = 10;
+      const start = (currentPage - 1) * FirstPage;
+      const user = await User.countDocuments({ is_Admin:false });
+      const totalPages = Math.ceil(user / FirstPage);
+
+      const userData = {
+            $or:[{Fname: { $regex: req.query.search, $options: 'i'}},
+              {email: { $regex: req.query.search, $options: 'i' }}]}
+      
+
+       if(req.query.search){
+             users = await User.find(userData).skip(start).limit(FirstPage)
+       }else{
+             users =await User.find().skip(start).limit(FirstPage);
+       }
+
+      res.render('customerManagement', {users,currentPage,totalPages});
+  });
+  
+
+
 module.exports = {
       signinLoad,
       adminLoad,
       dashboard,
       userLoad,
       updateUserStatus,
-      logOut
+      logOut,
+      SearchUser
 }

@@ -1,0 +1,15 @@
+.input-group {
+      position: relative;
+  }
+
+  .password-toggle-icon {
+      position: absolute;
+      top: 50%;
+      right: 15px; /* Adjust according to your layout */
+      transform: translateY(-50%);
+      cursor: pointer;
+  }
+
+  .input-group .form-control {
+      padding-right: 40px; /* Make space for the icon */
+  }

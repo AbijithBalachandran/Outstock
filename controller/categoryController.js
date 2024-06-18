@@ -9,7 +9,7 @@ const { name } = require('ejs');
 
 const categoryLoad = asyncHandler(async (req, res) => {
       const categories = await Category.find({});
-      console.log("categories --------------------------------", categories);
+      //console.log("categories --------------------------------", categories);
       res.render('categoryManagement', { categories });
   }); 
 
@@ -17,6 +17,7 @@ const categoryLoad = asyncHandler(async (req, res) => {
 
 const addCategoryLoad = async (req,res)=>{
       try {
+           
             res.render('addcategory');
       } catch (error) {
             console.log(error.message);
@@ -27,12 +28,11 @@ const addCategoryLoad = async (req,res)=>{
 const addNewcategory = async (req,res)=>{
       try {
 
-            const {name,action,description} = req.body
-            const existingCategory =  await Category.findOne({name:name});
+            const {name,action,description} = req.body;
+            const existingCategory =  await Category.findOne({name:{ $regex: new RegExp(`^${name}$`, 'i') }});
           
            console.log("existingCategory===="+name);
-                 if(existingCategory){
-                  //res.render('addcategory',{message:'Its Already added'});
+                 if(existingCategory){;
                   return res.render('addcategory', { message: 'It\'s already added' });
                  }
 
@@ -65,11 +65,11 @@ const addNewcategory = async (req,res)=>{
 
       const id = req.query.categoryId;
       const categoryInfo = await Category.findById({_id:id});
-              console.log("-----------------------categoryINFO"+categoryInfo);
+              //console.log("-----------------------categoryINFO"+categoryInfo);
               categoryInfo.is_Delete = !categoryInfo.is_Delete;
               await categoryInfo.save();
         
-  let message = categoryInfo.is_block ? "User Blocked successfully" : "User Unblocked successfully";
+  let message = categoryInfo.is_Delete ? "User List successfully" : "User Unlist successfully";
 
        res.status(200).json({ message });
  });
@@ -79,9 +79,9 @@ const addNewcategory = async (req,res)=>{
    
     const editCategoryLoad = asyncHandler(async(req,res)=>{
       const id = req.query.categoryId;
-      console.log('hgasdfgh'+id);
+     // console.log('hgasdfgh'+id);
       const categories = await Category.findById({_id:id});
-                  console.log('categories------------------------'+categories);
+                //  console.log('categories------------------------'+categories);
        if(categories){
             res.render('editCategory',{categories});
        }else{
@@ -93,18 +93,26 @@ const addNewcategory = async (req,res)=>{
 //----------------------------------------------Edit and Update The Categories =-----------------------------------//
 
 
-const editAndUpadateLoad = asyncHandler(async(req,res)=>{
+const editAndUpdateLoad = asyncHandler(async(req,res)=>{
+
+      const {name,description,id} = req.body;
+      const existingCategory =  await Category.findOne({name:{ $regex: new RegExp(`^${name}$`, 'i') }});
+      console.log('existingCategory===='+name);
+
+      if (existingCategory) {
+            const categories = await Category.findById(id); 
+            return res.render('editCategory', { categories, message: 'It\'s already added' });
+        }
 
       await Category.findByIdAndUpdate(
-            { _id:req.body.id},
+            { id},
             {$set:{
-                  name:req.body.name,
-                  action:req.body.action,
-                  description:req.body.description
+                  name:name,
+                  description:description
             }});
 
       res.redirect('categoryManagement');
-})
+});
 
 //---------------------------------------------    -----------------------------------------------------------//
 
@@ -116,5 +124,6 @@ module.exports={
       addNewcategory,
       updateCategoyStatus,
       editCategoryLoad,
-      editAndUpadateLoad
+      editAndUpdateLoad,
+
 }

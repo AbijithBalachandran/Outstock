@@ -1,88 +1,99 @@
-
 <%- include('../layout/header') %>
 
 
-<%- include('../layout/navbarH') %>
+    <%- include('../layout/navbarH') %>
 
 
-<%- include('../layout/navbarF') %>
+        <%- include('../layout/navbarF') %>
 
-<!-- start sections: body-group -->
+            <!-- start sections: body-group -->
 
-<div id="searchTop" class="search-modal modal fade" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-          <div class="modal-content container border-0">
-                <div class="modal-header border-0 p-0 text-center flex-column">
-                      <button type="button" class="btn-close m-auto w-auto h-auto p-0 text-primary" data-bs-dismiss="modal" aria-label="Close"><svg   class="icon" width="28" height="28" aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M8.48627 9.32917L2.82849 3.67098" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M2.88539 9.38504L8.42932 3.61524" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</button>
-                      <h4 class="modal-title pb-0 pt-2 pt-md-5 mb-2" id="searchTopLabel">Search</h4>
-                </div>
-                <div class="search-modal__content " tabindex="-1"><predictive-search class="search-modal__form w-100" data-loading-text="Loading..."><form action="https://vela-kazan.myshopify.com/search" method="get" role="search" class="search search-modal__form position-relative pe-5 border-bottom">
-                            
-                            <input class="search__input form-control search-input border-0 px-0"
-                            id="Search-In-Modal-1"
-                            type="search"
-                            name="q"
-                            value=""
-                            placeholder="Enter keywords to search..."role="combobox"
-                                  aria-expanded="false"
-                                  aria-owns="predictive-search-results-list"
-                                  aria-controls="predictive-search-results-list"
-                                  aria-haspopup="listbox"
-                                  aria-autocomplete="list"
-                                  autocorrect="off"
-                                  autocomplete="off"
-                                  autocapitalize="off"
-                                  spellcheck="false">
-                            <label class="d-none" for="Search-In-Modal">Enter keywords to search...</label>
-                            <input type="hidden" name="type" value="product" />
-                            <input type="hidden" name="options[sort_by]" value="price-descending" />
-                            <button class="search__button btn btn-link p-0 text-end position-absolute end-0" aria-label="Enter keywords to search...">
-                                  <svg  class="icon icon-search"  width="24" height="24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
-                                    <path fill="currentColor" d="M344.5,298c15-23.6,23.8-51.6,23.8-81.7c0-84.1-68.1-152.3-152.1-152.3C132.1,64,64,132.2,64,216.3c0,84.1,68.1,152.3,152.1,152.3c30.5,0,58.9-9,82.7-24.4l6.9-4.8L414.3,448l33.7-34.3L339.5,305.1L344.5,298z M301.4,131.2c22.7,22.7,35.2,52.9,35.2,85c0,32.1-12.5,62.3-35.2,85c-22.7,22.7-52.9,35.2-85,35.2c-32.1,0-62.3-12.5-85-35.2c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z"></path></svg>
+            <div id="searchTop" class="search-modal modal fade" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content container border-0">
+                        <div class="modal-header border-0 p-0 text-center flex-column">
+                            <button type="button" class="btn-close m-auto w-auto h-auto p-0 text-primary"
+                                data-bs-dismiss="modal" aria-label="Close"><svg class="icon" width="28" height="28"
+                                    aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 12 13"
+                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8.48627 9.32917L2.82849 3.67098" stroke="currentColor"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M2.88539 9.38504L8.42932 3.61524" stroke="currentColor"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
                             </button>
-                            
-                            <div class="predictive-search predictive-search--header position-absolute bg-white overflow-auto" tabindex="-1" data-predictive-search>
-                                        <div class="predictive-search__loading-state d-none">
-                                              <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-                                              <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
-                                              </svg>
-                                        </div>
-                                  </div>
+                            <h4 class="modal-title pb-0 pt-2 pt-md-5 mb-2" id="searchTopLabel">Search</h4>
+                        </div>
+                        <div class="search-modal__content " tabindex="-1"><predictive-search
+                                class="search-modal__form w-100" data-loading-text="Loading...">
+                                <form action="https://vela-kazan.myshopify.com/search" method="get" role="search"
+                                    class="search search-modal__form position-relative pe-5 border-bottom">
 
-                                  <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span></form></predictive-search></div>
-          </div>
-    </div>
-</div>
-<script>
-    var myCollapsible = document.getElementById('searchTop');
-    myCollapsible.addEventListener('shown.bs.modal', function () {
-          document.getElementById('Search-In-Modal-1').focus();
-    });
-</script>
-<main id="MainContent" class="main-content content-for-layout" tabindex="-1">
-                <div class="main-content__inner">
-                      <section id="shopify-section-template--14947365814337__f7f81db5-41b9-4aab-b889-2fa01d47d8a9" class="shopify-section velaFramework">
-<div class="vela-section section--slideshow overflow-hidden" >
-    <div class="container-full">
-          <div class="vela-slideshow__inner position-relative" >
-                <div class="js-vela-slideshow vela-slideshow"
-                      data-autoplay="false"
-                      data-autoplayinterval="8000"
-                      data-navigation="true"
-                      data-pagination="true"
-                      data-fade="true">
-<div class="vela-slideshow__item">
-                       
-                       <div class="slide--image" style="width: 100%;">
-                        <img src="/css/cdn/shop/photo-1616486338812-3dadae4b4ace.avif" alt=""style="width: 100%; height:167%;">
+                                    <input class="search__input form-control search-input border-0 px-0"
+                                        id="Search-In-Modal-1" type="search" name="q" value=""
+                                        placeholder="Enter keywords to search..." role="combobox" aria-expanded="false"
+                                        aria-owns="predictive-search-results-list"
+                                        aria-controls="predictive-search-results-list" aria-haspopup="listbox"
+                                        aria-autocomplete="list" autocorrect="off" autocomplete="off"
+                                        autocapitalize="off" spellcheck="false">
+                                    <label class="d-none" for="Search-In-Modal">Enter keywords to search...</label>
+                                    <input type="hidden" name="type" value="product" />
+                                    <input type="hidden" name="options[sort_by]" value="price-descending" />
+                                    <button class="search__button btn btn-link p-0 text-end position-absolute end-0"
+                                        aria-label="Enter keywords to search...">
+                                        <svg class="icon icon-search" width="24" height="24" version="1.1"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                            viewBox="0 0 512 512" xml:space="preserve">
+                                            <path fill="currentColor"
+                                                d="M344.5,298c15-23.6,23.8-51.6,23.8-81.7c0-84.1-68.1-152.3-152.1-152.3C132.1,64,64,132.2,64,216.3c0,84.1,68.1,152.3,152.1,152.3c30.5,0,58.9-9,82.7-24.4l6.9-4.8L414.3,448l33.7-34.3L339.5,305.1L344.5,298z M301.4,131.2c22.7,22.7,35.2,52.9,35.2,85c0,32.1-12.5,62.3-35.2,85c-22.7,22.7-52.9,35.2-85,35.2c-32.1,0-62.3-12.5-85-35.2c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z">
+                                            </path>
+                                        </svg>
+                                    </button>
+
+                                    <div class="predictive-search predictive-search--header position-absolute bg-white overflow-auto"
+                                        tabindex="-1" data-predictive-search>
+                                        <div class="predictive-search__loading-state d-none">
+                                            <svg aria-hidden="true" focusable="false" role="presentation"
+                                                class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                                                <circle class="path" fill="none" stroke-width="6" cx="33" cy="33"
+                                                    r="30"></circle>
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    <span class="predictive-search-status visually-hidden" role="status"
+                                        aria-hidden="true"></span>
+                                </form>
+                            </predictive-search></div>
                     </div>
-                    
-                        <div class="slideshow-caption  " style="background-color: rgba(0,0,0,0)">
-                                              <!-- <div class="captionWrap container gx-3">
+                </div>
+            </div>
+            <script>
+                var myCollapsible = document.getElementById('searchTop');
+                myCollapsible.addEventListener('shown.bs.modal', function () {
+                    document.getElementById('Search-In-Modal-1').focus();
+                });
+            </script>
+            <main id="MainContent" class="main-content content-for-layout" tabindex="-1">
+                <div class="main-content__inner">
+                    <section id="shopify-section-template--14947365814337__f7f81db5-41b9-4aab-b889-2fa01d47d8a9"
+                        class="shopify-section velaFramework">
+                        <div class="vela-section section--slideshow overflow-hidden">
+                            <div class="container-full">
+                                <div class="vela-slideshow__inner position-relative">
+                                    <div class="js-vela-slideshow vela-slideshow" data-autoplay="false"
+                                        data-autoplayinterval="8000" data-navigation="true" data-pagination="true"
+                                        data-fade="true">
+                                        <div class="vela-slideshow__item">
+
+                                            <div class="slide--image" style="width: 100%;">
+                                                <img src="/css/cdn/shop/photo-1616486338812-3dadae4b4ace.avif" alt=""
+                                                    style="width: 100%; height:167%;">
+                                            </div>
+
+                                            <div class="slideshow-caption  " style="background-color: rgba(0,0,0,0)">
+                                                <!-- <div class="captionWrap container gx-3">
                                                     <div class="slideshow-caption__inner text-start align-middle">
                                                           <div class="slideshow-caption__content text-start ">
                                                             <div class="slideshow-caption__heading h3  animate__backInDown" style="--animate-duration: 0.5s; --h-cl:#323232; --h-fs: 36px; --h-fs-l: 30px; --h-fs-m: 22px;">
@@ -100,15 +111,16 @@
                                                                     </div>
                                                     </div>
                                               </div> -->
+                                            </div>
                                         </div>
-                                  </div>
-                                  <div class="vela-slideshow__item">
-                                    <div class="slide--image" style="width: 100%;">
-                                                                <img src="/css/cdn/shop/WhatsApp Image 2024-05-23 at 19.40.01_96ac15aa.jpg" alt=""style="width: 100%;height: 167%;">
+                                        <div class="vela-slideshow__item">
+                                            <div class="slide--image" style="width: 100%;">
+                                                <img src="/css/cdn/shop/WhatsApp Image 2024-05-23 at 19.40.01_96ac15aa.jpg"
+                                                    alt="" style="width: 100%;height: 167%;">
 
-                                                            </div>
-                                                            <div class="slideshow-caption  " style="background-color: rgba(0,0,0,0)">
-                                              <!-- <div class="captionWrap container gx-3">
+                                            </div>
+                                            <div class="slideshow-caption  " style="background-color: rgba(0,0,0,0)">
+                                                <!-- <div class="captionWrap container gx-3">
                                                     <div class="slideshow-caption__inner text-start align-middle">
                                                           <div class="slideshow-caption__content text-start "><div class="slideshow-caption__heading h3  animate__backInUp" style="--animate-duration: 0.5s; --h-cl:#323232; --h-fs: 36px; --h-fs-l: 30px; --h-fs-m: 22px;">
                                                                             <span class="fw-semibold">Think different &amp;</span>
@@ -121,16 +133,17 @@
                                                                       </a></div>
                                                     </div>
                                               </div> -->
+                                            </div>
                                         </div>
-                                  </div>
-                                          <div class="vela-slideshow__item">
-                                                <div class="slide--image" style="width: 100%;">
+                                        <div class="vela-slideshow__item">
+                                            <div class="slide--image" style="width: 100%;">
 
-                                                  <img src="/css/cdn/shop/WhatsApp Image 2024-05-23 at 19.40.00_34d194d0.jpg" alt=""style="width: 100%; height:167%;">
+                                                <img src="/css/cdn/shop/WhatsApp Image 2024-05-23 at 19.40.00_34d194d0.jpg"
+                                                    alt="" style="width: 100%; height:167%;">
 
-                                                            </div>
-                                                            <div class="slideshow-caption  " style="background-color: rgba(0,0,0,0)">
-                                              <!-- <div class="captionWrap container gx-3">
+                                            </div>
+                                            <div class="slideshow-caption  " style="background-color: rgba(0,0,0,0)">
+                                                <!-- <div class="captionWrap container gx-3">
                                                     <div class="slideshow-caption__inner text-start align-middle">
                                                           <div class="slideshow-caption__content text-start ">
                                                             <div class="slideshow-caption__heading h3  animate__backInLeft" style="--animate-duration: 0.5s; --h-cl:#323232; --h-fs: 36px; --h-fs-l: 30px; --h-fs-m: 22px;">
@@ -144,248 +157,474 @@
                                                                       </a></div>
                                                     </div>
                                               </div> -->
+                                            </div>
                                         </div>
-                                  </div></div></div>
-    </div>
-</div>
-</section>
-
-
-<section id="shopify-section-template--14947365814337__7f7b3226-75c4-4931-bb49-ba68beedf28a" class="shopify-section velaFramework"><style>
-  .product-more__btn {
-      border: 2px solid var(--border-color);
-      font-size: 12px;
-      text-transform: uppercase;
-      padding: 10px 35px;
-  }
-  .product-more__btn:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-  }
-</style><div class="vela-section sectioin-product-more overflow-hidden"  style="--st-pd-dt: 100px 0;--st-pd-mb: 60px 0;">
-  <div class="container">
-      <div class="vela-section__inner"><div class="heading-group text-center mb-3 mb-md-4 pb-1">
-                  <h2 class="heading mb-2">
-                      <span>Trending Products</span>
-                  </h2><div class="sub-heading mb-2">
-                          Mirum est notare quam littera gothica quam nunc putamus parum claram!
-                      </div></div><div class="vela-section__content row gy-3 gy-md-4 gy-lg-5">
-              
-                  <div class="product-more__content col-12">
-                      <div class="row g-2 g-sm-3 gy-3 gy-md-4 gy-lg-5 row-cols-2 row-cols-lg-4">
-                                  <div class="col">
-                                      
-
-
-<div class="product-card product-grid grid__default">
-  <div class="product-grid__inner">
-      <div class="product-card__image-wrapper">
-          <a class="product-card__image-link" href="products/plastic-dining-armchair.html">
-              <div class="product-card__img-primary img-primary">
-                  <div class="card_wrap w-100" style="max-width: 788px;"><div class="card__image position-relative lazyload js" style="padding-top:128.5532994923858%;" >
-              <img
-                  class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto"
-                  srcset="//vela-kazan.myshopify.com/cdn/shop/files/product-14-11_180x.jpg?v=1691546137 180w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-11_360x.jpg?v=1691546137 360w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-11_540x.jpg?v=1691546137 540w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-11_720x.jpg?v=1691546137 720w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-11_788x1013.jpg?v=1691546137 788w"
-                  data-sizes="auto"
-                  src="cdn/shop/files/product-14-110a42.jpg?v=1691546137"
-                  alt="chair7__Teal"
-                  loading="lazy"
-                  width="788"
-                  height="1013"
-              ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
-      <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
-      
-  </div>
-              </div><div class="img-secondary position-absolute">
-                      <div class="card_wrap w-100" style="max-width: 788px;"><div class="card__image position-relative lazyload js" style="padding-top:128.5532994923858%;" >
-              <img
-                  class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto"
-                  srcset="//vela-kazan.myshopify.com/cdn/shop/files/product-14-13_180x.jpg?v=1691546137 180w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-13_360x.jpg?v=1691546137 360w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-13_540x.jpg?v=1691546137 540w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-13_720x.jpg?v=1691546137 720w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-13_788x1013.jpg?v=1691546137 788w"
-                  data-sizes="auto"
-                  src="cdn/shop/files/product-14-130a42.jpg?v=1691546137"
-                  alt="chair8__Teal"
-                  loading="lazy"
-                  width="788"
-                  height="1013"
-              ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
-      <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
-      
-  </div>
-                  </div></a>
-          <div class="product-card__label position-absolute end-0"><span class="label-on-sale position-relative"><span class="d-block overflow-hidden position-relative">-40%</span></span></div><div class="shop-action position-absolute"><button type="button" aria-label="Wishlist" class="btn--wishlist btn--action mb-2 show-tooltip" data-product-handle="plastic-dining-armchair" title="Add to wishlist">
-                          <svg  width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M462.3 62.7c-54.5-46.4-136-38.7-186.6 13.5L256 96.6l-19.7-20.3C195.5 34.1 113.2 8.7 49.7 62.7c-62.8 53.6-66.1 149.8-9.9 207.8l193.5 199.8c6.2 6.4 14.4 9.7 22.6 9.7 8.2 0 16.4-3.2 22.6-9.7L472 270.5c56.4-58 53.1-154.2-9.7-207.8zm-13.1 185.6L256.4 448.1 62.8 248.3c-38.4-39.6-46.4-115.1 7.7-161.2 54.8-46.8 119.2-12.9 142.8 11.5l42.7 44.1 42.7-44.1c23.2-24 88.2-58 142.8-11.5 54 46 46.1 121.5 7.7 161.2z"/></svg>
-                          <div class="tooltip bs-tooltip-start" role="tooltip">
-                              <div class="tooltip-arrow"></div>
-                              <div class="tooltip-inner">
-                                  Add to wishlist
-                              </div>
-                          </div>
-                      </button><a class="js-btn-quickview btn btn--action btn--quickview show-tooltip " href="javascript:void(0);"  data-preorder="false" data-handle="plastic-dining-armchair" data-color-label="color,colour,couleur,kleur,cor,colore,culoare,farbe,색,色,カラー,färg,farve,szín,barva" title="Quick view">
-                          <svg  width="22" height="22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve"><path fill="currentColor" d="M344.5,298c15-23.6,23.8-51.6,23.8-81.7c0-84.1-68.1-152.3-152.1-152.3C132.1,64,64,132.2,64,216.3c0,84.1,68.1,152.3,152.1,152.3c30.5,0,58.9-9,82.7-24.4l6.9-4.8L414.3,448l33.7-34.3L339.5,305.1L344.5,298z M301.4,131.2c22.7,22.7,35.2,52.9,35.2,85c0,32.1-12.5,62.3-35.2,85c-22.7,22.7-52.9,35.2-85,35.2c-32.1,0-62.3-12.5-85-35.2c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z"></path></svg>
-                          <div class="tooltip bs-tooltip-start" role="tooltip">
-                              <div class="tooltip-arrow"></div>
-                              <div class="tooltip-inner">
-                                  Quick view
-                              </div>
-                          </div>
-                          <div class="d-none proShortDesc">
-                              Don’t ever play yourself. The weather is amazing, walk with me through the pathway of more success. Take this journey with me, Lion! The other day the grass ...
-                          </div>
-                      </a></div><div class="product-card__swatch position-absolute bottom-0 px-2 mb-2 start-0 w-100">
-      
-<ul class="product-card__swatch--list d-flex flex-wrap justify-content-center list-unstyled mb-0">
-                      
-
-<li class="rounded-circle position-relative show-tooltip  is-active"><label class="d-block rounded-circle overflow-hidden" style="background-color: teal;">
-                                      </label> 
-                                      <div class="tooltip bs-tooltip-top" role="tooltip">
-                                          <div class="tooltip-arrow"></div>
-                                          <div class="tooltip-inner">
-                                              Teal
-                                          </div>
-                                      </div>
-                                      <div class="d-none">
-                                          
-                                              <div class="card_wrap w-100" style="max-width: 788px;"><div class="card__image position-relative lazyload js" style="padding-top:128.5532994923858%;" >
-              <img
-                  class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto"
-                  srcset="//vela-kazan.myshopify.com/cdn/shop/files/product-14-11_180x.jpg?v=1691546137 180w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-11_360x.jpg?v=1691546137 360w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-11_540x.jpg?v=1691546137 540w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-11_720x.jpg?v=1691546137 720w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-11_788x1013.jpg?v=1691546137 788w"
-                  data-sizes="auto"
-                  src="cdn/shop/files/product-14-110a42.jpg?v=1691546137"
-                  alt="chair7__Teal"
-                  loading="lazy"
-                  width="788"
-                  height="1013"
-              ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
-      <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
-      
-  </div>
-</div>                           
-                                  </li>
-                      
-
-
-<li class="rounded-circle position-relative show-tooltip "><label class="d-block rounded-circle overflow-hidden" style="background-color: black;background-image: url(cdn/shop/files/black0e24.png?v=2352002872862275200);">
-                                      </label> 
-                                      <div class="tooltip bs-tooltip-top" role="tooltip">
-                                          <div class="tooltip-arrow"></div>
-                                          <div class="tooltip-inner">
-                                              Black
-                                          </div>
-                                      </div>
-                                      <div class="d-none">
-                                          
-                                              <div class="card_wrap w-100" style="max-width: 788px;"><div class="card__image position-relative lazyload js" style="padding-top:128.5532994923858%;" >
-              <img
-                  class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto"
-                  srcset="//vela-kazan.myshopify.com/cdn/shop/files/product-14-31_180x.jpg?v=1691546137 180w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-31_360x.jpg?v=1691546137 360w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-31_540x.jpg?v=1691546137 540w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-31_720x.jpg?v=1691546137 720w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-31_788x1013.jpg?v=1691546137 788w"
-                  data-sizes="auto"
-                  src="cdn/shop/files/product-14-310a42.jpg?v=1691546137"
-                  alt="chair__black"
-                  loading="lazy"
-                  width="788"
-                  height="1013"
-              ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
-      <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
-      
-  </div>
-</div>                           
-                                  </li>
-                      
-
-
-
-<li class="rounded-circle position-relative show-tooltip "><label class="d-block rounded-circle overflow-hidden" style="background-color: lightskyblue;">
-                                      </label> 
-                                      <div class="tooltip bs-tooltip-top" role="tooltip">
-                                          <div class="tooltip-arrow"></div>
-                                          <div class="tooltip-inner">
-                                              LightSkyBlue
-                                          </div>
-                                      </div>
-                                      <div class="d-none">
-                                          
-                                              <div class="card_wrap w-100" style="max-width: 788px;"><div class="card__image position-relative lazyload js" style="padding-top:128.5532994923858%;" >
-              <img
-                  class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto"
-                  srcset="//vela-kazan.myshopify.com/cdn/shop/files/product-14-41_180x.jpg?v=1691546137 180w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-41_360x.jpg?v=1691546137 360w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-41_540x.jpg?v=1691546137 540w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-41_720x.jpg?v=1691546137 720w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-41_788x1013.jpg?v=1691546137 788w"
-                  data-sizes="auto"
-                  src="cdn/shop/files/product-14-410a42.jpg?v=1691546137"
-                  alt="chair4__LightSkyBlue"
-                  loading="lazy"
-                  width="788"
-                  height="1013"
-              ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
-      <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
-      
-  </div>
-</div>                           
-                                  </li>
-                      
-
-
-
-
-<li class="rounded-circle position-relative show-tooltip "><label class="d-block rounded-circle overflow-hidden" style="background-color: yellow;">
-                                      </label> 
-                                      <div class="tooltip bs-tooltip-top" role="tooltip">
-                                          <div class="tooltip-arrow"></div>
-                                          <div class="tooltip-inner">
-                                              Yellow
-                                          </div>
-                                      </div>
-                                      <div class="d-none">
-                                          
-                                              <div class="card_wrap w-100" style="max-width: 788px;"><div class="card__image position-relative lazyload js" style="padding-top:128.5532994923858%;" >
-              <img
-                  class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto"
-                  srcset="//vela-kazan.myshopify.com/cdn/shop/files/product-14-21_180x.jpg?v=1691545391 180w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-21_360x.jpg?v=1691545391 360w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-21_540x.jpg?v=1691545391 540w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-21_720x.jpg?v=1691545391 720w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-21_788x1013.jpg?v=1691545391 788w"
-                  data-sizes="auto"
-                  src="cdn/shop/files/product-14-21d2ca.jpg?v=1691545391"
-                  alt="Chair10__yellow"
-                  loading="lazy"
-                  width="788"
-                  height="1013"
-              ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
-      <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
-      
-  </div>
-</div>                           
-                                  </li>
-                      
-</ul>
-  </div>
-</div>
-      <div class="product-card__content mt-lg-1 pt-2">
-          <div class="product-card__content--inner"><h6 class="product-card__name line-clamp-2 mb-1">
-                  <a class="line-title fw-normal" href="products/plastic-dining-armchair.html">Plastic Dining Armchair</a>
-              </h6><div class="group-cart-price overflow-hidden">
-                  <div class="group-cart-price__inner d-flex group-cart-price__effect">
-                      <div class="product-group-price d-flex align-items-center ff-special w-100">
-                          <div class="product-price"><span class=money>$120.00</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="product-price product-price--regular ms-1"><span class=money>$200.00</span></div></div><div class="product-card__buttons w-100">
-                              <div class="product-card__form"><form action="https://vela-kazan.myshopify.com/cart/add" method="post" enctype="multipart/form-data" class="form-addtocart" data-product-form>
-                                  <input type="hidden" name="id" value="40471654334529" /><a class="btn btn--add-to-cart d-none" href="products/plastic-dining-armchair.html"  title="Select options">
-                                              <svg  class="icon-cart" width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M576 14.4l-.174 163.2c0 7.953-6.447 14.4-14.4 14.4H528.12c-8.067 0-14.56-6.626-14.397-14.691l2.717-73.627-2.062-2.062-278.863 278.865c-4.686 4.686-12.284 4.686-16.971 0l-23.029-23.029c-4.686-4.686-4.686-12.284 0-16.971L474.379 61.621l-2.062-2.062-73.626 2.717C390.626 62.44 384 55.946 384 47.879V14.574c0-7.953 6.447-14.4 14.4-14.4L561.6 0c7.953 0 14.4 6.447 14.4 14.4zM427.515 233.74l-24 24a12.002 12.002 0 0 0-3.515 8.485V458a6 6 0 0 1-6 6H54a6 6 0 0 1-6-6V118a6 6 0 0 1 6-6h301.976c10.691 0 16.045-12.926 8.485-20.485l-24-24A12.002 12.002 0 0 0 331.976 64H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V242.225c0-10.691-12.926-16.045-20.485-8.485z"/></svg>
-                                          </a>
-                                          <a class="js-btn-quickview btn btn--add-to-cart" href="javascript:void(0);" data-preorder="false" data-handle="plastic-dining-armchair" title="Add to Cart">
-                                              <svg  class="icon-cart" width="8" height="8" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.75 4.25H5.75V0.25C5.75 0.111875 5.63812 0 5.5 0H4.5C4.36188 0 4.25 0.111875 4.25 0.25V4.25H0.25C0.111875 4.25 0 4.36188 0 4.5V5.5C0 5.63812 0.111875 5.75 0.25 5.75H4.25V9.75C4.25 9.88813 4.36188 10 4.5 10H5.5C5.63812 10 5.75 9.88813 5.75 9.75V5.75H9.75C9.88813 5.75 10 5.63812 10 5.5V4.5C10 4.36188 9.88813 4.25 9.75 4.25Z" fill="currentColor"/></svg>
-                                              <span class="text">Add to Cart</span>
-                                              <div class="d-none proShortDesc">
-                                                  Don’t ever play yourself. The weather is amazing, walk with me through the pathway of more success. Take this journey with me, Lion! The other day the grass ...
-                                              </div>
-                                          </a></form>
-                              </div>
-                          </div></div>
-              </div></div>
-      </div>
-  </div>
-</div>
+                    </section>
 
-                                  </div>
-                              
-                                  <div class="col">
+
+
+
+                    <section id="shopify-section-template--14947365814337__7f7b3226-75c4-4931-bb49-ba68beedf28a"
+                        class="shopify-section velaFramework">
+                        <style>
+                            .product-more__btn {
+                                border: 2px solid var(--border-color);
+                                font-size: 12px;
+                                text-transform: uppercase;
+                                padding: 10px 35px;
+                            }
+
+                            .product-more__btn:hover {
+                                border-color: var(--primary);
+                                color: var(--primary);
+                            }
+                        </style>
+                        <div class="vela-section sectioin-product-more overflow-hidden"
+                            style="--st-pd-dt: 100px 0;--st-pd-mb: 60px 0;">
+                            <div class="container">
+                                <div class="vela-section__inner">
+                                    <div class="heading-group text-center mb-3 mb-md-4 pb-1">
+                                        <h2 class="heading mb-2">
+                                            <span>Trending Products</span>
+                                        </h2>
+                                        <div class="sub-heading mb-2">
+                                            Mirum est notare quam littera gothica quam nunc putamus parum claram!
+                                        </div>
+                                    </div>
+
+                                    <!-- ---------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+                                    <div class="vela-section__content row gy-3 gy-md-4 gy-lg-5">
+                                        <div class="product-more__content col-12">
+                                            <div class="row g-2 g-sm-3 gy-3 gy-md-4 gy-lg-5 row-cols-2 row-cols-lg-4">
+
+                                                <!------------------------------------------------------------------------------- product cart --------------------------------------------------------------------------------------------------- -->
+
+
+
+
+                                                <%if(product && product.length> 0) { %>
+
+                                                    <% for(let i=0;i < product.length;i++){ %>
+                                                        
+                                                        <div class="col">
+
+                                                            <div class="product-card product-grid grid__default">
+                                                                <div class="product-grid__inner">
+
+                                                                    <div class="product-card__image-wrapper border ">
+                                                                        <a class="product-card__image-link"
+                                                                            href="/product-details?id=<%= product[i]._id %> "
+                                                                            alt="product image">
+                                                                            <div
+                                                                                class="product-card__img-primary img-primary">
+                                                                                <div class="card_wrap w-100"
+                                                                                    style="max-width: 788px;">
+                                                                                    <div class="card__image position-relative lazyload js"
+                                                                                        style="padding-top:128.5532994923858%;">
+                                                                                        <img class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto img-fluid"
+                                                                                            srcset="/upload/product/<%= product[i].images[0] %> ,/upload/product/<%= product[i].images[1] %> ,/upload/product/<%= product[i].images[2] %>,/upload/product/<%= product[i].images[0] %> ,/upload/product/<%= product[i].images[1] %>"
+                                                                                            data-sizes="auto"
+                                                                                            src="/upload/product<%= product[i].images[0] %>"
+                                                                                            alt="product image"
+                                                                                            loading="lazy" width="788"
+                                                                                            height="1013">
+                                                                                        <div
+                                                                                            class="pre-loading position-absolute">
+                                                                                            <span
+                                                                                                class="pre-loading__bar"></span>
+                                                                                            <div
+                                                                                                class="vela-loading__icon">
+                                                                                                <span></span><span></span><span></span><span></span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+
+
+
+                                                                            <div
+                                                                                class="img-secondary position-absolute">
+                                                                                <div class="card_wrap w-100"
+                                                                                    style="max-width: 788px;">
+                                                                                    <div class="card__image position-relative lazyload js"
+                                                                                        style="padding-top:128.5532994923858%;">
+                                                                                        <img class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto"
+                                                                                            srcset="/upload/product/<%= product[i].images[0] %> ,/upload/product/<%= product[i].images[1] %>,/upload/product/<%= product[i].images[2] %>,/upload/product/<%= product[i].images[0] %>,/upload/product/<%= product[i].images[1] %>"
+                                                                                            data-sizes="auto"
+                                                                                            src="/upload/product/<%= product[i].images[1] %>"
+                                                                                            alt="product image"
+                                                                                            loading="lazy" width="788"
+                                                                                            height="1013">
+                                                                                        <div
+                                                                                            class="pre-loading position-absolute">
+                                                                                            <span
+                                                                                                class="pre-loading__bar"></span>
+                                                                                            <div
+                                                                                                class="vela-loading__icon">
+                                                                                                <span></span><span></span><span></span><span></span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </a>
+
+                                                                        <div
+                                                                            class="product-card__label position-absolute end-0">
+                                                                            <span
+                                                                                class="label-on-sale position-relative"><span
+                                                                                    class="d-block overflow-hidden position-relative">-40%</span></span>
+                                                                        </div>
+                                                                        <div class="shop-action position-absolute">
+                                                                            <button type="button" aria-label="Wishlist"
+                                                                                class="btn--wishlist btn--action mb-2 show-tooltip"
+                                                                                data-product-handle="plastic-dining-armchair"
+                                                                                title="Add to wishlist">
+                                                                                <svg width="18" height="18"
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    viewBox="0 0 512 512">
+                                                                                    <path fill="currentColor"
+                                                                                        d="M462.3 62.7c-54.5-46.4-136-38.7-186.6 13.5L256 96.6l-19.7-20.3C195.5 34.1 113.2 8.7 49.7 62.7c-62.8 53.6-66.1 149.8-9.9 207.8l193.5 199.8c6.2 6.4 14.4 9.7 22.6 9.7 8.2 0 16.4-3.2 22.6-9.7L472 270.5c56.4-58 53.1-154.2-9.7-207.8zm-13.1 185.6L256.4 448.1 62.8 248.3c-38.4-39.6-46.4-115.1 7.7-161.2 54.8-46.8 119.2-12.9 142.8 11.5l42.7 44.1 42.7-44.1c23.2-24 88.2-58 142.8-11.5 54 46 46.1 121.5 7.7 161.2z" />
+                                                                                </svg>
+                                                                                <div class="tooltip bs-tooltip-start"
+                                                                                    role="tooltip">
+                                                                                    <div class="tooltip-arrow"></div>
+                                                                                    <div class="tooltip-inner">
+                                                                                        Add to wishlist
+                                                                                    </div>
+                                                                                </div>
+                                                                            </button>
+
+                                                                            <a class="js-btn-quickview btn btn--action btn--quickview show-tooltip "
+                                                                                href="javascript:void(0);"
+                                                                                data-preorder="false"
+                                                                                data-handle="plastic-dining-armchair"
+                                                                                data-color-label="color,colour,couleur,kleur,cor,colore,culoare,farbe,색,色,カラー,färg,farve,szín,barva"
+                                                                                title="Quick view">
+                                                                                <svg width="22" height="22"
+                                                                                    version="1.1"
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                                    x="0px" y="0px"
+                                                                                    viewBox="0 0 512 512"
+                                                                                    xml:space="preserve">
+                                                                                    <path fill="currentColor"
+                                                                                        d="M344.5,298c15-23.6,23.8-51.6,23.8-81.7c0-84.1-68.1-152.3-152.1-152.3C132.1,64,64,132.2,64,216.3c0,84.1,68.1,152.3,152.1,152.3c30.5,0,58.9-9,82.7-24.4l6.9-4.8L414.3,448l33.7-34.3L339.5,305.1L344.5,298z M301.4,131.2c22.7,22.7,35.2,52.9,35.2,85c0,32.1-12.5,62.3-35.2,85c-22.7,22.7-52.9,35.2-85,35.2c-32.1,0-62.3-12.5-85-35.2c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z">
+                                                                                    </path>
+                                                                                </svg>
+                                                                                <div class="tooltip bs-tooltip-start"
+                                                                                    role="tooltip">
+                                                                                    <div class="tooltip-arrow"></div>
+                                                                                    <div class="tooltip-inner">
+                                                                                        Quick view
+                                                                                    </div>
+                                                                                </div>
+                                                                            </a>
+
+                                                                        </div>
+                                                                          
+
+
+                                                                    <!-- <div class="product-card__swatch position-absolute bottom-0 px-2 mb-2 start-0 w-100">
+            
+                                                                        <ul
+                                                                            class="product-card__swatch--list d-flex flex-wrap justify-content-center list-unstyled mb-0">
+            
+            
+                                                                            <li
+                                                                                class="rounded-circle position-relative show-tooltip  is-active">
+                                                                                <label
+                                                                                    class="d-block rounded-circle overflow-hidden"
+                                                                                    style="background-color: teal;">
+                                                                                </label>
+                                                                                <div class="tooltip bs-tooltip-top" role="tooltip">
+                                                                                    <div class="tooltip-arrow"></div>
+                                                                                    <div class="tooltip-inner">
+                                                                                        Teal
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="d-none">
+            
+                                                                                    <div class="card_wrap w-100"
+                                                                                        style="max-width: 788px;">
+                                                                                        <div class="card__image position-relative lazyload js"
+                                                                                            style="padding-top:128.5532994923858%;">
+                                                                                            <img class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto"
+                                                                                                srcset="//vela-kazan.myshopify.com/cdn/shop/files/product-14-11_180x.jpg?v=1691546137 180w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-11_360x.jpg?v=1691546137 360w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-11_540x.jpg?v=1691546137 540w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-11_720x.jpg?v=1691546137 720w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-11_788x1013.jpg?v=1691546137 788w"
+                                                                                                data-sizes="auto"
+                                                                                                src="cdn/shop/files/product-14-110a42.jpg?v=1691546137"
+                                                                                                alt="chair7__Teal" loading="lazy"
+                                                                                                width="788" height="1013">
+                                                                                            <div
+                                                                                                class="pre-loading position-absolute">
+                                                                                                <span
+                                                                                                    class="pre-loading__bar"></span>
+                                                                                                <div class="vela-loading__icon">
+                                                                                                    <span></span><span></span><span></span><span></span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+            
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+            
+            
+            
+                                                                            <li
+                                                                                class="rounded-circle position-relative show-tooltip ">
+                                                                                <label
+                                                                                    class="d-block rounded-circle overflow-hidden"
+                                                                                    style="background-color: black;background-image: url(cdn/shop/files/black0e24.png?v=2352002872862275200);">
+                                                                                </label>
+                                                                                <div class="tooltip bs-tooltip-top" role="tooltip">
+                                                                                    <div class="tooltip-arrow"></div>
+                                                                                    <div class="tooltip-inner">
+                                                                                        Black
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="d-none">
+            
+                                                                                    <div class="card_wrap w-100"
+                                                                                        style="max-width: 788px;">
+                                                                                        <div class="card__image position-relative lazyload js"
+                                                                                            style="padding-top:128.5532994923858%;">
+                                                                                            <img class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto"
+                                                                                                srcset="//vela-kazan.myshopify.com/cdn/shop/files/product-14-31_180x.jpg?v=1691546137 180w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-31_360x.jpg?v=1691546137 360w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-31_540x.jpg?v=1691546137 540w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-31_720x.jpg?v=1691546137 720w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-31_788x1013.jpg?v=1691546137 788w"
+                                                                                                data-sizes="auto"
+                                                                                                src="cdn/shop/files/product-14-310a42.jpg?v=1691546137"
+                                                                                                alt="chair__black" loading="lazy"
+                                                                                                width="788" height="1013">
+                                                                                            <div
+                                                                                                class="pre-loading position-absolute">
+                                                                                                <span
+                                                                                                    class="pre-loading__bar"></span>
+                                                                                                <div class="vela-loading__icon">
+                                                                                                    <span></span><span></span><span></span><span></span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+            
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+            
+            
+            
+            
+                                                                            <li
+                                                                                class="rounded-circle position-relative show-tooltip ">
+                                                                                <label
+                                                                                    class="d-block rounded-circle overflow-hidden"
+                                                                                    style="background-color: lightskyblue;">
+                                                                                </label>
+                                                                                <div class="tooltip bs-tooltip-top" role="tooltip">
+                                                                                    <div class="tooltip-arrow"></div>
+                                                                                    <div class="tooltip-inner">
+                                                                                        LightSkyBlue
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="d-none">
+            
+                                                                                    <div class="card_wrap w-100"
+                                                                                        style="max-width: 788px;">
+                                                                                        <div class="card__image position-relative lazyload js"
+                                                                                            style="padding-top:128.5532994923858%;">
+                                                                                            <img class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto"
+                                                                                                srcset="//vela-kazan.myshopify.com/cdn/shop/files/product-14-41_180x.jpg?v=1691546137 180w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-41_360x.jpg?v=1691546137 360w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-41_540x.jpg?v=1691546137 540w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-41_720x.jpg?v=1691546137 720w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-41_788x1013.jpg?v=1691546137 788w"
+                                                                                                data-sizes="auto"
+                                                                                                src="cdn/shop/files/product-14-410a42.jpg?v=1691546137"
+                                                                                                alt="chair4__LightSkyBlue"
+                                                                                                loading="lazy" width="788"
+                                                                                                height="1013">
+                                                                                            <div
+                                                                                                class="pre-loading position-absolute">
+                                                                                                <span
+                                                                                                    class="pre-loading__bar"></span>
+                                                                                                <div class="vela-loading__icon">
+                                                                                                    <span></span><span></span><span></span><span></span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+            
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+            
+            
+            
+            
+            
+                                                                            <li
+                                                                                class="rounded-circle position-relative show-tooltip ">
+                                                                                <label
+                                                                                    class="d-block rounded-circle overflow-hidden"
+                                                                                    style="background-color: yellow;">
+                                                                                </label>
+                                                                                <div class="tooltip bs-tooltip-top" role="tooltip">
+                                                                                    <div class="tooltip-arrow"></div>
+                                                                                    <div class="tooltip-inner">
+                                                                                        Yellow
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="d-none">
+            
+                                                                                    <div class="card_wrap w-100"
+                                                                                        style="max-width: 788px;">
+                                                                                        <div class="card__image position-relative lazyload js"
+                                                                                            style="padding-top:128.5532994923858%;">
+                                                                                            <img class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto"
+                                                                                                srcset="//vela-kazan.myshopify.com/cdn/shop/files/product-14-21_180x.jpg?v=1691545391 180w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-21_360x.jpg?v=1691545391 360w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-21_540x.jpg?v=1691545391 540w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-21_720x.jpg?v=1691545391 720w ,//vela-kazan.myshopify.com/cdn/shop/files/product-14-21_788x1013.jpg?v=1691545391 788w"
+                                                                                                data-sizes="auto"
+                                                                                                src=" "
+                                                                                                alt="Chair10__yellow" loading="lazy"
+                                                                                                width="788" height="1013">
+                                                                                            <div
+                                                                                                class="pre-loading position-absolute">
+                                                                                                <span
+                                                                                                    class="pre-loading__bar"></span>
+                                                                                                <div class="vela-loading__icon">
+                                                                                                    <span></span><span></span><span></span><span></span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+            
+                                                                                    </div> 
+                                                                                </div>
+                                                                            </li>
+            
+                                                                        </ul>
+                                                                    </div> -->
+
+
+
+                                                                    </div>
+
+                                                                    <div class="product-card__content mt-lg-1 pt-2">
+                                                                        <div class="product-card__content--inner">
+                                                                            <h6
+                                                                                class="product-card__name line-clamp-2 mb-1">
+                                                                                <a class="line-title fw-normal"
+                                                                                    href="/home/product-details?id=<%= product._id %>"> <%= product[i].name%></a>
+                                                                            </h6>
+                                                                            <div
+                                                                                class="group-cart-price overflow-hidden">
+                                                                                <div
+                                                                                    class="group-cart-price__inner d-flex group-cart-price__effect">
+                                                                                    <div
+                                                                                        class="product-group-price d-flex align-items-center ff-special w-100">
+                                                                                        <div class="product-price"><span
+                                                                                                class=money>
+                                                                                                <%= product[i].disPrice
+                                                                                                    %>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="product-price product-price--regular ms-1">
+                                                                                            <span class=money>
+                                                                                                <%= product[i].price %>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="product-card__buttons w-100">
+                                                                                        <div class="product-card__form">
+
+                                                                                            <form
+                                                                                                action="https://vela-kazan.myshopify.com/cart/add"
+                                                                                                method="post"
+                                                                                                enctype="multipart/form-data"
+                                                                                                class="form-addtocart"
+                                                                                                data-product-form>  
+                                                                                                <input type="hidden"
+                                                                                                    name="id"
+                                                                                                    value="40471654334529" />
+                                                                                                <a class="btn btn--add-to-cart d-none"
+                                                                                                    href="/home/product-details?id=<%= product._id %>"
+                                                                                                    title="Select options">
+                                                                                                    <svg class="icon-cart"
+                                                                                                        width="18"
+                                                                                                        height="18"
+                                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                                        viewBox="0 0 576 512">
+                                                                                                        <path
+                                                                                                            fill="currentColor"
+                                                                                                            d="M576 14.4l-.174 163.2c0 7.953-6.447 14.4-14.4 14.4H528.12c-8.067 0-14.56-6.626-14.397-14.691l2.717-73.627-2.062-2.062-278.863 278.865c-4.686 4.686-12.284 4.686-16.971 0l-23.029-23.029c-4.686-4.686-4.686-12.284 0-16.971L474.379 61.621l-2.062-2.062-73.626 2.717C390.626 62.44 384 55.946 384 47.879V14.574c0-7.953 6.447-14.4 14.4-14.4L561.6 0c7.953 0 14.4 6.447 14.4 14.4zM427.515 233.74l-24 24a12.002 12.002 0 0 0-3.515 8.485V458a6 6 0 0 1-6 6H54a6 6 0 0 1-6-6V118a6 6 0 0 1 6-6h301.976c10.691 0 16.045-12.926 8.485-20.485l-24-24A12.002 12.002 0 0 0 331.976 64H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V242.225c0-10.691-12.926-16.045-20.485-8.485z" />
+                                                                                                    </svg>
+                                                                                                </a>
+                                                                                                <a class="js-btn-quickview btn btn--add-to-cart"
+                                                                                                    href="javascript:void(0);"
+                                                                                                    data-preorder="false"
+                                                                                                    data-handle="plastic-dining-armchair"
+                                                                                                    title="Add to Cart">
+                                                                                                    <svg class="icon-cart"
+                                                                                                        width="8"
+                                                                                                        height="8"
+                                                                                                        viewBox="0 0 10 10"
+                                                                                                        fill="none"
+                                                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                                                        <path
+                                                                                                            d="M9.75 4.25H5.75V0.25C5.75 0.111875 5.63812 0 5.5 0H4.5C4.36188 0 4.25 0.111875 4.25 0.25V4.25H0.25C0.111875 4.25 0 4.36188 0 4.5V5.5C0 5.63812 0.111875 5.75 0.25 5.75H4.25V9.75C4.25 9.88813 4.36188 10 4.5 10H5.5C5.63812 10 5.75 9.88813 5.75 9.75V5.75H9.75C9.88813 5.75 10 5.63812 10 5.5V4.5C10 4.36188 9.88813 4.25 9.75 4.25Z"
+                                                                                                            fill="currentColor" />
+                                                                                                    </svg>
+                                                                                                    <span
+                                                                                                        class="text">Add
+                                                                                                        to Cart</span>
+                                                                                                    <div
+                                                                                                        class="d-none proShortDesc">
+                                                                                                        Don’t ever play
+                                                                                                        yourself. The
+                                                                                                        weather is
+                                                                                                        amazing, walk
+                                                                                                        with me through
+                                                                                                        the pathway of
+                                                                                                        more success.
+                                                                                                        Take this
+                                                                                                        journey with me,
+                                                                                                        Lion! The other
+                                                                                                        day the grass
+                                                                                                        ...
+                                                                                                    </div>
+                                                                                                </a>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                                    <%}%>
+                                                                        <%}else{%>
+                                                                            <h6>Product Not Found</h6>
+                                                                            <%}%>
+
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                                                    <!-------------------------------------------------------------- Product Cart End ---------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+                                                    <!-- <div class="col">
                                       
 
 
@@ -1327,13 +1566,25 @@ Don’t...
       <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div>
                               </a>
                           </div></div>
-                  <div class="product-more__bottom d-none"></div>
-               
-          </div>
-      </div>
-  </div>
-</div>
-</section><section id="shopify-section-template--14947365814337__564c5edc-9254-4431-bbf4-deb227b95e36" class="shopify-section velaFramework"><div class="vela-section multi-image-with-text overflow-hidden">
+                  <div class="product-more__bottom d-none"></div> -->
+
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                    </section>
+
+                    <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+                    <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+                    <!-- 
+<section id="shopify-section-template--14947365814337__564c5edc-9254-4431-bbf4-deb227b95e36" class="shopify-section velaFramework"><div class="vela-section multi-image-with-text overflow-hidden">
   <div class="container-full">
       <div class="vela-section__inner">
           <div class="vela-section__content"><div class="row g-2 g-md-3 g-lg-3">
@@ -2546,8 +2797,8 @@ And the brushed steel cover opens and closes at the touch of a finger to easily 
   </div>
 </div></section>
                 </div>
-          </main>
+          </main> -->
 
-         
 
-<%- include('../layout/footer') %>
+
+                    <%- include('../layout/footer') %>

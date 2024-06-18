@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
    const LnameError = document.getElementById('invalid-Lname');
    const emailError = document.getElementById('invalid-Email');
    const passwordError = document.getElementById('invalid-pass');
+   const confPasswordError = document.getElementById('invalid-confirmpass');
 
    registerForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -16,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let Lname = registerForm.querySelector('#RegisterForm-LastName').value;
     let Email = registerForm.querySelector('#RegisterForm-email').value;
     let password = registerForm.querySelector('#RegisterForm-password').value;
+    let confirmPassword =registerForm.querySelector('#RegisterForm-confirm-password').value;
 
     let isValid = true;
 
@@ -49,6 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
      isValid = false;
     } else {
      passwordError.style.display = 'none';
+    }
+    //validate conform password
+    if(confirmPassword !== password){
+      confPasswordError.style.display = 'inline';
+      isValid = false;
+    }else{
+      confPasswordError.style.display ='none';
     }
 
     // Submit the form if all fields are valid

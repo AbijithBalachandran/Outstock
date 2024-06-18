@@ -1,13 +1,13 @@
 <%- include('../layout/adminHeader') %>
 
-<link rel="stylesheet" href="/css/cdn/products.css">
+    <link rel="stylesheet" href="/css/admin-side/products.css">
     <div class="container-xxl position-relative bg-white d-flex p-0">
-      
-       
+
+
         <%-include('../layout/adSidebarHeader')%>
 
-        <%-include('../layout/adSidebarFooter')%>
-    
+            <%-include('../layout/adSidebarFooter')%>
+
 
                 <!-- Content Start -->
                 <div class="content">
@@ -106,16 +106,17 @@
                     </nav>
                     <!-- Navbar End -->
 
-                     <form method="post" class="d-none d-md-flex ms-4 mt-4 w-25">
-                        <input class="form-control border-0" type="search" placeholder="Search">
+                    <form method="get" class="d-none d-md-flex ms-4 mt-4 w-25" action="/admin/search-product">
+                        <input class="form-control border-0" type="search" name="search" placeholder="Search">
+                        <button class="btn btn-primary ms-1"><i class="bi bi-search"></i></button>
                     </form>
 
                     <!-- Table Start -->
 
-                    <table class="table table-bordered table-hover classic-table mt-4">
+                    <table class="table table-hover classic-table mt-4">
                         <thead>
                             <tr>
-                               <th scope="col">Image</th>
+                                <th scope="col">Image</th>
                                 <th scope="col">Product Name</th>
                                 <th scope="col">category</th>
                                 <th scope="col">Date</th>
@@ -126,113 +127,161 @@
                                 <th scope="col">Edit</th>
                             </tr>
                             </theads>
-                            
-                        <% if(products.length> 0){ %> 
-                                <% for(let i=0;i<products.length;i++){ %> 
-                                    <tbody>
-                                        <tr>
-                                          <td>
-                                                <img src="/upload/<%= products[i].images[0] %>" alt="product image" class="img-fluid product-img"> 
-                                          </td>
-                                            <td>
-                                                 <%= products[i].name %> 
-                                            </td>
-                                            <td>
-                                                <%= products[i].category %> 
-                                           </td>
-                                            <td>
-                                                 <%= new Date(products[i].createdAt).toLocaleDateString('en-US', {
-                                                    weekday: 'short' , month: 'short' , day: 'numeric' , year:'numeric'})%> 
-                                            </td>
-                                            <td>
-                                                <%= products[i].price %> 
-                                            </td>
-                                            <td>
-                                                <%= products[i].discount %> 
-                                            </td>
-                                            <td>
-                                                <%= products[i].quantity %> 
-                                            </td>
-                                            <td>
-                                                 <% if(products[i].is_Delete===false){ %> 
-                                                    <button class="btn btn-outline-danger"
-                                                        onclick="updateProductStatus('<%= products[i]._id %>', false)">List</button>
-                                                     <% }else{ %> 
-                                                        <button class="btn btn-outline-success"
-                                                            onclick="updateProductStatus('<%= products[i]._id %>', true)">UnList</button>
-                                                         <% } %>  
-                                            </td>
-                                            <td>
-                                                <a href="/admin/editCategory?categoryId=<%= products[i]._id %>"><button type="button" class="btn btn-info">EDIT</button></a>
-                                            </td>
-                                            <td>
-                                                   <button>delete</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                     <%} }else{ %> 
-                                        <h6>Category Not Found</h6>
-                                         <% } %> 
-                                </table>
-                    
-               <!-- Table End    -->
 
-               <div class="d-flex justify-content-center mt-5">
-                <a href="/admin/addProducts"><button type="button" class="btn btn-primary">ADD PRODUCT</button></a>
-              </div>
-               
-                  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                            <% if(product.length> 0){ %>
+                                <% for(let i=0;i<product.length;i++){ %>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <img src="/upload/product/<%= product[i].images[0] %>" alt="product image"
+                                        class="img-fluid product-img">
+                                </td>
+                                <td>
+                                    <%= product[i].name %>
+                                </td>
+                                <td>
+                                    <% if (product[i].category && product[i].category.name) { %>
+                                        <%= product[i].category.name %>
+                                    <% } else { %>
+                                        No category
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <%= new Date(product[i].createdAt).toLocaleDateString('en-US', { weekday: 'short' ,
+                                        month: 'short' , day: 'numeric' , year:'numeric'})%>
+                                </td>
+                                <td>
+                                    <%= product[i].price %>
+                                </td>
+                                <td>
+                                    <%= product[i].discount %>
+                                </td>
+                                <td>
+                                    <%= product[i].quantity %>
+                                </td>
+                                <td>
+                                    <% if(product[i].is_Delete===false){ %>
+                                        <button class="btn btn-outline-danger"
+                                            onclick="updateProductStatus('<%= product[i]._id %>', false)">List</button>
+                                        <% }else{ %>
+                                            <button class="btn btn-outline-success"
+                                                onclick="updateProductStatus('<%= product[i]._id %>', true)">UnList</button>
+                                            <% } %>
+                                </td>
+                                <td>
+                                    <a href="/admin/editProduct?productId=<%= product[i]._id %>"><button type="button"
+                                            class="btn btn-info">EDIT</button></a>
+                                </td>
+                                <td class="border">
+                                    <a href="/admin/delete-Product?productId=<%= product[i]._id %>"><button
+                                            type="button" class="btn btn-danger">DELETE</button></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <%} }else{ %>
+                            <h6>Product Not Found</h6>
+                            <% } %>
+                    </table>
+
+                    <!-- Table End    -->
+                      <!-- Pagination Start -->
+
+                      <nav aria-label="Page navigation example" class="d-flex justify-content-end">
+                        <ul class="pagination">
+                            <% if (currentPage> 1) { %>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="/admin/customerManagement?page=<%= currentPage - 1 %>">Previous</a>
+                                </li>
+                                <% } else { %>
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="javascript:void(0);">Previous</a>
+                                    </li>
+                                    <% } %>
+
+                                        <% for (let i=1; i <=totalPages; i++) { %>
+                                            <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                                <a class="page-link" href="/admin/productManagement?page=<%= i %>">
+                                                    <%= i %>
+                                                </a>
+                                            </li>
+                                            <% } %>
+
+                                                <% if (currentPage < totalPages) { %>
+                                                    <li class="page-item">
+                                                        <a class="page-link"
+                                                            href="/admin/productManagement?page=<%= currentPage + 1 %>">Next</a>
+                                                    </li>
+                                                    <% } else { %>
+                                                        <li class="page-item disabled">
+                                                            <a class="page-link" href="javascript:void(0);">Next</a>
+                                                        </li>
+                                                        <% } %>
+                        </ul>
+                    </nav>
+
+
+                    <!-- Pagination End -->
+
+                    <div class="d-flex justify-content-center ">
+                        <a href="/admin/addProducts"><button type="button" class="btn btn-primary">ADD
+                                PRODUCT</button></a>
+                    </div>
+
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 
-                <script>
-                    function updateProductStatus(categoryId, status) {
-                        Swal.fire({
-                            title: "Are you sure?",
-                            text: "You won't be able to revert this!",
-                            icon: "warning",
-                            showCancelButton: true,
-                            confirmButtonText: status ? "Yes, unlist!" : "Yes, list!",
-                            cancelButtonText: "No, cancel!",
-                            reverseButtons: true
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                fetch(`/admin/updateProductListAndUnlist?categoryId=${categoryId}`, {
-                                    method: 'PUT'
-                                })
-                                    .then(response => {
-                                        if (response.ok) {
-                                            Swal.fire({
-                                                title: status ?  " listed!":"Unlist!" ,
-                                                text: status ? "The user has been unlist." : "The user has been listed.",
-                                                icon: "success"
-                                            }).then(() => {
-                                                window.location.reload();
-                                            });
-                                        } else {
+                    <script>
+                        function updateProductStatus(productId, status) {
+                            Swal.fire({
+                                title: "Are you sure?",
+                                text: "You won't be able to revert this!",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonText: status ? "Yes, unlist!" : "Yes, list!",
+                                cancelButtonText: "No, cancel!",
+                                reverseButtons: true
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    fetch(`/admin/updateProductListAndUnlist?productId=${productId}`, {
+                                        method: 'PUT'
+                                    })
+                                        .then(response => {
+                                            if (response.ok) {
+                                                Swal.fire({
+                                                    title: status ? " listed!" : "Unlist!",
+                                                    text: status ? "The user has been unlist." : "The user has been listed.",
+                                                    icon: "success"
+                                                }).then(() => {
+                                                    window.location.reload();
+                                                });
+                                            } else {
+                                                Swal.fire({
+                                                    title: "Error",
+                                                    text: "An error occurred while listing the user.",
+                                                    icon: "error"
+                                                });
+                                            }
+                                        })
+                                        .catch(error => {
+
+                                            console.error("Error:", error);
                                             Swal.fire({
                                                 title: "Error",
                                                 text: "An error occurred while listing the user.",
                                                 icon: "error"
                                             });
-                                        }
-                                    })
-                                    .catch(error => {
-
-                                        console.error("Error:", error);
-                                        Swal.fire({
-                                            title: "Error",
-                                            text: "An error occurred while listing the user.",
-                                            icon: "error"
                                         });
-                                    });
-                            }
-                        });
-                    }
+                                }
+                            });
+                        }
 
-                </script>
+                    </script>
 
-                   
+
+                  
+
 
                     <!-- Back to Top -->
                     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i

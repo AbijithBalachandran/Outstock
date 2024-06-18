@@ -114,6 +114,11 @@
                                         <h2 class="card-title text-center mb-4">Edit Categories</h2>
                                         <p class="text-danger">
                                         </p>
+                                        <% if(typeof message !=='undefined' ){ %>
+                                            <p class="text-danger">
+                                                <%=message%>
+                                            </p>
+                                            <% } %>
                                         <form method="post" action="/admin/editCategory">
 
                                             <input type="hidden" name="id" value="<%=categories.id%>" >
@@ -126,7 +131,7 @@
                                             <div class="mb-3">
                                                 <label for="description" class="form-label">Description</label>
                                                 <textarea class="form-control" id="description" rows="3"
-                                                    name="description" placeholder="Enter description" value="<%=categories.description%>"></textarea>
+                                                    name="description" placeholder="Enter description" value="<%=categories.description%>"><%=categories.description%></textarea>
                                             </div>
                                             <button type="submit" class="btn btn-primary w-100">SAVE</button>
                                         </form>

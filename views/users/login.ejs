@@ -147,7 +147,13 @@ document.getElementById('Search-In-Modal-1').focus();
   <div class="login__wrapper">
 
     <form method="post" action="/login" id="customer_login" >
-  
+      <%
+      if(typeof blocked !== 'undefined'){
+          %>
+          <p class="text-danger"><%=blocked%></p>
+          <%
+      }
+      %>
       <%
 				if(typeof message !== 'undefined'){
 				    %>
@@ -162,7 +168,7 @@ document.getElementById('Search-In-Modal-1').focus();
 				    <%
 				}
 				%>
-  
+       <div id="messageDisplay"></div>
     <div class="mb-3 mb-lg-4"> 
         <label class="form-label" for="CustomerEmail">
           Email  <span id="invalid-Email" class="text-danger" style="display: none;">Please enter a valid Email</span> 
@@ -210,6 +216,19 @@ document.getElementById('Search-In-Modal-1').focus();
       <a href="/google"><button type="button" class="btn btn-outline-success btn-lg btn-block mt-5"><i class="bi bi-google"></i> Continue With Google</button></a>
     </form>
 
+
+<script>
+      document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const message = urlParams.get('message');
+    if (message) {
+        const messageDisplay = document.getElementById('messageDisplay');
+        messageDisplay.innerText = decodeURIComponent(message);
+        messageDisplay.style.color = 'green'; // Optionally style the message
+    }
+   });
+
+    </script>
 
   </div>
 </div>

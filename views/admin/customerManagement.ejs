@@ -1,5 +1,7 @@
 <%- include('../layout/adminHeader') %>
 
+<link rel="stylesheet" href="/css/admin-side/custemer.css">
+
     <div class="container-xxl position-relative bg-white d-flex p-0">
        
             <%-include('../layout/adSidebarHeader')%>
@@ -103,44 +105,11 @@
                     </nav>
                     <!-- Navbar End -->
 
-                    <form method="post" class="d-none d-md-flex ms-4 mt-4 w-25">
-                        <input class="form-control border-0" type="search" placeholder="Search">
+                    <form method="get" class="d-none d-md-flex ms-4 mt-4 w-25" action="/admin/search-user">
+                        <input class="form-control border-0" type="search" name="search" placeholder="Search">
+                        <button class="btn btn-primary ms-1"><i class="bi bi-search"></i></button>
                     </form>
-
-                    <style>
-                        .classic-table {
-                            font-family: 'Times New Roman', Times, serif;
-                            border-collapse: collapse;
-                            width: 99%;
-                            margin: 20px 0;
-                            background: #ffffff;
-                        }
-
-                        .classic-table th,
-                        .classic-table td {
-                            border: 1px solid #000000;
-                            padding: 8px 12px;
-                            text-align: left;
-                            color: #000;
-                        }
-
-                        .classic-table thead th {
-                            background-color: #f2f2f2;
-                            font-weight: bold;
-                        }
-
-                        .classic-table tbody tr:nth-child(even) {
-                            background-color: #f9f9f9;
-                        }
-
-                        .classic-table tbody tr:hover {
-                            background-color: #e0e0e0;
-                        }
-
-                        .classic-table .btn {
-                            font-size: 0.875em;
-                        }
-                    </style>
+                   
 
                     <!-- Table Start -->
                     <table class="table table-bordered table-hover classic-table">
@@ -185,44 +154,39 @@
                     <!-- Table End -->
 
 
+
                     <!-- Pagination Start -->
 
-                    <nav aria-label="Page navigation example">
+                    <nav aria-label="Page navigation example" class="d-flex justify-content-end">
                         <ul class="pagination">
-                            <% if(currentPage > 1){%>
+                            <% if (currentPage > 1) { %>
                                 <li class="page-item">
-                                    <a class="page-link"
-                                        href="/admin/customerManagement?page=<%= currentPage -1 %>">Previous</a>
+                                    <a class="page-link" href="/admin/customerManagement?page=<%= currentPage - 1 %>" tabindex="-1">Previous</a>
                                 </li>
-
-                               <% }else{%>
+                            <% } else { %>
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="" tabindex="-1">Previous</a>
+                                </li>
+                            <% } %>
+                    
+                            <% for (let i = 1; i <= totalPages; i++) { %>
+                                <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                    <a class="page-link" href="/admin/customerManagement?page=<%= i %>"><%= i %></a>
+                                </li>
+                            <% } %>
+                    
+                            <% if (currentPage < totalPages) { %>
                                 <li class="page-item">
-                                    <a class="page-link" href=" ">Previous</a>
+                                    <a class="page-link" href="/admin/customerManagement?page=<%= currentPage + 1 %>">Next</a>
                                 </li>
-                                <% } %>
-
-                                    <% for(let i=1;i<=totalPages;i++){%>
-                                        <li class="page-item  <%= i === currentPage ? 'active' : '' %>">
-                                            <a class="page-link" href="/admin/customerManagement?page=<%= i %>">
-                                                <%=i %>
-                                            </a>
-                                        </li>
-                                        <% } %>
-
-                                            <% if(currentPage > totalPages){%>
-                                                <li class="page-item  <%= i === currentPage ? 'active' : '' %>">
-                                                    <a class="page-link " 
-                                                        href="/admin/customerManagement?page=<%= currentPage + 1 %>">Next</a>
-                                                </li>
-                                                <%}else{%>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href=" ">Next</a>
-                                                    </li>
-                                                <% } %>
-
-
+                            <% } else { %>
+                                <li class="page-item disabled">
+                                    <a class="page-link" href=" " tabindex="-1">Next</a>
+                                </li>
+                            <% } %>
                         </ul>
                     </nav>
+                    
 
                     <!-- Pagination End -->
 

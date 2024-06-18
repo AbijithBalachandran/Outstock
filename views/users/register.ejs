@@ -1,6 +1,7 @@
 <%- include('../layout/header') %>
 
 <script src="/js/register.js"></script>
+<link rel="stylesheet" href="/css/user-side/eye.css">
 
 <%- include('../layout/navbarH') %>
 
@@ -106,96 +107,74 @@
 					Register
 				</h1>
 			</div>
-			
 			<form method="post" action="/register" id="create_customer" accept-charset="UTF-8" data-login-with-shop-sign-up="true" novalidate="novalidate">
-                        <input type="hidden" name="form_type" value="create_customer" />
-                        <input type="hidden" name="utf8" value="✓" />
-
-                        <div class="mb-3 mb-lg-4"> 
-					<label class="form-label" for="RegisterForm-FirstName">
-						First name  <span id="invalid-Fname" class="text-danger" style="display: none;">Please enter a valid Name</span>
-					</label>     
-					<input class="form-control"
-						type="text"
-						name="Fname"
-						id="RegisterForm-FirstName"
-						required
-						autocomplete="given-name"
-						placeholder="First name">
-				</div>
-
+				<input type="hidden" name="form_type" value="create_customer" />
+				<input type="hidden" name="utf8" value="✓" />
+			  
 				<div class="mb-3 mb-lg-4">
-					<label class="form-label" for="RegisterForm-LastName">
-						Last name   <span id="invalid-Lname" class="text-danger" style="display: none;">Please enter a valid Name</span>
-					</label>
-					<input class="form-control"
-						type="text"
-						name="Sname"
-						id="RegisterForm-LastName"
-						required
-						autocomplete="family-name"
-						placeholder="Last name">
+				    <label class="form-label" for="RegisterForm-FirstName">
+					  First name <span id="invalid-Fname" class="text-danger" style="display: none;">Please enter a valid Name</span>
+				    </label>
+				    <input class="form-control" type="text" name="Fname" id="RegisterForm-FirstName" required autocomplete="given-name" placeholder="First name">
+				</div>
+			  
+				<div class="mb-3 mb-lg-4">
+				    <label class="form-label" for="RegisterForm-LastName">
+					  Last name <span id="invalid-Lname" class="text-danger" style="display: none;">Please enter a valid Name</span>
+				    </label>
+				    <input class="form-control" type="text" name="Sname" id="RegisterForm-LastName" required autocomplete="family-name" placeholder="Last name">
+				</div>
+			  
+				<% if (typeof message !== 'undefined') { %>
+				<p class="text-danger"><%= message %></p>
+				<% } %>
+			  
+				<div class="mb-3 mb-lg-4">
+				    <label class="form-label" for="RegisterForm-email">
+					  Email <span id="invalid-Email" class="text-danger" style="display: none;">Please enter a valid Email</span>
+				    </label>
+				    <input class="form-control" type="email" name="email" id="RegisterForm-email" spellcheck="false" autocapitalize="off" autocomplete="email" aria-required="true" required placeholder="Email">
+				</div>
+			  
+				<div class="mb-3 mb-lg-4">
+				    <label class="form-label" for="RegisterForm-password">
+					  Password <span id="invalid-pass" class="text-danger" style="display: none;"> The password is at least 8 characters long and contains both letters and numbers</span>
+				    </label>
+				    <div class="input-group">
+					  <input class="form-control" type="password" name="password" id="RegisterForm-password" aria-required="true" required placeholder="Password">
+					  <span class="input-group-text password-toggle-icon">
+						<i class="bi bi-eye-slash-fill"></i>
+					  </span>
+				    </div>
+				</div>
+			  
+				<div class="mb-3 mb-lg-4">
+				    <label class="form-label" for="RegisterForm-confirm-password">
+					  Confirm Password <span id="invalid-confirmpass" class="text-danger" style="display: none;"> password  is not same</span>
+				    </label>
+				    <div class="input-group">
+					  <input class="form-control" type="password" name="confirmPassword" id="RegisterForm-confirm-password" aria-required="true" required placeholder="confirmPassword">
+					  <span class="input-group-text password-toggle-icon">
+						<i class="bi bi-eye-slash-fill"></i>
+					  </span>
+				    </div>
+				</div>
 				
+				<div class="d-flex justify-content-between align-items-center pt-2">
+				    <button class="btn btn-default">
+					  <span>Create</span>
+				    </button>
+				    <a href="/login">
+					  <u>Login</u>
+				    </a>
 				</div>
-			
-				<%
-				if(typeof message !== 'undefined'){
-				    %>
-				    <p class="text-danger"><%=message%></p>
-				    <%
-				}
-				%>
-				<div class="mb-3 mb-lg-4">   
-					<label class="form-label" for="RegisterForm-email">
-						Email
-						<span id="invalid-Email" class="text-danger" style="display: none;">Please enter a valid Email</span>
-					</label>   
-					<input class="form-control"
-						type="email"
-						name="email"
-						id="RegisterForm-email"
-						spellcheck="false"
-						autocapitalize="off"
-						autocomplete="email"
-						aria-required="true"
-						required
-						placeholder="Email">
-				</div>
-
-				
-				<div class="mb-3 mb-lg-4">  
-					<label class="form-label" for="RegisterForm-password">
-						Password   <span id="invalid-pass" class="text-danger" style="display: none;"> The password is at least 8 characters long and contains both letters and numbers</span>
-					</label>   
-					<input class="form-control"
-						type="password"
-						name="password"
-						id="RegisterForm-password"
-						aria-required="true"
-						required
-						placeholder="Password">
-				</div>
-				<div class="d-flex justify-content-between align-items-center pt-2"> 
-					<button class="btn btn-default">
-						<span>Create</span>
-					</button>
-					<a href="/login">
-						<u>Login</u>
-					</a>
-				</div>
-
-			</form>
-			
-			
-			
+			  </form>
 			</div>
 	</div>
 </div>
+
 </div>
 			</div>
-
-
-
 		</main>
 
 

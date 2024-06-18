@@ -11,12 +11,10 @@ const otpSchema = new mongoose.Schema({
      },
      createdAt:{
       type:Date,
-      default:Date.now()
+      default:Date.now(),
+      expires: 120
      }
 })
-
-// Automatically expire documents after 120 seconds (2 minutes)
-otpSchema.index({ createdAt: 1 }, { expireAfterSeconds: 120 });
 
 const OTP = mongoose.model('OTP', otpSchema);
 

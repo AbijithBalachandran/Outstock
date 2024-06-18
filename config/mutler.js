@@ -4,7 +4,7 @@ const path = require('path');
 // Set storage engine
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'C:/Users/abiji/OneDrive/Desktop/First Project/Furnituer_products/public/upload/'); 
+        cb(null, 'C:/Users/abiji/OneDrive/Desktop/First Project/Furnituer_products/public/upload/product'); 
     },
     filename: function (req, file, cb) {
         cb(null, `${Date.now()}-${file.originalname}`); 
@@ -27,4 +27,19 @@ const upload = multer({
     }); 
 
 
-    module.exports={upload}
+
+const fileFilter = (req, file, cb) => {
+  // Check file types
+  const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+  if (allowedTypes.includes(file.mimetype)) {
+      cb(null, true); // Accept the file
+  } else {
+      cb(new Error('Please upload only JPG, JPEG, or PNG files.'), false); // Reject the file
+  }
+};
+
+const uploaded = multer({ storage, fileFilter });
+
+
+
+    module.exports={upload,uploaded}

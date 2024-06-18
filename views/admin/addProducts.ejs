@@ -1,5 +1,11 @@
 <%- include('../layout/adminHeader') %>
 
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> 
+
+    <link  href="https://unpkg.com/cropperjs/dist/cropper.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/admin-side/croper.css">
+
     <div class="container-xxl position-relative bg-white d-flex p-0">
 
         <%-include('../layout/adSidebarHeader')%>
@@ -102,163 +108,151 @@
                         </div>
                     </nav>
                     <!-- Navbar End -->
-                    <style>
-                        .input-small {
-                          max-width: 150px;
-                        }
-                        .image-card {
-                          position: relative;
-                          border: 1px solid #ddd;
-                          padding: 10px;
-                          border-radius: 5px;
-                          text-align: center;
-                          cursor: pointer;
-                        }
-                        .image-card input[type="file"] {
-                          position: absolute;
-                          left: 0;
-                          top: 0;
-                          width: 100%;
-                          height: 100%;
-                          opacity: 0;
-                          cursor: pointer;
-                        }
-                        .image-card img {
-                          max-width: 100%;
-                          max-height: 100px;
-                        }
-                      </style>
-                    <!-- Start Table -->
 
-                 
-                        <div class="container mt-5">
-                            <div class="row justify-content-center">
-                                <div class="col-md-10">
-                                    <div class="card shadow-sm">
-                                        <div class="card-body">
-                                            <h2 class="card-title text-center mb-4">Add New Products</h2>
-                                            <form id="productForm" method="post" action="/admin/addProducts" enctype="multipart/form-data">
-
-                                                <div class="row">
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="productName" class="form-label">Product Name</label>
-                                                        <input type="text" class="form-control" id="productName" name="name" placeholder="Enter product name" required maxlength="50">
-                                                    </div>
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="productCategory" class="form-label">Category</label>
-                                                        <input type="text" class="form-control" id="productCategory" name="category" placeholder="Enter category" required maxlength="50">
-                                                    </div>
+                    <div class="container mt-5">
+                        <div class="row justify-content-center">
+                            <div class="col-md-10">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h2 class="card-title text-center mb-4">Add New Products</h2>
+                                        <form id="productForm" method="post" action="/admin/addProducts"
+                                            enctype="multipart/form-data">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="productName" class="form-label">Product Name</label>
+                                                    <input type="text" class="form-control" id="productName" name="name"
+                                                        placeholder="Enter product name" required maxlength="50">
+                                                    <div class="text-danger" id="errorName"></div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="productCategory" class="form-label">Category</label>
+                                                    <select class="form-control" id="productCategory" name="category" required>
+                                                        <option value="" disabled selected>Select a category</option>
+                                                        <% for(let i=0;i<category.length;i++){ %>
+                                                            <option value="<%=category[i].name%>"><%=category[i].name%></option>></option>
+                                                            <%}%>
+                                                    </select>
+                                                    <div class="text-danger" id="errorCategory"></div>
                                                 </div>
 
-                                                <div class="form-control mb-3 border-0 shadow-none"
-                                                            name="action">
-                                                            <select class="custom-select" name="action"
-                                                                id="inputGroupSelect02">
-                                                                <option selected>Choose....</option>
-                                                                <option value="list" name="action">list</option>
-                                                                <option value="unlist" name="action">unlist</option>
-                                                            </select>
-                                                        </div>
-                    
-                                                <div class="row">
-                                                    <div class="col-md-4 mb-3">
-                                                        <label for="productQuantity" class="form-label">Quantity</label>
-                                                        <input type="number" class="form-control input-small" id="productQuantity" name="quantity" placeholder="Enter quantity" required>
-                                                    </div>
-                                                    <div class="col-md-4 mb-3">
-                                                        <label for="originalPrice" class="form-label">Original Price</label>
-                                                        <input type="number" class="form-control input-small" id="originalPrice" name="price" placeholder="Enter original price" required>
-                                                    </div>
-                                                    <div class="col-md-4 mb-3">
-                                                        <label for="discount" class="form-label">Discount (%)</label>
-                                                        <input type="number" class="form-control input-small" id="discount" name="discount" placeholder="Enter discount percentage" required>
-                                                    </div>
-                                                </div>
-                    
-                                                <div class="row">
-                                                    <div class="col-md-4 mb-3">
-                                                        <label for="discountPrice" class="form-label">Discount Price</label>
-                                                        <input type="number" class="form-control input-small" id="discountPrice" name="disPrice" placeholder="Enter discount price" required>
-                                                    </div>
-                                                    <div class="col-md-6 mb-3">
-                                                      <label for="productCategory" class="form-label">Type</label>
-                                                      <input type="text" class="form-control" id="productCategory" name="type" placeholder="Enter Type" required maxlength="50">
-                                                  </div>
-                                                </div>
+                                            </div>
 
-                    
-                                                <div class="row">
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="description" class="form-label">Description</label>
-                                                        <textarea class="form-control" id="description" rows="3" name="description" placeholder="Enter description" required maxlength="50"></textarea>
-                                                    </div>
+                                            <div class="form-control mb-3 border-0 shadow-none" name="action">
+                                                <select class="custom-select" name="action" id="inputGroupSelect02">
+                                                    <option selected>Choose....</option>
+                                                    <option value="list" name="action">list</option>
+                                                    <option value="unlist" name="action">unlist</option>
+                                                </select>
+                                                <div class="text-danger" id="errorAction"></div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="productQuantity" class="form-label">Quantity</label>
+                                                    <input type="number" class="form-control input-small"
+                                                        id="productQuantity" name="quantity"
+                                                        placeholder="Enter quantity" required>
+                                                    <div class="text-danger" id="errorQuantity"></div>
                                                 </div>
-                    
-                                                <div class="mb-3">
-                                                    <label for="productImages" class="form-label">Upload Images</label>
-                                                    <div class="row" id="imageUploadCards">
-                                                        <div class="col-md-4 mb-3">
-                                                            <div class="image-card">
-                                                                <img src="https://via.placeholder.com/150" alt="Placeholder Image" id="imagePreview1">
-                                                                <input type="file" name="images" accept="image/*" required onchange="previewImage(event, 'imagePreview1')">
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="originalPrice" class="form-label">Original Price</label>
+                                                    <input type="number" class="form-control input-small"
+                                                        id="originalPrice" name="price"
+                                                        placeholder="Enter original price" required>
+                                                    <div class="text-danger" id="errorPrice"></div>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="discount" class="form-label">Discount (%)</label>
+                                                    <input type="number" class="form-control input-small" id="discount"
+                                                        name="discount" placeholder="Enter discount percentage"
+                                                        onkeyup="calculateDiscountPrice()" required>
+                                                    <div class="text-danger" id="errorDiscount"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="discountPrice" class="form-label">Discount Price</label>
+                                                    <input type="number" class="form-control input-small"
+                                                        id="discountPrice" name="disPrice"
+                                                        placeholder="Enter discount price" required>
+                                                    <div class="text-danger" id="errorDisPrice"></div>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="productCategory" class="form-label">Type</label>
+                                                    <input type="text" class="form-control" id="productType" name="type"
+                                                        placeholder="Enter Type" required maxlength="50">
+                                                    <div class="text-danger" id="errorType"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="description" class="form-label">Description</label>
+                                                    <textarea class="form-control" id="description" rows="3"
+                                                        name="description" placeholder="Enter description" required
+                                                        maxlength="200"></textarea>
+                                                    <div class="text-danger" id="errorDescription"></div>
+                                                </div>
+                                            </div>
+                                            
+                                                    <div class="mb-3">
+                                                        <label for="productImages" class="form-label">Upload Images</label>
+                                                        <div class="row" id="imageUploadCards">
+                                                            <div class="col-md-4 mb-3">
+                                                                <div class="image-card">
+                                                                    <img src="https://via.placeholder.com/150" alt="Placeholder Image" id="imagePreview1">
+                                                                    <input type="file" name="images" accept="image/*" required onchange="handleImageUpload(event, 'imagePreview1')">
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-md-4 mb-3">
-                                                            <div class="image-card">
-                                                                <img src="https://via.placeholder.com/150" alt="Placeholder Image" id="imagePreview2">
-                                                                <input type="file" name="images" accept="image/*" required onchange="previewImage(event, 'imagePreview2')">
+                                                            <div class="col-md-4 mb-3">
+                                                                <div class="image-card">
+                                                                    <img src="https://via.placeholder.com/150" alt="Placeholder Image" id="imagePreview2">
+                                                                    <input type="file" name="images" accept="image/*" required onchange="handleImageUpload(event, 'imagePreview2')">
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-md-4 mb-3">
-                                                            <div class="image-card">
-                                                                <img src="https://via.placeholder.com/150" alt="Placeholder Image" id="imagePreview3">
-                                                                <input type="file" name="images" accept="image/*" required onchange="previewImage(event, 'imagePreview3')">
+                                                            <div class="col-md-4 mb-3">
+                                                                <div class="image-card">
+                                                                    <img src="https://via.placeholder.com/150" alt="Placeholder Image" id="imagePreview3">
+                                                                    <input type="file" name="images" accept="image/*" required onchange="handleImageUpload(event, 'imagePreview3')">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <small class="form-text text-muted">You must upload exactly 3 images.</small>
+
+
                                                 </div>
-                    
-                                                <div class="text-center">
-                                                   <button type="submit" class="btn btn-primary">Add Product</button>
-                                                </div>
-                                            </form>
-                                        </div>
+                                                <small class="form-text text-muted">You must upload exactly 3
+                                                    images.</small>
+                                                <div class="text-danger" id="errorImages"></div>
+                                            </div>
+
+                                            <div class="text-center mt-4 mb-3">
+                                                <button type="submit" class="btn btn-primary">Add Product</button>
+                                            </div>
+
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    
-                        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-                        <script>
-                            $(document).ready(function () {
-                                $('#productForm').on('submit', function (event) {
-                                    const files = $('input[type="file"]');
-                                    let valid = true;
-                                    files.each(function () {
-                                        if (this.files.length === 0) {
-                                            valid = false;
-                                        }
-                                    });
-                                    if (!valid || files.length !== 3) {
-                                        event.preventDefault();
-                                        alert('You must upload exactly 3 images.');
-                                    }
-                                });
-                            });
-                    
-                            function previewImage(event, previewId) {
-                                const reader = new FileReader();
-                                reader.onload = function () {
-                                    const output = document.getElementById(previewId);
-                                    output.src = reader.result;
-                                }
-                                reader.readAsDataURL(event.target.files[0]);
-                            }
-                        </script>
-                     
-                      <!-- End Table -->
+                    </div>
 
+
+
+                    <!-- Modal for cropping image -->
+<div id="cropModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Crop Image</h2>
+        <div class="crop-container">
+            <img id="imageToCrop" src="" alt="Image to crop">
+        </div>
+        <button class="crop-button" onclick="cropImage()">Crop</button>
+    </div>
+</div>
+
+                    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
                     <!-- Back to Top -->
                     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
@@ -266,5 +260,10 @@
                 </div>
 
     </div>
-    <!-- <script src="/js/swal.js"></script> -->
+    <script src="/adminside/js/addproduct.js"></script>
+
+    <script src="/adminside/js/croper.js"></script>
+
+    <script src="https://unpkg.com/cropperjs/dist/cropper.min.js"></script>
+
     <%- include('../layout/adminFooter') %>

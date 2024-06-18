@@ -17,7 +17,7 @@ const sendMail = async (otp,email) => {
         const mailOptions = {
             from: process.env.SEND_EMAIL,
             to: email,
-            subject: 'OTP For Email Verification',
+            subject: 'OTP  from  OutStack ',
             html: `<h1>Hi, this is your OTP from Ecommerce-Furniture: <strong>${otp}</strong></h1>`,
         };
 
@@ -32,5 +32,7 @@ const sendMail = async (otp,email) => {
         throw new Error('Failed to send email');
     }
 };
+
+
 
 module.exports = sendMail;
