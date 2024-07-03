@@ -14,7 +14,8 @@
       </svg></button>
         <h4 class="modal-title pb-0 pt-2 pt-md-5 mb-2" id="searchTopLabel">Search</h4>
       </div>
-      <div class="search-modal__content " tabindex="-1"><predictive-search class="search-modal__form w-100" data-loading-text="Loading..."><form action="https://vela-kazan.myshopify.com/search" method="get" role="search" class="search search-modal__form position-relative pe-5 border-bottom">
+      <div class="search-modal__content " tabindex="-1"><predictive-search class="search-modal__form w-100" data-loading-text="Loading...">
+        <form action="https://vela-kazan.myshopify.com/search" method="get" role="search" class="search search-modal__form position-relative pe-5 border-bottom">
           
           <input class="search__input form-control search-input border-0 px-0"
           id="Search-In-Modal-1"
@@ -84,6 +85,7 @@
             </a>
             <meta itemprop="position" content="1" />
           </li>
+          
           <li class="breadcrumb-item breadcrumb__item active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
             <span class="breadcrumb__text">
               <span itemprop="name">Profile</span>
@@ -115,10 +117,10 @@
       }
     </style>
 
-<div class="container-fluid">
+<div class="container-fluid justify-content-center">
       <div class="row">
         <!-- Sidebar -->
-        <div class="col-md-3 profile-sidebar m-5">
+        <div class="col-md-3 profile-sidebar mt-5 mb-3 ">
           <div class="card border-0">
             <div class="card-body">
               <h5 class="card-title">Hi, <%=user.Fname%></h5>
@@ -126,16 +128,16 @@
           </div>
           <div class="card border-0">
             <div class="card-body">
-              <a href="/profile/manage-Address" class="card-link d-block ms-1 header__icon m-2">Manage Address</a>
-              <a href="/profile/update-Profile" class="card-link d-block header__icon m-1">Update Profile</a>
+              <a href="/manage-Address?id=<%=user.id %>" class="card-link d-block ms-1 header__icon m-2">Manage Address</a>
+              <a href="/update-Profile?id=<%=user.id %>" class="card-link d-block header__icon m-1">Update Profile</a>
             </div>
           </div>
           <div class="card border-0">
             <div class="card-body">
-              <a href="/profile/orders" class="card-link d-flex align-items-center ms-4 m-1 header__icon">My Orders</a>
-              <a href="/profile/my-Cart" class="card-link d-flex align-items-center m-2 header__icon"><i class="bi bi-cart me-2"></i>My Cart</a>
-              <a href="/profile/wishlist" class="card-link d-flex align-items-center m-2 header__icon"><i class="bi bi-heart me-2"></i>Wishlist</a>
-              <a href="/profile/wallet" class="card-link d-flex align-items-center m-2 header__icon"><i class="bi bi-wallet me-2"></i>Wallet</a>
+              <a href="/orders?id=<%=user.id %>" class="card-link d-flex align-items-center ms-4 m-1 header__icon">My Orders</a>
+              <a href="/cart?id=<%=user.id %>" class="card-link d-flex align-items-center m-2 header__icon"><i class="bi bi-cart me-2"></i>My Cart</a>
+              <a href="/wishlist?id=<%=user.id %>" class="card-link d-flex align-items-center m-2 header__icon"><i class="bi bi-heart me-2"></i>Wishlist</a>
+              <a href="/wallet?id=<%=user.id %>" class="card-link d-flex align-items-center m-2 header__icon"><i class="bi bi-wallet me-2"></i>Wallet</a>
             </div>
           </div>
         </div>

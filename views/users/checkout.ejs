@@ -1,0 +1,176 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .checkout-container {
+            margin-top: 20px;
+        }
+        .order-summary {
+            border: 1px solid #dee2e6;
+            padding: 15px;
+        }
+        .order-summary h4 {
+            margin-bottom: 20px;
+        }
+        .total-amount {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container checkout-container">
+        <div class="row">
+            <div class="col-md-8">
+                <h3>Checkout</h3>
+                <form class="checkout-form" id="checkout-form" action="/checkout-submit" method="post">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="billingAddress" id="differentBilling" class="btn btn-info mt-3" data-toggle="modal" data-target="#addressModal">
+                        <label class="form-check-label" for="differentBilling">
+                            Choose different billing address
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <h4>Delivery</h4>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <select class="form-control" id="country" name="country" required>
+                            <option value="" disabled selected>Select your country</option>
+                            <option value="India">India</option>
+                            <!-- Add more countries as needed -->
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="firstName">First Name</label><span id="name-error" class="error"></span>
+                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label><span id="address-error" class="error"></span>
+                        <input type="text" class="form-control" id="address" name="address" placeholder="Address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="apartment">Landmark</label><span id="landmark-error" class="error"></span>
+                        <input type="text" class="form-control" id="landMark" name="landmark" placeholder="landmark.">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="city">City</label><span id="city-error" class="error"></span>
+                            <input type="text" class="form-control" id="city" name="city" placeholder="City" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="phone">Phone Number</label><span id="phone-error" class="error"></span>
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone number" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pinCode">PIN Code</label><span id="pincode-error" class="error"></span>
+                        <input type="text" class="form-control" id="pinCode" name="pincode" placeholder="PIN code" required>
+                    </div>
+                    <h4>Payment</h4>
+                    <div class="form-group">
+                        <label for="paymentMethod">Payment Method</label>
+                        <select class="form-control" id="paymentMethod" name="paymentMethod" required>
+                            <option value="" disabled selected>Select payment method</option>
+                            <option value="COD">Cash On Delivery (COD)</option>
+                            <!-- Add more payment methods as needed -->
+                        </select>
+                    </div>
+                    <button type="button" onclick="submitForm()" class="btn btn-primary mt-3" id="submit-btn" data-user-id="<%=user.id%>">Pay now</button>
+                </form>                
+                
+
+            </div>
+            <div class="col-md-4">
+                <div class="order-summary">
+                    <h4>Order Summary</h4>
+                  <%if(cart[0].cartItem.length>0) {%>
+                    <% cart[0].cartItem.forEach((item)=>{%>
+                    <div class="d-flex justify-content-between">
+                        <div style="width: 40px;">
+                            <img src="/upload/product/<%=item.products.images[0] %>" alt="product-img" width="40px">
+                        </div>
+                        <span><%=item.products.name%></span>
+                        <span><%=item.quantity%></span>
+                        <span><%= item.products.price%></span>
+                        <span><%= item.products.price * item.quantity%></span>
+                    </div>
+                    <%})%>
+                  <%}else{%>
+                    <p>No items here</p>
+                  <%}%>
+                    <hr>
+                    <div class="d-flex justify-content-between total-amount">
+                        <span>Total</span>
+                        <span><%= total %></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .address-card {
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .address-card p {
+            margin: 0;
+        }
+        .address-card-buttons {
+            margin-top: 10px;
+        }
+    </style>
+
+        <!-- The Modal -->
+        <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addressModalLabel">Your Addresses</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="address-list">
+                        <% if(address.length > 0) { %>
+                            <% for(let i = 0; i < address.length; i++) { %>
+                              <div class="address-card" id="single-address" onclick="addressSelection(event,'<%=address[0].id%>')">
+                                <p>
+                                  <%= address[i].name %><br>
+                                  <%= address[i].phone %><br>
+                                  <%= address[i].email %><br>
+                                  <%= address[i].address + "," + address[i].location + "," + address[i].city %><br>
+                                  Landmark: <%= address[i].landmark %>,<br> PIN: <%= address[i].pincode %>
+                                </p>
+                              </div>
+                            <% } %>
+                          <% } else { %>
+                            <h6>Address not found</h6>
+                          <% } %>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/validcheckout.js"></script>
+    <script src="/js/selectAddress.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>

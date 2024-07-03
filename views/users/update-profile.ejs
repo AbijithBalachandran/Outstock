@@ -1,0 +1,118 @@
+<%- include ('../layout/header') %>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+<%- include ('../layout/navbarH') %>
+<%- include ('../layout/navbarF') %>
+
+<div id="searchTop" class="search-modal modal fade" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content container border-0">
+      <div class="modal-header border-0 p-0 text-center flex-column">
+        <button type="button" class="btn-close m-auto w-auto h-auto p-0 text-primary" data-bs-dismiss="modal" aria-label="Close">
+          <svg class="icon" width="28" height="28" aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.48627 9.32917L2.82849 3.67098" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2.88539 9.38504L8.42932 3.61524" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <h4 class="modal-title pb-0 pt-2 pt-md-5 mb-2" id="searchTopLabel">Search</h4>
+      </div>
+      <div class="search-modal__content" tabindex="-1">
+        <predictive-search class="search-modal__form w-100" data-loading-text="Loading...">
+          <form action="https://vela-kazan.myshopify.com/search" method="get" role="search" class="search search-modal__form position-relative pe-5 border-bottom">
+            <input class="search__input form-control search-input border-0 px-0" id="Search-In-Modal-1" type="search" name="q" value="" placeholder="Enter keywords to search..." role="combobox" aria-expanded="false" aria-owns="predictive-search-results-list" aria-controls="predictive-search-results-list" aria-haspopup="listbox" aria-autocomplete="list" autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false">
+            <label class="d-none" for="Search-In-Modal">Enter keywords to search...</label>
+            <input type="hidden" name="type" value="product" />
+            <input type="hidden" name="options[sort_by]" value="price-descending" />
+            <button class="search__button btn btn-link p-0 text-end position-absolute end-0" aria-label="Enter keywords to search...">
+              <svg class="icon icon-search" width="24" height="24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
+                <path fill="currentColor" d="M344.5,298c15-23.6,23.8-51.6,23.8-81.7c0-84.1-68.1-152.3-152.1-152.3C132.1,64,64,132.2,64,216.3c0,84.1,68.1,152.3,152.1,152.3c30.5,0,58.9-9,82.7-24.4l6.9-4.8L414.3,448l33.7-34.3L339.5,305.1L344.5,298z M301.4,131.2c22.7,22.7,35.2,52.9,35.2,85c0,32.1-12.5,62.3-35.2,85c-22.7,22.7-52.9,35.2-85,35.2c-32.1,0-62.3-12.5-85-35.2c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z"></path>
+              </svg>
+            </button>
+            <div class="predictive-search predictive-search--header position-absolute bg-white overflow-auto" tabindex="-1" data-predictive-search>
+              <div class="predictive-search__loading-state d-none">
+                <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                  <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                </svg>
+              </div>
+            </div>
+            <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+          </form>
+        </predictive-search>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var myCollapsible = document.getElementById('searchTop');
+  myCollapsible.addEventListener('shown.bs.modal', function () {
+    document.getElementById('Search-In-Modal-1').focus();
+  });
+</script>
+<main id="MainContent" class="main-content content-for-layout" tabindex="-1">
+  <div class="main-content__inner">
+    <section id="shopify-section-template--14955324637249__breadcrumb" class="shopify-section velaFramework">
+      <div class="vela-breadcrumbs vela-section overflow-hidden d-flex flex-wrap align-items-center vela-breadcrumbs--image" style="--st-bg-cl:#f6f6f4;--breadcrumb-color-link:#c3c3c3; --breadcrumb-color:#201f1f; --breadcrumb-heading-color:#323232; --breadcrumb-mh:400px; --breadcrumb-mh-m:60px;">
+        <div class="vela-breadcrumbs__image lazyload" data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_180x.jpg?v=1614322107 180w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_360x.jpg?v=1614322107 360w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_540x.jpg?v=1614322107 540w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_720x.jpg?v=1614322107 720w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_900x.jpg?v=1614322107 900w" data-bg="(min-width: 360px) 360px, 180px" data-parent-fit="cover"></div>
+        <div class="container text-center vela-breadcrumbs__wrapper">
+          <div class="d-flex flex-wrap align-items-center justify-content-center">
+            <div class="d-flex flex-column align-items-start flex-grow-1">
+              <nav class="breadcrumbs d-flex flex-wrap align-items-center flex-grow-1" aria-label="breadcrumbs">
+                <a href="/" title="Back to the frontpage" class="home text-link d-flex align-items-center">
+                  <svg class="icon icon-home" width="16" height="18" viewBox="0 0 16 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 6.36363L6.36364 0V2.72727H9.63636V0L16 6.36363V18H10.1818V10.1818H5.81818V18H0V6.36363Z" fill="currentColor"></path>
+                  </svg>
+                  <a class="breadcrumb__link" href="../home>" title="Home" itemprop="item">
+                        <span itemprop="name">Home</span>
+                      </a>
+                </a>
+                <span class="divider" aria-hidden="true">/</span>
+                <a class="breadcrumb__link" href="../profile?id=<%=user.id %>" title="Home" itemprop="item">
+                  <span itemprop="name">Profile</span>
+                </a>
+                <span class="divider" aria-hidden="true">/</span>
+                <span>Update Profile</span>
+              </nav>
+              <div class="d-flex flex-column align-items-start w-100 vela-breadcrumbs__heading">
+                <h1 class="vela-breadcrumbs__title">Update Profile</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="shopify-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+
+            <form id="profile-form">
+              <div class="form-group">
+                <label for="Fname">First Name</label>
+                <input type="text" class="form-control" id="Fname" name="Fname" value="<%=user.Fname%>" required>
+              </div>
+              <div class="form-group">
+                <label for="Lname">Last Name</label>
+                <input type="text" class="form-control" id="Lname" name="Lname" value="<%=user.Lname%>" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="<%=user.email%>" readonly>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+              </div>
+              <button type="submit" class="btn btn-primary mt-3" id="submit-btn" data-user-id="<%= user.id %>">Update Profile</button>
+            </form>
+
+            <div id="status-message" class="mt-3"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    
+    <script src="/js/updateProfile.js"></script>
+    
+<%- include ('../layout/footer') %>

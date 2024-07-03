@@ -3,6 +3,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/user_storing_system');
 const session = require('express-session');
 const { sessionSecret } = require('./Config/config');
 require('dotenv').config();
+const morgan = require('morgan');
 
 
 const express = require('express');
@@ -22,6 +23,7 @@ app.use('/lib',express.static(path.join(__dirname,'public/lib')))
 
 const nocache = require("nocache");
 app.use(nocache());
+app.use(morgan('dev'))
 
 
 const adminRouter = require('./routes/adminRouter');

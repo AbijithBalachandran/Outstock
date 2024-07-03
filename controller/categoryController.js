@@ -27,7 +27,6 @@ const addCategoryLoad = async (req,res)=>{
 
 const addNewcategory = async (req,res)=>{
       try {
-
             const {name,action,description} = req.body;
             const existingCategory =  await Category.findOne({name:{ $regex: new RegExp(`^${name}$`, 'i') }});
           
@@ -85,7 +84,7 @@ const addNewcategory = async (req,res)=>{
        if(categories){
             res.render('editCategory',{categories});
        }else{
-            res.redirect('categoryManagement');
+            res.redirect('/categoryManagement');
        }
 
     });
@@ -96,6 +95,7 @@ const addNewcategory = async (req,res)=>{
 const editAndUpdateLoad = asyncHandler(async(req,res)=>{
 
       const {name,description,id} = req.body;
+      console.log('description=='+description);
       const existingCategory =  await Category.findOne({name:{ $regex: new RegExp(`^${name}$`, 'i') }});
       console.log('existingCategory===='+name);
 
@@ -105,13 +105,13 @@ const editAndUpdateLoad = asyncHandler(async(req,res)=>{
         }
 
       await Category.findByIdAndUpdate(
-            { id},
+            id,
             {$set:{
                   name:name,
                   description:description
             }});
 
-      res.redirect('categoryManagement');
+      res.redirect('/categoryManagement');
 });
 
 //---------------------------------------------    -----------------------------------------------------------//

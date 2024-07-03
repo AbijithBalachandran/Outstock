@@ -15,16 +15,13 @@ const productManagementLoad = asyncHandler(async(req,res)=>{
 
       const start = (currentPage - 1) * FirstPage;
 
-
       const  productData = await Products.find({}).populate('category').skip(start).limit(FirstPage);
       const products = await Products.countDocuments({});
-
-
 
       const totalPages = Math.ceil(products / FirstPage);
 
       res.render('productManagement',{ product: productData, currentPage, totalPages });
-})
+});
 
 
 //------------------- Add product page rendering---------------------------- 
@@ -35,7 +32,7 @@ const addProductLoad = asyncHandler(async(req,res)=>{
 })
 
 
-  //--------------------------------------Add Product------------------------
+//--------------------------------------Add Product------------------------
    
 const addNewproduct = asyncHandler(async(req,res)=>{
 
@@ -44,11 +41,10 @@ const addNewproduct = asyncHandler(async(req,res)=>{
 
         //   console.log('categoryDoc====='+categoryDoc);
         if (!categoryDoc) {
-            return res.status(400).send('Category not found');
+            return res.status(400).json({message: 'Category not found'});
         }
         const categoryId = categoryDoc._id;
         // console.log("categoryId: " + categoryId);
-
 
            const images = req.files.map(file => file.filename);
 
@@ -62,13 +58,6 @@ const addNewproduct = asyncHandler(async(req,res)=>{
                 else if(action == 'unlist'){
                  action = false;
                 }
-           //      if(discount){
-           //       console.log(discount)
-           //      }
-           //      else{
-           //       console.log('none')
-           //      }
-
             const newproduct = new Products ({
                 name:name,
                 action:action,
@@ -81,7 +70,7 @@ const addNewproduct = asyncHandler(async(req,res)=>{
                 quantity:quantity,
                 type:type,
                 createdAt:new Date()
-            })
+            });
 
                  const productData = await newproduct.save();
                  console.log(productData)
@@ -91,12 +80,9 @@ const addNewproduct = asyncHandler(async(req,res)=>{
                  await newproduct.save();
                 }
 
-                 res.redirect('/admin/productManagement');
+                 res.sendStatus(200);
 
-}) 
-
-
-
+}); 
 
 //-----------------------------edit  Product  page rendering -----------------------
 
@@ -115,7 +101,6 @@ const editProductLoad = asyncHandler(async(req,res)=>{
     });
 
 //----------------------------------------------edit product -----------------------------------------------------
-
 
 const editAndUpdateProduct = asyncHandler(async (req, res) => {
 
@@ -183,8 +168,6 @@ const editAndUpdateProduct = asyncHandler(async (req, res) => {
        res.status(200).json({ message });
  });
 
-
-
  //------------------------------delete Product ----------------------------------------------------------------------------
 
  const deleteProduct = asyncHandler(async(req,res)=>{
@@ -193,8 +176,8 @@ const editAndUpdateProduct = asyncHandler(async (req, res) => {
            // console.log('id_ for delete'+id);
 
            await Products.deleteOne({ _id:id });
-            res.redirect('/admin/productManagement')
-
+            res.redirect('/admin/productManagement');
+ 
 });
 
 //-----------------------------------------------search product ----------------------------------------------

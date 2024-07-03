@@ -36,6 +36,11 @@ admin_Router.put('/blockAndUnblockUser',adminController.updateUserStatus);
 admin_Router.get('/logOut',adminAuth.isLogin,adminController.logOut);
 
 
+admin_Router.get('/orderManagement',adminController.orderPageLoad);
+admin_Router.get('/order-detail',adminController.OrderDetailPage);
+admin_Router.put('/update-status/:orderId/:newStatus', adminController.updateOrderStatus);
+
+
 //--------------catogorymanagement in categoryController ----------------------------//
 
 admin_Router.get('/addcategory',adminAuth.isLogin,categoryController.addCategoryLoad);
@@ -45,7 +50,7 @@ admin_Router.get('/categoryManagement',adminAuth.isLogin,categoryController.cate
 admin_Router.put('/updateCategoyListAndUnlist',categoryController.updateCategoyStatus);
 
 admin_Router.get('/editCategory',adminAuth.isLogin,categoryController.editCategoryLoad);
-admin_Router.post('/editCategory',categoryController.editAndUpdateLoad);
+admin_Router.put('/editCategory',categoryController.editAndUpdateLoad);
 
 // ----------------------------------------productController----------------------------//
 
@@ -61,6 +66,8 @@ admin_Router.get('/editProduct',adminAuth.isLogin,productController.editProductL
 admin_Router.post('/editProduct', multer.upload.array('images', 3),productController.editAndUpdateProduct);
 
 admin_Router.get('/delete-Product',productController.deleteProduct);
+
+//-----------------------------------------Order --------------------------------
 
 
 admin_Router.get('*', (req, res) => {

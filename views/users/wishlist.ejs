@@ -1,0 +1,63 @@
+<%- include ('../layout/header') %>
+
+
+<%- include ('../layout/navbarH') %>
+<%- include ('../layout/navbarF') %>
+
+
+<main id="MainContent" class="main-content content-for-layout" tabindex="-1">
+      <div class="main-content__inner">
+            <section id="shopify-section-template--14955325587521__breadcrumb" class="shopify-section velaFramework">	<div class="vela-breadcrumbs vela-section overflow-hidden d-flex flex-wrap align-items-center vela-breadcrumbs--image" style="--st-bg-cl:#f6f6f4;--breadcrumb-color-link:#c3c3c3;
+      --breadcrumb-color:#201f1f;
+      --breadcrumb-heading-color:#323232;
+      --breadcrumb-mh:400px;
+      --breadcrumb-mh-m:60px,"><div class="vela-breadcrumbs__image lazyload"
+            data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_180x.jpg?v=1614322107 180w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_360x.jpg?v=1614322107 360w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_540x.jpg?v=1614322107 540w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_720x.jpg?v=1614322107 720w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_900x.jpg?v=1614322107 900w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1080x.jpg?v=1614322107 1080w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1296x.jpg?v=1614322107 1296w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1512x.jpg?v=1614322107 1512w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1728x.jpg?v=1614322107 1728w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1.jpg?v=1614322107 1920w"
+            data-sizes="auto"
+            data-parent-fit="cover"></div><div class="container">
+      <div class="vela-breadcrumbs__inner align-items-center flex-column" aria-label="breadcrumb"><h1 class="vela-breadcrumbs__title mb-1 d-none d-md-block">Wishlist</h1>
+            <ol class="breadcrumb m-0" itemscope itemtype="http://schema.org/BreadcrumbList">
+                  <li class="breadcrumb-item breadcrumb__item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <a class="breadcrumb__link" href="../index.html" title="Home" itemprop="item">
+                              <span itemprop="name">Home</span>
+                        </a>
+                        <meta itemprop="position" content="1" />
+                  </li>
+                  <li class="breadcrumb-item breadcrumb__item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <a class="breadcrumb__link" href="../profile?id=<%=user.id %>" title="Home" itemprop="item">
+                          <span itemprop="name">Profile</span>
+                    </a>
+                    <meta itemprop="position" content="1" />
+              </li>
+                  <li class="breadcrumb-item breadcrumb__item active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <span class="breadcrumb__text">
+                              <span itemprop="name">Wishlist</span>
+                        </span>
+                        <meta itemprop="position" content="2" />
+                  </li>
+            </ol>
+      </div>
+</div>
+</div>
+
+</section>
+
+<section id="shopify-section-template--14955325587521__wishlist" class="shopify-section"><div class="wishlist-page vela-section overflow-hidden" style="--st-bg-cl: ;--st-pd-dt: 100px 0;--st-pd-mb: 60px 0;--st-cl: ;--st-cl-l: ;">
+<div class="container">
+<div class="vela-section__inner"><div class="wishlist-page__content position-relative loading" style="min-height: 400px;">
+    <div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+<div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div>
+    <div class="wishlist-empty position-absolute translate-middle start-50 top-50 d-none">
+        <span class="alert alert-info d-block">There are no products in wishlist.<a class="h6 d-inline-block ms-1" href="../collections/all.html" title="Continue shopping">Continue shopping</a></span>
+    </div>
+    <div class="wishlist-grid row g-2 g-md-3 gy-lg-5 row-cols-2 row-cols-md-3 row-cols-lg-4" grid-wishlist=""></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+      </div>
+</main>
+
+
+<%- include ('../layout/footer') %>

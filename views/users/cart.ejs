@@ -1,0 +1,302 @@
+<%- include ('../layout/header') %>
+
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+  <%- include ('../layout/navbarH') %>
+    <%- include ('../layout/navbarF') %>
+
+
+
+      <div id="searchTop" class="search-modal modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content container border-0">
+            <div class="modal-header border-0 p-0 text-center flex-column">
+              <button type="button" class="btn-close m-auto w-auto h-auto p-0 text-primary" data-bs-dismiss="modal"
+                aria-label="Close"><svg class="icon" width="28" height="28" aria-hidden="true" focusable="false"
+                  role="presentation" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8.48627 9.32917L2.82849 3.67098" stroke="currentColor" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M2.88539 9.38504L8.42932 3.61524" stroke="currentColor" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg></button>
+              <h4 class="modal-title pb-0 pt-2 pt-md-5 mb-2" id="searchTopLabel">Search</h4>
+            </div>
+            <div class="search-modal__content " tabindex="-1"><predictive-search class="search-modal__form w-100"
+                data-loading-text="Loading...">
+                <form action="https://vela-kazan.myshopify.com/search" method="get" role="search"
+                  class="search search-modal__form position-relative pe-5 border-bottom">
+
+                  <input class="search__input form-control search-input border-0 px-0" id="Search-In-Modal-1"
+                    type="search" name="q" value="" placeholder="Enter keywords to search..." role="combobox"
+                    aria-expanded="false" aria-owns="predictive-search-results-list"
+                    aria-controls="predictive-search-results-list" aria-haspopup="listbox" aria-autocomplete="list"
+                    autocorrect="off" autocomplete="off" autocapitalize="off" spellcheck="false">
+                  <label class="d-none" for="Search-In-Modal">Enter keywords to search...</label>
+                  <input type="hidden" name="type" value="product" />
+                  <input type="hidden" name="options[sort_by]" value="price-descending" />
+                  <button class="search__button btn btn-link p-0 text-end position-absolute end-0"
+                    aria-label="Enter keywords to search...">
+                    <svg class="icon icon-search" width="24" height="24" version="1.1"
+                      xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                      viewBox="0 0 512 512" xml:space="preserve">
+                      <path fill="currentColor"
+                        d="M344.5,298c15-23.6,23.8-51.6,23.8-81.7c0-84.1-68.1-152.3-152.1-152.3C132.1,64,64,132.2,64,216.3c0,84.1,68.1,152.3,152.1,152.3c30.5,0,58.9-9,82.7-24.4l6.9-4.8L414.3,448l33.7-34.3L339.5,305.1L344.5,298z M301.4,131.2c22.7,22.7,35.2,52.9,35.2,85c0,32.1-12.5,62.3-35.2,85c-22.7,22.7-52.9,35.2-85,35.2c-32.1,0-62.3-12.5-85-35.2c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z">
+                      </path>
+                    </svg>
+                  </button>
+                  <div class="predictive-search predictive-search--header position-absolute bg-white overflow-auto"
+                    tabindex="-1" data-predictive-search>
+                    <div class="predictive-search__loading-state d-none">
+                      <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+                </form>
+              </predictive-search></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        var myCollapsible = document.getElementById('searchTop');
+        myCollapsible.addEventListener('shown.bs.modal', function () {
+          document.getElementById('Search-In-Modal-1').focus();
+        });
+      </script>
+      <main id="MainContent" class="main-content content-for-layout" tabindex="-1">
+        <div class="main-content__inner">
+          <section id="shopify-section-template--14955324637249__breadcrumb" class="shopify-section velaFramework">
+            <div
+              class="vela-breadcrumbs vela-section overflow-hidden d-flex flex-wrap align-items-center vela-breadcrumbs--image"
+              style="--st-bg-cl:#f6f6f4;--breadcrumb-color-link:#c3c3c3;
+  --breadcrumb-color:#201f1f;
+  --breadcrumb-heading-color:#323232;
+  --breadcrumb-mh:400px;
+  --breadcrumb-mh-m:60px,">
+
+
+
+              <div class="vela-breadcrumbs__image lazyload"
+                data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_180x.jpg?v=1614322107 180w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_360x.jpg?v=1614322107 360w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_540x.jpg?v=1614322107 540w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_720x.jpg?v=1614322107 720w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_900x.jpg?v=1614322107 900w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_1080x.jpg?v=1614322107 1080w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_1296x.jpg?v=1614322107 1296w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_1512x.jpg?v=1614322107 1512w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_1728x.jpg?v=1614322107 1728w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1.jpg?v=1614322107 1920w"
+                data-sizes="auto" data-parent-fit="cover">
+
+                <img src="/css/cdn/shop/bg-breadcrumb.jpg" alt="">
+              </div>
+
+
+              <div class="container">
+                <div class="vela-breadcrumbs__inner align-items-center flex-column" aria-label="breadcrumb">
+                  <h1 class="vela-breadcrumbs__title mb-1 d-none d-md-block">Cart</h1>
+                  <ol class="breadcrumb m-0" itemscope itemtype="http://schema.org/BreadcrumbList">
+                    <!-- Home breadcrumb -->
+                    <li class="breadcrumb-item breadcrumb__item" itemprop="itemListElement" itemscope
+                      itemtype="http://schema.org/ListItem">
+                      <a class="breadcrumb__link" href="../home" title="Home" itemprop="item">
+                        <span itemprop="name">Home</span>
+                      </a>
+                      <meta itemprop="position" content="1" />
+                    </li>
+
+                    <!-- Profile breadcrumb -->
+                    <li class="breadcrumb-item breadcrumb__item" itemprop="itemListElement" itemscope
+                      itemtype="http://schema.org/ListItem">
+                      <a class="breadcrumb__link" href="../profile?id=<%=user._id %>" title="Profile" itemprop="item">
+                        <span itemprop="name">Profile</span>
+                      </a>
+                      <meta itemprop="position" content="2" />
+                    </li>
+
+                    <!-- Cart breadcrumb (if directly from home) -->
+                    <li class="breadcrumb-item breadcrumb__item active" itemprop="itemListElement" itemscope
+                      itemtype="http://schema.org/ListItem">
+                      <a class="breadcrumb__link" href="../cart" title="Cart" itemprop="item">
+                        <span itemprop="name">Cart</span>
+                      </a>
+                      <meta itemprop="position" content="3" />
+                    </li>
+
+
+                  </ol>
+                </div>
+              </div>
+
+            </div>
+
+          </section>
+          <div id="shopify-section-template--14955324637249__main" class="shopify-section">
+            <link href="./css/cdn/shop/t/56/assets/customerc0ce.css?v=75781396961915267131705141211" rel="stylesheet"
+              type="text/css" media="all" />
+
+
+
+            <style>
+              .cart-table img {
+                width: 100px;
+                height: auto;
+              }
+
+              .estimate-shipping {
+                background-color: #f8f9fa;
+                padding: 20px;
+                border-radius: 5px;
+              }
+
+              .estimate-shipping h5 {
+                color: #dc3545;
+              }
+
+              .btn-custom {
+                background-color: #dc3545;
+                color: white;
+              }
+
+              .btn-custom:hover {
+                background-color: #c82333;
+              }
+            </style>
+            </head>
+
+            <body>
+
+
+              <div class="container mt-5 mb-4">
+                <div class="row">
+                  <div class="col-lg-8 mb-4">
+                    <% if(cartItems[0].cartItem.length> 0) { %>
+                      <table class="table cart-table">
+                        <thead class="thead-light">
+                          <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Action</th> <!-- New column for Remove button -->
+                          </tr>
+                        </thead>
+
+                        <% cartItems[0].cartItem.forEach((item)=> { %>
+                          <tbody>
+                            <tr>
+                              <td class="d-flex align-items-center">
+                                <img src="/upload/product/<%= item.products.images[0] %>" alt="Product Image"
+                                  class="mr-3">
+                                <div>
+                                  <p class="mb-1 ms-3">
+                                    <%= item.products.name %>
+                                  </p>
+                                  <p class="mb-0 text-muted ms-3">
+                                    <%= item.products.price %>
+                                  </p>
+                                </div>
+                              </td>
+                              <td>
+
+
+                                <div class="product-quantity__selector mt-2">
+                                  <div class="vela-qty">
+                                    <button type="button"
+                                      onclick="changeQuantity('<%= item.products.id %>','<%= item.products.price %>')"
+                                      class="js-qty-adjust vela-qty__adjust vela-qty__adjust--minus"
+                                      data-id="<%= item.products.id %>">
+                                      <svg viewBox="0 0 10 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                          d="M5.625 0H9.79167C9.90677 0 10 0.111875 10 0.25V1.25C10 1.38812 9.90677 1.5 9.79167 1.5H5.625H4.375H0.208333C0.0932292 1.5 0 1.38812 0 1.25V0.25C0 0.111875 0.0932292 0 0.208333 0H4.375H5.625Z"
+                                          fill="currentColor" />
+                                      </svg>
+                                    </button>
+
+                                    <input type="number" id="quantity<%= item.products._id %>" name="quantity"
+                                      class="js-qty-number vela-qty__number" value="<%= item.quantity %>" data-min="1"
+                                      min="1" max="5" aria-label="quantity">
+
+                                    <button type="button"
+                                      onclick="changeQuantity('<%= item.products.id %>','<%= item.products.price %>')"
+                                      class="js-qty-adjust vela-qty__adjust vela-qty__adjust--plus"
+                                      data-id="<%= item.products.id %>">
+                                      <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                          d="M9.75 4.25H5.75V0.25C5.75 0.111875 5.63812 0 5.5 0H4.5C4.36188 0 4.25 0.111875 4.25 0.25V4.25H0.25C0.111875 4.25 0 4.36188 0 4.5V5.5C0 5.63812 0.111875 5.75 0.25 5.75H4.25V9.75C4.25 9.88813 4.36188 10 4.5 10H5.5C5.63812 10 5.75 9.88813 5.75 9.75V5.75H9.75C9.88813 5.75 10 5.63812 10 5.5V4.5C10 4.36188 9.88813 4.25 9.75 4.25Z"
+                                          fill="currentColor" />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                </div>
+
+
+
+                              </td>
+                              <td  id="price<%=item.products._id %>">
+                                <span class="mt-3"><%= item.products.price * item.quantity%></span>
+                              </td>
+                              <td>
+                                <button type="button" class="btn btn-danger btn-sm btn-remove-product mt-2"
+                                  onclick="removeProductCart(event,'<%= item.products.id %>', '<%= user._id  %>')">Remove</button>
+                              </td>
+                            </tr>
+                          </tbody>
+                          <% }); %>
+                            <% } else { %>
+                              <div class="cart__warnings position-absolute w-100 text-center d-flex align-items-center">
+                                <h2 class="cart__empty-text mb-4">Your cart is empty</h2>
+                                <a href="/shop" class="btn btn-default mt-5">
+                                  <span><svg class="me-1" width="24" height="24" viewBox="0 0 32 32"
+                                      xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                                      <g>
+                                        <path
+                                          d="M 4,15.004C 4,15.132, 4.028,15.26, 4.078,15.382c 0.048,0.118, 0.12,0.224, 0.208,0.314 C 4.288,15.7, 4.29,15.704, 4.292,15.708l 6,6c 0.39,0.39, 1.024,0.39, 1.414,0c 0.39-0.39, 0.39-1.024,0-1.414L 7.414,16L 27,16 C 27.552,16, 28,15.552, 28,15C 28,14.448, 27.552,14, 27,14L 7.414,14 l 4.292-4.292c 0.39-0.39, 0.39-1.024,0-1.414 c-0.39-0.39-1.024-0.39-1.414,0l-6,6C 4.29,14.296, 4.288,14.302, 4.286,14.304C 4.198,14.394, 4.126,14.5, 4.078,14.618 C 4.026,14.74, 4,14.87, 4,15l0,0C 4,15.002, 4,15.002, 4,15.004z">
+                                        </path>
+                                      </g>
+                                    </svg>Continue shopping</span>
+                                </a>
+                              </div>
+                              <% } %>
+                      </table>
+                  </div>
+
+                  <div class="col-lg-4">
+                    <div class="estimate-shipping">
+                      <form class="mt-4">
+                        <div class="form-group">
+                          <label for="coupon">Add Coupon</label>
+                          <input type="text" class="form-control" id="coupon" placeholder="Coupon Code">
+                        </div>
+                      </form>
+                      <div class="mt-4">
+                        <p class="mb-1 total-price" id="total">Total: <%=total%>
+                        </p>
+                        <p class="text-muted"></p>
+                        <a href="/checkout?id=<%=user.id%>"><button type="button" class="btn btn-custom btn-block">Check Out</button></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <style>
+                .btn-remove-product {
+                  background-color: #dc3545;
+                  color: white;
+                  border: none;
+                  padding: 0.375rem 0.75rem;
+                }
+
+                .btn-remove-product:hover {
+                  background-color: #c82333;
+                }
+              </style>
+
+
+              <script src="/js/quantityUpdate.js"></script>
+
+              <script src="/js/removeCart.js"></script>
+
+              <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+              <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+              <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+              <%- include ('../layout/footer') %>

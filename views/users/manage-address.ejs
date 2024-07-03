@@ -1,8 +1,124 @@
 <%-include ('../layout/header')%>
+
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.css" rel="stylesheet">
+
 <%-include ('../layout/navbarH')%>
 <%-include ('../layout/navbarF')%>
+
+
+
+<div id="searchTop" class="search-modal modal fade" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content container border-0">
+      <div class="modal-header border-0 p-0 text-center flex-column">
+        <button type="button" class="btn-close m-auto w-auto h-auto p-0 text-primary" data-bs-dismiss="modal" aria-label="Close">
+          <svg   class="icon" width="28" height="28" aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.48627 9.32917L2.82849 3.67098" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2.88539 9.38504L8.42932 3.61524" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+        <h4 class="modal-title pb-0 pt-2 pt-md-5 mb-2" id="searchTopLabel">Search</h4>
+      </div>
+      <div class="search-modal__content " tabindex="-1">
+        
+        <predictive-search class="search-modal__form w-100" data-loading-text="Loading...">
+          <form action="https://vela-kazan.myshopify.com/search" method="get" role="search" class="search search-modal__form position-relative pe-5 border-bottom">
+          
+          <input class="search__input form-control search-input border-0 px-0"
+          id="Search-In-Modal-1"
+          type="search"
+          name="q"
+          value=""
+          placeholder="Enter keywords to search..."role="combobox"
+            aria-expanded="false"
+            aria-owns="predictive-search-results-list"
+            aria-controls="predictive-search-results-list"
+            aria-haspopup="listbox"
+            aria-autocomplete="list"
+            autocorrect="off"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false">
+          <label class="d-none" for="Search-In-Modal">Enter keywords to search...</label>
+          <input type="hidden" name="type" value="product" />
+          <input type="hidden" name="options[sort_by]" value="price-descending" />
+          <button class="search__button btn btn-link p-0 text-end position-absolute end-0" aria-label="Enter keywords to search...">
+            <svg  class="icon icon-search"  width="24" height="24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
+                  <path fill="currentColor" d="M344.5,298c15-23.6,23.8-51.6,23.8-81.7c0-84.1-68.1-152.3-152.1-152.3C132.1,64,64,132.2,64,216.3c0,84.1,68.1,152.3,152.1,152.3c30.5,0,58.9-9,82.7-24.4l6.9-4.8L414.3,448l33.7-34.3L339.5,305.1L344.5,298z M301.4,131.2c22.7,22.7,35.2,52.9,35.2,85c0,32.1-12.5,62.3-35.2,85c-22.7,22.7-52.9,35.2-85,35.2c-32.1,0-62.3-12.5-85-35.2c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z"></path></svg>
+          </button><div class="predictive-search predictive-search--header position-absolute bg-white overflow-auto" tabindex="-1" data-predictive-search>
+              <div class="predictive-search__loading-state d-none">
+                <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                </svg>
+              </div>
+            </div>
+      
+            <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span></form></predictive-search></div>
+      </div>
+      </div>
+      </div>
+      <script>
+      var myCollapsible = document.getElementById('searchTop');
+      myCollapsible.addEventListener('shown.bs.modal', function () {
+      document.getElementById('Search-In-Modal-1').focus();
+      });
+      </script>
+      <main id="MainContent" class="main-content content-for-layout" tabindex="-1">
+      <div class="main-content__inner">
+        <section id="shopify-section-template--14955324637249__breadcrumb" class="shopify-section velaFramework">
+                <div class="vela-breadcrumbs vela-section overflow-hidden d-flex flex-wrap align-items-center vela-breadcrumbs--image" style="--st-bg-cl:#f6f6f4;--breadcrumb-color-link:#c3c3c3;
+      --breadcrumb-color:#201f1f;
+      --breadcrumb-heading-color:#323232;
+      --breadcrumb-mh:400px;
+      --breadcrumb-mh-m:60px,">
+      
+      
+      
+      <div class="vela-breadcrumbs__image lazyload"
+        data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_180x.jpg?v=1614322107 180w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_360x.jpg?v=1614322107 360w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_540x.jpg?v=1614322107 540w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_720x.jpg?v=1614322107 720w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_900x.jpg?v=1614322107 900w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_1080x.jpg?v=1614322107 1080w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_1296x.jpg?v=1614322107 1296w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_1512x.jpg?v=1614322107 1512w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1_1728x.jpg?v=1614322107 1728w ,//vela-kazan.myshopify.com/css/cdn/shop/files/breadcrumb-bg1.jpg?v=1614322107 1920w"
+        data-sizes="auto"
+        data-parent-fit="cover">
+      
+      <img src="/css/cdn/shop/bg-breadcrumb.jpg" alt="">
+      </div>
+        
+        
+        <div class="container">
+      <div class="vela-breadcrumbs__inner align-items-center flex-column" aria-label="breadcrumb"><h1 class="vela-breadcrumbs__title mb-1 d-none d-md-block">Profile</h1>
+        <ol class="breadcrumb m-0" itemscope itemtype="http://schema.org/BreadcrumbList">
+          <li class="breadcrumb-item breadcrumb__item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <a class="breadcrumb__link" href="../home" title="Home" itemprop="item">
+              <span itemprop="name">Home</span>
+            </a>
+            <meta itemprop="position" content="1" />
+          </li>
+          <li class="breadcrumb-item breadcrumb__item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <% if (user && user.id) { %>
+            <a class="breadcrumb__link" href="../profile?id=<%=user.id %>" title="Home" itemprop="item">
+              <span itemprop="name">Profile</span>
+            </a>
+            <% } else { %>
+              <span class="breadcrumb__link" title="Home" itemprop="item">Profile</span>
+              <% } %>
+            <meta itemprop="position" content="1" />
+          </li>
+          <li class="breadcrumb-item breadcrumb__item active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <span class="breadcrumb__text">
+              <span itemprop="name">Manage Address</span>
+            </span>
+            <meta itemprop="position" content="2" />
+          </li>
+
+        </ol>
+      </div>
+      </div>
+      </div>
+      
+      </section><div id="shopify-section-template--14955324637249__main" class="shopify-section">
+        <link href="./css/cdn/shop/t/56/assets/customerc0ce.css?v=75781396961915267131705141211" rel="stylesheet" type="text/css" media="all" />
+
+
 
 
 <style>
@@ -28,48 +144,185 @@
 <div class="container-fluid">
       <div class="row">
         <!-- Sidebar -->
-        <div class="col-md-3 profile-sidebar">
-          <div class="card">
+        <div class="col-md-3 profile-sidebar mt-5 h-75 ">
+          <div class="card border-0">
             <div class="card-body">
-              <h5 class="card-title">Hi, Abijith</h5>
+              <h5 class="card-title">Hi, <%=user.Fname%></h5>
             </div>
           </div>
-          <div class="card">
+          <div class="card border-0">
             <div class="card-body">
-              <a href="#" class="card-link d-block">Manage Address</a>
-              <a href="#" class="card-link d-block">Update Profile</a>
+              <a href="/manage-Address?id=<%=user.id %>" class="card-link d-block ms-2 header__icon">Manage Address</a>
+              <a href="/update-Profile?id=<%=user._id %>" class="card-link d-block m-2 header__icon">Update Profile</a>
             </div>
           </div>
-          <div class="card">
+          <div class="card border-0">
             <div class="card-body">
-              <h5 class="card-title">My Orders</h5>
-              <a href="#" class="card-link d-flex align-items-center"><i class="bi bi-cart me-2"></i>My Cart</a>
-              <a href="#" class="card-link d-flex align-items-center"><i class="bi bi-heart me-2"></i>Wishlist</a>
-              <a href="#" class="card-link d-flex align-items-center"><i class="bi bi-wallet me-2"></i>Wallet</a>
+              <a href="/orders?id=<%=user.id %>" class="card-link d-flex align-items-center ms-5 m-1 header__icon">My Orders</a>
+              <a href="/cart?id=<%=user.id %>" class="card-link d-flex align-items-center  mt-2 header__icon"><i class="bi bi-cart me-2"></i>My Cart</a>
+              <a href="/wishlist?id=<%=user.id %>" class="card-link d-flex align-items-center mt-2 header__icon"><i class="bi bi-heart me-2"></i>Wishlist</a>
+              <a href="/wallet?id=<%=user.id %>" class="card-link d-flex align-items-center mt-2 header__icon"><i class="bi bi-wallet me-2"></i>Wallet</a>
             </div>
           </div>
         </div>
-        <!-- Content Area -->
-        <div class="col-md-9 profile-content">
-          <h3>My Address</h3>
-          <button type="button" class="btn btn-outline-primary mb-3">
-            <i class="bi bi-plus-lg"></i> Add Address
-          </button>
-          <div class="address-card">
-            <p>Autumn Harvest Emporium<br>123 Maple Lane<br>Pumpkin Patch, Fall Valley<br>Autumn County, Harvestland<br>FALL13AF</p>
-            <button type="button" class="btn btn-secondary btn-sm me-2">Edit</button>
-            <button type="button" class="btn btn-danger btn-sm">Delete</button>
-          </div>
-          <div class="address-card">
-            <p>Golden Harvest Goods<br>456 Acorn Avenue<br>Amber Woods, Harvestville<br>Foliage County, Autumnland<br>CRN8LFD</p>
-            <button type="button" class="btn btn-secondary btn-sm me-2">Edit</button>
-            <button type="button" class="btn btn-danger btn-sm">Delete</button>
-          </div>
+        
+   
+<!--------------------------------- Content Area---------------------->
+
+<div class="col-md-7 profile-content mt-5 w-75">
+  <h3>My Address</h3>
+
+  <button type="button" class="btn btn-outline-primary mb-3 add-btn" data-bs-toggle="modal" data-bs-target="#addAddressModal">
+    <i class="bi bi-plus-lg"></i> Add Address
+  </button>
+  <% if(address.length > 0) { %>
+    <% for(let i = 0; i < address.length; i++) { %>
+      <div class="address-card">
+        <p>
+          <%= address[i].name %><br>
+          <%= address[i].phone %><br>
+          <%= address[i].email %><br>
+          <%= address[i].address + "," + address[i].location + "," + address[i].city %><br>
+          Landmark: <%= address[i].landmark %>,<br> PIN: <%= address[i].pincode %>
+        </p>
+        <button type="button" class="btn btn-secondary btn-sm me-2 edit-btn" data-bs-toggle="modal" data-bs-target="#editAddAddressModal" 
+                data-address='<%= JSON.stringify(address[i]) %>'>Edit</button>
+       <button type="button" id="delete-dtn" class="btn btn-danger btn-sm delete-button" data-id="<%=address[i].id%>" >Delete</button>
+      </div>
+    <% } %>
+  <% } else { %>
+    <h6>Address not found</h6>
+  <% } %>
+  <a href="javascript:history.go(-1)" class="btn-link fw-medium vela-icon px-5 py-2 lh-lg">
+    <span class="d-inline-block">Go back</span>
+    </a>
+
+  <!-------------------------------- Edit Address Modal Start ----------------------------->
+
+  <div class="modal fade" id="editAddAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addAddressModalLabel">Edit Address</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form name="addressForm" id="editAddressForm">
+            <input type="hidden" id="id" name="id">
+            <div class="row mb-1">
+              <div class="col-md-6">
+                <input type="text" name="name" id="name" class="form-control" placeholder="Name">
+                <span id="name-error" class="error"></span>
+              </div>
+              <div class="col-md-6">
+                <input type="text" name="phone" id="phone" class="form-control" placeholder="Phone Number">
+                <span id="phone-error" class="error"></span>
+              </div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-md-6">
+                <input type="text" name="location" id="location" class="form-control" placeholder="Location">
+                <span id="location-error" class="error"></span>
+              </div>
+              <div class="col-md-6">
+                <input type="text" name="pincode" id="pincode" class="form-control" placeholder="Pincode">
+                <span id="pincode-error" class="error"></span>
+              </div>
+            </div>
+            <textarea class="form-control mb-1" name="address" id="address" rows="3" placeholder="Address........"></textarea>
+            <span id="address-error" class="error"></span>
+            <div class="row mb-1">
+              <div class="col-md-6">
+                <input type="text" name="city" id="city" class="form-control" placeholder="City/District">
+                <span id="city-error" class="error"></span>
+              </div>
+              <div class="col-md-6">
+                <input type="text" name="landmark" id="landmark" class="form-control" placeholder="Landmark">
+                <span id="landmark-error" class="error"></span>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-dark" data-user-id="<%= user._id %>" id="submit-btn">Save</button>
+            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" onclick="clearErrors()">Cancel</button>
+          </form>
         </div>
       </div>
     </div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+  </div>
+  <!-- Edit Address Modal End -->
+</div>
 
+
+
+    <!-- ----------------Address Modal Starting ------------- -->
+
+  <div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addAddressModalLabel">Add Address</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form name="addressForm" id="addaddressForm">
+            <div class="row mb-1">
+              <div class="col-md-6">
+                <input type="text" name="name" class="form-control" placeholder="Name">
+                <span id="username-error" class="error"></span>
+              </div>
+              <div class="col-md-6">
+                <input type="text" name="phone" class="form-control" placeholder="Phone Number">
+                <span id="userphone-error" class="error"></span>
+              </div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-md-6">
+                <input type="text" name="location" class="form-control" placeholder="Location">
+                <span id="userlocation-error" class="error"></span>
+              </div>
+              <div class="col-md-6">
+                <input type="text" name="pincode" class="form-control" placeholder="Pincode">
+                <span id="userpincode-error" class="error"></span>
+              </div>
+            </div>
+            <textarea class="form-control mb-1" name="address" rows="3" placeholder="Address........"></textarea>
+            <span id="useraddress-error" class="error"></span>
+            <div class="row mb-1">
+              <div class="col-md-6">
+                <input type="text" name="city" class="form-control" placeholder="City/District">
+                <span id="usercity-error" class="error"></span>
+              </div>
+              <div class="col-md-6">
+                <input type="text" name="landmark" class="form-control" placeholder="Landmark">
+                <span id="userlandmark-error" class="error"></span>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-dark" id="submit-btn" data-user-id="<%= user._id %>">Save</button>
+            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" onclick="clearErrors()">Cancel</button>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------------------------Address Modal Ending --------------------- -->
+
+
+  <!--------------- Delete user Address ------------->
+
+
+  <style>
+    .error {
+      color: red;
+      font-size: 0.875em;
+    }
+  </style>
+  
+<script src="/js/deleteAddress.js"></script>
+<script src="/js/address.js"></script>
+<script src="/js/editAddress.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <%-include ('../layout/footer')%>

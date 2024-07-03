@@ -27,6 +27,8 @@ user_Router.use(passport.session());
 
 // ----------------controller-------------------
 const userController =require('../controller/userController');
+const cartController = require('../controller/cartCondrolle');
+const orderController = require('../controller/orderCondroller');
 
 //----------------google auth ------------------
 user_Router.get('/google',passport.authenticate('google',{scope:['email','profile']}));
@@ -55,7 +57,38 @@ user_Router.get('/home',userController.homeLoad);
 user_Router.get('/',userAuth.isLogout,userController.homeLoad);
 
 user_Router.get('/product-details',userAuth.isLogin,userController.productDetails);
-user_Router.get('/profile',userController.profileLoad);
+
+//-------------------------user details ---------------------------------------------
+
+user_Router.get('/profile', userAuth.isLogin, (req, res) => {
+  req.session.referer = req.headers.referer;
+  userController.profileLoad(req, res);
+});
+user_Router.get('/manage-address',userAuth.isLogin,userController.addressManagemtLoad);
+user_Router.post('/manage-address',userController.saveAddress);
+user_Router.put('/manage-address',userController.editAddress);
+user_Router.delete('/manage-address',userController.deleteUser);
+
+user_Router.get('/update-Profile',userController.updateProfileLoad);
+user_Router.put('/update-Profile',userController.updateProfile);
+user_Router.get('/shop',userController.shopLoad);
+// user_Router.get('/shop-filter', userController.filterByCategory);
+
+//----------------------------cart router --------------------------------------------
+
+user_Router.get('/cart',userAuth.isLogin,cartController.cartLoad);
+user_Router.get('/cart-add',cartController.cartProduct);
+user_Router.delete('/remove-product',cartController.removeProduct);
+user_Router.put('/update-quantity',cartController.updateQuantity);
+
+user_Router.get('/checkout',orderController.checkoutPageLoade);
+user_Router.get('/checkout-address',orderController.getAddress);
+user_Router.post('/checkout-submit',orderController.checkoutSubmit)
+
+user_Router.get('/orders',orderController.myOrederLoad);
+user_Router.get('/wishlist',orderController.whishlistLoad);
+
+
 
 
 user_Router.get('/logOut',userController.logOut);

@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
           // Product Name validation
           const name = formData.get('name');
           if (!name || !namePattern.test(name)) {
-              console.log("Name validation failed", name);
+            //   console.log("Name validation failed", name);
               errors.push({ field: 'name', message: 'Product Name is required and can only contain letters, numbers, spaces, and hyphens.' });
           }
   

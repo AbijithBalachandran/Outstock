@@ -139,7 +139,6 @@
                                                     <label for="productCategory" class="form-label">Category</label>
                                                     <select class="form-control" id="productCategory" name="category"
                                                         required>
-                                                        <option value="" disabled selected>Select a category</option>
                                                         <% for(let i=0;i<category.length;i++){ %>
                                                             <option value="<%=category[i].name%>">
                                                                 <%=category[i].name%>
@@ -153,7 +152,7 @@
 
                                             <div class="form-control mb-3 border-0 shadow-none">
                                                 <select class="custom-select" name="action" id="inputGroupSelect02">
-                                                    <option selected value="<%=product.action%>">Choose....</option>
+                                                    <option selected value="<%=product.action==false?'unlist':'list'%>"><%=product.action==false?'unlist':'list'%></option>
                                                     <option value="<%=product.action%>">list</option>
                                                     <option value="<%=product.action%>">unlist</option>
                                                 </select>

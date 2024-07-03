@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             });
 
             if (!response.ok) {
-                const errorText = await response.text();
+                const errorText = await response.json();
                 displayErrors([{ field: 'form', message: errorText }]);
             } else {
                 window.location.href = '/admin/productManagement';
@@ -91,7 +91,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function displayErrors(errors) {
         const errorFields = ['errorName', 'errorCategory', 'errorAction', 'errorQuantity', 'errorPrice', 'errorDiscount', 'errorDisPrice', 'errorType', 'errorDescription', 'errorImages'];
-
         errorFields.forEach(field => {
             document.getElementById(field).innerHTML = '';
         });

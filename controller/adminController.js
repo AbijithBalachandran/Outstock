@@ -1,6 +1,7 @@
 const User = require('../Models/user');
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt');
+const Order = require('../Models/order');
 
 
 //--------------------------------------------------
@@ -136,6 +137,49 @@ const SearchUser = asyncHandler(async (req, res) => {
   });
   
 
+ //----------------------------------Order page Load --------------------
+
+ const orderPageLoad = asyncHandler(async(req,res)=>{
+       const order = await Order.find({});
+       res.render('orderManagment',{order})
+ });
+
+ //---------------------change order status -----------------------
+
+ const updateOrderStatus = async (req, res) => {
+      console.log('oiuhyug');
+      try {
+        const { orderId, newStatus } = req.params;
+        const order = await Order.findById(orderId);
+        console.log('order=='+order);
+        if (order) {
+          order.orderStatus = newStatus;
+          await order.save();
+          res.status(200).json({ success: true });
+        } else {
+          res.status(404).json({ success: false, message: "Order not found" });
+        }
+      } catch (error) {
+        console.error('Error updating order status:', error);
+        res.status(500).json({ success: false, message: "An error occurred while updating the order status." });
+      }
+    };
+
+
+//--------------------------------Order Details -------------------------------------
+
+const OrderDetailPage = asyncHandler(async (req, res) => {
+      const orderId = req.query.id;
+      // console.log("orderId: " + orderId);
+    
+      const orderStatusEnum = ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Returned', 'Completed', 'Return requested', 'Return approved', 'Return Rejected', 'Refunded'];
+      const order = await Order.findById(orderId).populate('user').exec();
+    
+      res.render('order-detail', { order, orderStatusEnum });
+    });
+    
+
+ //-----------------------------------------------------------------------------------
 
 module.exports = {
       signinLoad,
@@ -144,5 +188,8 @@ module.exports = {
       userLoad,
       updateUserStatus,
       logOut,
-      SearchUser
+      SearchUser,
+      orderPageLoad,
+      updateOrderStatus,
+      OrderDetailPage
 }

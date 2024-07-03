@@ -1,0 +1,193 @@
+
+
+<%- include('../layout/adminHeader') %>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+
+        <%-include('../layout/adSidebarHeader')%>
+
+            <%-include('../layout/adSidebarFooter')%>
+
+
+
+            <style>
+                .order-summary {
+                    padding: 20px;
+                }
+        
+                .order-summary .order-header {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 20px;
+                }
+        
+                .order-summary .order-header h5 {
+                    margin-bottom: 0;
+                }
+        
+                .order-summary .order-body {
+                    margin-bottom: 20px;
+                }
+        
+                .order-summary .order-footer {
+                    display: flex;
+                    justify-content: space-between;
+                }
+        
+                .order-summary .product-list img {
+                    width: 50px;
+                    height: 50px;
+                    object-fit: cover;
+                }
+            </style>
+
+
+                <!-- Content Start -->
+                <div class="content">
+                    <!-- Navbar Start -->
+                    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                            <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                        </a>
+                        <a href="#" class="sidebar-toggler flex-shrink-0">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                        <form class="d-none d-md-flex ms-4">
+                            <input class="form-control border-0" type="search" placeholder="Search">
+                        </form>
+                        <div class="navbar-nav align-items-center ms-auto">
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                    <i class="fa fa-envelope me-lg-2"></i>
+                                    <span class="d-none d-lg-inline-flex">Message</span>
+                                </a>
+                                <div
+                                    class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                    <a href="#" class="dropdown-item">
+                                        <div class="d-flex align-items-center">
+                                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                                style="width: 40px; height: 40px;">
+                                            <div class="ms-2">
+                                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                                <small>15 minutes ago</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item">
+                                        <div class="d-flex align-items-center">
+                                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                                style="width: 40px; height: 40px;">
+                                            <div class="ms-2">
+                                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                                <small>15 minutes ago</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item">
+                                        <div class="d-flex align-items-center">
+                                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                                style="width: 40px; height: 40px;">
+                                            <div class="ms-2">
+                                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                                <small>15 minutes ago</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item text-center">See all message</a>
+                                </div>
+                            </div>
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                    <i class="fa fa-bell me-lg-2"></i>
+                                    <span class="d-none d-lg-inline-flex">Notificatin</span>
+                                </a>
+                                <div
+                                    class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                    <a href="#" class="dropdown-item">
+                                        <h6 class="fw-normal mb-0">Profile updated</h6>
+                                        <small>15 minutes ago</small>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item">
+                                        <h6 class="fw-normal mb-0">New user added</h6>
+                                        <small>15 minutes ago</small>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item">
+                                        <h6 class="fw-normal mb-0">Password changed</h6>
+                                        <small>15 minutes ago</small>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item text-center">See all notifications</a>
+                                </div>
+                            </div>
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                                        style="width: 40px; height: 40px;">
+                                    <span class="d-none d-lg-inline-flex">John Doe</span>
+                                </a>
+                                <div
+                                    class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                    <a href="/admin/logOut" class="dropdown-item">Log Out</a>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                    <!-- Navbar End -->
+
+
+
+<body>
+
+    <div class="container my-5">
+        <div class="table-responsive">
+            <table class="table table-bordered ">
+                <thead>
+                    <tr>
+                        <th scope="col">ORDER ID</th>
+                        <th scope="col">NAME</th>
+                        <th scope="col">PAYMENT METHOD</th>
+                        <th scope="col">DETAILS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (order.length > 0) { %>
+                        <% order.forEach(item => { %>
+                            <tr>
+                                <th scope="row"><%= item._id %></th>
+                                <td><%= item.address[0].userName %></td>
+                                <td><%= item.paymentMethod%></td>
+                                <td>
+                               <a href="/admin/order-detail?id=<%=item._id%>"><button type="button" class="btn btn-success btn-sm" id="show-btn" data-id="<%=item._id%>">Show</button></a>
+                           </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6" class="text-center">Order Not Found</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+  
+    
+      <!-- Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.min.js"></script>
+
+    </body>
+
+
+    <%- include('../layout/adminFooter') %>

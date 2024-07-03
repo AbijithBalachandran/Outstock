@@ -183,7 +183,7 @@
 
 
                           <li class="main-menu__nav-item menu-dropdown">
-                            <a class="main-menu__link" href="collection" title="Shop"><span>Shop<svg
+                            <a class="main-menu__link" href="/shop" title="Shop"><span>Shop<svg
                                   class="ms-1" width="8" height="15" xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 320 512"></svg></span></a>
                           </li>
@@ -255,13 +255,16 @@
                             d="M448,160h-64v-4.5C384,87,329,32,260.5,32h-8C184,32,128,87,128,155.5v4.5H64L32,480h448L448,160z M160,155.5c0-50.7,41.8-91.5,92.5-91.5h7.5h0.5c50.7,0,91.5,40.8,91.5,91.5v4.5H160V155.5z M67.8,448l24.9-256H128v36.3c-9.6,5.5-16,15.9-16,27.7c0,17.7,14.3,32,32,32s32-14.3,32-32c0-11.8-6.4-22.2-16-27.7V192h192v36.3c-9.6,5.5-16,15.9-16,27.7c0,17.7,14.3,32,32,32s32-14.3,32-32c0-11.8-6.4-22.2-16-27.7V192h35.4l24.9,256H67.8z">
                           </path>
                         </svg><span class="header-cart__span d-none d-sm-block">Cart</span>
-                        (<span class="header-cart__count cart-count-bubble rounded-circle" data-cart-count>0</span>)
+                        <%if (locals.cart) {%>
+                          (<span class="header-cart__count cart-count-bubble rounded-circle" data-cart-count><%=count%></span>)
+                        <%} else {%>
+                          (<span class="header-cart__count cart-count-bubble rounded-circle" data-cart-count>0</span>)
+                        <%}%>
                         <span class="header-cart__span d-none">item</span>
                         <span class="header-cart__span d-none" data-cart-cost><span class=money>$0.00</span></span>
                       </a>
                     </div>
-
-
+                    
                     <div class="velaTopLinks">
                       <div class="top-link__title header__icon d-flex py-2">
                         <svg class="icon icon-user d-lg-none" width="18" height="18" viewBox="0 0 22 20" fill="none"
@@ -288,7 +291,7 @@
                         <% if(locals.user){%>
                             <ul class="list-unstyled m-0">
                               <li class="link wishlist-count">
-                                <a class="position-relative" href="../pages/wishlist.html" title="Wishlist"
+                                <a class="position-relative" href="/wishlist?id=<%=user.id %>" title="Wishlist"
                                   data-count-wishlist>Wishlist<span class="count">0</span></a>
                               </li>
                               <li class="link"><a href="/logout" id="customer_register_link">LogOut</a></li>
