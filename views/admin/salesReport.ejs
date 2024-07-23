@@ -1,0 +1,297 @@
+<%- include('../layout/adminHeader') %>
+
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+
+        <%-include('../layout/adSidebarHeader')%>
+
+            <%-include('../layout/adSidebarFooter')%>
+
+                <!-- Content Start -->
+                <div class="content">
+                    <!-- Navbar Start -->
+                    <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                        <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                            <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                        </a>
+                        <a href="#" class="sidebar-toggler flex-shrink-0">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                        <form class="d-none d-md-flex ms-4">
+                            <input class="form-control border-0" type="search" placeholder="Search">
+                        </form>
+                        <div class="navbar-nav align-items-center ms-auto">
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                    <i class="fa fa-envelope me-lg-2"></i>
+                                    <span class="d-none d-lg-inline-flex">Message</span>
+                                </a>
+                                <div
+                                    class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                    <a href="#" class="dropdown-item">
+                                        <div class="d-flex align-items-center">
+                                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                                style="width: 40px; height: 40px;">
+                                            <div class="ms-2">
+                                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                                <small>15 minutes ago</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item">
+                                        <div class="d-flex align-items-center">
+                                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                                style="width: 40px; height: 40px;">
+                                            <div class="ms-2">
+                                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                                <small>15 minutes ago</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item">
+                                        <div class="d-flex align-items-center">
+                                            <img class="rounded-circle" src="img/user.jpg" alt=""
+                                                style="width: 40px; height: 40px;">
+                                            <div class="ms-2">
+                                                <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                                <small>15 minutes ago</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item text-center">See all message</a>
+                                </div>
+                            </div>
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                    <i class="fa fa-bell me-lg-2"></i>
+                                    <span class="d-none d-lg-inline-flex">Notificatin</span>
+                                </a>
+                                <div
+                                    class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                    <a href="#" class="dropdown-item">
+                                        <h6 class="fw-normal mb-0">Profile updated</h6>
+                                        <small>15 minutes ago</small>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item">
+                                        <h6 class="fw-normal mb-0">New user added</h6>
+                                        <small>15 minutes ago</small>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item">
+                                        <h6 class="fw-normal mb-0">Password changed</h6>
+                                        <small>15 minutes ago</small>
+                                    </a>
+                                    <hr class="dropdown-divider">
+                                    <a href="#" class="dropdown-item text-center">See all notifications</a>
+                                </div>
+                            </div>
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                                        style="width: 40px; height: 40px;">
+                                    <span class="d-none d-lg-inline-flex">John Doe</span>
+                                </a>
+                                <div
+                                    class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                    <a href="/admin/logOut" class="dropdown-item">Log Out</a>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                    <!-- Navbar End -->
+
+                    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Date Picker CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            background-color: #343a40;
+            color: #fff;
+        }
+        .filter-container {
+            background-color: #212529;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .btn-custom {
+            color: #fff;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+        .btn-purple {
+            background-color: #6f42c1;
+        }
+        .btn-green {
+            background-color: #28a745;
+        }
+        .btn-red {
+            background-color: #dc3545;
+        }
+        .total-orders {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .table th, .table td {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="filter-container">
+        <div class="form-row align-items-center">
+            <div class="col-md-2 mb-3">
+                <label for="sortOrders">Sort By:</label>
+                <select class="form-control" id="sortOrders">
+                    <option value="all" >All Orders</option>
+                    <option value="Daily">1 Day</option>
+                    <option value="Week">1 Week</option>
+                    <option value="Month">1 Month</option>
+                    <option value="Year">1 Year</option>
+                </select>
+            </div>
+            <div class="col-md-2 mb-3">
+                <label for="startDate">From:</label>
+                <div class="input-group">
+                    <input type="date" class="form-control" id="startDate" required>
+                </div>
+            </div>
+            <div class="col-md-2 mb-3">
+                <label for="endDate">To:</label>
+                <div class="input-group">
+                    <input type="date" class="form-control" id="endDate" required>
+                </div>
+            </div>
+            <!-- <div class="col-md-6 mb-3 d-flex align-items-end mt-4">
+                <button type="button" class="btn btn-purple ms-4" onclick="sortbyValue()">Filter</button>
+                <button type="button" class="btn btn-green ms-3">Download Excel</button>
+                <button type="button" class="btn btn-red ms-3" >Download PDF</button>
+            </div> -->
+            <div class="col-md-6 mb-3 d-flex align-items-end mt-4">
+                <button type="button" class="btn btn-purple ms-4" onclick="sortbyValue()">Filter</button>
+                <button type="button" class="btn btn-green ms-3" onclick="downloadExcel()">Download Excel</button>
+                <button type="button" class="btn btn-red ms-3" onclick="downloadPDF()">Download PDF</button>
+            </div>
+        </div>
+    </div>
+    <div class="total-orders">
+        Total Orders: <span id="totalOrders">11</span>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="report-item orders-products">
+                <h2 class="text-center">Orders and Products</h2>
+                <table class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Discount</th>
+                            <th>Total Price</th>
+                            <th>Payment Method</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-products-table">
+                        <% if (order && order.length > 0) { %>
+                            <% order.forEach(item => { %>
+                                <tr>
+                                    <td><%= item._id %></td>
+                                    <td>
+                                        <% item.orderItem.forEach(orderItem => { %>
+                                            <%= orderItem.productName %><br>
+                                        <% }); %>
+                                    </td>
+                                    <td>
+                                        <% item.orderItem.forEach(orderItem => { %>
+                                            <%= orderItem.quantity %><br>
+                                        <% }); %>
+                                    </td>
+                                    <td>
+                                        <% item.orderItem.forEach(orderItem => { %>
+                                            <%= orderItem.price %><br>
+                                        <% }); %>
+                                    </td>
+                                    <td><%= item.couponDetails.discount || item.offerDetails.discount %></td>
+                                    <td><%= item.totalPrice %></td>
+                                    <td><%= item.paymentMethod %></td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="7" class="text-center">Order Not Found</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ <!-- <script>
+        function downloadExcel() {
+            const table = document.querySelector('table');
+            const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+            const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+
+            function s2ab(s) {
+                const buf = new ArrayBuffer(s.length);
+                const view = new Uint8Array(buf);
+                for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+                return buf;
+            }
+
+            saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), 'report.xlsx');
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const table = document.querySelector('table');
+            const rows = Array.from(table.querySelectorAll('tr')).map(row => 
+                Array.from(row.querySelectorAll('td, th')).map(cell => cell.innerText)
+            );
+
+            doc.autoTable({
+                head: [rows[0]],
+                body: rows.slice(1),
+            });
+
+            doc.save('report.pdf');
+        }
+    </script> -->
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Date Picker JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+</body>
+
+                        <!-- Back to Top -->
+                        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
+                                class="bi bi-arrow-up"></i></a>
+                </div>
+    </div>
+
+    <script src="/adminside/js/salesReportsort.js"></script>
+
+    <%- include('../layout/adminFooter') %>

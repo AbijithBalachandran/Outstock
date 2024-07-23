@@ -176,8 +176,7 @@
                                                                         <a class="product-card__image-link"
                                                                             href="/product-details?id=<%= product[i]._id %> "
                                                                             alt="product image">
-                                                                            <div
-                                                                                class="product-card__img-primary img-primary">
+                                                                            <div class="product-card__img-primary img-primary">
                                                                                 <div class="card_wrap w-100"
                                                                                     style="max-width: 788px;">
                                                                                     <div class="card__image position-relative lazyload js"
@@ -185,7 +184,7 @@
                                                                                         <img class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto img-fluid"
                                                                                             srcset="/upload/product/<%= product[i].images[0] %> ,/upload/product/<%= product[i].images[1] %> ,/upload/product/<%= product[i].images[2] %>,/upload/product/<%= product[i].images[0] %> ,/upload/product/<%= product[i].images[1] %>"
                                                                                             data-sizes="auto"
-                                                                                            src="/upload/product<%= product[i].images[0] %>"
+                                                                                            src="/upload/product/<%= product[i].images[0] %>"
                                                                                             alt="product image"
                                                                                             loading="lazy" width="788"
                                                                                             height="1013">
@@ -212,9 +211,9 @@
                                                                                     <div class="card__image position-relative lazyload js"
                                                                                         style="padding-top:128.5532994923858%;">
                                                                                         <img class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto"
-                                                                                            srcset="/upload/product/<%= product[i].images[0] %> ,/upload/product/<%= product[i].images[1] %>,/upload/product/<%= product[i].images[2] %>,/upload/product/<%= product[i].images[0] %>,/upload/product/<%= product[i].images[1] %>"
+                                                                                            srcset="/upload/product/<%= product[i].images[1] %> ,/upload/product/<%= product[i].images[1] %>,/upload/product/<%= product[i].images[2] %>,/upload/product/<%= product[i].images[0] %>,/upload/product/<%= product[i].images[1] %>"
                                                                                             data-sizes="auto"
-                                                                                            src="/upload/product/<%= product[i].images[1] %>"
+                                                                                            src="/upload/product/<%= product[i].images[0] %>"
                                                                                             alt="product image"
                                                                                             loading="lazy" width="788"
                                                                                             height="1013">
@@ -240,7 +239,7 @@
                                                                                     class="d-block overflow-hidden position-relative">-40%</span></span>
                                                                         </div>
                                                                         <div class="shop-action position-absolute">
-                                                                            <button type="button" aria-label="Wishlist"
+                                                                            <button type="button" aria-label="Wishlist" onclick="addWishlist(event,'<%= product[i]._id %>')"
                                                                                 class="btn--wishlist btn--action mb-2 show-tooltip"
                                                                                 data-product-handle="plastic-dining-armchair"
                                                                                 title="Add to wishlist">
@@ -260,7 +259,7 @@
                                                                             </button>
 
                                                                             <a class="js-btn-quickview btn btn--action btn--quickview show-tooltip "
-                                                                                href="javascript:void(0);"
+                                                                                href="/product-details?id=<%= product[i]._id %>"
                                                                                 data-preorder="false"
                                                                                 data-handle="plastic-dining-armchair"
                                                                                 data-color-label="color,colour,couleur,kleur,cor,colore,culoare,farbe,색,色,カラー,färg,farve,szín,barva"
@@ -290,31 +289,32 @@
 
                                                                     </div>
 
+
+
+
+
                                                                     <div class="product-card__content mt-lg-1 pt-2">
                                                                         <div class="product-card__content--inner">
                                                                             <h6
                                                                                 class="product-card__name line-clamp-2 mb-1">
                                                                                 <a class="line-title fw-normal"
                                                                                     href="/home/product-details?id=<%= product._id %>"> <%= product[i].name%></a>
+                                                                                    <% if (product[i].offer && product[i].offer.length > 0) {%>
+                                                                                        <i class="bi bi-tags-fill ms-2" style="color: rgb(0, 255, 17);"></i>
+                                                                                        <% if (offerDetails) {%>
+                                                                                            <p class="" style="color: rgb(0, 255, 17);"> % offer for this product</p>
+                                                                                         <%} %>
+                                                                                    <%}%>
                                                                             </h6>
-                                                                            <div
-                                                                                class="group-cart-price overflow-hidden">
-                                                                                <div
-                                                                                    class="group-cart-price__inner d-flex group-cart-price__effect">
-                                                                                    <div
-                                                                                        class="product-group-price d-flex align-items-center ff-special w-100">
+                                                                            <div class="group-cart-price overflow-hidden">
+                                                                                <div class="group-cart-price__inner d-flex group-cart-price__effect">
+                                                                                    <div class="product-group-price d-flex align-items-center ff-special w-100">
+                                                                                      
                                                                                         <div class="product-price"><span
-                                                                                                class=money>
-                                                                                                <%= product[i].disPrice
-                                                                                                    %>
-                                                                                            </span>
-                                                                                        </div>
-                                                                                        <div
-                                                                                            class="product-price product-price--regular ms-1">
-                                                                                            <span class=money>
-                                                                                                <%= product[i].price %>
-                                                                                            </span>
-                                                                                        </div>
+                                                                                            class=money>
+                                                                                           <p class="text-danger">MRP: <span class="text-black"><%= product[i].price %></span></p> 
+                                                                                        </span>
+                                                                                    </div>
                                                                                     </div>
                                                                                     <div
                                                                                         class="product-card__buttons w-100">
@@ -330,7 +330,7 @@
                                                                                                     name="id"
                                                                                                     value="40471654334529" />
                                                                                                 <a class="btn btn--add-to-cart d-none"
-                                                                                                    href="/home/product-details?id=<%= product._id %>"
+                                                                                                    href="/home/product-details?id=<%= product[i]._id %>"
                                                                                                     title="Select options">
                                                                                                     <svg class="icon-cart"
                                                                                                         width="18"
@@ -342,8 +342,11 @@
                                                                                                             d="M576 14.4l-.174 163.2c0 7.953-6.447 14.4-14.4 14.4H528.12c-8.067 0-14.56-6.626-14.397-14.691l2.717-73.627-2.062-2.062-278.863 278.865c-4.686 4.686-12.284 4.686-16.971 0l-23.029-23.029c-4.686-4.686-4.686-12.284 0-16.971L474.379 61.621l-2.062-2.062-73.626 2.717C390.626 62.44 384 55.946 384 47.879V14.574c0-7.953 6.447-14.4 14.4-14.4L561.6 0c7.953 0 14.4 6.447 14.4 14.4zM427.515 233.74l-24 24a12.002 12.002 0 0 0-3.515 8.485V458a6 6 0 0 1-6 6H54a6 6 0 0 1-6-6V118a6 6 0 0 1 6-6h301.976c10.691 0 16.045-12.926 8.485-20.485l-24-24A12.002 12.002 0 0 0 331.976 64H48C21.49 64 0 85.49 0 112v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V242.225c0-10.691-12.926-16.045-20.485-8.485z" />
                                                                                                     </svg>
                                                                                                 </a>
-                                                                                                <a class="js-btn-quickview btn btn--add-to-cart"
-                                                                                                    href="javascript:void(0);"
+
+                                                                                                <% if(product[i].quantity == 0){%>
+
+                                                                                                <a class="js-btn-quickview btn btn--add-to-cart" 
+                                                                                                    href="#"
                                                                                                     data-preorder="false"
                                                                                                     data-handle="plastic-dining-armchair"
                                                                                                     title="Add to Cart">
@@ -357,8 +360,7 @@
                                                                                                             d="M9.75 4.25H5.75V0.25C5.75 0.111875 5.63812 0 5.5 0H4.5C4.36188 0 4.25 0.111875 4.25 0.25V4.25H0.25C0.111875 4.25 0 4.36188 0 4.5V5.5C0 5.63812 0.111875 5.75 0.25 5.75H4.25V9.75C4.25 9.88813 4.36188 10 4.5 10H5.5C5.63812 10 5.75 9.88813 5.75 9.75V5.75H9.75C9.88813 5.75 10 5.63812 10 5.5V4.5C10 4.36188 9.88813 4.25 9.75 4.25Z"
                                                                                                             fill="currentColor" />
                                                                                                     </svg>
-                                                                                                    <span
-                                                                                                        class="text">Add
+                                                                                                    <span class="text" >Add
                                                                                                         to Cart</span>
                                                                                                     <div
                                                                                                         class="d-none proShortDesc">
@@ -376,6 +378,46 @@
                                                                                                         ...
                                                                                                     </div>
                                                                                                 </a>
+                                                                                                
+                                                                                                   <%}else{%>
+                                                                                                    <a class="js-btn-quickview btn btn--add-to-cart" onclick="addProductCart(event,'<%=product[i]._id%>')"
+                                                                                                        href="#"
+                                                                                                        data-preorder="false"
+                                                                                                        data-handle="plastic-dining-armchair"
+                                                                                                        title="Add to Cart">
+                                                                                                        <svg class="icon-cart"
+                                                                                                            width="8"
+                                                                                                            height="8"
+                                                                                                            viewBox="0 0 10 10"
+                                                                                                            fill="none"
+                                                                                                            xmlns="http://www.w3.org/2000/svg">
+                                                                                                            <path
+                                                                                                                d="M9.75 4.25H5.75V0.25C5.75 0.111875 5.63812 0 5.5 0H4.5C4.36188 0 4.25 0.111875 4.25 0.25V4.25H0.25C0.111875 4.25 0 4.36188 0 4.5V5.5C0 5.63812 0.111875 5.75 0.25 5.75H4.25V9.75C4.25 9.88813 4.36188 10 4.5 10H5.5C5.63812 10 5.75 9.88813 5.75 9.75V5.75H9.75C9.88813 5.75 10 5.63812 10 5.5V4.5C10 4.36188 9.88813 4.25 9.75 4.25Z"
+                                                                                                                fill="currentColor" />
+                                                                                                        </svg>
+                                                                                                        <span class="text" onclick="addProductCart(event,'<%=product[i]._id%>')">Add
+                                                                                                            to Cart</span>
+                                                                                                        <div
+                                                                                                            class="d-none proShortDesc">
+                                                                                                            Don’t ever play
+                                                                                                            yourself. The
+                                                                                                            weather is
+                                                                                                            amazing, walk
+                                                                                                            with me through
+                                                                                                            the pathway of
+                                                                                                            more success.
+                                                                                                            Take this
+                                                                                                            journey with me,
+                                                                                                            Lion! The other
+                                                                                                            day the grass
+                                                                                                            ...
+                                                                                                        </div>
+                                                                                                    </a>
+                                                                                                <%}%>
+
+
+
+
                                                                                             </form>
                                                                                         </div>
                                                                                     </div>
@@ -386,9 +428,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
-
                                                                     <%}%>
                                                                         <%}else{%>
                                                                             <h6>Product Not Found</h6>
@@ -409,5 +448,10 @@
     <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
     <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
+<script src="/js/addWishlist.js"></script>
+
+<script src="/js/addToCart.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
                     <%- include('../layout/footer') %>

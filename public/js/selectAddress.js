@@ -16,7 +16,7 @@ async function addressSelection(event, id) {
   }
 
   function updateCheckoutPage(addressData) {
-      document.getElementById('firstName').value = addressData.name; // Update with actual form field IDs
+      document.getElementById('firstName').value = addressData.name; 
       document.getElementById('phone').value = addressData.phone;
       document.getElementById('email').value = addressData.email;
       document.getElementById('address').value = addressData.address + ', ' + addressData.location + ', ' + addressData.city;

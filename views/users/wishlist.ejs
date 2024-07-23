@@ -1,5 +1,6 @@
 <%- include ('../layout/header') %>
 
+<!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> -->
 
 <%- include ('../layout/navbarH') %>
 <%- include ('../layout/navbarF') %>
@@ -42,22 +43,119 @@
 
 </section>
 
-<section id="shopify-section-template--14955325587521__wishlist" class="shopify-section"><div class="wishlist-page vela-section overflow-hidden" style="--st-bg-cl: ;--st-pd-dt: 100px 0;--st-pd-mb: 60px 0;--st-cl: ;--st-cl-l: ;">
-<div class="container">
-<div class="vela-section__inner"><div class="wishlist-page__content position-relative loading" style="min-height: 400px;">
-    <div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
-<div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div>
-    <div class="wishlist-empty position-absolute translate-middle start-50 top-50 d-none">
-        <span class="alert alert-info d-block">There are no products in wishlist.<a class="h6 d-inline-block ms-1" href="../collections/all.html" title="Continue shopping">Continue shopping</a></span>
-    </div>
-    <div class="wishlist-grid row g-2 g-md-3 gy-lg-5 row-cols-2 row-cols-md-3 row-cols-lg-4" grid-wishlist=""></div>
-</div>
-</div>
-</div>
-</div>
-</section>
-      </div>
+<style>
+    .product-card {
+        max-width: 300px;
+        margin: auto;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: white;
+        border-radius: 8px;
+        text-align: center;
+    }
+    .product-image {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    .product-info {
+        margin: 15px 0;
+    }
+    .icon-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.btn-icon {
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.btn-icon:hover {
+    color: #0056b3;
+}
+
+.product-card {
+    position: relative;
+    border: 1px solid #eaeaea;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+</style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <% if (wishlist !== undefined  && wishlist.length > 0) { %>
+                <% wishlist[0].wishlistItem.forEach(item => { %>
+                    <% if (item.products) { %>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                        <div class="product-card">
+                            <div class="icon-container">
+                                <button type="button" class="btn btn-icon" onclick="addProductCart(event,'<%=item.products.id%>')" data-bs-toggle="tooltip" data-bs-placement="top" title="Add To Cart">
+                                    <i class="bi bi-cart"></i>
+                                </button>
+                            </div>
+                            <img src="/upload/product/<%= item.products.images[0] %>" class="product-image img-fluid" alt="Product Image" style="width: 100px; height: 100px;">
+                            <div class="product-info mt-2">
+                                <h5><%= item.products.name %></h5>
+                                <p class="text-muted">Quantity: <%= item.products.quantity %></p>
+                                <p><strong>$<%= item.products.price %></strong></p>
+                            </div>
+                            <button type="button" class="btn btn-danger mt-2" onclick="removeProductWishlist(event,'<%= item.products.id %>', '<%= user.id %>')">Remove</button>
+                        </div>
+                    </div>
+            <%}%>
+                <% }) %>
+            </div>
+        <% } else{ %>
+                <section id="shopify-section-template--14955325587521__wishlist" class="shopify-section">
+                    <div class="wishlist-page vela-section overflow-hidden" style="--st-bg-cl: ;--st-pd-dt: 100px 0;--st-pd-mb: 60px 0;--st-cl: ;--st-cl-l: ;">
+                        <div class="container">
+                            <div class="vela-section__inner">
+                                <div class="wishlist-page__content position-relative loading" style="min-height: 400px;">
+                                    <div class="pre-loading position-absolute">
+                                        <span class="pre-loading__bar"></span>
+                                        <div class="vela-loading__icon">
+                                            <span></span><span></span><span></span><span></span>
+                                        </div>
+                                    </div>
+                                    <div class="wishlist-empty position-absolute translate-middle start-50 top-50 d-none">
+                                        <span class="alert alert-info d-block">There are no products in wishlist.
+                                            <a class="h6 d-inline-block ms-1" href="/shop" title="Continue shopping">Continue shopping</a>
+                                        </span>
+                                    </div>
+                                    <div class="wishlist-grid row g-2 g-md-3 gy-lg-5 row-cols-2 row-cols-md-3 row-cols-lg-4" grid-wishlist=""></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            <% } %>
+        </div>
+        
 </main>
 
+
+<script src="/js/addToCart.js"></script>
+<script src="/js/removewishlist.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <%- include ('../layout/footer') %>

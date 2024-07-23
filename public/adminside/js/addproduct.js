@@ -1,16 +1,6 @@
 
 // Image validation
 
-function previewImage(event, previewId) {
-    const reader = new FileReader();
-    reader.onload = function () {
-        const output = document.getElementById(previewId);
-        output.src = reader.result;
-    }
-    reader.readAsDataURL(event.target.files[0]);
-}
-
-// form validation
 
 document.addEventListener('DOMContentLoaded', (event) => {
     const form = document.getElementById('productForm');
@@ -45,8 +35,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function validateForm(formData) {
         const errors = [];
-
-        const namePattern = /^(?!.*([a-zA-Z0-9\s-])\1)[a-zA-Z0-9\s-]+$/;
+        
+        const namePattern = /^[a-zA-Z0-9\s-]+$/;
+        // const namePattern = /^(?!.*([a-zA-Z0-9\s-])\1)[a-zA-Z0-9\s-]+$/;
         const categoryPattern = /^[a-zA-Z\s]+$/;
         const pricePattern = /^\d+(\.\d{1,2})?$/;
         const quantityPattern = /^\d+$/;

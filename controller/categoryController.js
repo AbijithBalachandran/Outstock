@@ -10,7 +10,7 @@ const { name } = require('ejs');
 const categoryLoad = asyncHandler(async (req, res) => {
       const categories = await Category.find({});
       //console.log("categories --------------------------------", categories);
-      res.render('categoryManagement', { categories });
+      res.render('categoryManagement', { categories,ActivePage: 'categoryManagement' });
   }); 
 
 //-------------------------- Rendering add category page  ---------------------------------//
@@ -18,44 +18,43 @@ const categoryLoad = asyncHandler(async (req, res) => {
 const addCategoryLoad = async (req,res)=>{
       try {
            
-            res.render('addcategory');
+            res.render('addcategory',{ActivePage: 'categoryManagement' });
       } catch (error) {
             console.log(error.message);
       }
 }
 //--------------------------admin addining New category --------------------------------------//
 
-const addNewcategory = async (req,res)=>{
-      try {
-            const {name,action,description} = req.body;
-            const existingCategory =  await Category.findOne({name:{ $regex: new RegExp(`^${name}$`, 'i') }});
-          
-           console.log("existingCategory===="+name);
-                 if(existingCategory){;
-                  return res.render('addcategory', { message: 'It\'s already added' });
-                 }
+const addNewCategory = async (req, res) => {
+    try {
+        const { name, action, description } = req.body;
+        console.log('category name'+name);
+        const existingCategory = await Category.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
 
-             const newCategory = new Category ({
-                 name:name,
-                 action:action,
-                 description:description,
-                 createdAt:new Date()
-             })
+        if (existingCategory) {
+            return res.render('addCategory', { message: 'It\'s already added', name, action, description });
+        }
 
-                  await newCategory.save();
+        const newCategory = new Category({
+            name,
+            action,
+            description,
+            createdAt: new Date()
+        });
 
-                 if (newCategory.action ==='list') {
-                  newCategory.is_Delete = true;
-                  await newCategory.save();
-                 }
+        await newCategory.save();
 
-                  res.redirect('categoryManagement');
+        if (newCategory.action === 'list') {
+            newCategory.is_Delete = true;
+            await newCategory.save();
+        }
 
-      } catch (error) {
-            console.log(error.message);
-            return res.status(500).render('addcategory', { message: 'An error occurred while adding the category' });
-      }
-}
+        res.redirect('/admin/categoryManagement');
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).render('addCategory', { message: 'An error occurred while adding the category', name, action, description });
+    }
+};
 
 
 //----------------------------Update the category status to List and Unlist -------------------------------//
@@ -82,7 +81,7 @@ const addNewcategory = async (req,res)=>{
       const categories = await Category.findById({_id:id});
                 //  console.log('categories------------------------'+categories);
        if(categories){
-            res.render('editCategory',{categories});
+            res.render('editCategory',{categories , ActivePage: 'categoryManagement' });
        }else{
             res.redirect('/categoryManagement');
        }
@@ -91,28 +90,25 @@ const addNewcategory = async (req,res)=>{
 
 //----------------------------------------------Edit and Update The Categories =-----------------------------------//
 
-
-const editAndUpdateLoad = asyncHandler(async(req,res)=>{
-
-      const {name,description,id} = req.body;
-      console.log('description=='+description);
-      const existingCategory =  await Category.findOne({name:{ $regex: new RegExp(`^${name}$`, 'i') }});
-      console.log('existingCategory===='+name);
-
+const editAndUpdateLoad = asyncHandler(async (req, res) => {
+      const { name, description, id } = req.body;
+    //   console.log('description==', description);
+    //   console.log('existingCategory====', name);
+    
+      const existingCategory = await Category.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
       if (existingCategory) {
-            const categories = await Category.findById(id); 
-            return res.render('editCategory', { categories, message: 'It\'s already added' });
-        }
-
+          const categories = await Category.findById(id);
+          return res.render('editCategory', { categories, message: 'It\'s already added' });
+      }
+    
       await Category.findByIdAndUpdate(
-            id,
-            {$set:{
-                  name:name,
-                  description:description
-            }});
-
+          id,
+          { $set: { name, description } }
+      );
+    
       res.redirect('/categoryManagement');
-});
+  });
+  
 
 //---------------------------------------------    -----------------------------------------------------------//
 
@@ -121,7 +117,7 @@ const editAndUpdateLoad = asyncHandler(async(req,res)=>{
 module.exports={
       categoryLoad,
       addCategoryLoad,
-      addNewcategory,
+      addNewCategory,
       updateCategoyStatus,
       editCategoryLoad,
       editAndUpdateLoad,

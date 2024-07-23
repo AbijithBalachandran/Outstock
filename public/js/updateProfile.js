@@ -7,6 +7,7 @@
         
         const formData = new FormData(form);
         const data = {
+          email : formData.get('email'),
           Fname: formData.get('Fname'),
           Lname: formData.get('Lname'),
           password: formData.get('password')

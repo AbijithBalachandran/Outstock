@@ -20,7 +20,7 @@ const productManagementLoad = asyncHandler(async(req,res)=>{
 
       const totalPages = Math.ceil(products / FirstPage);
 
-      res.render('productManagement',{ product: productData, currentPage, totalPages });
+      res.render('productManagement',{ product: productData, currentPage, totalPages,ActivePage: 'productManagement' });
 });
 
 
@@ -28,7 +28,7 @@ const productManagementLoad = asyncHandler(async(req,res)=>{
 
 const addProductLoad = asyncHandler(async(req,res)=>{
     const category = await categories.find({}); 
-      res.render('addProducts',{category});
+      res.render('addProducts',{category,ActivePage: 'productManagement' });
 })
 
 
@@ -93,7 +93,7 @@ const editProductLoad = asyncHandler(async(req,res)=>{
       const product = await Products.findById({_id:id}).populate('category');
                   // console.log('prodict------------------------'+products);
        if(product){
-            res.render('editProduct',{product,category});
+            res.render('editProduct',{product,category,ActivePage: 'productManagement' });
        }else{
             res.redirect('/admin/procductManagement');
        }
@@ -160,10 +160,10 @@ const editAndUpdateProduct = asyncHandler(async (req, res) => {
       const id = req.query.productId;
       const productInfo = await Products.findById({_id:id});
              // console.log("-----------------------productINFO"+productInfo);
-              productInfo.is_Delete = !productInfo.is_Delete;
+              productInfo.action = !productInfo.action;
               await productInfo.save();
         
-  let message = productInfo.is_Delete ? "User list successfully" : "User Unlist successfully";
+  let message = productInfo.action ? "User list successfully" : "User Unlist successfully";
 
        res.status(200).json({ message });
  });
@@ -184,24 +184,26 @@ const editAndUpdateProduct = asyncHandler(async (req, res) => {
 
 const searchProduct = asyncHandler(async(req,res)=>{
      let product=[];
-     const currentPage=parseInt(req.query.page);
+     const currentPage=parseInt(req.query.page)||1;
      const FirstPage = 8;
      const start = (currentPage-1) * FirstPage;
-     const products = await Products.countDocuments({is_Admin:false});
+     const products = await Products.countDocuments();
      const totalPages = Math.ceil(product / FirstPage);
 
+     const searchQuery = req.query.search || '';
+
        const productData ={
-           $or:[{name :{$regex:req.query.search,$options:'i'}},
-              {category:{$regex:req.query.search,$options:'i'}},
+           $or:[{name :{$regex:searchQuery,$options:'i'}},
+              {category:{$regex:searchQuery,$options:'i'}},
            ] 
        } 
-       if(req.query.search){
+       if( req.query.search ){
             product = await Products.find(productData).skip(start).limit(FirstPage);
        }else{
             product = await Products.find().skip(start).limit(FirstPage);
        }
 
-       res.render('productManagement',{product,currentPage,totalPages});
+       res.render('productManagement',{product,currentPage,totalPages, ActivePage: 'productManagement' });
 });
 
 

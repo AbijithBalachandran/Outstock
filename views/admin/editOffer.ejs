@@ -1,0 +1,344 @@
+<%- include('../layout/adminHeader') %>
+
+
+        <%-include('../layout/adSidebarHeader')%>
+
+            <%-include('../layout/adSidebarFooter')%>
+
+
+            <div class="content">
+              <!-- Navbar Start -->
+              <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                  <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                      <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                  </a>
+                  <a href="#" class="sidebar-toggler flex-shrink-0">
+                      <i class="fa fa-bars"></i>
+                  </a>
+                  <form class="d-none d-md-flex ms-4">
+                      <input class="form-control border-0" type="search" placeholder="Search">
+                  </form>
+                  <div class="navbar-nav align-items-center ms-auto">
+                      <div class="nav-item dropdown">
+                          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                              <i class="fa fa-envelope me-lg-2"></i>
+                              <span class="d-none d-lg-inline-flex">Message</span>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                              <a href="#" class="dropdown-item">
+                                  <div class="d-flex align-items-center">
+                                      <img class="rounded-circle" src="img/user.jpg" alt=""
+                                          style="width: 40px; height: 40px;">
+                                      <div class="ms-2">
+                                          <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                          <small>15 minutes ago</small>
+                                      </div>
+                                  </div>
+                              </a>
+                              <hr class="dropdown-divider">
+                              <a href="#" class="dropdown-item">
+                                  <div class="d-flex align-items-center">
+                                      <img class="rounded-circle" src="img/user.jpg" alt=""
+                                          style="width: 40px; height: 40px;">
+                                      <div class="ms-2">
+                                          <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                          <small>15 minutes ago</small>
+                                      </div>
+                                  </div>
+                              </a>
+                              <hr class="dropdown-divider">
+                              <a href="#" class="dropdown-item">
+                                  <div class="d-flex align-items-center">
+                                      <img class="rounded-circle" src="img/user.jpg" alt=""
+                                          style="width: 40px; height: 40px;">
+                                      <div class="ms-2">
+                                          <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                          <small>15 minutes ago</small>
+                                      </div>
+                                  </div>
+                              </a>
+                              <hr class="dropdown-divider">
+                              <a href="#" class="dropdown-item text-center">See all message</a>
+                          </div>
+                      </div>
+                      <div class="nav-item dropdown">
+                          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                              <i class="fa fa-bell me-lg-2"></i>
+                              <span class="d-none d-lg-inline-flex">Notification</span>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                              <a href="#" class="dropdown-item">
+                                  <h6 class="fw-normal mb-0">Profile updated</h6>
+                                  <small>15 minutes ago</small>
+                              </a>
+                              <hr class="dropdown-divider">
+                              <a href="#" class="dropdown-item">
+                                  <h6 class="fw-normal mb-0">New user added</h6>
+                                  <small>15 minutes ago</small>
+                              </a>
+                              <hr class="dropdown-divider">
+                              <a href="#" class="dropdown-item">
+                                  <h6 class="fw-normal mb-0">Password changed</h6>
+                                  <small>15 minutes ago</small>
+                              </a>
+                              <hr class="dropdown-divider">
+                              <a href="#" class="dropdown-item text-center">See all notifications</a>
+                          </div>
+                      </div>
+                      <div class="nav-item dropdown">
+                          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                              <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                                  style="width: 40px; height: 40px;">
+                              <span class="d-none d-lg-inline-flex">John Doe</span>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                              <a href="/admin/logOut" class="dropdown-item">Log Out</a>
+                          </div>
+                      </div>
+                  </div>
+              </nav>
+              <!-- Navbar End -->
+
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+            <style>
+              body {
+                background-color: #f8f9fa;
+              }
+              .coupon-form {
+                max-width: 600px;
+                margin: 50px auto;
+                padding: 30px;
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              }
+              .coupon-form h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+              }
+              .form-group label {
+                font-weight: bold;
+              }
+              .btn-update {
+                background-color: #007bff;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+              }
+              .btn-update:hover {
+                background-color: #0056b3;
+              }
+              .is-invalid {
+               border-color: red;
+               }
+               .invalid-feedback {
+                 color: red;
+                 display: none;
+                  }
+                .is-invalid + .invalid-feedback {
+                  display: block;
+                }
+            </style>
+
+          </head>
+          <body>
+          
+
+<div class="coupon-form">
+  <h1>Edit Offer</h1>   
+  <div class="container mt-5">
+    <form id="couponForm" novalidate>
+        <input type="hidden" id="id" name="id" value="<%= offer._id %>">
+      <div class="form-group">
+        <label for="offerName">Offer Name</label>
+        <input type="text" class="form-control" id="offerName" value="<%= offer.offerName %>" placeholder="Enter offer name" required>
+        <div class="invalid-feedback">Please enter an offer name.</div>
+      </div>
+
+
+      <div class="form-group">
+        <label for="offerType">Offer Type</label>
+        <select class="form-control" id="offerType" required>
+            <option value="" disabled selected>Select offer type</option>
+            <option value="Category Base">Category Base</option>
+            <option value="Product Base">Product Base</option>
+        </select>
+        <div class="invalid-feedback">Please select an offer type.</div>
+    </div>
+
+
+      <div class="form-group">
+        <label for="couponDiscount">Discount(%)</label>
+        <input type="number" class="form-control" id="offerDiscount" value="<%= offer.discount %>" placeholder="Enter discount percentage" required>
+        <div class="invalid-feedback">Please enter a discount percentage.</div>
+      </div>
+      <div class="form-group">
+        <label for="expiryDate">Expiry Date</label>
+        <input type="date" class="form-control" id="expiryDate" value="<%= offer.expDate %>" required>
+        <div class="invalid-feedback">Please enter an expiry date.</div>
+      </div>
+      <button type="submit" onclick="editOffer(event)" class="btn-update">Update</button>
+    </form>
+  </div>
+</div>
+
+
+       
+ <!-- Category Offer Modal -->
+ <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="categoryModalLabel">Select Categories</h5>
+                <button type="button" class="close" onclick="closeModal('categoryModal')" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="categoryForm">
+                    <% if (categories && categories.length > 0) { %>
+                    <% categories.forEach(category => { %>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="<%= category._id %>" id="category<%= category._id %>">
+                        <label class="form-check-label" for="category<%= category._id %>"><%= category.name %></label>
+                    </div>
+                    <% }) %>
+                    <% } else { %>
+                    <h5>No Categories</h5>
+                    <% } %>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveSelections('categoryForm')">Save</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('categoryModal')">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Product Offer Modal -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel">Select Products</h5>
+                <button type="button" class="close" onclick="closeModal('productModal')" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="productForm">
+                    <% if (products && products.length > 0) { %>
+                    <% products.forEach(product => { %>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="<%= product._id %>" id="product<%= product._id %>">
+                        <label class="form-check-label" for="product<%= product._id %>"><%= product.name %></label>
+                    </div>
+                    <% }) %>
+                    <% } else { %>
+                    <h5>No Products</h5>
+                    <% } %>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveSelections('productForm')">Save</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('productModal')">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- JavaScript to handle modal display and selections -->
+<script>
+
+document.getElementById('offerType').addEventListener('change', function () {
+        const selectedValue = this.value;
+        if (selectedValue === 'Category Base') {
+            $('#categoryModal').modal('show');
+        } else if (selectedValue === 'Product Base') {
+            $('#productModal').modal('show');
+        }
+    });
+    
+    function saveSelections(formId) {
+        const form = document.getElementById(formId);
+        const selectedItems = Array.from(form.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        $('#' + formId.replace('Form', 'Modal')).modal('hide');
+        return selectedItems;
+    }
+    
+    function closeModal(modalId) {
+        $('#' + modalId).modal('hide');
+    }
+    
+
+    function editOffer(event) {
+        event.preventDefault();
+        const id      =  document.getElementById('id').value;
+        const offerName = document.getElementById('offerName').value;
+        const offerType = document.getElementById('offerType').value;
+        const discount = document.getElementById('offerDiscount').value;
+        const expiryDate = document.getElementById('expiryDate').value;
+    
+        const selectedItems = getSelectedItems();
+    
+        const offerData = {
+            id,
+            offerName,
+            offerType,
+            discount,
+            expiryDate,
+            selectedItems
+        };
+    
+        fetch('/admin/editOffer', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(offerData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = "/admin/offerManagement";
+            } else {
+                Swal.fire(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    }
+    
+    function getSelectedItems() {
+        const categoryItems = Array.from(document.querySelectorAll('#categoryModal input[type="checkbox"]:checked')).map(cb => cb.value);
+        const productItems = Array.from(document.querySelectorAll('#productModal input[type="checkbox"]:checked')).map(cb => cb.value);
+    
+        return {
+            categories: categoryItems,
+            products: productItems
+        };
+    }
+   
+
+</script>
+
+
+
+          
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+          </body>
+
+
+
+<script src="/adminside/js/editOffer.js"></script>
+
+
+
+<%- include('../layout/adminFooter') %>

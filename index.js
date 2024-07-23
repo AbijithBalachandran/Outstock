@@ -13,7 +13,7 @@ const path = require('path');
 app.use(session({
       secret:sessionSecret,
       resave:false,
-      saveUninitialized:false
+      saveUninitialized:true
 }));
 
 app.use(express.static('public'))

@@ -81,93 +81,81 @@
           </div>
         </div>
       </section>
-
-
-<style>
-     
-body {
-    font-family: Arial, sans-serif;
-}
-
-.table img {
-    width: 50px;
-    height: auto;
-}
-
-.table .product-details {
-    display: inline-block;
-    margin-left: 15px;
-    vertical-align: top;
-}
-
-.table .product-name {
-    font-weight: bold;
-}
-
-.table .product-price {
-    display: block;
-    margin-top: 5px;
-    color: #888;
-}
-
-.table .cancel-btn, .table .return-btn {
-    background-color: transparent;
-    border: none;
-    color: red;
-    cursor: pointer;
-}
-
-.table .cancel-btn:hover, .table .return-btn:hover {
-    text-decoration: underline;
-}
-
-</style>
-
-
-<body>
-      <div class="container my-5">
-          <div class="table-responsive">
-              <table class="table">
-                  <thead>
-                      <tr>
-                          <th>Product</th>
-                          <th>Quantity</th>
-                          <th>Status</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                    <% if (order && order.length >0) {%>
-                      <% order.forEach(item=>{%>
-                      <tr>
-                          <td class="d-flex align-items-center">
-                              <img src="/upload/product/<%=item.orderItem[0].images[0]%>" alt="Sacrificial Chair Design" class="img-fluid" style="width: 50px;">
-                              <div class="ml-3">
-                                  <span class="font-weight-bold"><%= item.orderItem[0].productName %></span><br>
-                                  <span class="text-muted"><%= item.orderItem[0].price %></span>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+      <style>
+          .table-custom th, .table-custom td {
+              vertical-align: middle;
+          }
+          .table-custom .product-img {
+              max-width: 50px;
+          }
+          .table-custom .cancel-btn {
+              color: red;
+              cursor: pointer;
+          }
+      </style>
+  </head>
+  <body>
+      <div class="container my-4">
+          <table class="table table-bordered table-custom">
+              <thead>
+                  <tr>
+                      <th>Product</th>
+                      <th>Quantity</th>
+                      <th>Price</th>
+                      <th>paymentMethod</th>
+                      <th>Status</th>
+                      <th>View</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <% if (order && order.length >0) {%>
+                  <% order.forEach(item=>{%>
+                  <tr>
+                      <td>
+                          <div class="d-flex align-items-center">
+                              <img src="/upload/product/<%=item.orderItem[0].images[0]%>" alt="Sofaset" class="product-img mr-3">
+                              <div class="ms-2">
+                                  <div><%= item.orderItem[0].productName %></div>
+                                  <div><%= item.orderItem[0].price %></div>
                               </div>
-                          </td>
-                          <td>
-                              <input type="number" value="1" min="1" class="form-control w-50">
-                          </td>
-                          <td>
-                              <span class="d-block mb-2">On the Way</span>
-                              <button class="btn btn-link text-danger p-0">Cancel</button>
-                          </td>
-                      </tr>
-                      
+                          </div>
+                      </td>
+                      <td>
+                          <input type="number" value="<%= item.orderItem[0].quantity %>" class="form-control">
+                      </td> <td>
+                        <div>
+                          <%= item.orderItem[0].price %>
+                        </div>
+                    </td>
+                      <td>
+                        <div>
+                          <%= item.paymentMethod %>
+                        </div>
+                    </td>
+                      <td>
+                          <div class="cancel-btn">
+                            <%= item.orderStatus %>
+                          </div>
+                      </td>
+                      <td>
+                        <div class="cancel-btn">
+                          <a href="/tracking-order?orderId=<%=item.id%>"><button class="btn btn-primary">
+                            <i class="fas fa-eye"></i>
+                        </button></a>
+                        </div>
+                    </td>
+                  </tr>
                   <%})%>
-                   <% }else{%>
-                    <p>Order Not Found</p>
-                  <%}%> 
-                  </tbody>
-              </table>
-          </div>
+                  <% }else{%>
+                   <p>Order Not Found</p>
+                 <%}%>
+              </tbody>
+          </table>
       </div>
   
-      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+      <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  </body>
-
-
 
 <%- include ('../layout/footer') %>

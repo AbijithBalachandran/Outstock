@@ -119,22 +119,23 @@
                                                 <%=message%>
                                             </p>
                                             <% } %>
-                                        <form id="editcategoryForm" method="put" action="#">
-
-                                            <input type="hidden" name="id" value="<%=categories.id%>" >
-                                            <div class="mb-3">
-                                                <label for="categoryName" class="form-label">Category
-                                                    Name</label><div class="text-danger" id="errorCategory"></div>
-                                                <input type="text" class="form-control" id="categoryName" name="name"
-                                                    placeholder="Enter category name" value="<%=categories.name%>" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="description" class="form-label">Description</label>
-                                                <textarea class="form-control" id="description" rows="3"
-                                                    name="description" placeholder="Enter description" value="<%=categories.description%>" required><%=categories.description%></textarea>
-                                            </div>
-                                            <button type="submit" id="save-btn" class="btn btn-primary w-100" data-id="<%=categories.id%>">SAVE</button>
-                                        </form>
+                                            <form id="editcategoryForm" action="#">
+                                                <input type="hidden" name="id" value="<%=categories.id%>" >
+                                                <div class="mb-3">
+                                                    <label for="categoryName" class="form-label">Category Name</label>
+                                                    <div class="text-danger" id="errorName"></div>
+                                                    <input type="text" class="form-control" id="categoryName" name="name"
+                                                        placeholder="Enter category name" value="<%=categories.name%>" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="description" class="form-label">Description</label>
+                                                    <div class="text-danger" id="errorDescription"></div>
+                                                    <textarea class="form-control" id="description" rows="3"
+                                                        name="description" placeholder="Enter description" required><%=categories.description%></textarea>
+                                                </div>
+                                                <button type="submit" id="save-btn" class="btn btn-primary w-100" data-id="<%=categories.id%>">SAVE</button>
+                                            </form>                                            
+                                            
                                     </div>
                                 </div>
                             </div>
@@ -151,70 +152,6 @@
     </div>
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-      const form = document.getElementById('editcategoryForm');
-  
-      form.addEventListener('submit', async (event) => {
-          event.preventDefault();
-       const categoryId = document.getElementById('save-btn').getAttribute('data-id')
-          const formData = new FormData(form);
-          console.log(formData)
-          const validationErrors = validateForm(formData);
-  
-          if (validationErrors.length > 0) {
-              displayErrors(validationErrors);
-              return;
-          }
-  
-          try {
-              const response = await fetch(`/admin/editCategory?categoryId=${categoryId}`, {
-                  method: 'PUT',
-                  body: formData,
-              });
-  
-              if (!response.ok) {
-                  const errorText = await response.json();
-                  displayErrors([{ field: 'form', message: errorText }]);
-              } else {
-                  window.location.href = `/admin/editCategory?categoryId=${categoryId}`;
-              }
-          } catch (error) {
-              displayErrors([{ field: 'form', message: 'An error occurred while submitting the form.' }]);
-          }
-      });
-  
-      function validateForm(formData) {
-          const errors = [];
-  
-          const categoryPattern = /^[a-zA-Z\s]+$/;
-          console.log(formData.get('name'))
-          console.log(categoryPattern.test(formData.get('name')))
-          if (!formData.get('name')|| !categoryPattern.test(formData.get('name'))) {
-              errors.push({ field: 'name', message: 'Category is required and can only contain letters and spaces.' });
-          }
-          return errors;
-      }
-  
-      function displayErrors(errors) {
-          const errorFields = ['errorCategory'];
-          errorFields.forEach(field => {
-              document.getElementById(field).innerHTML = '';
-          });
-  
-          errors.forEach(error => {
-              const errorElement = document.getElementById(`error${capitalizeFirstLetter(error.field)}`);
-              if (errorElement) {
-                  errorElement.textContent = error.message;
-              }
-          });
-      }
-  
-      function capitalizeFirstLetter(string) {
-          return string.charAt(0).toUpperCase() + string.slice(1);
-      }
-  });
-  
-    </script>
+       <script src="/adminside/js/editCategory.js"></script>
 
     <%- include('../layout/adminFooter') %>

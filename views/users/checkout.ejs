@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -24,7 +26,7 @@
         <div class="row">
             <div class="col-md-8">
                 <h3>Checkout</h3>
-                <form class="checkout-form" id="checkout-form" action="/checkout-submit" method="post">
+                <form class="checkout-form" id="checkout-form" action="/tracking-order" method="post">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="billingAddress" id="differentBilling" class="btn btn-info mt-3" data-toggle="modal" data-target="#addressModal">
                         <label class="form-check-label" for="differentBilling">
@@ -36,14 +38,6 @@
                         <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
                     </div>
                     <h4>Delivery</h4>
-                    <div class="form-group">
-                        <label for="country">Country</label>
-                        <select class="form-control" id="country" name="country" required>
-                            <option value="" disabled selected>Select your country</option>
-                            <option value="India">India</option>
-                            <!-- Add more countries as needed -->
-                        </select>
-                    </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="firstName">First Name</label><span id="name-error" class="error"></span>
@@ -75,44 +69,89 @@
                     <h4>Payment</h4>
                     <div class="form-group">
                         <label for="paymentMethod">Payment Method</label>
-                        <select class="form-control" id="paymentMethod" name="paymentMethod" required>
+                        <select class="form-control" id="paymentMethod" name="paymentMethod" required onchange="togglePaymentButton()">
                             <option value="" disabled selected>Select payment method</option>
                             <option value="COD">Cash On Delivery (COD)</option>
-                            <!-- Add more payment methods as needed -->
+                            <option value="Online">Online Payment</option>
+                            <option value="Wallet">Wallet</option>
                         </select>
                     </div>
-                    <button type="button" onclick="submitForm()" class="btn btn-primary mt-3" id="submit-btn" data-user-id="<%=user.id%>">Pay now</button>
+                    <div id="payment-buttons">
+                        <% if(cart.length > 0 && cart[0].cartItem.length > 0) { %>
+                            <button type="button" onclick="submitForm()" class="btn btn-primary mt-3" id="submit-btn" data-user-id="<%=user.id%>" >Check Out</button>
+                        <% } else { %>
+                            <button type="button" class="btn btn-primary mt-3" id="submit-btn" data-user-id="<%=user.id%>" disabled>Check Out</button>
+                        <% } %>
+                    </div>
+                    <button type="button" onclick="startRazorpayPayment()" class="btn btn-primary mt-3" id="razorpay-btn" data-user-id="<%=user.id%>" style="display: none;">Pay with Razorpay</button>
+                    <button type="button" onclick="startWalletPayment()" class="btn btn-primary mt-3" id="wallet-btn" data-user-id="<%=user.id%>" style="display: none;">Pay with Wallet</button>
                 </form>                
-                
-
             </div>
+
+    
             <div class="col-md-4">
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#couponModal">Available Coupons</button>
+                <div class="order-summary mt-3">
+                    <div class="container mt-3">
+                        <div class="container mt-3">
+                            <div class="input-group">
+                                <form class="input-group-append" onsubmit="applyCoupon(event)">
+                                    <input type="hidden" id="total" value="<%= total %>">
+                                    <input type="text" class="form-control" placeholder="Enter Coupon Code" name="couponCode" id="inputField">
+                                    <button type="submit" class="btn btn-primary">Apply</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="order-summary">
                     <h4>Order Summary</h4>
-                  <%if(cart[0].cartItem.length>0) {%>
-                    <% cart[0].cartItem.forEach((item)=>{%>
-                    <div class="d-flex justify-content-between">
-                        <div style="width: 40px;">
-                            <img src="/upload/product/<%=item.products.images[0] %>" alt="product-img" width="40px">
-                        </div>
-                        <span><%=item.products.name%></span>
-                        <span><%=item.quantity%></span>
-                        <span><%= item.products.price%></span>
-                        <span><%= item.products.price * item.quantity%></span>
-                    </div>
-                    <%})%>
-                  <%}else{%>
-                    <p>No items here</p>
-                  <%}%>
+                    <% if(cart.length > 0 && cart[0].cartItem.length > 0 ) { %>
+                        <% cart[0].cartItem.forEach((item) => { %>
+                            <div class="d-flex justify-content-between">
+                                <div style="width: 40px;">
+                                    <img src="/upload/product/<%=item.products.images[0] %>" alt="product-img" width="40px">
+                                </div>
+                                <span><%=item.products.name%></span>
+                                <span><%=item.quantity%></span>
+                                <span><%= item.products.price%></span>
+                                <span><%= item.products.price * item.quantity%></span>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p>No items here</p>
+                    <% } %>
                     <hr>
-                    <div class="d-flex justify-content-between total-amount">
-                        <span>Total</span>
+                    <div class="d-flex justify-content-between">
+                        <p>Total</p>
                         <span><%= total %></span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p>Shipping Charge :</p> 
+                        <span><%= shippingCharge %></span>
+                    </div>
+                      <% if (offerProducts) { %>
+                         <div class="d-flex justify-content-between">
+                        <p>Offer Discount :</p> 
+                        <span id="discount"><%=totalDiscount%></span>
+                    </div>
+                     <% } else { %>
+                        <div class="d-flex justify-content-between">
+                        <p>Offer Discount :</p> 
+                        <span id="discount">00.00</span>
+                    </div>
+                     <% } %>
+                        <div class="d-flex justify-content-between">
+                            <p>Coupon Discount :</p> 
+                            <span id="discount">00.00</span>
+                        </div>
+                
+                    <div class="d-flex justify-content-between total-amount">
+                        <span>Grand Total</span>
+                        <span id="grandTotal"><%= grandTotal %></span>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
     <style>
         .address-card {
@@ -130,47 +169,154 @@
         }
     </style>
 
-        <!-- The Modal -->
-        <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addressModalLabel">Your Addresses</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="address-list">
-                        <% if(address.length > 0) { %>
-                            <% for(let i = 0; i < address.length; i++) { %>
-                              <div class="address-card" id="single-address" onclick="addressSelection(event,'<%=address[0].id%>')">
+    <!-- The Address Modal -->
+    <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addressModalLabel">Your Addresses</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="address-list">
+                    <% if(address.length > 0) { %>
+                        <% for(let i = 0; i < address.length; i++) { %>
+                            <div class="address-card" id="single-address" onclick="addressSelection(event, '<%=address[i].id%>')">
                                 <p>
-                                  <%= address[i].name %><br>
-                                  <%= address[i].phone %><br>
-                                  <%= address[i].email %><br>
-                                  <%= address[i].address + "," + address[i].location + "," + address[i].city %><br>
-                                  Landmark: <%= address[i].landmark %>,<br> PIN: <%= address[i].pincode %>
+                                    <%= address[i].name %><br>
+                                    <%= address[i].phone %><br>
+                                    <%= address[i].email %><br>
+                                    <%= address[i].address + "," + address[i].location + "," + address[i].city %><br>
+                                    Landmark: <%= address[i].landmark %>,<br> PIN: <%= address[i].pincode %>
                                 </p>
-                              </div>
-                            <% } %>
-                          <% } else { %>
-                            <h6>Address not found</h6>
-                          <% } %>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+                            </div>
+                        <% } %>
+                    <% } else { %>
+                        <h6>Address not found</h6>
+                    <% } %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
+<!-- End Address Modal -->
 
+
+<style>
+    .table th,
+    .table td {
+        border-width: 1px;
+    }
+
+    .table {
+        border-width: 1px;
+    }
+
+    .coupon-card {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: #e3f2fd;
+    }
+
+    .coupon-card h5 {
+        margin-bottom: 10px;
+    }
+
+    .coupon-card p {
+        margin-bottom: 5px;
+    }
+
+    .add-coupon-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .coupon-card {
+        background-color: #e9f7fd;
+        width: 500px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .input-group-append .btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+</style>
+
+
+<!-- The Coupon Modal -->
+<div class="modal fade" id="couponModal" tabindex="-1" aria-labelledby="couponModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addressModalLabel">Available Coupon</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="address-list">
+               
+                <div class="row">
+                    <% if (coupon && coupon.length > 0) { %>
+                        <% coupon.forEach(coupon => { %>
+                            <% if(coupon.miniParchaseAmt <= total){ %> 
+                            <div class="col-md-12 col-lg-12">
+                                <div class="coupon-card p-3">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <h5 class="mr-2">Coupon Code:</h5>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" value="<%= coupon.code %>" id="couponCode<%= coupon.id %>" readonly>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary" type="button" onclick="copyCouponCode('couponCode<%= coupon.id %>')">
+                                                    <i class="fas fa-copy"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <p>Discount: ₹ <%= coupon.discount %></p>
+                                    <p>Min Purchase Amount: ₹ <%= coupon.miniParchaseAmt %></p>
+                                    <p>Max Redeemable Amount: ₹ <%= coupon.maxredeemableAmt %></p>
+    
+                                </div>
+                            </div>
+                            <%}%>
+                        <% }) %>
+                    <% } else { %>
+                        <h5>No Coupons</h5>
+                    <% } %>
+                </div>
+                
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Coupon Modal -->
+
+<script src="/js/walletParchase.js"></script>
+
+      
+    
+    <script src="/js/applyCoupon.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="/js/onlineCkeckout.js"></script> 
     <script src="/js/validcheckout.js"></script>
     <script src="/js/selectAddress.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
+
 </body>

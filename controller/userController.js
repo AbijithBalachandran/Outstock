@@ -9,10 +9,12 @@ const Products = require('../Models/products');
 const asyncHandler = require('express-async-handler');
 const Address = require('../Models/address');
 const { session } = require('passport');
+require('../utils/passport')
 const Category = require('../Models/category');
 const Order =require('../Models/order');
+const Cart = require('../Models/cart')
 const { consumers } = require('nodemailer/lib/xoauth2');
-
+const Offer = require('../Models/offer');
 
 
 //-----------------------------------password Hashing -----------------------------------------
@@ -206,21 +208,23 @@ const validLogin = async (req, res) => {
 
 const successGoogleLogin = async (req, res) => {
       try {
-
-            console.log("google"+req.user.email);
-
-            if (req.user.email) {
+            console.log(req.user);
+            if (req.user) {
                   const existingUser = await User.findOne({ email: req.user.email });
-
+                 
                   if (existingUser) {
-                        res.redirect('/home');
+                        req.session.userData_id = existingUser._id;
+                        res.redirect('/');
                   } else {
                         const newUser = await User({
                               name: req.user.displayName,
                               email: req.user.email,
                               is_varified: true
                         })
+                      req.session.userData_id = newUser._id;
+
                         await newUser.save();
+                        
                         console.log('newUser=='+newUser);
                         res.redirect('/home');
                   }
@@ -232,7 +236,7 @@ const successGoogleLogin = async (req, res) => {
       }
 }
 
-
+    
 const failureGoogleLogin = async (req, res) => {
       console.log("failuer");
       try {
@@ -243,47 +247,118 @@ const failureGoogleLogin = async (req, res) => {
 }
 
 
-
 //--------------For Rendering Home Page---------------------
 
 const homeLoad = async (req, res) => {
       try {
-            let user_id = req.session.userData_id ? req.session.userData_id : " ";
+          let user_id = req.session.userData_id ? req.session.userData_id : " ";
+  
+          const product = await Products.find({ action: false }).sort({ createdAt: -1 }).populate('offer');
+          let cartCount = 0;
 
-            const product = await Products.find({action:false}).sort({ createdAt: -1 });
-            if (req.session.userData_id) {
+          if (req.session.userData_id) {
+              const user = await User.findById({ _id: user_id });
+              const cart = await Cart.findOne({ user: user_id });
+  
+              if (cart) {
+                  cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
+              }
 
-                  const user = await User.findById({ _id: user_id });
-                  res.render('home', { product, user });
-            } else {
-                  res.render('home', { product });
-            }
+                 const calculateDiscount = async (product) => {
 
+                  let offerDetails = null;
+      
+                  if (product && product.offer && product.offer.length > 0) {
+                      const offerId = product.offer[product.offer.length - 1];
+                      console.log('offerId=====' + offerId);
+      
+                      offerDetails = await Offer.find(offerId);
+                      console.log('offerDetails' + offerDetails);
+      
+                  }
+      
+                  return { offerDetails };
+              };
+      
+              const {offerDetails } = await calculateDiscount(product[0]);
+      
+              console.log('offerDetails 22222' + offerDetails);
+
+              res.render('home', { product, user, cartCount ,offerDetails});
+
+          } else {
+            
+            const calculateDiscount = async (product) => {
+                  
+                  let offerDetails = null;
+      
+                  if (product && product.offer && product.offer.length > 0) {
+                      const offerId = product.offer[product.offer.length - 1];
+                      console.log('offerId=====' + offerId);
+      
+                      offerDetails = await Offer.find();
+                      console.log('offerDetails' + offerDetails);
+                  }
+      
+                  return {offerDetails };
+              };
+      
+              const {offerDetails } = await calculateDiscount(product[0]);
+      
+            //   console.log('offerDetails========' + offerDetails);
+           
+              res.render('home', { product, cartCount,offerDetails });
+
+          }
+      
       } catch (error) {
-            console.log(error.message);
+          console.log(error.message);
       }
-}
-
+  }
+  
 
 //------------------------------rendering product details page ----------------------------------------------------//
 
 
 const productDetails = asyncHandler(async (req, res) => {
-
       let user_id = req.session.userData_id ? req.session.userData_id : " ";
       let product_Id = req.query.id;
-
-      console.log('productId=====' + product_Id);
+  
+      // Fetch the product by its ID and populate the 'category' field
       let product = await Products.findById({ _id: product_Id }).populate('category');
-      console.log('product=====' + product);
+  
+      let disPrice = null;
+      let offerDetails =null;
 
-      if (req.session.userData_id) {
-            const user = await User.findById({ _id: user_id });
-            res.render('product-details', { user, product });
-      } else {
-            res.render('product-details');
+      if (product && product.offer && product.offer.length > 0) {
+          let offerLength = product.offer.length - 1;
+         const offerId = product.offer[offerLength];
+          console.log('offerId=====' + offerId);
+  
+           offerDetails = await Offer.findById( offerId);
+          console.log('offerDetails'+offerDetails);
+
+          if (offerDetails) {
+              let disAmount = product.price * (offerDetails.discount / 100);
+              disPrice = product.price - disAmount;
+          }
       }
-});
+console.log('offerDetails 22222'+offerDetails);
+      console.log('disPrice'+disPrice);
+  
+      if (req.session.userData_id) {
+          const user = await User.findById({ _id: user_id });
+          const cart = await Cart.findOne({ user: user_id });
+          let cartCount = 0;
+          if (cart) {
+              cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
+          }
+          res.render('product-details', { user, product, cartCount, disPrice ,offerDetails});
+      } else {
+          res.render('product-details', { product, disPrice,offerDetails  });
+      }
+  });
+
 
 
 //--------------------------logOut-------------------------------------------//
@@ -300,19 +375,30 @@ const profileLoad = asyncHandler(async(req,res)=>{
 
       let user_id = req.query.id;
       const user = await User.findById({_id:user_id});
+      const cart = await Cart.findOne({ user: user_id });
+      let cartCount = 0;
+      if (cart) {
+          cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
+      }
       // console.log("profile"+user);
-      res.render('profile',{user});
+      res.render('profile',{user,cartCount});
 })
 
 //-----------------------------------------Manage-Address page Load -----------------//
 
 const addressManagemtLoad  = asyncHandler(async(req,res)=>{
       let user_id = req.query.id;
-      // console.log('user_id==='+user_id);
+
       const user = await User.findById(user_id);
       const address= await Address.find({user:user_id});
-      const order = await Order.find({})
-      res.render('manage-address',{user: user,address});
+      
+      const cart = await Cart.findOne({ user: user_id });
+      let cartCount = 0;
+      if (cart) {
+          cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
+      }
+
+      res.render('manage-address',{user: user,address,cartCount});
 });
 
 //--------------------------------------Adding User Address ----------------------------//
@@ -383,10 +469,15 @@ const deleteUser = asyncHandler(async(req,res)=>{
 const updateProfileLoad = asyncHandler(async(req,res)=>{
 
       let userId = req.query.id;
-      // console.log("userId=="+userId);
+      const cart = await Cart.findOne({ user: userId });
+      let cartCount = 0;
+      if (cart) {
+          cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
+      }
+
       const user = await User.findById(userId);
       // console.log('user'+user);
-      res.render('update-Profile', { user});
+      res.render('update-Profile', { user,cartCount});
 });
 
 
@@ -396,12 +487,11 @@ const updateProfileLoad = asyncHandler(async(req,res)=>{
 const updateProfile = asyncHandler(async (req, res) => {
 
         const userId = req.query.id;
-        const { Fname, Lname, password } = req.body;
-        // Find the user by id
-        const user = await User.findById(userId);
-        // Check if the password matches
+        const { email,Fname, Lname, password } = req.body;
+        console.log(req.body.email);
+        const user = await User.findOne({email:email});
+
         const passwordCheck = await bcrypt.compare(password, user.password);
-      //   console.log('password =='+passwordCheck);
         if (passwordCheck) {
           await User.findByIdAndUpdate(
             userId,
@@ -418,75 +508,67 @@ const updateProfile = asyncHandler(async (req, res) => {
         }
 
       });
-      
 
-//----------------------------------Shop Page Load -----------------------------------
+//----------------------------------Shop Page Load && filter by  -----------------------------------
 
-const shopLoad = asyncHandler(async(req,res)=>{
-    const categoryId = req.query.id;
-    let query = {action:false};
-
-     if(categoryId){
-      query.category = categoryId;
-      console.log('categoryId ==='+query.category);
-     }
-
-     console.log('categoryId out of scop ==='+query.category);
-      let product = await Products.find(query).sort({createdAt:-1});
-          
-      console.log('product========='+product);
-
-      const category = await Category.find({});
-      // console.log('category '+category );
-      if(product.length === 0){
-          res.render('shop',{product,category,message:'products Not Available'});  
+const shopLoad = asyncHandler(async (req, res) => {
+      let user_id = req.session.userData_id ? req.session.userData_id : " ";
+      const user = await User.findById({ _id: user_id });
+      const categoryId = req.query.id;
+      const sortBy = req.query.sort_by;
+  
+      let query = { action: false };
+  
+      if (categoryId) {
+          query.category = categoryId;
+          console.log('categoryId ===' + query.category);
       }
-
-      res.render('shop',{product,category});
-});
-
-
-//-----------------------------------Filter By Category ------------------------------------------
-
-// const filterByCategory = asyncHandler(async (req, res) => {
-//       const sort = req.query.name;
-//       console.log('sooorttt====' + sort);
-//       const category = await Category.find({ name: sort, action: false });
-//       const products = await Products.find({category:category._id}).populate('category');
-
-//       console.log('category filter products ==='+products);
-//       res.status(200).json({products});
-//   });
-
-// const filterByCategory = asyncHandler(async (req, res) => {
-//             const sort = req.query.id;
-//             console.log('sooorttt====' + sort);
-//             // const category = await Category.find({ name: sort, action: false });
-//             const products = await Products.findById({category:sort,action:false})
-      
-//             console.log('category filter products ==='+products);
-//             res.status(200).json({products});
-//         });
-      
-// const filterByCategory = asyncHandler(async (req, res) => {
-//       const categoryId = req.query.id;
-//       console.log('Category ID: ' + categoryId);
   
-//       // Fetch products that belong to the category's ID
-//       const products = await Products.find({ category: categoryId, action: false }).populate('category');
+      let sortCriteria = {};
+      switch (sortBy) {
+          case 'title-ascending':
+              sortCriteria.title = 1;
+              break;
+          case 'title-descending':
+              sortCriteria.title = -1;
+              break;
+          case 'price-ascending':
+              sortCriteria.price = 1;
+              break;
+          case 'price-descending':
+              sortCriteria.price = -1;
+              break;
+          case 'created-ascending':
+              sortCriteria.createdAt = 1;
+              break;
+          case 'created-descending':
+              sortCriteria.createdAt = -1;
+              break;
+          default:
+              sortCriteria.createdAt = -1;
+      }
   
-//       if (!products || products.length === 0) {
-//           return res.status(404).json({ message: 'No products found in this category' });
-//       }
+      try {
+          const product = await Products.find(query).sort(sortCriteria);
+          const category = await Category.find({});
   
-//       console.log('Filtered products: ', products);
+          if (product.length === 0) {
+              return res.render('shop', { product, category, user, message: 'Products Not Available' });
+          }
+          const cart = await Cart.findOne({ user: user_id });
+          let cartCount = 0;
+          if (cart) {
+              cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
+          }
+  
+          res.render('shop', { product, category, user,cartCount });
+      } catch (error) {
+          console.error('Error fetching products:', error);
+          res.status(500).send('Internal Server Error');
+      }
+  });
+  
 
-//       res.status(200).json({ products });
-//   });
-  
-  
-
-//------------------------
 
 
 module.exports = {

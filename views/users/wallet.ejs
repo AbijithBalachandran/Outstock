@@ -1,0 +1,156 @@
+<%- include('../layout/header') %>
+
+<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> -->
+
+<%- include('../layout/navbarH') %>
+<%- include('../layout/navbarF') %>
+
+<main id="MainContent" class="main-content content-for-layout" tabindex="-1">
+      <div class="main-content__inner">
+            <section id="shopify-section-template--14955325587521__breadcrumb" class="shopify-section velaFramework">	<div class="vela-breadcrumbs vela-section overflow-hidden d-flex flex-wrap align-items-center vela-breadcrumbs--image" style="--st-bg-cl:#f6f6f4;--breadcrumb-color-link:#c3c3c3;
+      --breadcrumb-color:#201f1f;
+      --breadcrumb-heading-color:#323232;
+      --breadcrumb-mh:400px;
+      --breadcrumb-mh-m:60px,"><div class="vela-breadcrumbs__image lazyload"
+            data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_180x.jpg?v=1614322107 180w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_360x.jpg?v=1614322107 360w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_540x.jpg?v=1614322107 540w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_720x.jpg?v=1614322107 720w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_900x.jpg?v=1614322107 900w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1080x.jpg?v=1614322107 1080w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1296x.jpg?v=1614322107 1296w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1512x.jpg?v=1614322107 1512w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1728x.jpg?v=1614322107 1728w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1.jpg?v=1614322107 1920w"
+            data-sizes="auto"
+            data-parent-fit="cover"></div><div class="container">
+      <div class="vela-breadcrumbs__inner align-items-center flex-column" aria-label="breadcrumb"><h1 class="vela-breadcrumbs__title mb-1 d-none d-md-block">Wishlist</h1>
+            <ol class="breadcrumb m-0" itemscope itemtype="http://schema.org/BreadcrumbList">
+                  <li class="breadcrumb-item breadcrumb__item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <a class="breadcrumb__link" href="../index.html" title="Home" itemprop="item">
+                              <span itemprop="name">Home</span>
+                        </a>
+                        <meta itemprop="position" content="1" />
+                  </li>
+                  <li class="breadcrumb-item breadcrumb__item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <a class="breadcrumb__link" href="../profile?id=<%=user.id %>" title="Home" itemprop="item">
+                          <span itemprop="name">Profile</span>
+                    </a>
+                    <meta itemprop="position" content="1" />
+              </li>
+                  <li class="breadcrumb-item breadcrumb__item active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <span class="breadcrumb__text">
+                              <span itemprop="name">Wishlist</span>
+                        </span>
+                        <meta itemprop="position" content="2" />
+                  </li>
+            </ol>
+      </div>
+</div>
+</div>
+
+</section>
+
+
+<style>
+  .profile-sidebar {
+    background-color: #f8f9fa;
+    padding: 20px;
+    height: 100%;
+  }
+  .profile-sidebar .card {
+    margin-bottom: 20px;
+  }
+  .profile-content {
+    padding: 20px;
+  }
+  .wallet-card {
+    background-color: #00a2ff;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  .wallet-balance {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  .add-money input {
+    width: 70%;
+    display: inline-block;
+  }
+  .add-money button {
+    display: inline-block;
+  }
+  table {
+    margin-top: 20px;
+  }
+</style>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3 profile-sidebar mt-5 mb-3">
+      <div class="card border-0">
+        <div class="card-body">
+          <h5 class="card-title">Hi, <%=user.Fname%></h5>
+        </div>
+      </div>
+      <div class="card border-0">
+        <div class="card-body">
+          <a href="/manage-Address?id=<%=user.id %>" class="card-link d-block ms-1 header__icon m-2">Manage Address</a>
+          <a href="/update-Profile?id=<%=user.id %>" class="card-link d-block header__icon m-1">Update Profile</a>
+        </div>
+      </div>
+      <div class="card border-0">
+        <div class="card-body">
+          <a href="/orders?id=<%=user.id %>" class="card-link d-flex align-items-center ms-4 m-1 header__icon">My Orders</a>
+          <a href="/cart?id=<%=user.id %>" class="card-link d-flex align-items-center m-2 header__icon"><i class="bi bi-cart me-2"></i>My Cart</a>
+          <a href="/wishlist?id=<%=user.id %>" class="card-link d-flex align-items-center m-2 header__icon"><i class="bi bi-heart me-2"></i>Wishlist</a>
+          <a href="/wallet?id=<%=user.id %>" class="card-link d-flex align-items-center m-2 header__icon"><i class="bi bi-wallet me-2"></i>Wallet</a>
+        </div>
+      </div>
+    </div>
+    <!-- Content Area -->
+     
+    <div class="col-md-9 profile-content mt-5 mb-3">
+      <div class="wallet-card text-center">
+        <div class="wallet-balance">Balance: ₹ <%= wallet.walletAmount %></div>
+        <div class="add-money">
+          <input type="text" class="form-control d-inline" placeholder="Enter Amount">
+          <button class="btn btn-dark d-inline">+</button>
+        </div>
+        <!-- <div class="mt-3">Created CVV Balance: ₹1,000</div> -->
+      </div>
+
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Number</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th>Date</th>
+          </tr> 
+        </thead>
+        <tbody>
+          <% if (wallet) {%>
+        <% for (let i = 0; i < wallet.transaction.length; i++) {%>
+            <tr>
+              <td><%= i+1 %></td>
+              <td><%= wallet.transaction[i].amount  %></td>
+              <td><%= wallet.transaction[i].PaymentType %></td>
+              <td><%= new Date(wallet.transaction[i].date).toLocaleDateString('en-US', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            }) %></td>
+            </tr>
+       <% } %> 
+       <% } else { %>
+           <h6>No Transations</h6> 
+        <% } %>
+      </tbody>
+      </table>
+
+     </div> 
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<%- include('../layout/footer') %>

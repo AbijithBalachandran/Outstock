@@ -114,28 +114,29 @@
                                                 <%=message%>
                                             </p>
                                             <% } %>
-                                            <form id="categoryForm" method="post" action="/admin/addCategory" enctype="multipart/form-data">
+
+                                            <form id="categoryForm" enctype="multipart/form-data">
                                                 <div class="mb-3">
                                                     <label for="categoryName" class="form-label">Category Name</label>
                                                     <div class="text-danger" id="errorCategory"></div>
-                                                    <input type="text" class="form-control" id="categoryName" name="name" placeholder="Enter category name">
+                                                    <input type="text" class="form-control" id="categoryName" name="name" placeholder="Enter category name" required>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="action" class="form-label">Action</label>
-                                                    <div class="form-control mb-3 border-0 shadow-none" name="action">
-                                                        <select class="custom-select" name="action" id="inputGroupSelect02" required>
-                                                            <option selected>Choose....</option>
-                                                            <option value="list" name="action">list</option>
-                                                            <option value="unlist" name="action">unlist</option>
-                                                        </select>
-                                                    </div>
+                                                    <select class="custom-select" name="action" id="inputGroupSelect02" required>
+                                                        <option value="" selected>Choose....</option>
+                                                        <option value="list">list</option>
+                                                        <option value="unlist">unlist</option>
+                                                    </select>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="description" class="form-label">Description</label>
-                                                    <textarea class="form-control" id="description" rows="3" name="description" placeholder="Enter description"></textarea>
+                                                    <textarea class="form-control" id="description" rows="3" name="description" placeholder="Enter description" required></textarea>
                                                 </div>
                                                 <button type="submit" class="btn btn-primary w-100">Add Category</button>
                                             </form>
+
+                                            
                                     </div>
                                 </div>
                             </div>
@@ -149,7 +150,6 @@
                 </div>
     </div>
 
-
     <script src="/adminside/js/addcategory.js"></script>
-    <!-- <script src="/js/swal.js"></script> -->
+    
     <%- include('../layout/adminFooter') %>

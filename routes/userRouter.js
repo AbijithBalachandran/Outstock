@@ -1,7 +1,8 @@
 //--------------packages------------
 const express = require('express');
 const user_Router = express();
-const passport = require('passport')
+const passport = require('passport');
+
 
 
 //set View Engine
@@ -29,6 +30,7 @@ user_Router.use(passport.session());
 const userController =require('../controller/userController');
 const cartController = require('../controller/cartCondrolle');
 const orderController = require('../controller/orderCondroller');
+const couponController = require('../controller/couponController');
 
 //----------------google auth ------------------
 user_Router.get('/google',passport.authenticate('google',{scope:['email','profile']}));
@@ -56,7 +58,9 @@ user_Router.get('/resendOTP',userAuth.isLogout,userController.resendOTP);
 user_Router.get('/home',userController.homeLoad);
 user_Router.get('/',userAuth.isLogout,userController.homeLoad);
 
-user_Router.get('/product-details',userAuth.isLogin,userController.productDetails);
+user_Router.get('/product-details',userController.productDetails);
+
+
 
 //-------------------------user details ---------------------------------------------
 
@@ -64,31 +68,54 @@ user_Router.get('/profile', userAuth.isLogin, (req, res) => {
   req.session.referer = req.headers.referer;
   userController.profileLoad(req, res);
 });
+
 user_Router.get('/manage-address',userAuth.isLogin,userController.addressManagemtLoad);
 user_Router.post('/manage-address',userController.saveAddress);
 user_Router.put('/manage-address',userController.editAddress);
 user_Router.delete('/manage-address',userController.deleteUser);
 
-user_Router.get('/update-Profile',userController.updateProfileLoad);
+user_Router.get('/update-Profile',userAuth.isLogin,userController.updateProfileLoad);
 user_Router.put('/update-Profile',userController.updateProfile);
-user_Router.get('/shop',userController.shopLoad);
-// user_Router.get('/shop-filter', userController.filterByCategory);
+user_Router.get('/shop',userAuth.isLogin,userController.shopLoad);
 
 //----------------------------cart router --------------------------------------------
 
 user_Router.get('/cart',userAuth.isLogin,cartController.cartLoad);
-user_Router.get('/cart-add',cartController.cartProduct);
+user_Router.get('/cart-add',userAuth.isLogin,cartController.cartProduct);
 user_Router.delete('/remove-product',cartController.removeProduct);
 user_Router.put('/update-quantity',cartController.updateQuantity);
 
-user_Router.get('/checkout',orderController.checkoutPageLoade);
+
+//--------------------------------order Condroller-----------------------------------
+user_Router.get('/checkout',userAuth.isLogin,orderController.checkoutPageLoad);
 user_Router.get('/checkout-address',orderController.getAddress);
-user_Router.post('/checkout-submit',orderController.checkoutSubmit)
 
-user_Router.get('/orders',orderController.myOrederLoad);
-user_Router.get('/wishlist',orderController.whishlistLoad);
+// user_Router.get('/order-succes',userAuth.isLogin,orderController.orderSuccessPageLoad);
+
+user_Router.get('/tracking-order',orderController.trakingPageLoad);  
+user_Router.post('/tracking-order',orderController.checkoutSubmit);
+
+user_Router.post('/update-status',orderController.updateOrder);
+user_Router.post('/cancelOrder',orderController.cancelOrder);
+
+user_Router.get('/create-order', orderController.createOrder);
+user_Router.post('/verify-payment', orderController.verifyPayment);
+
+user_Router.post('/wallet-payment',orderController.walletParchase);
+
+user_Router.get('/orders',userAuth.isLogin,orderController.myOrderLoad);
+user_Router.get('/wishlist',userAuth.isLogin,orderController.wishlistLoad);
+user_Router.get('/wishlist-add',userAuth.isLogin,orderController.wishlistProduct);
+user_Router.delete('/remove-productWishlist',orderController.removeProduct);
 
 
+//--wallet -----------
+
+user_Router.get('/wallet',orderController.walletPage);
+
+//------------------------coupon Controller ----------------------------------------
+
+user_Router.post('/apply-coupon',couponController.applyCoupon);
 
 
 user_Router.get('/logOut',userController.logOut);

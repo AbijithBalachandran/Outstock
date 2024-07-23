@@ -122,7 +122,7 @@
                                     <div class="card-body">
                                         <h2 class="card-title text-center mb-4">Edit Products</h2>
 
-                                        <form id="productForm" method="post" action="/admin/editProduct"
+                                        <form id="productForm"
                                             enctype="multipart/form-data">
                                             <div class="row">
                                                 <input type="hidden" name="id" value="<%=product.id%>">
@@ -142,7 +142,7 @@
                                                         <% for(let i=0;i<category.length;i++){ %>
                                                             <option value="<%=category[i].name%>">
                                                                 <%=category[i].name%>
-                                                            </option>></option>
+                                                            </option>
                                                             <%}%>
                                                     </select>
                                                     <div class="text-danger" id="errorCategory"></div>
@@ -152,9 +152,8 @@
 
                                             <div class="form-control mb-3 border-0 shadow-none">
                                                 <select class="custom-select" name="action" id="inputGroupSelect02">
-                                                    <option selected value="<%=product.action==false?'unlist':'list'%>"><%=product.action==false?'unlist':'list'%></option>
-                                                    <option value="<%=product.action%>">list</option>
-                                                    <option value="<%=product.action%>">unlist</option>
+                                                    <option value="true" <%= product.action ? 'selected' : '' %>>List</option>
+                                                    <option value="false" <%= !product.action ? 'selected' : '' %>>Unlist</option>
                                                 </select>
                                                 <div class="text-danger" id="errorAction"></div>
                                             </div>
@@ -276,7 +275,17 @@
                 </div>
 
     </div>
-
+                    <!-- Modal for cropping image -->
+                    <div id="cropModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <h2>Crop Image</h2>
+                            <div class="crop-container">
+                                <img id="imageToCrop" src="" alt="Image to crop">
+                            </div>
+                            <button class="crop-button" onclick="cropImage()">Crop</button>
+                        </div>
+                    </div>
 
     <script>
         // image script-------------------------------
@@ -294,10 +303,9 @@
     </script>
 
 
+<script src="https://unpkg.com/cropperjs/dist/cropper.min.js"></script>
     <script src="/adminside/js/editproduct.js"></script>
-
-
-
+     <script src="/adminside/js/croper.js"></script>
 
 
     <%- include('../layout/adminFooter') %>

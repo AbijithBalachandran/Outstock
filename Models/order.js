@@ -10,7 +10,7 @@ const orderSchema = new mongoose.Schema({
          orderItem:[{
              productId:{
                  type:mongoose.SchemaTypes.ObjectId,
-                 ref: 'Product',
+                 ref: 'Products',
                  required:true
                },
                quantity:{
@@ -64,7 +64,7 @@ const orderSchema = new mongoose.Schema({
                       require:false
                 }
       }],
-      address:[{
+      address:{
             userName:{
             type:String,
             require:true
@@ -97,7 +97,45 @@ const orderSchema = new mongoose.Schema({
               type:String,
               require:true
           }
-        }],
+        },
+
+
+        couponDetails:{
+                code: {
+                  type: String,
+                  // required: true,
+                },
+                discount: {
+                  type: Number,
+                  // required: true
+                },
+                miniParchaseAmt: {
+                  type: Number,
+                  // required: true
+                },
+                maxredeemableAmt: {
+                  type: Number,
+                  // required: true
+                },
+
+        },
+
+        offerDetails:{
+          offerName: {
+            type: String,
+            // required: true
+        },
+        offerType: {
+            type: String,
+            // required: true,
+            // enum: ["Product Base", "Category Base"]
+        },
+        discount: {
+            type: Number,
+            // required: true
+        }
+        },
+
          paymentMethod:{
             type:String,
             require:true
@@ -106,11 +144,16 @@ const orderSchema = new mongoose.Schema({
             type:Date,
             default: Date.now()
         },
+        totalPrice:{
+            type:Number,
+            require:true 
+        },
         orderStatus: {
             type: String,
             default: 'Processing',
-            enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Returned', 'Completed', 'Return requested', 'Return approved', 'Return Rejected', 'Refunded']
+            enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Returned', 'Return requested', 'Return approved', 'Return Rejected', 'Refunded']
       },
+
 });
 
 const Order = mongoose.model('Order',orderSchema);

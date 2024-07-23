@@ -18,6 +18,8 @@ const adminAuth = require('../middleware/auth');
 const adminController = require('../controller/adminController');
 const categoryController =require('../controller/categoryController');
 const productController =require('../controller/productController');
+const couponController = require('../controller/couponController');
+const offerController = require('../controller/offerController');
 
 // ------------admin signin and customer management ----------------------------------// 
 
@@ -36,15 +38,21 @@ admin_Router.put('/blockAndUnblockUser',adminController.updateUserStatus);
 admin_Router.get('/logOut',adminAuth.isLogin,adminController.logOut);
 
 
-admin_Router.get('/orderManagement',adminController.orderPageLoad);
-admin_Router.get('/order-detail',adminController.OrderDetailPage);
+admin_Router.get('/orderManagement',adminAuth.isLogin,adminController.orderPageLoad);
+admin_Router.get('/order-detail',adminAuth.isLogin,adminController.OrderDetailPage);
 admin_Router.put('/update-status/:orderId/:newStatus', adminController.updateOrderStatus);
+
+admin_Router.post('/aprove-return',adminController.aproveToReturn);
+
+admin_Router.get('/salesReport',adminAuth.isLogin,adminController.salesReportPage);
+admin_Router.post('/filterSalesReport',adminController.filterSalesReport);
+admin_Router.get('/coustomSalesReport',adminController.filterSalesReport);
 
 
 //--------------catogorymanagement in categoryController ----------------------------//
 
 admin_Router.get('/addcategory',adminAuth.isLogin,categoryController.addCategoryLoad);
-admin_Router.post('/addcategory',categoryController.addNewcategory);
+admin_Router.post('/addcategory',categoryController.addNewCategory);
 
 admin_Router.get('/categoryManagement',adminAuth.isLogin,categoryController.categoryLoad);
 admin_Router.put('/updateCategoyListAndUnlist',categoryController.updateCategoyStatus);
@@ -67,11 +75,35 @@ admin_Router.post('/editProduct', multer.upload.array('images', 3),productContro
 
 admin_Router.get('/delete-Product',productController.deleteProduct);
 
-//-----------------------------------------Order --------------------------------
+//-----------------------------------------Coupon Controller --------------------------------
 
+admin_Router.get('/couponManagement',adminAuth.isLogin,couponController.couponManagementLoad);
+admin_Router.get('/addcoupon',adminAuth.isLogin,couponController.addCouponPage);
+admin_Router.post('/addcoupon',couponController.addNewCoupon);
+
+admin_Router.get('/editcoupon',adminAuth.isLogin,couponController.editCouponPage);
+admin_Router.put('/editcoupon',couponController.editCoupons);
+
+admin_Router.put('/updateCouponListAndUnlist',couponController.updateCouponStatus);
+admin_Router.get('/delete-coupon',couponController.deleteCoupon);
+
+
+//----------------------------------------OFFER cONTROLLER ----------------------------------------------
+
+admin_Router.get('/offerManagement',adminAuth.isLogin,offerController.offerManagement);
+
+admin_Router.get('/addOffer',adminAuth.isLogin,offerController.addNewOfferPage);
+// admin_Router.post('/addOffer',offerController.addOffer);
+
+admin_Router.get('/editOffer',adminAuth.isLogin,offerController.editOfferPage);
+admin_Router.put('/editOffer',offerController.editOffer);
+
+admin_Router.put('/updateofferActivateAndDeActivate',offerController.OfferActiveandDeactivate);
+admin_Router.post('/apply-Offer',offerController.applyOffer);
+//----------------------------------------------------------------------------------------------------------
 
 admin_Router.get('*', (req, res) => {
-      res.status(404).render('404');
+      res.status(404).render('404',{ ActivePage: '404' });
   });
 
 

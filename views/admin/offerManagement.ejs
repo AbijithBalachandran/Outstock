@@ -1,0 +1,232 @@
+<%- include('../layout/adminHeader') %>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<div class="container-xxl position-relative bg-white d-flex p-0">
+
+    <%-include('../layout/adSidebarHeader')%>
+
+
+
+    <%-include('../layout/adSidebarFooter')%>
+
+
+  
+    <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+            <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="fa fa-bars"></i>
+            </a>
+            <form class="d-none d-md-flex ms-4">
+                <input class="form-control border-0" type="search" placeholder="Search">
+            </form>
+            <div class="navbar-nav align-items-center ms-auto">
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="fa fa-envelope me-lg-2"></i>
+                        <span class="d-none d-lg-inline-flex">Message</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                        <a href="#" class="dropdown-item">
+                            <div class="d-flex align-items-center">
+                                <img class="rounded-circle" src="img/user.jpg" alt=""
+                                    style="width: 40px; height: 40px;">
+                                <div class="ms-2">
+                                    <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                            </div>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">
+                            <div class="d-flex align-items-center">
+                                <img class="rounded-circle" src="img/user.jpg" alt=""
+                                    style="width: 40px; height: 40px;">
+                                <div class="ms-2">
+                                    <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                            </div>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">
+                            <div class="d-flex align-items-center">
+                                <img class="rounded-circle" src="img/user.jpg" alt=""
+                                    style="width: 40px; height: 40px;">
+                                <div class="ms-2">
+                                    <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                    <small>15 minutes ago</small>
+                                </div>
+                            </div>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item text-center">See all message</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="fa fa-bell me-lg-2"></i>
+                        <span class="d-none d-lg-inline-flex">Notification</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                        <a href="#" class="dropdown-item">
+                            <h6 class="fw-normal mb-0">Profile updated</h6>
+                            <small>15 minutes ago</small>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">
+                            <h6 class="fw-normal mb-0">New user added</h6>
+                            <small>15 minutes ago</small>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">
+                            <h6 class="fw-normal mb-0">Password changed</h6>
+                            <small>15 minutes ago</small>
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item text-center">See all notifications</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
+                            style="width: 40px; height: 40px;">
+                        <span class="d-none d-lg-inline-flex">John Doe</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                        <a href="/admin/logOut" class="dropdown-item">Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar End -->
+
+        
+        <style>
+          .card {
+            margin-top: 20px;
+            position: relative;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(16, 5, 5, 0.996);
+            transition: transform 0.3s;
+          }
+          .card:hover {
+            transform: translateY(-10px);
+          }
+          .card-body {
+            text-align: center;
+            padding: 2rem;
+          }
+          .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+          }
+          .card-text {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+          }
+          .offer-details {
+            margin-bottom: 1rem;
+          }
+          .offer-type, .offer-discount {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+          }
+          .disText{
+            color:#04f73d ;
+          }
+          .btn-activate {
+            background-color: #28a745;
+            border-color: #28a745;
+          }
+          .btn-activate:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+          }
+          .edit-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+          }
+          .edit-btn:hover {
+            background-color: #85a9d0;
+          }
+        </style>
+
+<div class="d-flex justify-content-start m-5">
+      <a href="/admin/addOffer"><button type="button" class="btn btn-primary">ADD OFFER</button></a>
+  </div>
+      </head>
+      <body>
+        <div class="container mt-5">
+            <% if(offer && offer.length > 0){%>
+          <div class="row">
+            <% offer.forEach(offer => {%>
+
+            <div class="col-sm-6">
+              <div class="card">
+                <a href="/admin/editOffer?id=<%= offer.id %>"><button class="edit-btn">
+                  <i class="fas fa-edit"></i>
+                </button></a>
+                <div class="card-body">
+                  <h5 class="card-title"><%= offer.offerName %></h5>
+                  <p class="card-text"></p>
+                  <div class="offer-details">
+                    <p class="offer-type">Offer Type: <span><%= offer.offerType %></span></p>
+                    <p class="offer-discount">Discount: <span class="disText"><%= offer.discount %>% OFF</span></p>
+                  </div>
+
+                 <% if (offer.offerStatus === true) {%>
+                   <button class="btn btn-activate" onclick="activateDeactivate('<%= offer._id %>',true)" >Activate</button>
+                 <%} else {%>
+                   <button class="btn btn-danger" onclick="activateDeactivate('<%= offer._id %>',false)" >Deactivate</button>
+                 <% } %>
+                  
+
+                </div>
+              </div>
+            </div>
+          
+          <% }) %>
+      </div>
+          <% }else{%>
+          <h3>Offers Not Found</h3>
+          <% } %>
+        </div>
+      
+        
+       
+</body>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<script src="/adminside/js/activateDeactivate.js"></script>
+
+
+<%- include('../layout/adminFooter') %>
