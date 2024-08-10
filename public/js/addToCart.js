@@ -9,8 +9,14 @@ function addProductCart(event, id) {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, Add!"
-      }).then((result) => {
+      }).then((result) => {       
             if (result.isConfirmed) {
+                  Swal.fire({
+                        title: "Add!",
+                        text: "You add the product to cart.",
+                        icon: "success"
+                      });
+                      
                   fetch(`/cart-add?id=${id}`) 
                         .then(async response => {
                               if (response.ok) {
@@ -22,7 +28,13 @@ function addProductCart(event, id) {
                                           return;
                                     }
                                     throw new Error('Unauthorized, no redirect URL provided.');
-                              } else {
+                              } else if(response.status === 400) {
+                                    Swal.fire({
+                                          title: "Zero Quantity",
+                                          text: "Product out of stock.",
+                                          icon: "fail"
+                                    });
+                              }else{
                                     throw new Error('Network response was not ok.');
                               }
                         })
@@ -42,7 +54,6 @@ function addProductCart(event, id) {
                                           icon: "fail"
                                     });
                                     }
-                                    
                                     console.log('Success:', data);
                               }
                         })

@@ -7,63 +7,79 @@ const asyncHandler = require('express-async-handler');
 //----------------------------------Cart Page Rendering------------------------------//
 
 const cartLoad = asyncHandler(async (req, res) => {
-  const userId = req.query.id;
-  const user = await User.findById(userId);
-  const cart = await Cart.find({ user: userId }).populate('cartItem.products');
-   
-  let cartCount=0;
-  let total =0;
+    const userId = req.query.id;
+    const user = await User.findById(userId);
+    
+    const itemsPerPage = 3; 
+    const currentPage = parseInt(req.query.page) || 1;
+    const start = (currentPage - 1) * itemsPerPage;
 
-  if (!cart || cart.length === 0) {
-    cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
-    const total = cart[0].cartItem.reduce((acc, val) => {
-        acc += val.products.price * val.quantity;
-        return acc;
+    const cart = await Cart.findOne({ user: userId }).populate('cartItem.products');
+    if (!cart) {
+        res.render('cart', { user, cartItems: [], total: 0, cartCount: 0, currentPage, totalPages: 0,activePage:"cart" });
+        return;
+    }
+
+    // Paginate the cart items
+    const paginatedCartItems = cart.cartItem.slice(start, start + itemsPerPage);
+
+    const cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
+    
+    const total = paginatedCartItems.reduce((acc, val) => {
+        return acc + val.products.price * val.quantity;
     }, 0);
 
-      res.render('cart', { user, cartItems: [], total,cartCount });
-      return;
-  }
+    const Count = cart.cartItem.length;
+    const totalPages = Math.ceil(Count / itemsPerPage);
 
-  res.render('cart', { user, cartItems: cart, total, cartCount  });
+    res.render('cart', { user, cartItems: paginatedCartItems, total, cartCount, currentPage, totalPages,activePage:"cart" });
 });
+
 
 
 //-------------------------------Add Product to Cart--------------------------------//
 
 
 const cartProduct = asyncHandler(async (req, res) => {
-  const userId = req.session.userData_id;
-  const productId = req.query.id;
 
-  
-  const product = await Products.findById(productId);
-  if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
-  }
+    const userId = req.session.userData_id;
+    const productId = req.query.id;
 
-  if (product.quantity < 1) {
-      return res.status(400).json({ message: 'Product out of stock' });
-  }
+    console.log('User ID:', userId);
+    console.log('Product ID:', productId);
 
-  let cart = await Cart.findOne({ user: userId });
-  if (!cart) {
-      cart = new Cart({ user: userId, cartItem: [{ products: productId }] });
-  }
+    const product = await Products.findById(productId);
+    if (!product) {
+        return res.status(404).json({ message: 'Product not found' });
+    }
 
-  const existingItem = cart.cartItem.find(item => item.products.toString() === productId);
-  if (existingItem) {
-      return res.status(200).json({ exist: 'product exist' });
-  } else {
-      cart.cartItem.push({ products: productId, quantity: 1 });
-      product.quantity -= 1; 
-  }
+    if (product.quantity < 1) {
+        return res.status(400).json({ message: 'Product out of stock' });
+    }
 
-  await product.save();
-  await cart.save();
+    let cart = await Cart.findOne({ user: userId });
+    if (!cart) {
+        cart = new Cart({ user: userId, cartItem: [] });
+        console.log('Creating new cart for user');
+    }
 
-  res.status(200).json({ message: 'Product added to cart successfully' });
+    console.log('Cart:', cart);
+
+    const existingItem = cart.cartItem.find(item => item.products.toString() === productId);
+    if (existingItem) {
+        console.log('Product already exists in cart');
+        return res.status(200).json({ exist: 'product exist' });
+    } else {
+        cart.cartItem.push({ products: productId, quantity: 1 });
+        product.quantity -= 1;
+    }
+
+    await product.save();
+    await cart.save();
+
+    res.status(200).json({ message: 'Product added to cart successfully' });
 });
+
 
 //-----------------------------remove cart product ----------------------------------
 
@@ -99,7 +115,9 @@ const removeProduct = asyncHandler(async (req, res) => {
   }
 });
 
+
 //----------------------------------Update and adjest the product quantity ----------------------
+
 
 const updateQuantity = asyncHandler(async (req, res) => {
   const { productId, quantity } = req.body;
@@ -144,6 +162,7 @@ const updateQuantity = asyncHandler(async (req, res) => {
 
   return res.status(200).json({ success: true, total: total });
 });
+
       
 //------------------------------------------------------------------------------
 

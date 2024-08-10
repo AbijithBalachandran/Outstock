@@ -222,10 +222,11 @@ document.getElementById('Search-In-Modal-1').focus();
       document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const message = urlParams.get('message');
+           message = req.query.message ? decodeURIComponent(req.query.message) : '';
     if (message) {
         const messageDisplay = document.getElementById('messageDisplay');
         messageDisplay.innerText = decodeURIComponent(message);
-        messageDisplay.style.color = 'green'; // Optionally style the message
+        messageDisplay.style.color = 'green'; 
     }
    });
 

@@ -11,9 +11,9 @@ const bodyParser =require('body-parser');
 admin_Router.use(bodyParser.json());
 admin_Router.use(bodyParser.urlencoded({extended:true}));
 
-
+//---------------------------middleware --------------------
 const adminAuth = require('../middleware/auth');
-
+const fetchOrders = require('../middleware/fetchOrders');
 //-------------------require controllers---------------------------------------------------//
 const adminController = require('../controller/adminController');
 const categoryController =require('../controller/categoryController');
@@ -30,6 +30,8 @@ admin_Router.get('/login',adminAuth.isLogOut,adminController.signinLoad);
 admin_Router.post('/login',adminController.adminLoad);
 
 admin_Router.get('/dashboard',adminAuth.isLogin,adminController.dashboard);
+admin_Router.post('/filter-sales-data',adminController.dashboardFilter);
+
 admin_Router.get('/customerManagement',adminAuth.isLogin,adminController.userLoad);
 admin_Router.get('/search-user',adminController.SearchUser);
 
@@ -46,8 +48,10 @@ admin_Router.post('/aprove-return',adminController.aproveToReturn);
 
 admin_Router.get('/salesReport',adminAuth.isLogin,adminController.salesReportPage);
 admin_Router.post('/filterSalesReport',adminController.filterSalesReport);
-admin_Router.get('/coustomSalesReport',adminController.filterSalesReport);
+admin_Router.post('/customSalesReport',adminController.customFilter);
 
+admin_Router.post('/downloadPDF',fetchOrders,adminController.generatePDF);
+admin_Router.post('/downloadExcel',fetchOrders,adminController.generateExcel);
 
 //--------------catogorymanagement in categoryController ----------------------------//
 
@@ -100,6 +104,7 @@ admin_Router.put('/editOffer',offerController.editOffer);
 
 admin_Router.put('/updateofferActivateAndDeActivate',offerController.OfferActiveandDeactivate);
 admin_Router.post('/apply-Offer',offerController.applyOffer);
+
 //----------------------------------------------------------------------------------------------------------
 
 admin_Router.get('*', (req, res) => {

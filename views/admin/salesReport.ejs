@@ -149,13 +149,15 @@
     </style>
 </head>
 <body>
+
+
 <div class="container">
     <div class="filter-container">
         <div class="form-row align-items-center">
             <div class="col-md-2 mb-3">
                 <label for="sortOrders">Sort By:</label>
-                <select class="form-control" id="sortOrders">
-                    <option value="all" >All Orders</option>
+                <select class="form-control" id="sortOrders" onchange="sortByPredefinedRange()">
+                    <option value="all">All Orders</option>
                     <option value="Daily">1 Day</option>
                     <option value="Week">1 Week</option>
                     <option value="Month">1 Month</option>
@@ -165,27 +167,25 @@
             <div class="col-md-2 mb-3">
                 <label for="startDate">From:</label>
                 <div class="input-group">
-                    <input type="date" class="form-control" id="startDate" required>
+                    <input type="date" class="form-control" id="startDate">
                 </div>
             </div>
             <div class="col-md-2 mb-3">
                 <label for="endDate">To:</label>
                 <div class="input-group">
-                    <input type="date" class="form-control" id="endDate" required>
+                    <input type="date" class="form-control" id="endDate">
                 </div>
             </div>
-            <!-- <div class="col-md-6 mb-3 d-flex align-items-end mt-4">
-                <button type="button" class="btn btn-purple ms-4" onclick="sortbyValue()">Filter</button>
-                <button type="button" class="btn btn-green ms-3">Download Excel</button>
-                <button type="button" class="btn btn-red ms-3" >Download PDF</button>
-            </div> -->
             <div class="col-md-6 mb-3 d-flex align-items-end mt-4">
-                <button type="button" class="btn btn-purple ms-4" onclick="sortbyValue()">Filter</button>
+                <button type="button" class="btn btn-purple ms-4" onclick="filterByCustomDateRange()">Filter</button>
                 <button type="button" class="btn btn-green ms-3" onclick="downloadExcel()">Download Excel</button>
                 <button type="button" class="btn btn-red ms-3" onclick="downloadPDF()">Download PDF</button>
             </div>
         </div>
     </div>
+    
+
+
     <div class="total-orders">
         Total Orders: <span id="totalOrders">11</span>
     </div>
@@ -243,39 +243,102 @@
 </div>
 
 
- <!-- <script>
-        function downloadExcel() {
-            const table = document.querySelector('table');
-            const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
-            const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+<!-- Pagination Start -->
+<nav aria-label="Page navigation example" class="d-flex justify-content-end me-4">
+    <ul class="pagination">
+        <% if (currentPage > 1) { %>
+            <li class="page-item">
+                <a class="page-link" href="/admin/salesReport?page=<%= currentPage - 1 %><%= filterParams.startDate ? '&startDate=' + filterParams.startDate : '' %><%= filterParams.endDate ? '&endDate=' + filterParams.endDate : '' %>" tabindex="-1">Previous</a>
+            </li>
+        <% } else { %>
+            <li class="page-item disabled">
+                <a class="page-link" href="" tabindex="-1">Previous</a>
+            </li>
+        <% } %>
 
-            function s2ab(s) {
-                const buf = new ArrayBuffer(s.length);
-                const view = new Uint8Array(buf);
-                for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
-                return buf;
+        <% for (let i = 1; i <= totalPages; i++) { %>
+            <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                <a class="page-link" href="/admin/salesReport?page=<%= i %><%= filterParams.startDate ? '&startDate=' + filterParams.startDate : '' %><%= filterParams.endDate ? '&endDate=' + filterParams.endDate : '' %>"><%= i %></a>
+            </li>
+        <% } %>
+
+        <% if (currentPage < totalPages) { %>
+            <li class="page-item">
+                <a class="page-link" href="/admin/salesReport?page=<%= currentPage + 1 %><%= filterParams.startDate ? '&startDate=' + filterParams.startDate : '' %><%= filterParams.endDate ? '&endDate=' + filterParams.endDate : '' %>">Next</a>
+            </li>
+        <% } else { %>
+            <li class="page-item disabled">
+                <a class="page-link" href="" tabindex="-1">Next</a>
+            </li>
+        <% } %>
+    </ul>
+</nav>
+<!-- Pagination End -->
+
+
+
+<script>
+
+async function downloadPDF() { 
+    try {
+        const response = await fetch('/admin/downloadPDF', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             }
+        });
 
-            saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), 'report.xlsx');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
 
-        function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'sales_report.pdf';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error('Error downloading PDF:', error);
+    }
+}
 
-            const table = document.querySelector('table');
-            const rows = Array.from(table.querySelectorAll('tr')).map(row => 
-                Array.from(row.querySelectorAll('td, th')).map(cell => cell.innerText)
-            );
 
-            doc.autoTable({
-                head: [rows[0]],
-                body: rows.slice(1),
-            });
 
-            doc.save('report.pdf');
+async function downloadExcel() {
+    try {
+        const response = await fetch('/admin/downloadExcel', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
-    </script> -->
+
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'sales_report.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error('Error downloading Excel:', error);
+    }
+}
+
+
+</script>
+
+
 
 <!-- Bootstrap JS and dependencies -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -295,3 +358,6 @@
     <script src="/adminside/js/salesReportsort.js"></script>
 
     <%- include('../layout/adminFooter') %>
+
+
+

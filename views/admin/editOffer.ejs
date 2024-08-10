@@ -161,7 +161,7 @@
       <div class="form-group">
         <label for="offerType">Offer Type</label>
         <select class="form-control" id="offerType" required>
-            <option value="" disabled selected>Select offer type</option>
+            <option value="" disabled selected><%= offer.offerType %></option>
             <option value="Category Base">Category Base</option>
             <option value="Product Base">Product Base</option>
         </select>
@@ -202,6 +202,7 @@
                     <% categories.forEach(category => { %>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="<%= category._id %>" id="category<%= category._id %>">
+                         <%= selectedItems.includes(category._id.toString()) ? 'checked' : '' %> 
                         <label class="form-check-label" for="category<%= category._id %>"><%= category.name %></label>
                     </div>
                     <% }) %>
@@ -228,20 +229,24 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form id="productForm">
-                    <% if (products && products.length > 0) { %>
-                    <% products.forEach(product => { %>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="<%= product._id %>" id="product<%= product._id %>">
-                        <label class="form-check-label" for="product<%= product._id %>"><%= product.name %></label>
-                    </div>
-                    <% }) %>
-                    <% } else { %>
-                    <h5>No Products</h5>
-                    <% } %>
-                </form>
-            </div>
+
+<div class="modal-body">
+    <form id="productForm">
+        <% if (products && products.length > 0) { %>
+        <% products.forEach(product => { %>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="<%= product._id %>" id="product<%= product._id %>" 
+                   <%= selectedItems.includes(product._id.toString()) ? 'checked' : '' %> >
+            <label class="form-check-label" for="product<%= product._id %>"><%= product.name %></label>
+        </div>
+        <% }) %>
+        <% } else { %>
+        <h5>No Products</h5>
+        <% } %>
+    </form>
+</div>
+
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="saveSelections('productForm')">Save</button>
                 <button type="button" class="btn btn-secondary" onclick="closeModal('productModal')">Close</button>
@@ -275,45 +280,47 @@ document.getElementById('offerType').addEventListener('change', function () {
     }
     
 
+
     function editOffer(event) {
-        event.preventDefault();
-        const id      =  document.getElementById('id').value;
-        const offerName = document.getElementById('offerName').value;
-        const offerType = document.getElementById('offerType').value;
-        const discount = document.getElementById('offerDiscount').value;
-        const expiryDate = document.getElementById('expiryDate').value;
-    
-        const selectedItems = getSelectedItems();
-    
-        const offerData = {
-            id,
-            offerName,
-            offerType,
-            discount,
-            expiryDate,
-            selectedItems
-        };
-    
-        fetch('/admin/editOffer', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(offerData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                window.location.href = "/admin/offerManagement";
-            } else {
-                Swal.fire(data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again.');
-        });
-    }
+    event.preventDefault();
+    const id = document.getElementById('id').value;
+    const offerName = document.getElementById('offerName').value;
+    const offerType = document.getElementById('offerType').value;
+    const discount = document.getElementById('offerDiscount').value;
+    const expiryDate = document.getElementById('expiryDate').value;
+
+    const selectedItems = getSelectedItems();
+
+    const offerData = {
+        id,
+        offerName,
+        offerType,
+        discount,
+        expiryDate,
+        selectedItems
+    };
+
+    fetch('/admin/editOffer', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(offerData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message === 'Offer applied successfully') {
+            window.location.href = "/admin/offerManagement";
+        } else {
+            Swal.fire(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    });
+}
+
     
     function getSelectedItems() {
         const categoryItems = Array.from(document.querySelectorAll('#categoryModal input[type="checkbox"]:checked')).map(cb => cb.value);

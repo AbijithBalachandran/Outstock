@@ -1,0 +1,268 @@
+<%- include('../layout/header') %>
+
+
+    <%- include('../layout/navbarH') %>
+
+
+        <%- include('../layout/navbarF') %>
+
+
+
+
+        
+<div id="searchTop" class="search-modal modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content container border-0">
+			<div class="modal-header border-0 p-0 text-center flex-column">
+				<button type="button" class="btn-close m-auto w-auto h-auto p-0 text-primary" data-bs-dismiss="modal" aria-label="Close"><svg   class="icon" width="28" height="28" aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.48627 9.32917L2.82849 3.67098" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2.88539 9.38504L8.42932 3.61524" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg></button>
+				<h4 class="modal-title pb-0 pt-2 pt-md-5 mb-2" id="searchTopLabel">Search</h4>
+			</div>
+			<div class="search-modal__content " tabindex="-1"><predictive-search class="search-modal__form w-100" data-loading-text="Loading..."><form action="https://vela-kazan.myshopify.com/search" method="get" role="search" class="search search-modal__form position-relative pe-5 border-bottom">
+					
+					<input class="search__input form-control search-input border-0 px-0"
+					id="Search-In-Modal-1"
+					type="search"
+					name="q"
+					value=""
+					placeholder="Enter keywords to search..."role="combobox"
+						aria-expanded="false"
+						aria-owns="predictive-search-results-list"
+						aria-controls="predictive-search-results-list"
+						aria-haspopup="listbox"
+						aria-autocomplete="list"
+						autocorrect="off"
+						autocomplete="off"
+						autocapitalize="off"
+						spellcheck="false">
+					<label class="d-none" for="Search-In-Modal">Enter keywords to search...</label>
+					<input type="hidden" name="type" value="product" />
+					<input type="hidden" name="options[sort_by]" value="price-descending" />
+					<button class="search__button btn btn-link p-0 text-end position-absolute end-0" aria-label="Enter keywords to search...">
+						<svg  class="icon icon-search"  width="24" height="24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve"><path fill="currentColor" d="M344.5,298c15-23.6,23.8-51.6,23.8-81.7c0-84.1-68.1-152.3-152.1-152.3C132.1,64,64,132.2,64,216.3c0,84.1,68.1,152.3,152.1,152.3c30.5,0,58.9-9,82.7-24.4l6.9-4.8L414.3,448l33.7-34.3L339.5,305.1L344.5,298z M301.4,131.2c22.7,22.7,35.2,52.9,35.2,85c0,32.1-12.5,62.3-35.2,85c-22.7,22.7-52.9,35.2-85,35.2c-32.1,0-62.3-12.5-85-35.2c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z"></path></svg>
+					</button><div class="predictive-search predictive-search--header position-absolute bg-white overflow-auto" tabindex="-1" data-predictive-search>
+							<div class="predictive-search__loading-state d-none">
+								<svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+								<circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+								</svg>
+							</div>
+						</div>
+
+						<span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span></form></predictive-search></div>
+		</div>
+	</div>
+</div>
+<script>
+	var myCollapsible = document.getElementById('searchTop');
+	myCollapsible.addEventListener('shown.bs.modal', function () {
+		document.getElementById('Search-In-Modal-1').focus();
+	});
+</script>
+<main id="MainContent" class="main-content content-for-layout" tabindex="-1">
+			<div class="main-content__inner">
+				<section id="shopify-section-template--14955324932161__breadcrumb" class="shopify-section velaFramework">	<div class="vela-breadcrumbs vela-section overflow-hidden d-flex flex-wrap align-items-center vela-breadcrumbs--image" style="--st-bg-cl:#f6f6f4;--breadcrumb-color-link:#c3c3c3;
+			--breadcrumb-color:#201f1f;
+			--breadcrumb-heading-color:#323232;
+			--breadcrumb-mh:400px;
+			--breadcrumb-mh-m:60px,"><div class="vela-breadcrumbs__image lazyload"
+				data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_180x.jpg?v=1614322107 180w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_360x.jpg?v=1614322107 360w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_540x.jpg?v=1614322107 540w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_720x.jpg?v=1614322107 720w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_900x.jpg?v=1614322107 900w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1080x.jpg?v=1614322107 1080w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1296x.jpg?v=1614322107 1296w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1512x.jpg?v=1614322107 1512w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1728x.jpg?v=1614322107 1728w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1.jpg?v=1614322107 1920w"
+				data-sizes="auto"
+				data-parent-fit="cover"></div><div class="container">
+			<div class="vela-breadcrumbs__inner align-items-center flex-column" aria-label="breadcrumb"><h1 class="vela-breadcrumbs__title mb-1 d-none d-md-block">Contact Us V3</h1>
+				<ol class="breadcrumb m-0" itemscope itemtype="http://schema.org/BreadcrumbList">
+					<li class="breadcrumb-item breadcrumb__item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+						<a class="breadcrumb__link" href="/home" title="Home" itemprop="item">
+							<span itemprop="name">Home</span>
+						</a>
+						<meta itemprop="position" content="1" />
+					</li>
+					<li class="breadcrumb-item breadcrumb__item active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+						<span class="breadcrumb__text">
+							<span itemprop="name">Contact Us V3</span>
+						</span>
+						<meta itemprop="position" content="2" />
+					</li>
+				</ol>
+			</div>
+	    </div>
+    </div>
+	
+</section><section id="shopify-section-template--14955324932161__0b196b44-b268-4c1f-bdb4-a54a433a12cf" class="shopify-section velaFramework"><div class="vela-section contact_form2 overflow-hidden" style="--st-pd-dt: 100px 0;--st-pd-mb: 60px 0;">
+    <div class="container">
+        <div class="vela-section__inner">    
+            <div class="contact_form2__content">
+                <div class="row g-4 g-md-5 mb-3 pb-md-5">
+                    <div class="col-12 col-lg-5 col-xl-6">
+                        <div class="contact_form2__wrapper">
+                            <h2 class="contact_form2__title mb-3 pb-1 h4">Contact us</h2><div class="contact_form2__desc mb-3 pb-1">Outstock is a premium Templates theme with advanced admin module. It’s extremely customizable, easy to use and fully responsive and retina ready. Vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</div><form method="post" action="https://vela-kazan.myshopify.com/contact#ContactForm" id="ContactForm" accept-charset="UTF-8" class="contact-form"><input type="hidden" name="form_type" value="contact" /><input type="hidden" name="utf8" value="✓" /><div class="row g-4 mb-4 mb-xl-5">
+                                    <div class="col-12 col-lg-6">
+                                        <label class="form__label mb-2" for="ContactForm-name">Name <span class="text-danger" aria-hidden="true">*</span></label>
+                                        <input class="form-control" placeholder="Name" autocomplete="name" type="text" id="ContactForm-name" name="contact[Name]" value="" required>
+                                    </div>
+                                    <div class="col-12 col-lg-6">
+                                        <label class="form__label mb-2" for="ContactForm-email">Email <span class="text-danger" aria-hidden="true">*</span></label>
+                                        <input class="form-control"
+                                            type="email"
+                                            id="ContactForm-email"
+                                            placeholder="Email"
+                                            name="contact[email]"
+                                            autocorrect="off"
+                                            autocapitalize="off"
+                                            value=""
+                                            aria-required="true"
+                                            required
+                                            >
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form__label mb-2" for="ContactForm-body">Message <span class="text-danger" aria-hidden="true">*</span></label>
+                                        <textarea class="form-control" rows="4" id="ContactForm-message" name="contact[Message]" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="text-start">
+                                    <button type="submit" class="btn btn-contact-form text-uppercase"><span>Send message </span></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-7 col-xl-6">
+                        <div class="contact_form2__map d-flex w-100" style="--gm-h: 550px;--gm-h-m: 300px;">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d19867.311686031117!2d-0.111056!3d51.505621!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x4291f3172409ea92!2slastminute.com%20London%20Eye!5e0!3m2!1sen!2sus!4v1631783144736!5m2!1sen!2sus" width="100%" height="600px" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3 g-md-5 pt-5"><div class="col-12 col-md-4 col-lg-4">
+                            <div class="contact_form2__infor">
+                                <div class="contact_form2-info__content">
+                                    <div class="row g-1 g-md-2"><div class="contact_form2-info__banner pb-2 col-12">
+                                                <div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:100.0%;" role="img"
+            aria-label=""
+            data-alt=""
+            data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/gallery16_180x.jpg?v=1614322161 180w ,//vela-kazan.myshopify.com/cdn/shop/files/gallery16_320x320.jpg?v=1614322161 320w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+                                            </div><h2 class="contact_form2-info__heading mb-0 h5">New York Plaza</h2>
+                                            <div class="contact_form2-info__item contact_form2-info__desc pb-1 col-12">Outstock is a premium Templates theme with advanced admin module</div>
+                                        
+<div class="contact_form2-info__item contact_form2-info__address d-flex align-items-center col-12">
+                                                <i class="icons d-flex align-items-center justify-content-center me-1 me-md-2">
+                                                    <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 768 1024"><path fill="currentColor" d="M388 0q-78 0-149.5 31.5t-123.5 84T31.5 240T0 390q0 44 12 92t28 89t46 91t53.5 84.5t63.5 84t62 75.5t62 72q12 14 18 20q2 3 7 7.5t18 11.5t25 7h3q28 0 50-26q320-368 320-608q0-167-102-277Q560 0 388 0zm12 955q-1 2-4 4l-4-4l-17-19q-38-44-59-68.5T257 796t-60-79.5t-51-79t-44.5-84t-26.5-81T64 390q0-87 44-162.5T226.5 108T388 64q79 0 141 27.5t99.5 74.5T685 270t19 120q0 216-304 565zm-15-762q-31 0-60.5 10t-53 27.5T230 272t-27.5 53t-9.5 60q0 80 56.5 136t136 56T521 521t56-136q0-39-15-74.5t-41-61t-61.5-41T385 193zm0 320q-53 0-91-38t-38-91t37.5-90.5T384 256t90.5 37.5T512 384q0 66-53 105q-33 24-74 24z"/></svg>
+                                                </i>
+                                                <div class="text">Add: 88 Pine St, New York,
+NY 10005, USA</div>
+                                            </div><div class="contact_form2-info__item contact_form2-info__phone d-flex align-items-center col-12">
+                                                <i class="icons d-flex align-items-center justify-content-center me-1 me-md-2">
+                                                    <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false"  style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1056 1056"><path fill="currentColor" d="M1016 788q-4-4-25-18t-49-32.5l-56-37l-50-33l-28-17.5q-4-3-9.5-5t-11-3t-11.5-1q-4 0-7 .5t-6.5 1t-7.5 1.5t-7.5 2t-7 2.5t-7.5 3t-7 3.5q-19 10-91 51q-61-43-152-134q-90-90-133-151q41-73 51-91q26-50 5-83q-11-17-70.5-107T268 39q-17-24-52-24q-9 0-17.5 2t-17 5.5T165 31q-5 4-16.5 13t-37 30.5t-45.5 42t-36 45T15 204q1 42 15 88.5T68 385t53.5 91t66.5 90t71 82.5t72 75.5q59 59 118 109.5t128.5 99t141 77.5t134.5 31h1q17 0 41-16t44.5-36.5t42-45T1012 907l12-16q31-44 9-84q-7-12-17-19zm-44 65q-30 42-67 79.5T851 977q-90-5-212.5-81.5T376.5 679T160 416.5T79 205q6-17 43.5-54T202 84q2-2 4-3t4.5-1.5t5.5-.5q1 0 2 1q60 86 132 199q0 8-6 21q-2 3-5 9t-7.5 14t-10.5 18t-12.5 22t-14.5 26l-20 35l23 33q47 67 141 161t160 140l33 24l36-20q29-17 54-31.5t35-18.5q11-7 20-7h1q81 51 200 133q1 7-5 15zM660 393q7 6 16 6h13l229 1q6 0 11.5-3.5t9-9T942 376v-17q-1-11-9-17.5t-18-6.5H764l262-262q9-9 9-22t-9.5-22.5T1003 19t-23 9L718 291l1-155q0-10-7-17t-16-7h-17q-6 0-11.5 2.5t-9 7T655 133v231h1l-2 12q1 11 6 17z" /></svg>
+                                                </i>
+                                                <div class="text">Phone Number: +1 987-876-6543</div>
+                                            </div><div class="contact_form2-info__item contact_form2-info__email d-flex align-items-center col-12">
+                                                <i class="icons d-flex align-items-center justify-content-center me-1 me-md-2">
+                                                    <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024"><path fill="currentColor" d="M1023 473q0-4-1-8t-2.5-8t-3.5-7.5t-5-6.5l-1-1q-2-3-5-6l-6-6l-167-168V159q0-13-9.5-22.5T800 127H699L582 27q-11-11-24.5-17.5T529 1t-30 0t-28.5 8.5T446 27L330 127H224q-13 0-22.5 9.5T192 159v105L29 427Q0 446 0 481v479q0 27 19 45.5t45 18.5h896q17 0 32-8.5t23.5-23.5t8.5-32V478l-1-5zM269 726L64 916V545zm62 30q6-3 11-9q1-1 2-2.5t2-3.5l138-128q11-9 25-9t24 8l384 348H110zm427-26l202-179v361zm140-313h-1l55 55l-120 107V351zM491 72q10-9 23-9q6 0 12 2.5t11 6.5l64 55H427zm277 119v445l-57 51l-137-124q-6-5-13-9t-14-6.5t-14.5-4.5t-15.5-2.5t-15.5 0T486 543t-15 5t-14.5 7t-13.5 9L316 682l-60-53V191h512zM104 443l88-88v217L75 469l27-26h2z" /></svg>
+                                                </i>
+                                                <div class="text">Mail: outstock@gmail.com</div>
+                                            </div><div class="contact_form2-info__item contact_form2-info__time d-flex align-items-center col-12">
+                                                <i class="icons d-flex align-items-center justify-content-center me-1 me-md-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 1024 1024"><path fill="currentColor" d="m960 95.888l-256.224.001V32.113c0-17.68-14.32-32-32-32s-32 14.32-32 32v63.76h-256v-63.76c0-17.68-14.32-32-32-32s-32 14.32-32 32v63.76H64c-35.344 0-64 28.656-64 64v800c0 35.343 28.656 64 64 64h896c35.344 0 64-28.657 64-64v-800c0-35.329-28.656-63.985-64-63.985zm0 863.985H64v-800h255.776v32.24c0 17.679 14.32 32 32 32s32-14.321 32-32v-32.224h256v32.24c0 17.68 14.32 32 32 32s32-14.32 32-32v-32.24H960v799.984zM736 511.888h64c17.664 0 32-14.336 32-32v-64c0-17.664-14.336-32-32-32h-64c-17.664 0-32 14.336-32 32v64c0 17.664 14.336 32 32 32zm0 255.984h64c17.664 0 32-14.32 32-32v-64c0-17.664-14.336-32-32-32h-64c-17.664 0-32 14.336-32 32v64c0 17.696 14.336 32 32 32zm-192-128h-64c-17.664 0-32 14.336-32 32v64c0 17.68 14.336 32 32 32h64c17.664 0 32-14.32 32-32v-64c0-17.648-14.336-32-32-32zm0-255.984h-64c-17.664 0-32 14.336-32 32v64c0 17.664 14.336 32 32 32h64c17.664 0 32-14.336 32-32v-64c0-17.68-14.336-32-32-32zm-256 0h-64c-17.664 0-32 14.336-32 32v64c0 17.664 14.336 32 32 32h64c17.664 0 32-14.336 32-32v-64c0-17.68-14.336-32-32-32zm0 255.984h-64c-17.664 0-32 14.336-32 32v64c0 17.68 14.336 32 32 32h64c17.664 0 32-14.32 32-32v-64c0-17.648-14.336-32-32-32z"/></svg>
+                                                </i>
+                                                <div class="text">Time: Monday - Friday: 8am - 4pm</div>
+                                            </div></div>
+                                </div>
+                            </div>
+                        </div><div class="col-12 col-md-4 col-lg-4">
+                            <div class="contact_form2__infor">
+                                <div class="contact_form2-info__content">
+                                    <div class="row g-1 g-md-2"><div class="contact_form2-info__banner pb-2 col-12">
+                                                <div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:100.0%;" role="img"
+            aria-label=""
+            data-alt=""
+            data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/gallery14_180x.jpg?v=1614322161 180w ,//vela-kazan.myshopify.com/cdn/shop/files/gallery14_320x320.jpg?v=1614322161 320w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+                                            </div><h2 class="contact_form2-info__heading mb-0 h5">Houston Plaza</h2>
+                                            <div class="contact_form2-info__item contact_form2-info__desc pb-1 col-12">Outstock is a premium Templates theme with advanced admin module</div>
+                                        
+<div class="contact_form2-info__item contact_form2-info__address d-flex align-items-center col-12">
+                                                <i class="icons d-flex align-items-center justify-content-center me-1 me-md-2">
+                                                    <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 768 1024"><path fill="currentColor" d="M388 0q-78 0-149.5 31.5t-123.5 84T31.5 240T0 390q0 44 12 92t28 89t46 91t53.5 84.5t63.5 84t62 75.5t62 72q12 14 18 20q2 3 7 7.5t18 11.5t25 7h3q28 0 50-26q320-368 320-608q0-167-102-277Q560 0 388 0zm12 955q-1 2-4 4l-4-4l-17-19q-38-44-59-68.5T257 796t-60-79.5t-51-79t-44.5-84t-26.5-81T64 390q0-87 44-162.5T226.5 108T388 64q79 0 141 27.5t99.5 74.5T685 270t19 120q0 216-304 565zm-15-762q-31 0-60.5 10t-53 27.5T230 272t-27.5 53t-9.5 60q0 80 56.5 136t136 56T521 521t56-136q0-39-15-74.5t-41-61t-61.5-41T385 193zm0 320q-53 0-91-38t-38-91t37.5-90.5T384 256t90.5 37.5T512 384q0 66-53 105q-33 24-74 24z"/></svg>
+                                                </i>
+                                                <div class="text">Add: 188 Pine St, Houston, Texas 10005, USA</div>
+                                            </div><div class="contact_form2-info__item contact_form2-info__phone d-flex align-items-center col-12">
+                                                <i class="icons d-flex align-items-center justify-content-center me-1 me-md-2">
+                                                    <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false"  style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1056 1056"><path fill="currentColor" d="M1016 788q-4-4-25-18t-49-32.5l-56-37l-50-33l-28-17.5q-4-3-9.5-5t-11-3t-11.5-1q-4 0-7 .5t-6.5 1t-7.5 1.5t-7.5 2t-7 2.5t-7.5 3t-7 3.5q-19 10-91 51q-61-43-152-134q-90-90-133-151q41-73 51-91q26-50 5-83q-11-17-70.5-107T268 39q-17-24-52-24q-9 0-17.5 2t-17 5.5T165 31q-5 4-16.5 13t-37 30.5t-45.5 42t-36 45T15 204q1 42 15 88.5T68 385t53.5 91t66.5 90t71 82.5t72 75.5q59 59 118 109.5t128.5 99t141 77.5t134.5 31h1q17 0 41-16t44.5-36.5t42-45T1012 907l12-16q31-44 9-84q-7-12-17-19zm-44 65q-30 42-67 79.5T851 977q-90-5-212.5-81.5T376.5 679T160 416.5T79 205q6-17 43.5-54T202 84q2-2 4-3t4.5-1.5t5.5-.5q1 0 2 1q60 86 132 199q0 8-6 21q-2 3-5 9t-7.5 14t-10.5 18t-12.5 22t-14.5 26l-20 35l23 33q47 67 141 161t160 140l33 24l36-20q29-17 54-31.5t35-18.5q11-7 20-7h1q81 51 200 133q1 7-5 15zM660 393q7 6 16 6h13l229 1q6 0 11.5-3.5t9-9T942 376v-17q-1-11-9-17.5t-18-6.5H764l262-262q9-9 9-22t-9.5-22.5T1003 19t-23 9L718 291l1-155q0-10-7-17t-16-7h-17q-6 0-11.5 2.5t-9 7T655 133v231h1l-2 12q1 11 6 17z" /></svg>
+                                                </i>
+                                                <div class="text">Phone Number: +1 987-876-6543</div>
+                                            </div><div class="contact_form2-info__item contact_form2-info__email d-flex align-items-center col-12">
+                                                <i class="icons d-flex align-items-center justify-content-center me-1 me-md-2">
+                                                    <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024"><path fill="currentColor" d="M1023 473q0-4-1-8t-2.5-8t-3.5-7.5t-5-6.5l-1-1q-2-3-5-6l-6-6l-167-168V159q0-13-9.5-22.5T800 127H699L582 27q-11-11-24.5-17.5T529 1t-30 0t-28.5 8.5T446 27L330 127H224q-13 0-22.5 9.5T192 159v105L29 427Q0 446 0 481v479q0 27 19 45.5t45 18.5h896q17 0 32-8.5t23.5-23.5t8.5-32V478l-1-5zM269 726L64 916V545zm62 30q6-3 11-9q1-1 2-2.5t2-3.5l138-128q11-9 25-9t24 8l384 348H110zm427-26l202-179v361zm140-313h-1l55 55l-120 107V351zM491 72q10-9 23-9q6 0 12 2.5t11 6.5l64 55H427zm277 119v445l-57 51l-137-124q-6-5-13-9t-14-6.5t-14.5-4.5t-15.5-2.5t-15.5 0T486 543t-15 5t-14.5 7t-13.5 9L316 682l-60-53V191h512zM104 443l88-88v217L75 469l27-26h2z" /></svg>
+                                                </i>
+                                                <div class="text">Mail: outstock@gmail.com</div>
+                                            </div><div class="contact_form2-info__item contact_form2-info__time d-flex align-items-center col-12">
+                                                <i class="icons d-flex align-items-center justify-content-center me-1 me-md-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 1024 1024"><path fill="currentColor" d="m960 95.888l-256.224.001V32.113c0-17.68-14.32-32-32-32s-32 14.32-32 32v63.76h-256v-63.76c0-17.68-14.32-32-32-32s-32 14.32-32 32v63.76H64c-35.344 0-64 28.656-64 64v800c0 35.343 28.656 64 64 64h896c35.344 0 64-28.657 64-64v-800c0-35.329-28.656-63.985-64-63.985zm0 863.985H64v-800h255.776v32.24c0 17.679 14.32 32 32 32s32-14.321 32-32v-32.224h256v32.24c0 17.68 14.32 32 32 32s32-14.32 32-32v-32.24H960v799.984zM736 511.888h64c17.664 0 32-14.336 32-32v-64c0-17.664-14.336-32-32-32h-64c-17.664 0-32 14.336-32 32v64c0 17.664 14.336 32 32 32zm0 255.984h64c17.664 0 32-14.32 32-32v-64c0-17.664-14.336-32-32-32h-64c-17.664 0-32 14.336-32 32v64c0 17.696 14.336 32 32 32zm-192-128h-64c-17.664 0-32 14.336-32 32v64c0 17.68 14.336 32 32 32h64c17.664 0 32-14.32 32-32v-64c0-17.648-14.336-32-32-32zm0-255.984h-64c-17.664 0-32 14.336-32 32v64c0 17.664 14.336 32 32 32h64c17.664 0 32-14.336 32-32v-64c0-17.68-14.336-32-32-32zm-256 0h-64c-17.664 0-32 14.336-32 32v64c0 17.664 14.336 32 32 32h64c17.664 0 32-14.336 32-32v-64c0-17.68-14.336-32-32-32zm0 255.984h-64c-17.664 0-32 14.336-32 32v64c0 17.68 14.336 32 32 32h64c17.664 0 32-14.32 32-32v-64c0-17.648-14.336-32-32-32z"/></svg>
+                                                </i>
+                                                <div class="text">Time: Monday - Friday: 8am - 4pm</div>
+                                            </div></div>
+                                </div>
+                            </div>
+                        </div><div class="col-12 col-md-4 col-lg-4">
+                            <div class="contact_form2__infor">
+                                <div class="contact_form2-info__content">
+                                    <div class="row g-1 g-md-2"><div class="contact_form2-info__banner pb-2 col-12">
+                                                <div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:100.0%;" role="img"
+            aria-label=""
+            data-alt=""
+            data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/gallery13_180x.jpg?v=1614322161 180w ,//vela-kazan.myshopify.com/cdn/shop/files/gallery13_320x320.jpg?v=1614322161 320w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+                                            </div><h2 class="contact_form2-info__heading mb-0 h5">Phoenix plaza</h2>
+                                            <div class="contact_form2-info__item contact_form2-info__desc pb-1 col-12">Outstock is a premium Templates theme with advanced admin module</div>
+                                        
+<div class="contact_form2-info__item contact_form2-info__address d-flex align-items-center col-12">
+                                                <i class="icons d-flex align-items-center justify-content-center me-1 me-md-2">
+                                                    <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 768 1024"><path fill="currentColor" d="M388 0q-78 0-149.5 31.5t-123.5 84T31.5 240T0 390q0 44 12 92t28 89t46 91t53.5 84.5t63.5 84t62 75.5t62 72q12 14 18 20q2 3 7 7.5t18 11.5t25 7h3q28 0 50-26q320-368 320-608q0-167-102-277Q560 0 388 0zm12 955q-1 2-4 4l-4-4l-17-19q-38-44-59-68.5T257 796t-60-79.5t-51-79t-44.5-84t-26.5-81T64 390q0-87 44-162.5T226.5 108T388 64q79 0 141 27.5t99.5 74.5T685 270t19 120q0 216-304 565zm-15-762q-31 0-60.5 10t-53 27.5T230 272t-27.5 53t-9.5 60q0 80 56.5 136t136 56T521 521t56-136q0-39-15-74.5t-41-61t-61.5-41T385 193zm0 320q-53 0-91-38t-38-91t37.5-90.5T384 256t90.5 37.5T512 384q0 66-53 105q-33 24-74 24z"/></svg>
+                                                </i>
+                                                <div class="text">Add: 88 Pine St, New York, NY 10005, USA</div>
+                                            </div><div class="contact_form2-info__item contact_form2-info__phone d-flex align-items-center col-12">
+                                                <i class="icons d-flex align-items-center justify-content-center me-1 me-md-2">
+                                                    <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false"  style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1056 1056"><path fill="currentColor" d="M1016 788q-4-4-25-18t-49-32.5l-56-37l-50-33l-28-17.5q-4-3-9.5-5t-11-3t-11.5-1q-4 0-7 .5t-6.5 1t-7.5 1.5t-7.5 2t-7 2.5t-7.5 3t-7 3.5q-19 10-91 51q-61-43-152-134q-90-90-133-151q41-73 51-91q26-50 5-83q-11-17-70.5-107T268 39q-17-24-52-24q-9 0-17.5 2t-17 5.5T165 31q-5 4-16.5 13t-37 30.5t-45.5 42t-36 45T15 204q1 42 15 88.5T68 385t53.5 91t66.5 90t71 82.5t72 75.5q59 59 118 109.5t128.5 99t141 77.5t134.5 31h1q17 0 41-16t44.5-36.5t42-45T1012 907l12-16q31-44 9-84q-7-12-17-19zm-44 65q-30 42-67 79.5T851 977q-90-5-212.5-81.5T376.5 679T160 416.5T79 205q6-17 43.5-54T202 84q2-2 4-3t4.5-1.5t5.5-.5q1 0 2 1q60 86 132 199q0 8-6 21q-2 3-5 9t-7.5 14t-10.5 18t-12.5 22t-14.5 26l-20 35l23 33q47 67 141 161t160 140l33 24l36-20q29-17 54-31.5t35-18.5q11-7 20-7h1q81 51 200 133q1 7-5 15zM660 393q7 6 16 6h13l229 1q6 0 11.5-3.5t9-9T942 376v-17q-1-11-9-17.5t-18-6.5H764l262-262q9-9 9-22t-9.5-22.5T1003 19t-23 9L718 291l1-155q0-10-7-17t-16-7h-17q-6 0-11.5 2.5t-9 7T655 133v231h1l-2 12q1 11 6 17z" /></svg>
+                                                </i>
+                                                <div class="text">Phone Number: +1 987-876-6543</div>
+                                            </div><div class="contact_form2-info__item contact_form2-info__email d-flex align-items-center col-12">
+                                                <i class="icons d-flex align-items-center justify-content-center me-1 me-md-2">
+                                                    <svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024"><path fill="currentColor" d="M1023 473q0-4-1-8t-2.5-8t-3.5-7.5t-5-6.5l-1-1q-2-3-5-6l-6-6l-167-168V159q0-13-9.5-22.5T800 127H699L582 27q-11-11-24.5-17.5T529 1t-30 0t-28.5 8.5T446 27L330 127H224q-13 0-22.5 9.5T192 159v105L29 427Q0 446 0 481v479q0 27 19 45.5t45 18.5h896q17 0 32-8.5t23.5-23.5t8.5-32V478l-1-5zM269 726L64 916V545zm62 30q6-3 11-9q1-1 2-2.5t2-3.5l138-128q11-9 25-9t24 8l384 348H110zm427-26l202-179v361zm140-313h-1l55 55l-120 107V351zM491 72q10-9 23-9q6 0 12 2.5t11 6.5l64 55H427zm277 119v445l-57 51l-137-124q-6-5-13-9t-14-6.5t-14.5-4.5t-15.5-2.5t-15.5 0T486 543t-15 5t-14.5 7t-13.5 9L316 682l-60-53V191h512zM104 443l88-88v217L75 469l27-26h2z" /></svg>
+                                                </i>
+                                                <div class="text">Mail: outstock@gmail.com</div>
+                                            </div><div class="contact_form2-info__item contact_form2-info__time d-flex align-items-center col-12">
+                                                <i class="icons d-flex align-items-center justify-content-center me-1 me-md-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 1024 1024"><path fill="currentColor" d="m960 95.888l-256.224.001V32.113c0-17.68-14.32-32-32-32s-32 14.32-32 32v63.76h-256v-63.76c0-17.68-14.32-32-32-32s-32 14.32-32 32v63.76H64c-35.344 0-64 28.656-64 64v800c0 35.343 28.656 64 64 64h896c35.344 0 64-28.657 64-64v-800c0-35.329-28.656-63.985-64-63.985zm0 863.985H64v-800h255.776v32.24c0 17.679 14.32 32 32 32s32-14.321 32-32v-32.224h256v32.24c0 17.68 14.32 32 32 32s32-14.32 32-32v-32.24H960v799.984zM736 511.888h64c17.664 0 32-14.336 32-32v-64c0-17.664-14.336-32-32-32h-64c-17.664 0-32 14.336-32 32v64c0 17.664 14.336 32 32 32zm0 255.984h64c17.664 0 32-14.32 32-32v-64c0-17.664-14.336-32-32-32h-64c-17.664 0-32 14.336-32 32v64c0 17.696 14.336 32 32 32zm-192-128h-64c-17.664 0-32 14.336-32 32v64c0 17.68 14.336 32 32 32h64c17.664 0 32-14.32 32-32v-64c0-17.648-14.336-32-32-32zm0-255.984h-64c-17.664 0-32 14.336-32 32v64c0 17.664 14.336 32 32 32h64c17.664 0 32-14.336 32-32v-64c0-17.68-14.336-32-32-32zm-256 0h-64c-17.664 0-32 14.336-32 32v64c0 17.664 14.336 32 32 32h64c17.664 0 32-14.336 32-32v-64c0-17.68-14.336-32-32-32zm0 255.984h-64c-17.664 0-32 14.336-32 32v64c0 17.68 14.336 32 32 32h64c17.664 0 32-14.32 32-32v-64c0-17.648-14.336-32-32-32z"/></svg>
+                                                </i>
+                                                <div class="text">Time: Monday - Friday: 8am - 4pm</div>
+                                            </div></div>
+                                </div>
+                            </div>
+                        </div></div>
+            </div>
+		</div>
+    </div>
+</div>
+
+</section>
+			</div>
+		</main>
+
+
+
+        <%- include('../layout/footer') %>

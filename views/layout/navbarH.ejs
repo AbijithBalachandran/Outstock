@@ -45,14 +45,16 @@
                                   <ul class="menu-drawer__menu list-menu">
                                     <li>
                                       <details>
+
                                         <summary class="menu-drawer__menu-item list-menu__item">
-                                          <a href="/home" title="Home">Home</a>
+                                          <a href="/home" class="<%=activePage === 'Home' ? 'active' : '' %>" title="Home">Home</a>
                                           <svg class="icon icon-arrow" viewBox="0 0 14 10" fill="none"
                                             aria-hidden="true" focusable="false" role="presentation"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <!-- <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor" /> -->
                                           </svg>
                                         </summary>
+
                                         <div id="link-Home" class="menu-drawer__submenu motion-reduce" tabindex="-1">
                                           <div class="menu-drawer__inner-submenu">
 
@@ -65,13 +67,14 @@
                                       <details>
 
                                         <summary class="menu-drawer__menu-item list-menu__item">
-                                          <a href="/shop" title="Shop">Shop</a>
+                                          <a href="/shop" class="<%=activePage === 'shop' ? 'active' : '' %>" title="Shop">Shop</a>
                                           <svg class="icon icon-arrow" viewBox="0 0 14 10" fill="none"
                                             aria-hidden="true" focusable="false" role="presentation"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <!-- <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor" /> -->
                                           </svg>
                                         </summary>
+
                                         <div id="link-Shop" class="menu-drawer__submenu motion-reduce" tabindex="-1">
                                           <div class="menu-drawer__inner-submenu">
                                             <button class="menu-drawer__close-button border-0 btn-secondary"
@@ -84,15 +87,16 @@
                                               Shop
                                             </button>
 
-                                            <summary class="menu-drawer__menu-item list-menu__item">
+                                            <!-- <summary class="menu-drawer__menu-item list-menu__item">
                                               <a href="../products"
                                                 title="Product">Product</a>
                                               <svg class="icon icon-arrow" viewBox="0 0 14 10" fill="none"
                                                 aria-hidden="true" focusable="false" role="presentation"
                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <!-- <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor" /> -->
-                                              </svg>
+                                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor" /> -->
+                                              <!--</svg>
                                             </summary>
+
                                             <div id="link-Product" class="menu-drawer__submenu motion-reduce"
                                               tabindex="-1">
                                               <div class="menu-drawer__inner-submenu">
@@ -100,22 +104,22 @@
                                                   aria-expanded="true">
                                                   <svg class="icon icon-arrow" viewBox="0 0 14 10" fill="none"
                                                     aria-hidden="true" focusable="false" role="presentation"
-                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    xmlns="http://www.w3.org/2000/svg">-->
                                                     <!-- <path fill-rule="evenodd" clip-rule="evenodd" d="M8.537.808a.5.5 0 01.817-.162l4 4a.5.5 0 010 .708l-4 4a.5.5 0 11-.708-.708L11.793 5.5H1a.5.5 0 010-1h10.793L8.646 1.354a.5.5 0 01-.109-.546z" fill="currentColor" /> -->
-                                                  </svg>
+                                                  <!-- </svg>
                                                   Product
                                                 </button>
 
-                                      </details>
-                                    </li>
-                                    <li><a href="/collections" class="menu-drawer__menu-item list-menu__item">
+                                      </details> -->
+                                    <!-- </li> --> --
+                                    <!-- <li><a href="/collections" class="menu-drawer__menu-item list-menu__item >">
                                         Collections
                                       </a></li>
-                                    <li>
+                                    <li> -->
                                       <details>
 
                                         <summary class="menu-drawer__menu-item list-menu__item">
-                                          <a href="/blogs" title="Blog">Blog</a>
+                                          <a href="/about" class="<%=activePage === 'about' ? 'active' : '' %>" title="Blog">About</a>
                                           <svg class="icon icon-arrow" viewBox="0 0 14 10" fill="none"
                                             aria-hidden="true" focusable="false" role="presentation"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -127,7 +131,7 @@
                                     <li>
                                       <details>
                                         <summary class="menu-drawer__menu-item list-menu__item">
-                                          <a href="/pages" title="Pages">Pages</a>
+                                          <a href="/contact"  class="<%=activePage === 'contact' ? 'active' : '' %>" title="Pages">contact</a>
                                           <svg class="icon icon-arrow" viewBox="0 0 14 10" fill="none"
                                             aria-hidden="true" focusable="false" role="presentation"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -176,35 +180,34 @@
                       <nav class="main-menu__wrap">
                         <ul class="main-menu__nav list-unstyled d-flex flex-wrap m-0">
 
-                          <li class="main-menu__nav-item menu-dropdown active">
-                            <a class="main-menu__link" href="/home" title="Home"><span>Home<svg class="ms-1" width="8"
+                          <li class="main-menu__nav-item menu-dropdown">
+                            <a class="main-menu__link <%=activePage === 'home' ? 'active' : '' %>" href="/home" title="Home"><span>Home<svg class="ms-1 " width="8"
                                   height="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"></svg></span></a>
                           </li>
 
 
-                          <li class="main-menu__nav-item menu-dropdown">
-                            <a class="main-menu__link" href="/shop" title="Shop"><span>Shop<svg
+                          <li class="main-menu__nav-item menu-dropdown ">
+                            <a class="main-menu__link <%=activePage === 'shop' ? 'active' : '' %>"  href="/shop" title="Shop"><span>Shop<svg
                                   class="ms-1" width="8" height="15" xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 320 512"></svg></span></a>
                           </li>
 
 
                           <li class="main-menu__nav-item menu-dropdown">
-                            <a class="main-menu__link" href="/products"
-                              title="Product"><span>Product<svg class="ms-1" width="8" height="15"
+                            <a class="main-menu__link <%=activePage === 'about' ? 'active' : '' %>" href="/about"
+                              title="Product"><span>About<svg class="ms-1" width="8" height="15"
                                   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                                  <path fill="currentColor"
-                                    d="M151.5 347.8L3.5 201c-4.7-4.7-4.7-12.3 0-17l19.8-19.8c4.7-4.7 12.3-4.7 17 0L160 282.7l119.7-118.5c4.7-4.7 12.3-4.7 17 0l19.8 19.8c4.7 4.7 4.7 12.3 0 17l-148 146.8c-4.7 4.7-12.3 4.7-17 0z" />
+                                  
                                 </svg></span></a>
                           </li>
 
                           <li class="main-menu__nav-item menu-dropdown">
-                            <a class="main-menu__link" href="/collections"
-                              title="Collections"><span>Collections<svg class="ms-1" width="8" height="15"
+                            <a class="main-menu__link <%=activePage === 'contact' ? 'active' : '' %>" href="/contact"
+                              title="Collections"><span>Contact<svg class="ms-1" width="8" height="15"
                                   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"></svg></span></a>
                           </li>
 
-                          <li class="main-menu__nav-item menu-dropdown menu-dropdown--basic">
+                          <!-- <li class="main-menu__nav-item menu-dropdown menu-dropdown--basic">
                             <a class="main-menu__link" href="/blogs" title="Blog"><span>Blog<svg
                                   class="ms-1" width="8" height="15" xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 320 512"></svg></span></a>
@@ -214,7 +217,7 @@
                             <a class="main-menu__link" href="/pages" title="Pages"><span>Pages<svg
                                   class="ms-1" width="8" height="15" xmlns="http://www.w3.org/2000/svg"
                                   viewBox="0 0 320 512"></svg></span></a>
-                          </li>
+                          </li> -->
 
                         </ul>
 

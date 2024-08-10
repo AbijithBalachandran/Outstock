@@ -15,7 +15,7 @@ require('../utils/passport')
 //---------------------------middleware ---------------------------------
 
 const userAuth = require('../middleware/userAuth');
-
+const is_Authenticate = require('../middleware/is_Authenticate')
 //-----------------------------------------------------------------------
 
 const bodyParser =require('body-parser');
@@ -37,7 +37,9 @@ user_Router.get('/google',passport.authenticate('google',{scope:['email','profil
 
 // ----------------auth callback----------------
 
-user_Router.get('/google/callback',passport.authenticate('google',{successRedirect:'/success',failureRedirect:'/failure'})); 
+user_Router.get('/google/callback',passport.authenticate('google',
+  {successRedirect:'/success',failureRedirect:'/failure'})); 
+
 user_Router.get('/success',userController.successGoogleLogin);
 user_Router.get('/failure',userController.failureGoogleLogin);
 
@@ -59,8 +61,11 @@ user_Router.get('/home',userController.homeLoad);
 user_Router.get('/',userAuth.isLogout,userController.homeLoad);
 
 user_Router.get('/product-details',userController.productDetails);
+user_Router.get('/shop',userController.shopLoad);
+user_Router.get('/searchProduct',userController.searchProduct);
 
-
+user_Router.get('/about',userController.aboutPage);
+user_Router.get('/contact',userController.contactPage);
 
 //-------------------------user details ---------------------------------------------
 
@@ -76,36 +81,37 @@ user_Router.delete('/manage-address',userController.deleteUser);
 
 user_Router.get('/update-Profile',userAuth.isLogin,userController.updateProfileLoad);
 user_Router.put('/update-Profile',userController.updateProfile);
-user_Router.get('/shop',userAuth.isLogin,userController.shopLoad);
 
 //----------------------------cart router --------------------------------------------
 
 user_Router.get('/cart',userAuth.isLogin,cartController.cartLoad);
-user_Router.get('/cart-add',userAuth.isLogin,cartController.cartProduct);
+user_Router.get('/cart-add',is_Authenticate.isAuthenticate,userAuth.isLogin,cartController.cartProduct);
 user_Router.delete('/remove-product',cartController.removeProduct);
 user_Router.put('/update-quantity',cartController.updateQuantity);
-
 
 //--------------------------------order Condroller-----------------------------------
 user_Router.get('/checkout',userAuth.isLogin,orderController.checkoutPageLoad);
 user_Router.get('/checkout-address',orderController.getAddress);
 
-// user_Router.get('/order-succes',userAuth.isLogin,orderController.orderSuccessPageLoad);
 
 user_Router.get('/tracking-order',orderController.trakingPageLoad);  
 user_Router.post('/tracking-order',orderController.checkoutSubmit);
+user_Router.get('/download-invoice/:orderId', orderController.downloadInvoice);
 
 user_Router.post('/update-status',orderController.updateOrder);
 user_Router.post('/cancelOrder',orderController.cancelOrder);
 
-user_Router.get('/create-order', orderController.createOrder);
+
+user_Router.post('/create-order', orderController.createOrder);
 user_Router.post('/verify-payment', orderController.verifyPayment);
 
+user_Router.get('/retryCreate-order',orderController.retryCreateOrder);
+user_Router.post('/verify-repayment',orderController.verifyRePayment);
 user_Router.post('/wallet-payment',orderController.walletParchase);
 
 user_Router.get('/orders',userAuth.isLogin,orderController.myOrderLoad);
 user_Router.get('/wishlist',userAuth.isLogin,orderController.wishlistLoad);
-user_Router.get('/wishlist-add',userAuth.isLogin,orderController.wishlistProduct);
+user_Router.get('/wishlist-add',is_Authenticate.isAuthenticate,userAuth.isLogin,orderController.wishlistProduct);
 user_Router.delete('/remove-productWishlist',orderController.removeProduct);
 
 
@@ -122,7 +128,7 @@ user_Router.get('/logOut',userController.logOut);
 
 
 user_Router.get('*', (req, res) => {
-      res.status(404).render('404');
+      res.status(404).render('404',{activePage:"404"});
   });
 
 module.exports = user_Router;

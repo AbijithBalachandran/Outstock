@@ -105,8 +105,8 @@
                           <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                               <i class="fa fa-chart-line fa-3x text-primary"></i>
                               <div class="ms-3">
-                                  <p class="mb-2">Today Sale</p>
-                                  <h6 class="mb-0">$1234</h6>
+                                  <p class="mb-2">Today Sales</p>
+                                  <h6 class="mb-0"><%= todaySoldProducts %></h6>
                               </div>
                           </div>
                       </div>
@@ -114,8 +114,8 @@
                           <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                               <i class="fa fa-chart-bar fa-3x text-primary"></i>
                               <div class="ms-3">
-                                  <p class="mb-2">Total Sale</p>
-                                  <h6 class="mb-0">$1234</h6>
+                                <p class="mb-2">Total Sold Product</p>
+                                  <h6 class="mb-0"><%= totalSoldProducts %></h6>
                               </div>
                           </div>
                       </div>
@@ -123,8 +123,8 @@
                           <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                               <i class="fa fa-chart-area fa-3x text-primary"></i>
                               <div class="ms-3">
-                                  <p class="mb-2">Today Revenue</p>
-                                  <h6 class="mb-0">$1234</h6>
+                                  <p class="mb-2">Total User</p>
+                                  <h6 class="mb-0"><%= totalUsers %></h6>
                               </div>
                           </div>
                       </div>
@@ -133,235 +133,189 @@
                               <i class="fa fa-chart-pie fa-3x text-primary"></i>
                               <div class="ms-3">
                                   <p class="mb-2">Total Revenue</p>
-                                  <h6 class="mb-0">$1234</h6>
+                                  <h6 class="mb-0"><%= totalRevenue %></h6>
                               </div>
                           </div>
                       </div>
                   </div>
               </div>
               <!-- Sale & Revenue End -->
-  
-  
-              <!-- Sales Chart Start -->
-              <div class="container-fluid pt-4 px-4">
-                  <div class="row g-4">
-                      <div class="col-sm-12 col-xl-6">
-                          <div class="bg-light text-center rounded p-4">
-                              <div class="d-flex align-items-center justify-content-between mb-4">
-                                  <h6 class="mb-0">Worldwide Sales</h6>
-                                  <a href="">Show All</a>
-                              </div>
-                              <canvas id="worldwide-sales"></canvas>
-                          </div>
-                      </div>
-                      <div class="col-sm-12 col-xl-6">
-                          <div class="bg-light text-center rounded p-4">
-                              <div class="d-flex align-items-center justify-content-between mb-4">
-                                  <h6 class="mb-0">Salse & Revenue</h6>
-                                  <a href="">Show All</a>
-                              </div>
-                              <canvas id="salse-revenue"></canvas>
-                          </div>
-                      </div>
-                  </div>
+
+
+              <div class="filter-container mt-5 ms-5">
+                <label for="timeRange">Select Time Range:</label>
+                <select id="timeRange">
+                  <option value="daily" <%= currentRange === 'daily' ? 'selected' : '' %>>Daily</option>
+                  <option value="weekly" <%= currentRange === 'weekly' ? 'selected' : '' %>>Weekly</option>
+                  <option value="monthly" <%= currentRange === 'monthly' ? 'selected' : '' %>>Monthly</option>
+                  <option value="yearly" <%= currentRange === 'yearly' ? 'selected' : '' %>>Yearly</option>
+                </select>
               </div>
-              <!-- Sales Chart End -->
+              
+              <!-- Chart Representation -->
+              <canvas id="myChart" style="width:100%;max-width:1000px; margin: 5%;"></canvas>
+  <!-- chart representation  -->
+
+
+            <!-- Recent Sales Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">Recent Sales</h6>
+            <a href="">Show All</a>
+        </div>
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+            <table class="table table-bordered" id="fixed-header-table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Discount</th>
+                        <th>Total Price</th>
+                        <th>Payment Method</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-products-table">
+                    <% if (order && order.length > 0) { %>
+                        <% order.forEach(item => { %>
+                            <tr>
+                                <td><%= item._id %></td>
+                                <td>
+                                    <% item.orderItem.forEach(orderItem => { %>
+                                        <%= orderItem.productName %><br>
+                                    <% }); %>
+                                </td>
+                                <td>
+                                    <% item.orderItem.forEach(orderItem => { %>
+                                        <%= orderItem.quantity %><br>
+                                    <% }); %>
+                                </td>
+                                <td>
+                                    <% item.orderItem.forEach(orderItem => { %>
+                                        <%= orderItem.price %><br>
+                                    <% }); %>
+                                </td>
+                                <td><%= item.couponDetails.discount || item.offerDetails.discount %></td>
+                                <td><%= item.totalPrice %></td>
+                                <td><%= item.paymentMethod %></td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="7" class="text-center">Order Not Found</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Recent Sales End -->
+
+<style>
+    .table-responsive {
+        position: relative;
+        height: 400px; 
+        overflow-y: auto;
+    }
+
+    #fixed-header-table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+    }
+
+    #fixed-header-table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: white;
+    }
+
+    /* Adjust max height for smaller screens */
+    @media (max-width: 768px) {
+        .table-responsive {
+            height: 300px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .table-responsive {
+            height: 200px;
+        }
+    }
+</style>
+
+
   
-  
-              <!-- Recent Sales Start -->
-              <div class="container-fluid pt-4 px-4">
-                  <div class="bg-light text-center rounded p-4">
-                      <div class="d-flex align-items-center justify-content-between mb-4">
-                          <h6 class="mb-0">Recent Salse</h6>
-                          <a href="">Show All</a>
-                      </div>
-                      <div class="table-responsive">
-                          <table class="table text-start align-middle table-bordered table-hover mb-0">
-                              <thead>
-                                  <tr class="text-dark">
-                                      <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                                      <th scope="col">Date</th>
-                                      <th scope="col">Invoice</th>
-                                      <th scope="col">Customer</th>
-                                      <th scope="col">Amount</th>
-                                      <th scope="col">Status</th>
-                                      <th scope="col">Action</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td><input class="form-check-input" type="checkbox"></td>
-                                      <td>01 Jan 2045</td>
-                                      <td>INV-0123</td>
-                                      <td>Jhon Doe</td>
-                                      <td>$123</td>
-                                      <td>Paid</td>
-                                      <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                  </tr>
-                                  <tr>
-                                      <td><input class="form-check-input" type="checkbox"></td>
-                                      <td>01 Jan 2045</td>
-                                      <td>INV-0123</td>
-                                      <td>Jhon Doe</td>
-                                      <td>$123</td>
-                                      <td>Paid</td>
-                                      <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                  </tr>
-                                  <tr>
-                                      <td><input class="form-check-input" type="checkbox"></td>
-                                      <td>01 Jan 2045</td>
-                                      <td>INV-0123</td>
-                                      <td>Jhon Doe</td>
-                                      <td>$123</td>
-                                      <td>Paid</td>
-                                      <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                  </tr>
-                                  <tr>
-                                      <td><input class="form-check-input" type="checkbox"></td>
-                                      <td>01 Jan 2045</td>
-                                      <td>INV-0123</td>
-                                      <td>Jhon Doe</td>
-                                      <td>$123</td>
-                                      <td>Paid</td>
-                                      <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                  </tr>
-                                  <tr>
-                                      <td><input class="form-check-input" type="checkbox"></td>
-                                      <td>01 Jan 2045</td>
-                                      <td>INV-0123</td>
-                                      <td>Jhon Doe</td>
-                                      <td>$123</td>
-                                      <td>Paid</td>
-                                      <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                  </div>
-              </div>
-              <!-- Recent Sales End -->
-  
-  
-              <!-- Widgets Start -->
-              <div class="container-fluid pt-4 px-4">
-                  <div class="row g-4">
-                      <div class="col-sm-12 col-md-6 col-xl-4">
-                          <div class="h-100 bg-light rounded p-4">
-                              <div class="d-flex align-items-center justify-content-between mb-2">
-                                  <h6 class="mb-0">Messages</h6>
-                                  <a href="">Show All</a>
-                              </div>
-                              <div class="d-flex align-items-center border-bottom py-3">
-                                  <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                  <div class="w-100 ms-3">
-                                      <div class="d-flex w-100 justify-content-between">
-                                          <h6 class="mb-0">Jhon Doe</h6>
-                                          <small>15 minutes ago</small>
-                                      </div>
-                                      <span>Short message goes here...</span>
-                                  </div>
-                              </div>
-                              <div class="d-flex align-items-center border-bottom py-3">
-                                  <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                  <div class="w-100 ms-3">
-                                      <div class="d-flex w-100 justify-content-between">
-                                          <h6 class="mb-0">Jhon Doe</h6>
-                                          <small>15 minutes ago</small>
-                                      </div>
-                                      <span>Short message goes here...</span>
-                                  </div>
-                              </div>
-                              <div class="d-flex align-items-center border-bottom py-3">
-                                  <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                  <div class="w-100 ms-3">
-                                      <div class="d-flex w-100 justify-content-between">
-                                          <h6 class="mb-0">Jhon Doe</h6>
-                                          <small>15 minutes ago</small>
-                                      </div>
-                                      <span>Short message goes here...</span>
-                                  </div>
-                              </div>
-                              <div class="d-flex align-items-center pt-3">
-                                  <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                  <div class="w-100 ms-3">
-                                      <div class="d-flex w-100 justify-content-between">
-                                          <h6 class="mb-0">Jhon Doe</h6>
-                                          <small>15 minutes ago</small>
-                                      </div>
-                                      <span>Short message goes here...</span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-sm-12 col-md-6 col-xl-4">
-                          <div class="h-100 bg-light rounded p-4">
-                              <div class="d-flex align-items-center justify-content-between mb-4">
-                                  <h6 class="mb-0">Calender</h6>
-                                  <a href="">Show All</a>
-                              </div>
-                              <div id="calender"></div>
-                          </div>
-                      </div>
-                      <div class="col-sm-12 col-md-6 col-xl-4">
-                          <div class="h-100 bg-light rounded p-4">
-                              <div class="d-flex align-items-center justify-content-between mb-4">
-                                  <h6 class="mb-0">To Do List</h6>
-                                  <a href="">Show All</a>
-                              </div>
-                              <div class="d-flex mb-2">
-                                  <input class="form-control bg-transparent" type="text" placeholder="Enter task">
-                                  <button type="button" class="btn btn-primary ms-2">Add</button>
-                              </div>
-                              <div class="d-flex align-items-center border-bottom py-2">
-                                  <input class="form-check-input m-0" type="checkbox">
-                                  <div class="w-100 ms-3">
-                                      <div class="d-flex w-100 align-items-center justify-content-between">
-                                          <span>Short task goes here...</span>
-                                          <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="d-flex align-items-center border-bottom py-2">
-                                  <input class="form-check-input m-0" type="checkbox">
-                                  <div class="w-100 ms-3">
-                                      <div class="d-flex w-100 align-items-center justify-content-between">
-                                          <span>Short task goes here...</span>
-                                          <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="d-flex align-items-center border-bottom py-2">
-                                  <input class="form-check-input m-0" type="checkbox" checked>
-                                  <div class="w-100 ms-3">
-                                      <div class="d-flex w-100 align-items-center justify-content-between">
-                                          <span><del>Short task goes here...</del></span>
-                                          <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="d-flex align-items-center border-bottom py-2">
-                                  <input class="form-check-input m-0" type="checkbox">
-                                  <div class="w-100 ms-3">
-                                      <div class="d-flex w-100 align-items-center justify-content-between">
-                                          <span>Short task goes here...</span>
-                                          <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="d-flex align-items-center pt-2">
-                                  <input class="form-check-input m-0" type="checkbox">
-                                  <div class="w-100 ms-3">
-                                      <div class="d-flex w-100 align-items-center justify-content-between">
-                                          <span>Short task goes here...</span>
-                                          <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <!-- Widgets End -->
+           
+
+
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <!-- BestSelling Products Start -->
+        <div class="col-sm-12 col-md-4 col-xl-4">
+            <div class="h-100 bg-light rounded p-4">
+                <h6 class="mb-4">Best Selling Products</h6>
+                <% if (bestSellingProducts && bestSellingProducts.length > 0) { %>
+                    <% bestSellingProducts.forEach(product => { %>
+                        <div class="d-flex align-items-center mb-3">
+                            <img class="rounded-circle flex-shrink-0" src="/upload/product/<%= product.images[0] %>" alt="<%= product.productName %>" style="width: 40px; height: 40px;">
+                            <div class="w-100 ms-3">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-0"><%= product.productName %></h6>
+                                    <small>Total Sold: <%= product.totalSold %></small>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p>No best-selling products available.</p>
+                <% } %>
+            </div>
+        </div>
+        <!-- BestSelling Products End -->
+
+       <!-- BestSelling Category Start -->
+<div class="col-sm-12 col-md-4 col-xl-4">
+    <div class="h-100 bg-light rounded p-4">
+        <h6 class="mb-4">Best Selling Categories</h6>
+        <% if (bestSellingCategories && bestSellingCategories.length > 0) { %>
+            <% bestSellingCategories.forEach(category => { %>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="w-100 ms-3">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-0"><%= category.categoryName %></h6>
+                            <small>Total Sold: <%= category.totalSold %></small>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No best-selling categories available.</p>
+        <% } %>
+    </div>
+</div>
+<!-- BestSelling Category End -->
+
+
+        <!-- Calendar Start -->
+        <div class="col-sm-12 col-md-4 col-xl-4">
+            <div class="h-100 bg-light rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Calendar</h6>
+                    <a href="">Show All</a>
+                </div>
+                <div id="calender"></div>
+            </div>
+        </div>
+        <!-- Calendar End -->
+    </div>
+</div>
+
   
   
               <!-- Footer Start -->
@@ -388,5 +342,70 @@
           <!-- Back to Top -->
           <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
       </div>
+
+
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+      
+
+      <script>
+        let myChart;
+      
+        function renderChart(data) {
+          const xValues = data.map(item => item.category);
+          const yValues = data.map(item => item.totalSales);
+          const barColors = ["red", "green", "blue", "orange", "brown"];
+      
+          if (myChart) {
+            myChart.destroy();
+          }
+      
+          const ctx = document.getElementById('myChart').getContext('2d');
+          myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: xValues,
+              datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+              }]
+            },
+            options: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: 'Best Selling Categories'
+              }
+            }
+          });
+        }
+      
+        async function fetchSalesData(range) {
+          try {
+            const response = await fetch('/admin/filter-sales-data', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ range })
+            });
+            const data = await response.json();
+            renderChart(data.salesData);
+          } catch (error) {
+            console.error('Error fetching sales data:', error);
+          }
+        }
+      
+        document.getElementById('timeRange').addEventListener('change', function() {
+          fetchSalesData(this.value);
+        });
+      
+        document.addEventListener('DOMContentLoaded', () => {
+          const salesData = JSON.parse('<%- salesData %>');
+          renderChart(salesData);
+        });
+      </script>
+
 
       <%- include('../layout/adminFooter') %>

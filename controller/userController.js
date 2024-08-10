@@ -34,7 +34,7 @@ const hashingPassword = async (password) => {
 
 const registerLoad = async (req, res) => {
       try {
-            res.render('register');
+            res.render('register',{activePage:"register"});
       } catch (error) {
             console.log(error.message);
       }
@@ -100,7 +100,7 @@ const insertUser = async (req, res) => {
 
 const otpLoad = async (req, res) => {
       try {
-            res.render('OTP');
+            res.render('OTP',{activePage:"OTP"});
       } catch (error) {
             console.log(error.message);
       }
@@ -109,46 +109,44 @@ const otpLoad = async (req, res) => {
 
 //---------------------insert OTP - validating user entered otp and generated otp are same-----------
 
-
 const insertOTP = async (req, res) => {
-
       try {
-            const userData = req.session.userData;
-            const email = userData.email;
-            console.log("insetOTP=" + email);
-
-
-            if (!req.body) {
-                  res.status(400).render('OTP', {message: `${email } OTP NOt Found` })
-            }
-
-            const otpS = await otpSchema.findOne( {email:email} ).sort({createdAt:-1});
-            //console.log("OTP shema "+otpS);
-            const userOTP = parseFloat(req.body.OTP.join(''));
-
-            const otp = otpS.otp;
- 
-              console.log("OTP from the data base=="+otp);
-
-            if (otp === userOTP) {
-                  const saveUser = await User.create(userData);
-                  if (saveUser) {
-                        const message = encodeURIComponent('Successfully Registared,You Can Login Now');
-                        res.redirect(`/login?message=${message}`);
-                  }
-            } else {
-                  res.render('OTP', { email, message: 'Entered OTP is wrong, try again' });
-            }
-
-
+          const userData = req.session.userData;
+          const email = userData.email;
+          console.log("insertOTP=" + email);
+  
+          if (!req.body || !req.body.OTP) {
+              return res.status(400).render('OTP', { message: `${email} OTP Not Found` });
+          }
+  
+          const otpS = await otpSchema.findOne({ email: email }).sort({ createdAt: -1 });
+          if (!otpS) {
+              return res.status(400).render('OTP', { email, message: 'OTP not found for this email.' });
+          }
+  
+          const userOTP = parseInt(req.body.OTP.join(''), 10);
+          const otp = otpS.otp;
+  
+          console.log("OTP from the database=" + otp);
+  
+          if (otp === userOTP) {
+              const saveUser = await User.create(userData);
+              if (saveUser) {
+                  const message = encodeURIComponent('Successfully Registered, You Can Login Now');
+                  return res.redirect(`/login?message=${message}`);
+              } else {
+                  return res.status(500).render('OTP', { email, message: 'User registration failed, please try again.' });
+              }
+          } else {
+              return res.render('OTP', { email, message: 'Entered OTP is wrong, try again' });
+          }
       } catch (error) {
-            console.log(error.message);
-            return res.status(500).render('OTP', { message: 'An error occurred. Please try again later.' });
+          console.log(error.message);
+          return res.status(500).render('OTP', { message: 'An error occurred. Please try again later.' });
       }
-
-}
-
-
+  };
+  
+  
 
 //---------------------Resend the OTP FOR Veryfication-----------------------
 
@@ -166,7 +164,7 @@ const resendOTP = async(req,res)=>{
 
 const loginLoad = async (req, res) => {
       try {
-            res.render('login');
+            res.render('login',{activePage:"login"});
       } catch (error) {
             console.log(error.message);
       }
@@ -204,53 +202,64 @@ const validLogin = async (req, res) => {
       }
 }
 
-//-----------------------google Auth------------------
+//--------------------------google Auth-------------------------------
 
 const successGoogleLogin = async (req, res) => {
-      try {
-            console.log(req.user);
-            if (req.user) {
-                  const existingUser = await User.findOne({ email: req.user.email });
-                 
-                  if (existingUser) {
-                        req.session.userData_id = existingUser._id;
-                        res.redirect('/');
-                  } else {
-                        const newUser = await User({
-                              name: req.user.displayName,
-                              email: req.user.email,
-                              is_varified: true
-                        })
-                      req.session.userData_id = newUser._id;
-
-                        await newUser.save();
-                        
-                        console.log('newUser=='+newUser);
-                        res.redirect('/home');
-                  }
-
-            }
-      } catch (error) {
-
-            console.log(error.message);
+    try {
+      console.log('req.user:=====', req.user);
+      if (req.user) {
+        const existingUser = await User.findOne({ email: req.user.email });
+  
+        if (existingUser) {
+          req.session.userData_id = existingUser._id;
+          res.redirect('/');
+        } else {
+          const newUser = new User({
+            Fname: req.user.given_name,
+            Lname:req.user.family_name,
+            email: req.user.email,
+            is_varified: true
+          });
+  
+          req.session.userData_id = newUser._id;
+          console.log('new User google authentication:', newUser);
+          await newUser.save();
+  
+          res.redirect('/home');
+        }
       }
-}
-
-    
-const failureGoogleLogin = async (req, res) => {
-      console.log("failuer");
-      try {
-            res.render('login', { message: "Google Authentication Failed" })
-      } catch (error) {
-            console.log(error.message);
-      }
-}
-
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  
+  const failureGoogleLogin = async (req, res) => {
+    console.log("failure");
+    try {
+      res.render('login', { message: "Google Authentication Failed" });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  
 
 //--------------For Rendering Home Page---------------------
 
 const homeLoad = async (req, res) => {
       try {
+
+
+            const FirstPage = 4;
+            const currentPage = parseInt(req.query.page) || 1;
+
+            const start = (currentPage - 1) * FirstPage;
+
+            const  productData = await Products.find({}).populate('category').skip(start).limit(FirstPage);
+            const products = await Products.countDocuments({});
+
+            const totalPages = Math.ceil(products / FirstPage);
+
+
           let user_id = req.session.userData_id ? req.session.userData_id : " ";
   
           const product = await Products.find({ action: false }).sort({ createdAt: -1 }).populate('offer');
@@ -284,7 +293,7 @@ const homeLoad = async (req, res) => {
       
               console.log('offerDetails 22222' + offerDetails);
 
-              res.render('home', { product, user, cartCount ,offerDetails});
+              res.render('home', { product: productData, currentPage, totalPages, user, cartCount ,offerDetails,activePage:"home"});
 
           } else {
             
@@ -307,7 +316,7 @@ const homeLoad = async (req, res) => {
       
             //   console.log('offerDetails========' + offerDetails);
            
-              res.render('home', { product, cartCount,offerDetails });
+              res.render('home', { product: productData, currentPage, totalPages, cartCount,offerDetails,activePage:"home" });
 
           }
       
@@ -353,9 +362,9 @@ console.log('offerDetails 22222'+offerDetails);
           if (cart) {
               cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
           }
-          res.render('product-details', { user, product, cartCount, disPrice ,offerDetails});
+          res.render('product-details', { user, product, cartCount, disPrice ,offerDetails,activePage:"home"});
       } else {
-          res.render('product-details', { product, disPrice,offerDetails  });
+          res.render('product-details', { product, disPrice,offerDetails,activePage:"home"  });
       }
   });
 
@@ -369,6 +378,17 @@ const logOut = asyncHandler(async (req, res) => {
 });
 
 
+//------------------------------About page rendering ---------------------------//
+
+const aboutPage = asyncHandler(async(req,res)=>{
+      res.render('about',{activePage:"about"})
+})
+
+//-------------------------------contact page rendering ---------------------------//
+
+const contactPage = asyncHandler(async(req,res)=>{
+      res.render('contact',{activePage:"contact"});
+})
 //--------------------------------Profile page Rendering -------------------------//
 
 const profileLoad = asyncHandler(async(req,res)=>{
@@ -381,7 +401,7 @@ const profileLoad = asyncHandler(async(req,res)=>{
           cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
       }
       // console.log("profile"+user);
-      res.render('profile',{user,cartCount});
+      res.render('profile',{user,cartCount,activePage:"profile"});
 })
 
 //-----------------------------------------Manage-Address page Load -----------------//
@@ -398,7 +418,7 @@ const addressManagemtLoad  = asyncHandler(async(req,res)=>{
           cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
       }
 
-      res.render('manage-address',{user: user,address,cartCount});
+      res.render('manage-address',{user: user,address,cartCount,activePage:"manage-address"});
 });
 
 //--------------------------------------Adding User Address ----------------------------//
@@ -477,7 +497,7 @@ const updateProfileLoad = asyncHandler(async(req,res)=>{
 
       const user = await User.findById(userId);
       // console.log('user'+user);
-      res.render('update-Profile', { user,cartCount});
+      res.render('update-Profile', { user,cartCount,activePage:"update-Profile"});
 });
 
 
@@ -511,9 +531,80 @@ const updateProfile = asyncHandler(async (req, res) => {
 
 //----------------------------------Shop Page Load && filter by  -----------------------------------
 
+const getBestSellingProducts = async (limit = 5) => {
+      try {
+          const bestSellingProducts = await Order.aggregate([
+              { $unwind: "$orderItem" },
+              {
+                  $group: {
+                      _id: "$orderItem.productId",
+                      totalSold: { $sum: "$orderItem.quantity" },
+                      productName: { $first: "$orderItem.productName" },
+                      price: { $first: "$orderItem.price" },
+                      images: { $first: "$orderItem.images" },
+                      category: { $first: "$orderItem.category" },
+                  }
+              },
+              { $sort: { totalSold: -1 } },
+              { $limit: limit },
+              {
+                  $lookup: {
+                      from: 'products',
+                      localField: '_id',
+                      foreignField: '_id',
+                      as: 'productDetails'
+                  }
+              },
+              { $unwind: "$productDetails" },
+              {
+                  $project: {
+                      _id: 1,
+                      totalSold: 1,
+                      productName: 1,
+                      price: 1,
+                      images: 1,
+                      category: 1,
+                      productDetails: 1
+                  }
+              }
+          ]);
+  
+          return bestSellingProducts;
+      } catch (error) {
+          console.error("Error fetching best-selling products:", error);
+          throw error;
+      }
+  };
+
+
+
 const shopLoad = asyncHandler(async (req, res) => {
-      let user_id = req.session.userData_id ? req.session.userData_id : " ";
-      const user = await User.findById({ _id: user_id });
+
+      const FirstPage = 8;
+      const currentPage = parseInt(req.query.page) || 1;
+
+      const start = (currentPage - 1) * FirstPage;
+
+      const  productData = await Products.find({}).populate('category').skip(start).limit(FirstPage);
+      const products = await Products.countDocuments({});
+
+      const totalPages = Math.ceil(products / FirstPage);
+
+
+
+      let user_id = req.session.userData_id;
+
+      // Validate user_id before making a database query
+      let user = null;
+      if (user_id) {
+          try {
+              user = await User.findOne({ _id: user_id });
+          } catch (error) {
+              console.error('Error fetching user:', error);
+              return res.status(500).send('Internal Server Error');
+          }
+      }
+  
       const categoryId = req.query.id;
       const sortBy = req.query.sort_by;
   
@@ -549,27 +640,74 @@ const shopLoad = asyncHandler(async (req, res) => {
       }
   
       try {
-          const product = await Products.find(query).sort(sortCriteria);
-          const category = await Category.find({});
-  
+            const category = await Category.find({});
+            console.log('category======='+category);
+          const product = await Products.find(query).sort(sortCriteria).populate('offer').populate('category').skip(start).limit(FirstPage);
+          
+          product.forEach(product => {
+            if (product.offer.length > 0) {
+                const offer = product.offer[0];
+                if (offer && offer.discount) {
+                    product.discountPercentage = offer.discount;
+                    product.discountPrice = product.price - (product.price * (offer.discount / 100));
+                }
+            }
+        });
+        
           if (product.length === 0) {
-              return res.render('shop', { product, category, user, message: 'Products Not Available' });
+              return res.render('shop', { currentPage, totalPages,product, category, user, message: 'Products Not Available',activePage:'shop' });
           }
-          const cart = await Cart.findOne({ user: user_id });
+          
           let cartCount = 0;
-          if (cart) {
-              cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
+          if (user) {
+              const cart = await Cart.findOne({ user: user_id });
+              if (cart) {
+                  cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
+              }
           }
+
+          const bestSellingProducts = await getBestSellingProducts();
   
-          res.render('shop', { product, category, user,cartCount });
+          res.render('shop', {bestSellingProducts,currentPage, totalPages, product, category, user, cartCount,activePage:'shop' });
+  
       } catch (error) {
           console.error('Error fetching products:', error);
           res.status(500).send('Internal Server Error');
       }
   });
+
+
+//------------------------------Search Products ------------------------------
+
+const searchProduct = asyncHandler(async (req, res) => {
+      
+      let product = [];
+      const currentPage = parseInt(req.query.page);
+      const FirstPage = 8;
+      const start = (currentPage - 1) * FirstPage;
+      const totalproduct = await Products.countDocuments({ action:false });
+      const totalPages = Math.ceil(totalproduct / FirstPage);
+
+      const productData = {
+            $or:[{name: { $regex: req.query.search, $options: 'i'}}]}
+      
+            console.log('search quary '+req.query.search);
+        const category = await Category.find({});
+        
+       if(req.query.search){
+             product = await Products.find(productData).skip(start).limit(FirstPage)
+       }else{
+             product =await Products.find().skip(start).limit(FirstPage);
+       }
+
+       const bestSellingProducts = await getBestSellingProducts();
+
+      res.render('shop', {product,currentPage,totalPages,category,bestSellingProducts,activePage:"shop"});
+
+  });
   
 
-
+//-----------------------------------------------------------------------------------------------
 
 module.exports = {
       loginLoad,
@@ -585,6 +723,8 @@ module.exports = {
       failureGoogleLogin,
       productDetails,
       logOut,
+      aboutPage,
+      contactPage,
       profileLoad,
       addressManagemtLoad,
       saveAddress,
@@ -592,6 +732,6 @@ module.exports = {
       deleteUser,
       updateProfileLoad,
       updateProfile,
-      // filterByCategory
+      searchProduct
       
 }

@@ -103,19 +103,19 @@ const orderSchema = new mongoose.Schema({
         couponDetails:{
                 code: {
                   type: String,
-                  // required: true,
+                
                 },
                 discount: {
                   type: Number,
-                  // required: true
+                  
                 },
                 miniParchaseAmt: {
                   type: Number,
-                  // required: true
+                  
                 },
                 maxredeemableAmt: {
                   type: Number,
-                  // required: true
+                  
                 },
 
         },
@@ -153,6 +153,12 @@ const orderSchema = new mongoose.Schema({
             default: 'Processing',
             enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Returned', 'Return requested', 'Return approved', 'Return Rejected', 'Refunded']
       },
+      returnReason: {
+        type: String,
+        required: function() {
+            return this.orderStatus === 'Return requested';
+        }
+    },
 
 });
 

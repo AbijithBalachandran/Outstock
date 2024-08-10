@@ -9,9 +9,18 @@ const { findOne } = require('../Models/cart');
 
 const couponManagementLoad = asyncHandler(async(req,res)=>{
 
-      const coupon = await Coupon.find({});
-      res.render('couponManagement',{coupon,ActivePage: 'couponManagement'});
-})
+      const FirstPage = 3;
+      const currentPage = parseInt(req.query.page) || 1;
+
+      const start = (currentPage - 1) * FirstPage;
+
+      const couponData = await Coupon.find({}).skip(start).limit(FirstPage);
+      const couponCount = await Coupon.countDocuments({}); 
+      const totalPages = Math.ceil(couponCount / FirstPage);
+
+      
+      res.render('couponManagement',{coupon:couponData, currentPage, totalPages ,ActivePage: 'couponManagement'});
+});
 
 
 

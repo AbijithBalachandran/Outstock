@@ -38,7 +38,7 @@ function addWishlist(event, id) {
                                     if (data.exist) {
                                           Swal.fire({
                                           title: "exist",
-                                          text: "Product Already exist in the cart.",
+                                          text: "Product Already exist in the Whishlist.",
                                           icon: "fail"
                                     });
                                     }

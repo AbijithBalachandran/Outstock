@@ -1,4 +1,5 @@
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <style>
     .order-card {
         background-color: #f8f9fa;
@@ -48,82 +49,302 @@
         text-align: center;
     }
 </style>
+
+
 </head>
 <body>
-<div class="container mt-5">
-    <div class="order-card">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="order-header">
-                    <span>Order ID : <%= order._id%></span><br>
-                    <span>Placed On : <%= new Date(order.orderDate).toLocaleDateString('en-US', {
-                        weekday: 'short',
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric'
-                    }) %></span>
-                </div>
-                <div class="order-details">
-                    <h6 class="price">₹ <%= order.totalPrice %> <small>: <%= order.paymentMethod %></small></h6>
-                    <p>Tracking Status : <span class="price"><%= order.orderStatus %></span> <br><br><span class="badge badge-info">Reached Hub, Delhi</span></p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <h4>ADDRESS</h4>
-                <p>Email : <span><%= order.address.email%></span></p>
-                <p>Name : <%= order.address.userName %></p>
-                <p>Phone Number : <%= order.address.phone %></p>
-                <p>Address : <%= order.address.address%></p>
-                <p>Landmark : <%= order.address.landmark%></p>
-                <p>Pincode : <%= order.address.pincode%></p>
-            </div>
-            <div class="col-md-4">
-                <h4>Order Items</h4>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Product Name</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% order.orderItem.forEach(item => { %>
-                        <tr>
-                            <td><img src="/upload/product/<%=item.images[0]%> %>" alt="<%= item.productName %>"></td>
-                            <td><%= item.productName %></td>
-                            <td><%= item.quantity %></td>
-                            <td>₹ <%= item.price %></td>
-                        </tr>
-                        <% }) %>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="mt-3 d-flex justify-content-between">
-            <!-- <button class="btn btn-primary">Track</button> -->
-            <!-- <button class="btn btn-danger">Cancel</button> -->
-            <!-- <button class="btn btn-warning">Pre-pay</button> -->
+    
+    <div class="container mt-5">
+        <div class="order-card">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="order-header">
+                        <span>Order ID : <%= order._id %></span><br>
+                        <span>Placed On : <%= new Date(order.orderDate).toLocaleDateString('en-US', {
+                            weekday: 'short',
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric'
+                        }) %></span>
+                    </div>
+                    <div class="order-details">
+                        <h6 class="price">₹ <%= order.totalPrice %> <small>: <%= order.paymentMethod %></small></h6>
+                        <p>Tracking Status : <span class="price"><%= order.orderStatus %></span> <br><br>
+                            <span class="badge badge-info"></span></p>
+                           
 
+                            
+                            <div class="container mt-5">
+                                
+                                <% if (order.orderStatus === 'Pending') {%>
+                                    <button type="button" onclick="reStartRazorpayPayment('<%= user._id %>','<%= order._id %>')" class="btn btn-warning mt-3" id="razorpay-btn"> <i class="fas fa-redo"></i> Retry Payment</button>
+                               <% } %>
+                            
+                                <% if (order.orderStatus === 'Processing' || order.orderStatus === 'Shipped' || order.orderStatus === 'Delivered') { %>
+                                    <button class="btn btn-success" onclick="downloadInvoice('<%= order._id %>')">
+                                        <i class="fas fa-download"></i> Download Invoice
+                                    </button>
+                                <% } %>
+                            </div>
+                            
+
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h4>ADDRESS</h4>
+                    <p>Email : <span><%= order.address.email %></span></p>
+                    <p>Name : <%= order.address.userName %></p>
+                    <p>Phone Number : <%= order.address.phone %></p>
+                    <p>Address : <%= order.address.address %></p>
+                    <p>Landmark : <%= order.address.landmark %></p>
+                    <p>Pincode : <%= order.address.pincode %></p>
+                </div>
+                <div class="col-md-4">
+                    <h4>Order Items</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% order.orderItem.forEach(item => { %>
+                            <tr>
+                                <td><img src="/upload/product/<%=item.images[0] %>" alt="<%= item.productName %>"></td>
+                                <td><%= item.productName %></td>
+                                <td><%= item.quantity %></td>
+                                <td>₹ <%= item.price %></td>
+                            </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <div class="mt-3 d-flex justify-content-between">
-                <% if (order.orderStatus === 'Processing' || order.orderStatus === 'Pending'||order.orderStatus === 'Shipped') { %>
-                    <button class="btn btn-danger" onclick="confirmCancelOrder('<%= order._id %>','Cancelled')">Cancel</button>
+                <% if (order.orderStatus === 'Processing' || order.orderStatus === 'Pending' || order.orderStatus === 'Shipped') { %>
+                    <button class="btn btn-danger" onclick="confirmCancelOrder('<%= order._id %>', 'Cancelled')">Cancel</button>
                 <% } else if (order.orderStatus === 'Delivered') { %>
-                    <button class="btn btn-warning" onclick="updateOrderStatus('<%= order._id %>', 'Return requested')">Return</button>
+                    <button class="btn btn-warning" onclick="submitReturnRequest('<%= order._id %>')">Return</button>
+            <div>
+                <p>Select Reason for Return:</p>
+                <select name="returnReason" id="returnReason" required>
+                    <option value="">Select</option>
+                    <option value="Defective or Damaged Product">Defective or Damaged Product</option>
+                    <option value="Received Wrong Item">Received Wrong Item</option>
+                    <option value="Product Not as Described">Product Not as Described</option>
+                    <option value="Better Price Available">Better Price Available</option>
+                    <option value="Quality Not as Expected">Quality Not as Expected</option>
+                    <option value="Other">Other</option>
+                </select>
+                </div>
                 <% } %>
             </div>
-
         </div>
     </div>
-</div>
+    
+    <script>
+        function downloadInvoice(orderId) {
+            const invoiceUrl = `/download-invoice/${orderId}`;
+            window.location.href = invoiceUrl; 
+        }
+    
+    </script>
 
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+
+<script>
+
+// async function reStartRazorpayPayment(userId, orderId) {
+//     try {
+//         const response = await fetch(`/retryCreate-order?userId=${userId}&orderId=${orderId}`);
+//         if (!response.ok) {
+//             throw new Error('Network response was not ok');
+//         }
+//         const orderData = await response.json();
+//         if (!orderData.order_id) {
+//             Swal.fire({
+//                 icon: "error",
+//                 title: "Payment Error",
+//                 text: "Could not initiate payment. Please try again.",
+//             });
+//             return;
+//         }
+//        console.log("order key id",orderData.key_id);
+
+//         const options = {
+//             key: orderData.key_id,
+//             amount: orderData.amount,
+//             currency: "INR",
+//             name: "OutStock PLTD",
+//             description: "Test Transaction",
+//             order_id: orderData.order_id,
+//             handler: function (response) {
+           
+//                 alert('option');
+
+//                 const data = {
+//                     orderCreationId: orderData.order_id,
+//                     razorpayPaymentId: response.razorpay_payment_id,
+//                     razorpayOrderId: response.razorpay_order_id,
+//                     razorpaySignature: response.razorpay_signature,
+//                     userId: userId,
+//                 };
+
+
+//                 fetch("/verify-repayment", {
+//                     method: "POST",
+//                     headers: {
+//                         "Content-Type": "application/json",
+//                     },
+//                     body: JSON.stringify(data),
+//                 })
+//                 .then(result => result.json())
+//                 .then(resultData => {
+//                     if (resultData.success) {
+//                         setTimeout(() => {
+//                             window.location.href = `/tracking-order?orderId=${resultData.orderId}&userId=${userId}`;
+//                         }, 1000);
+//                     } else {
+//                         Swal.fire({
+//                             icon: "error",
+//                             title: "Payment Failed",
+//                             text: "Payment verification failed. Please try again.",
+//                         }).then(() => {
+//                             window.location.href = `/tracking-order?orderId=${resultData.orderId}&userId=${userId}`;
+//                         });
+//                     }
+//                 });
+//             },
+//             prefill: {
+//                 name: document.getElementById('firstName').value,
+//                 email: document.getElementById('email').value,
+//                 contact: document.getElementById('phone').value,
+//             },
+//             notes: {
+//                 address: document.getElementById('address').value,
+//             },
+//             theme: {
+//                 color: "#3399cc",
+//             },
+//             modal: {
+//                 ondismiss: function () {
+//                     Swal.fire({
+//                         icon: "error",
+//                         title: "Payment Cancelled",
+//                         text: "Payment process was cancelled. You will be redirected to track your order.",
+//                     }).then(() => {
+//                         window.location.href = `/tracking-order?orderId=${orderData.savedOrderId}&userId=${userId}`;
+//                     });
+//                 }
+//             }
+//         };
+
+//         const paymentObject = new Razorpay(options);
+//         paymentObject.open();
+//     } catch (error) {
+//         console.error("Error starting Razorpay payment:", error);
+//     }
+// }
+
+async function reStartRazorpayPayment(userId, orderId) {
+        try {
+            const response = await fetch(`/retryCreate-order?userId=${userId}&orderId=${orderId}`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const orderData = await response.json();
+            if (!orderData.order_id) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Payment Error",
+                    text: "Could not initiate payment. Please try again.",
+                });
+                return;
+            }
+
+            const options = {
+                key: orderData.key_id,
+                amount: orderData.amount,
+                currency: "INR",
+                name: "OutStock PLTD",
+                description: "Test Transaction",
+                order_id: orderData.order_id,
+                handler: function (response) {
+                    const data = {
+                        orderCreationId: orderData.order_id,
+                        razorpayPaymentId: response.razorpay_payment_id,
+                        razorpayOrderId: response.razorpay_order_id,
+                        razorpaySignature: response.razorpay_signature,
+                        userId: userId,
+                    };
+
+                    fetch(`/verify-repayment?orderId=${orderData.savedOrderId}`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(data),
+                    })
+                    .then(result => result.json())
+                    .then(resultData => {
+                        if (resultData.success) {
+                            window.location.href = `/tracking-order?orderId=${orderData.savedOrderId}&userId=${userId}`;
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Payment Failed",
+                                text: "Payment verification failed. Please try again.",
+                            }).then(() => {
+                                window.location.href = `/tracking-order?orderId=${orderData.savedOrderId}&userId=${userId}`;
+                            });
+                        }
+                    });
+                },
+                prefill: {
+                    name: "<%= user.firstName %>",
+                    email: "<%= user.email %>",
+                    contact: "<%= user.phone %>",
+                },
+                notes: {
+                    address: "<%= user.address %>",
+                },
+                theme: {
+                    color: "#3399cc",
+                },
+                modal: {
+                    ondismiss: function () {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Payment Cancelled",
+                            text: "Payment process was cancelled. You will be redirected to track your order.",
+                        }).then(() => {
+                            window.location.href = `/tracking-order?orderId=${orderData.savedOrderId}&userId=${userId}`;
+                        });
+                    }
+                }
+            };
+
+            const paymentObject = new Razorpay(options);
+            paymentObject.open();
+
+        } catch (error) {
+            console.error("Error starting Razorpay payment:", error);
+        }
+    }
+
+</script>
 
 <script src="/js/cancelAndReturn.js"></script>
-
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>

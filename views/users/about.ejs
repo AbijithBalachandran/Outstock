@@ -1,0 +1,651 @@
+<%- include('../layout/header') %>
+
+
+    <%- include('../layout/navbarH') %>
+
+
+        <%- include('../layout/navbarF') %>
+
+
+       
+<div id="searchTop" class="search-modal modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content container border-0">
+			<div class="modal-header border-0 p-0 text-center flex-column">
+				<button type="button" class="btn-close m-auto w-auto h-auto p-0 text-primary" data-bs-dismiss="modal" aria-label="Close"><svg   class="icon" width="28" height="28" aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.48627 9.32917L2.82849 3.67098" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2.88539 9.38504L8.42932 3.61524" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg></button>
+				<h4 class="modal-title pb-0 pt-2 pt-md-5 mb-2" id="searchTopLabel">Search</h4>
+			</div>
+			<div class="search-modal__content " tabindex="-1"><predictive-search class="search-modal__form w-100" data-loading-text="Loading..."><form action="https://vela-kazan.myshopify.com/search" method="get" role="search" class="search search-modal__form position-relative pe-5 border-bottom">
+					
+					<input class="search__input form-control search-input border-0 px-0"
+					id="Search-In-Modal-1"
+					type="search"
+					name="q"
+					value=""
+					placeholder="Enter keywords to search..."role="combobox"
+						aria-expanded="false"
+						aria-owns="predictive-search-results-list"
+						aria-controls="predictive-search-results-list"
+						aria-haspopup="listbox"
+						aria-autocomplete="list"
+						autocorrect="off"
+						autocomplete="off"
+						autocapitalize="off"
+						spellcheck="false">
+					<label class="d-none" for="Search-In-Modal">Enter keywords to search...</label>
+					<input type="hidden" name="type" value="product" />
+					<input type="hidden" name="options[sort_by]" value="price-descending" />
+					<button class="search__button btn btn-link p-0 text-end position-absolute end-0" aria-label="Enter keywords to search...">
+						<svg  class="icon icon-search"  width="24" height="24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve"><path fill="currentColor" d="M344.5,298c15-23.6,23.8-51.6,23.8-81.7c0-84.1-68.1-152.3-152.1-152.3C132.1,64,64,132.2,64,216.3c0,84.1,68.1,152.3,152.1,152.3c30.5,0,58.9-9,82.7-24.4l6.9-4.8L414.3,448l33.7-34.3L339.5,305.1L344.5,298z M301.4,131.2c22.7,22.7,35.2,52.9,35.2,85c0,32.1-12.5,62.3-35.2,85c-22.7,22.7-52.9,35.2-85,35.2c-32.1,0-62.3-12.5-85-35.2c-22.7-22.7-35.2-52.9-35.2-85c0-32.1,12.5-62.3,35.2-85c22.7-22.7,52.9-35.2,85-35.2C248.5,96,278.7,108.5,301.4,131.2z"></path></svg>
+					</button><div class="predictive-search predictive-search--header position-absolute bg-white overflow-auto" tabindex="-1" data-predictive-search>
+							<div class="predictive-search__loading-state d-none">
+								<svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+								<circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+								</svg>
+							</div>
+						</div>
+
+						<span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span></form></predictive-search></div>
+		</div>
+	</div>
+</div>
+<script>
+	var myCollapsible = document.getElementById('searchTop');
+	myCollapsible.addEventListener('shown.bs.modal', function () {
+		document.getElementById('Search-In-Modal-1').focus();
+	});
+</script>
+<main id="MainContent" class="main-content content-for-layout" tabindex="-1">
+			<div class="main-content__inner">
+				<section id="shopify-section-template--14955324833857__breadcrumb" class="shopify-section velaFramework">	<div class="vela-breadcrumbs vela-section overflow-hidden d-flex flex-wrap align-items-center vela-breadcrumbs--image" style="--st-bg-cl:#f6f6f4;--st-mg:0 auto 60px;--breadcrumb-color-link:#c3c3c3;
+			--breadcrumb-color:#201f1f;
+			--breadcrumb-heading-color:#323232;
+			--breadcrumb-mh:400px;
+			--breadcrumb-mh-m:60px,"><div class="vela-breadcrumbs__image lazyload"
+				data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_180x.jpg?v=1614322107 180w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_360x.jpg?v=1614322107 360w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_540x.jpg?v=1614322107 540w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_720x.jpg?v=1614322107 720w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_900x.jpg?v=1614322107 900w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1080x.jpg?v=1614322107 1080w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1296x.jpg?v=1614322107 1296w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1512x.jpg?v=1614322107 1512w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1_1728x.jpg?v=1614322107 1728w ,//vela-kazan.myshopify.com/cdn/shop/files/breadcrumb-bg1.jpg?v=1614322107 1920w"
+				data-sizes="auto"
+				data-parent-fit="cover"></div><div class="container">
+			<div class="vela-breadcrumbs__inner align-items-center flex-column" aria-label="breadcrumb"><h1 class="vela-breadcrumbs__title mb-1 d-none d-md-block">About Us V2</h1>
+				<ol class="breadcrumb m-0" itemscope itemtype="http://schema.org/BreadcrumbList">
+					<li class="breadcrumb-item breadcrumb__item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+						<a class="breadcrumb__link" href="/home" title="Home" itemprop="item">
+							<span itemprop="name">Home</span>
+						</a>
+						<meta itemprop="position" content="1" />
+					</li>
+					<li class="breadcrumb-item breadcrumb__item active" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+						<span class="breadcrumb__text">
+							<span itemprop="name">About Us</span>
+						</span>
+						<meta itemprop="position" content="2" />
+					</li>
+				</ol>
+			</div>
+	    </div>
+    </div>
+	
+</section><section id="shopify-section-template--14955324833857__698fea3b-3db5-479e-add7-3e9af179a2b3" class="shopify-section velaFramework"><div class="vela-section section__heading overflow-hidden" style="--st-pd-dt: 30px 0 90px;--st-pd-mb: 0 0 60px;">
+    <div class="container">
+        <div class="vela-section-inner position-relative">
+            <div class="heading-wrapper"><div class="heading__text heading__default text-center ff-special fw-normal" style=" --ht-cl: #814e46; --ht-fs: 32px;--ht-fs-l: 29px;--ht-fs-m: 28px; --ht-m: 0 0 20px;--ht-m-l: 0 0 15px;--ht-m-m: 0 0 10px;"><span>Coming Home</span></div><div class="heading__text heading__default text-center ff-heading fw-medium" style=" --ht-cl: #222222; --ht-fs: 36px;--ht-fs-l: 32px;--ht-fs-m: 30px;"><span><div class="mx-auto" style="max-width: 870px; line-height: 44px;">Designed with the modern family in mind, designer Hee Welling considered every aspect of the Patch table to ensure maximum functionality. </div></span></div></div>
+        </div>
+    </div>
+</div>
+</section><section id="shopify-section-template--14955324833857__16266097795e2c2841" class="shopify-section velaFramework">
+<div class="vela-section image-with-text overflow-hidden" style="--st-mx-w: 1700px;--st-pd-dt: 30px 0 120px;--st-pd-mb: 0px 0 60px;">                                     
+    <div class="container-fluid">
+        <div class="image-with-text__inner" >
+            <div class="row g-4 ">
+                    <div class=" col-12 col-md-12 col-lg-6">                      
+                        <div class="image-with-text__banner position-relative" style="--plh-svg-h: 590px;"><div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:65.47619047619048%;" role="img"
+            aria-label=""
+            data-alt=""
+            data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/about_1_180x.jpg?v=1690475202 180w ,//vela-kazan.myshopify.com/cdn/shop/files/about_1_360x.jpg?v=1690475202 360w ,//vela-kazan.myshopify.com/cdn/shop/files/about_1_540x.jpg?v=1690475202 540w ,//vela-kazan.myshopify.com/cdn/shop/files/about_1_720x.jpg?v=1690475202 720w ,//vela-kazan.myshopify.com/cdn/shop/files/about_1_900x.jpg?v=1690475202 900w ,//vela-kazan.myshopify.com/cdn/shop/files/about_1_1080x.jpg?v=1690475202 1080w ,//vela-kazan.myshopify.com/cdn/shop/files/about_1_1296x.jpg?v=1690475202 1296w ,//vela-kazan.myshopify.com/cdn/shop/files/about_1_1512x.jpg?v=1690475202 1512w ,//vela-kazan.myshopify.com/cdn/shop/files/about_1_1680x1100.jpg?v=1690475202 1680w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+</div>
+                    </div><div class="image-with-text__content text-left col-12 col-md-0 col-lg-6" style="--iwt-ct-bg: rgba(0,0,0,0);">
+                    <div class="image-with-text__wrapper position-relative top-50 translate-middle-y"  style="--iwt-wp-pd: 0 0 0 10%;"><div class="image-with-text__text h3 fw-medium" 
+                                        style=" --iwt-t-cl-m:#000000; --iwt-t-fs-m:30px;--iwt-t-mg-m:0 0 10px;--iwt-t-cl-tl:#000000; --iwt-t-fs-tl:36px;--iwt-t-mg-tl:0 0 10px;--iwt-t-cl:#000000; --iwt-t-fs:40px;--iwt-t-mg:0 0 20px;">
+                                            We’re different by design
+                                        </div><div class="image-with-text__text text fw-normal" 
+                                        style=" --iwt-t-cl-m:#37454e; --iwt-t-fs-m:14px;--iwt-t-mg-m:0 0 25px;--iwt-t-cl-tl:#37454e; --iwt-t-fs-tl:15px;--iwt-t-mg-tl:0 0 25px;--iwt-t-cl:#37454e; --iwt-t-fs:16px;--iwt-t-mg:0 0 30px;">
+                                            Our story started with a problem (the best ideas usually do). Some ten years ago, our founder was furnishing his flat. Frustrated at the lack of well-designed, good quality and affordable sofas, he set about redefining the process. The concept was clear: collaborate with independent designers and makers to create pieces you’ll love, minus the mark-up. And so MADE.COM was born. The destination for creating your dream home.
+                                        </div><a class="btn position-relative image-with-text__btn" href="#" 
+                                        style="--iwt-b-fs:16px; --iwt-b-fs-m:15px; --iwt-b-cl:#222222; --iwt-b-bd-w: 1px; --iwt-b-bd-cl:#000000; --iwt-b-bg-cl:#ffffff;--iwt-b-hv-cl:#ffffff; --iwt-b-hv-bd-cl:#814e46; --iwt-b-hv-bg-cl:#814e46;--iwt-b-pd:12px 40px;--iwt-b-pd-m:8px 20px;">
+                                            <span class="position-relative d-inline-block">View More</span>
+                                        </a></div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+</section>
+
+<section id="shopify-section-template--14955324833857__0b57577c-0fce-47af-9d81-92de6f0d26f8" class="shopify-section velaFramework">
+<div class="vela-section image-with-text overflow-hidden" style="--st-mx-w: 1700px;">                                     
+    <div class="container-fluid">
+        <div class="image-with-text__inner" >
+            <div class="row g-4 ">
+                    <div class=" col-12 col-md-6 col-lg-6">                      
+                        <div class="image-with-text__banner position-relative" style="--plh-svg-h: 590px;"><div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:65.47619047619048%;" role="img"
+            aria-label=""
+            data-alt=""
+            data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/about_2_180x.jpg?v=1690475222 180w ,//vela-kazan.myshopify.com/cdn/shop/files/about_2_360x.jpg?v=1690475222 360w ,//vela-kazan.myshopify.com/cdn/shop/files/about_2_540x.jpg?v=1690475222 540w ,//vela-kazan.myshopify.com/cdn/shop/files/about_2_720x.jpg?v=1690475222 720w ,//vela-kazan.myshopify.com/cdn/shop/files/about_2_900x.jpg?v=1690475222 900w ,//vela-kazan.myshopify.com/cdn/shop/files/about_2_1080x.jpg?v=1690475222 1080w ,//vela-kazan.myshopify.com/cdn/shop/files/about_2_1296x.jpg?v=1690475222 1296w ,//vela-kazan.myshopify.com/cdn/shop/files/about_2_1512x.jpg?v=1690475222 1512w ,//vela-kazan.myshopify.com/cdn/shop/files/about_2_1680x1100.jpg?v=1690475222 1680w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+</div>
+                    </div><div class="image-with-text__content text-start col-12 col-md-6 col-lg-6" style="--iwt-ct-bg: rgba(0,0,0,0);">
+                    <div class="image-with-text__wrapper position-relative top-50 translate-middle-y"  style="--iwt-wp-pd: 0 0 0 10%;"><div class="image-with-text__text ff-heading fw-medium" 
+                                        style=" --iwt-t-cl-m:#000000; --iwt-t-fs-m:30px;--iwt-t-mg-m:0 0 10px;--iwt-t-cl-tl:#000000; --iwt-t-fs-tl:36px;--iwt-t-mg-tl:0 0 10px;--iwt-t-cl:#000000; --iwt-t-fs:40px;--iwt-t-mg:0 0 20px;">
+                                            We support independent designers
+                                        </div><div class="image-with-text__text text fw-normal" 
+                                        style=" --iwt-t-cl-m:#000000; --iwt-t-fs-m:16px;--iwt-t-mg-m:0 0 25px;--iwt-t-cl-tl:#000000; --iwt-t-fs-tl:16px;--iwt-t-mg-tl:0 0 25px;--iwt-t-cl:#000000; --iwt-t-fs:16px;--iwt-t-mg:0 0 30px;">
+                                            Nothing excites us more than great design. That’s why we champion emerging and established creative talent from all over the world. The result? Innovative products and exclusive ranges. Pieces that consider every space and individual. And for our designers, it means being part of a true partnership that has their interests at heart.
+                                        </div><a class="btn position-relative image-with-text__btn" href="#" 
+                                        style="--iwt-b-fs:16px; --iwt-b-fs-m:14px; --iwt-b-cl:#000000; --iwt-b-bd-w: 1px; --iwt-b-bd-cl:#000000; --iwt-b-bg-cl:#ffffff;--iwt-b-hv-cl:#ffffff; --iwt-b-hv-bd-cl:#814e46; --iwt-b-hv-bg-cl:#814e46;--iwt-b-pd:10px 40px;--iwt-b-pd-m:8px 20px;">
+                                            <span class="position-relative d-inline-block">View More</span>
+                                        </a></div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+</section><section id="shopify-section-template--14955324833857__10434226-9bb9-4300-88cd-f2ae430b4e12" class="shopify-section velaFramework"><div class="vela-section section__heading overflow-hidden" style="--st-pd-dt: 120px 0;--st-pd-mb: 60px 0;">
+    <div class="container">
+        <div class="vela-section-inner position-relative">
+            <div class="heading-wrapper"><div class="heading__text heading__default text-center ff-heading fw-medium" style=" --ht-cl: #222222; --ht-fs: 28px;--ht-fs-l: 26px;--ht-fs-m: 24px; --ht-m: 0 0 30px;--ht-m-l: 0 0 25px;--ht-m-m: 0 0 15px;"><span><div class="mx-auto" style="max-width: 845px;">“ Ipsum dolor sit amet, consectetur adipiscing elit. Fringilla vel tincidunt ipsum ac. Nam at et id leo pulvinar egestas mi lorem. Adipiscing felis, vel faucibus in. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare “</div></span></div><div class="heading__text heading__default text-center text fw-normal" style=" --ht-cl: #222222; --ht-fs: 16px;--ht-fs-l: 15px;--ht-fs-m: 14px;"><span><div>
+<span class="fw-medium">Bryan Jonhson</span> - <span style="color: #a4a4a4;">Operations Officer</span>
+</div></span></div></div>
+        </div>
+    </div>
+</div>
+</section><section id="shopify-section-template--14955324833857__5295cfb8-92d7-490f-88fe-de8be4522282" class="shopify-section velaFramework"><div class="vela-section section-lookbook" style="">
+    <div class="container-full">
+        <div class="vela-section__inner">
+            <div class="lookbook__content position-relative" style="--plh-svg-h: 600px;"><div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:41.66666666666667%;" role="img"
+            aria-label=""
+            data-alt=""
+            data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/lookbook_180x.jpg?v=1614314589 180w ,//vela-kazan.myshopify.com/cdn/shop/files/lookbook_360x.jpg?v=1614314589 360w ,//vela-kazan.myshopify.com/cdn/shop/files/lookbook_540x.jpg?v=1614314589 540w ,//vela-kazan.myshopify.com/cdn/shop/files/lookbook_720x.jpg?v=1614314589 720w ,//vela-kazan.myshopify.com/cdn/shop/files/lookbook_900x.jpg?v=1614314589 900w ,//vela-kazan.myshopify.com/cdn/shop/files/lookbook_1080x.jpg?v=1614314589 1080w ,//vela-kazan.myshopify.com/cdn/shop/files/lookbook_1296x.jpg?v=1614314589 1296w ,//vela-kazan.myshopify.com/cdn/shop/files/lookbook_1512x.jpg?v=1614314589 1512w ,//vela-kazan.myshopify.com/cdn/shop/files/lookbook_1728x.jpg?v=1614314589 1728w ,//vela-kazan.myshopify.com/cdn/shop/files/lookbook_1920x800.jpg?v=1614314589 1920w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+
+<div class="lookbook-card__item position-absolute" style="top: 70%; left: 17%;">
+        <div class="lookbook-card__point position-absolute lookbook-card--center-top">
+            <div class="lookbook-card__button">
+                <button class="lookbook-card__btn bg-transparent p-0 d-block border-0 position-relative" data-bs-toggle="modal" data-bs-target="#lookbook-8bd603e0-7e47-4c4a-a9df-8ff4243fa9fe">
+                    <span class="position-relative d-flex justify-content-center align-items-center"><svg  width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.75 4.25H5.75V0.25C5.75 0.111875 5.63812 0 5.5 0H4.5C4.36188 0 4.25 0.111875 4.25 0.25V4.25H0.25C0.111875 4.25 0 4.36188 0 4.5V5.5C0 5.63812 0.111875 5.75 0.25 5.75H4.25V9.75C4.25 9.88813 4.36188 10 4.5 10H5.5C5.63812 10 5.75 9.88813 5.75 9.75V5.75H9.75C9.88813 5.75 10 5.63812 10 5.5V4.5C10 4.36188 9.88813 4.25 9.75 4.25Z" fill="currentColor"/></svg></span>
+                </button>
+            </div>
+            <div class="lookbook-card__content p-3">
+                <div class="lookbook-product row g-3">
+                    <a class="col-5 lookbook-product__img" href="../products/sacrificial-chair-design-11.html">
+                        <div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:100.0%;" role="img"
+            aria-label="chair__1"
+            data-alt="chair__1"
+            data-bgset="
+//vela-kazan.myshopify.com/cdn/shop/products/1_c14253f1-8cb5-4a88-921b-d3dbaffaaafa_180x180_crop_center.jpg?v=1601694960 180w ,//vela-kazan.myshopify.com/cdn/shop/products/1_c14253f1-8cb5-4a88-921b-d3dbaffaaafa_360x360_crop_center.jpg?v=1601694960 360w ,//vela-kazan.myshopify.com/cdn/shop/products/1_c14253f1-8cb5-4a88-921b-d3dbaffaaafa_370x370_crop_center.jpg?v=1601694960 370w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+                    </a>
+                    <div class="col-7 lookbook-product__content">
+                        <a class="lookbook-product__title" href="../products/sacrificial-chair-design-11.html">Sacrificial Chair Design</a><div class="lookbook-card__review">
+                                <span class="shopify-product-reviews-badge" data-id="23393828880"></span>
+                            </div><div class="lookbook-product__price ff-special pt-2">
+                            <div class="product-price"><span class=money>$170.00</span></div></div>
+                        <div class="d-flex justify-content-between w-100 pt-2 pt-md-3">
+                            <a class="lookbook-product__link text-capitalize" href="../products/sacrificial-chair-design-11.html">View details</a><a class="js-btn-quickview text-capitalize" href="javascript:void(0);"  data-preorder="false" data-handle="sacrificial-chair-design-11" title="Buy now">
+                                    <span >Buy now</span>
+                                    <div class="d-none proShortDesc">
+                                        Sapien luctus id justo suscipit nonummy eget hymenaeos phasellus felis enim, dolor tortor cras nonummy sit amet nam wisi suspendisse mattis mi vel leo.
+Don’t...
+                                    </div>
+                                </a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade lookbook-modal" id="lookbook-8bd603e0-7e47-4c4a-a9df-8ff4243fa9fe" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header position-relative">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="lookbook-product row g-3">
+                        <a class="col-5 lookbook-product__img" href="../products/sacrificial-chair-design-11.html">
+                            <div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:100.0%;" role="img"
+            aria-label="chair__1"
+            data-alt="chair__1"
+            data-bgset="
+//vela-kazan.myshopify.com/cdn/shop/products/1_c14253f1-8cb5-4a88-921b-d3dbaffaaafa_180x180_crop_center.jpg?v=1601694960 180w ,//vela-kazan.myshopify.com/cdn/shop/products/1_c14253f1-8cb5-4a88-921b-d3dbaffaaafa_360x360_crop_center.jpg?v=1601694960 360w ,//vela-kazan.myshopify.com/cdn/shop/products/1_c14253f1-8cb5-4a88-921b-d3dbaffaaafa_370x370_crop_center.jpg?v=1601694960 370w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+                        </a>
+                        <div class="col-7 lookbook-product__content">
+                            <a class="lookbook-product__title" href="../products/sacrificial-chair-design-11.html">Sacrificial Chair Design</a><div class="lookbook-card__review">
+                                    <span class="shopify-product-reviews-badge" data-id="23393828880"></span>
+                                </div><div class="lookbook-product__price ff-special pt-2">
+                                <div class="product-price"><span class=money>$170.00</span></div></div>
+                            <div class="d-flex w-100 pt-2 pt-sm-3">
+                                <a class="lookbook-product__link text-capitalize" href="../products/sacrificial-chair-design-11.html">View details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="lookbook-card__item position-absolute" style="top: 10%; left: 68%;">
+        <div class="lookbook-card__point position-absolute lookbook-card--center-bottom">
+            <div class="lookbook-card__button">
+                <button class="lookbook-card__btn bg-transparent p-0 d-block border-0 position-relative" data-bs-toggle="modal" data-bs-target="#lookbook-24d8cc6a-b650-4ae8-a80d-c00255664ae0">
+                    <span class="position-relative d-flex justify-content-center align-items-center"><svg  width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.75 4.25H5.75V0.25C5.75 0.111875 5.63812 0 5.5 0H4.5C4.36188 0 4.25 0.111875 4.25 0.25V4.25H0.25C0.111875 4.25 0 4.36188 0 4.5V5.5C0 5.63812 0.111875 5.75 0.25 5.75H4.25V9.75C4.25 9.88813 4.36188 10 4.5 10H5.5C5.63812 10 5.75 9.88813 5.75 9.75V5.75H9.75C9.88813 5.75 10 5.63812 10 5.5V4.5C10 4.36188 9.88813 4.25 9.75 4.25Z" fill="currentColor"/></svg></span>
+                </button>
+            </div>
+            <div class="lookbook-card__content p-3">
+                <div class="lookbook-product row g-3">
+                    <a class="col-5 lookbook-product__img" href="../products/sacrificial-chair-design-6.html">
+                        <div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:100.0%;" role="img"
+            aria-label="Wooden container Bowl"
+            data-alt="Wooden container Bowl"
+            data-bgset="
+//vela-kazan.myshopify.com/cdn/shop/products/11_63e20b3b-21f2-49ff-93f8-2179551f43e0_180x180_crop_center.jpg?v=1591760332 180w ,//vela-kazan.myshopify.com/cdn/shop/products/11_63e20b3b-21f2-49ff-93f8-2179551f43e0_360x360_crop_center.jpg?v=1591760332 360w ,//vela-kazan.myshopify.com/cdn/shop/products/11_63e20b3b-21f2-49ff-93f8-2179551f43e0_370x370_crop_center.jpg?v=1591760332 370w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+                    </a>
+                    <div class="col-7 lookbook-product__content">
+                        <a class="lookbook-product__title" href="../products/sacrificial-chair-design-6.html">Wooden container Bowl</a><div class="lookbook-card__review">
+                                <span class="shopify-product-reviews-badge" data-id="23394091024"></span>
+                            </div><div class="lookbook-product__price ff-special pt-2">
+                            <div class="product-price"><span class=money>$160.00</span></div></div>
+                        <div class="d-flex justify-content-between w-100 pt-2 pt-md-3">
+                            <a class="lookbook-product__link text-capitalize" href="../products/sacrificial-chair-design-6.html">View details</a><a class="js-btn-quickview text-capitalize" href="javascript:void(0);"  data-preorder="false" data-handle="sacrificial-chair-design-6" title="Buy now">
+                                    <span >Buy now</span>
+                                    <div class="d-none proShortDesc">
+                                        Don’t ever play yourself. The weather is amazing, walk with me through the pathway of more success. Take this journey with me, Lion! The other day the grass ...
+                                    </div>
+                                </a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade lookbook-modal" id="lookbook-24d8cc6a-b650-4ae8-a80d-c00255664ae0" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header position-relative">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="lookbook-product row g-3">
+                        <a class="col-5 lookbook-product__img" href="../products/sacrificial-chair-design-6.html">
+                            <div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:100.0%;" role="img"
+            aria-label="Wooden container Bowl"
+            data-alt="Wooden container Bowl"
+            data-bgset="
+//vela-kazan.myshopify.com/cdn/shop/products/11_63e20b3b-21f2-49ff-93f8-2179551f43e0_180x180_crop_center.jpg?v=1591760332 180w ,//vela-kazan.myshopify.com/cdn/shop/products/11_63e20b3b-21f2-49ff-93f8-2179551f43e0_360x360_crop_center.jpg?v=1591760332 360w ,//vela-kazan.myshopify.com/cdn/shop/products/11_63e20b3b-21f2-49ff-93f8-2179551f43e0_370x370_crop_center.jpg?v=1591760332 370w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+                        </a>
+                        <div class="col-7 lookbook-product__content">
+                            <a class="lookbook-product__title" href="../products/sacrificial-chair-design-6.html">Wooden container Bowl</a><div class="lookbook-card__review">
+                                    <span class="shopify-product-reviews-badge" data-id="23394091024"></span>
+                                </div><div class="lookbook-product__price ff-special pt-2">
+                                <div class="product-price"><span class=money>$160.00</span></div></div>
+                            <div class="d-flex w-100 pt-2 pt-sm-3">
+                                <a class="lookbook-product__link text-capitalize" href="../products/sacrificial-chair-design-6.html">View details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="lookbook-card__item position-absolute" style="top: 53%; left: 88%;">
+        <div class="lookbook-card__point position-absolute lookbook-card--center-left">
+            <div class="lookbook-card__button">
+                <button class="lookbook-card__btn bg-transparent p-0 d-block border-0 position-relative" data-bs-toggle="modal" data-bs-target="#lookbook-640e4b98-8eed-4a4a-ae76-d883d79b07f5">
+                    <span class="position-relative d-flex justify-content-center align-items-center"><svg  width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.75 4.25H5.75V0.25C5.75 0.111875 5.63812 0 5.5 0H4.5C4.36188 0 4.25 0.111875 4.25 0.25V4.25H0.25C0.111875 4.25 0 4.36188 0 4.5V5.5C0 5.63812 0.111875 5.75 0.25 5.75H4.25V9.75C4.25 9.88813 4.36188 10 4.5 10H5.5C5.63812 10 5.75 9.88813 5.75 9.75V5.75H9.75C9.88813 5.75 10 5.63812 10 5.5V4.5C10 4.36188 9.88813 4.25 9.75 4.25Z" fill="currentColor"/></svg></span>
+                </button>
+            </div>
+            <div class="lookbook-card__content p-3">
+                <div class="lookbook-product row g-3">
+                    <a class="col-5 lookbook-product__img" href="../products/sacrificial-chair-design-9.html">
+                        <div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:100.0%;" role="img"
+            aria-label="Sacrificial Chair Design"
+            data-alt="Sacrificial Chair Design"
+            data-bgset="
+//vela-kazan.myshopify.com/cdn/shop/products/16_180x180_crop_center.jpg?v=1509980861 180w ,//vela-kazan.myshopify.com/cdn/shop/products/16_360x360_crop_center.jpg?v=1509980861 360w ,//vela-kazan.myshopify.com/cdn/shop/products/16_370x370_crop_center.jpg?v=1509980861 370w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+                    </a>
+                    <div class="col-7 lookbook-product__content">
+                        <a class="lookbook-product__title" href="../products/sacrificial-chair-design-9.html">Sacrificial Chair Design</a><div class="lookbook-card__review">
+                                <span class="shopify-product-reviews-badge" data-id="23393927184"></span>
+                            </div><div class="lookbook-product__price ff-special pt-2">
+                            <div class="product-price"><span class=money>$150.00</span></div><div class="product-price product-price--regular ms-1"><span class=money>$180.00</span></div></div>
+                        <div class="d-flex justify-content-between w-100 pt-2 pt-md-3">
+                            <a class="lookbook-product__link text-capitalize" href="../products/sacrificial-chair-design-9.html">View details</a><a class="js-btn-quickview text-capitalize" href="javascript:void(0);"  data-preorder="false" data-handle="sacrificial-chair-design-9" title="Buy now">
+                                    <span >Buy now</span>
+                                    <div class="d-none proShortDesc">
+                                        Sapien luctus id justo suscipit nonummy eget hymenaeos phasellus felis enim, dolor tortor cras nonummy sit amet nam wisi suspendisse mattis mi vel leo.
+Don’t...
+                                    </div>
+                                </a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade lookbook-modal" id="lookbook-640e4b98-8eed-4a4a-ae76-d883d79b07f5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header position-relative">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="lookbook-product row g-3">
+                        <a class="col-5 lookbook-product__img" href="../products/sacrificial-chair-design-9.html">
+                            <div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:100.0%;" role="img"
+            aria-label="Sacrificial Chair Design"
+            data-alt="Sacrificial Chair Design"
+            data-bgset="
+//vela-kazan.myshopify.com/cdn/shop/products/16_180x180_crop_center.jpg?v=1509980861 180w ,//vela-kazan.myshopify.com/cdn/shop/products/16_360x360_crop_center.jpg?v=1509980861 360w ,//vela-kazan.myshopify.com/cdn/shop/products/16_370x370_crop_center.jpg?v=1509980861 370w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+                        </a>
+                        <div class="col-7 lookbook-product__content">
+                            <a class="lookbook-product__title" href="../products/sacrificial-chair-design-9.html">Sacrificial Chair Design</a><div class="lookbook-card__review">
+                                    <span class="shopify-product-reviews-badge" data-id="23393927184"></span>
+                                </div><div class="lookbook-product__price ff-special pt-2">
+                                <div class="product-price"><span class=money>$150.00</span></div><div class="product-price product-price--regular ms-1"><span class=money>$180.00</span></div></div>
+                            <div class="d-flex w-100 pt-2 pt-sm-3">
+                                <a class="lookbook-product__link text-capitalize" href="../products/sacrificial-chair-design-9.html">View details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section><section id="shopify-section-template--14955324833857__eefe37a9-061a-4e3f-a16d-a315e15469bd" class="shopify-section velaFramework"><div class="vela-section logo-list overflow-hidden" style="--st-pd-dt: 60px 0;--st-pd-mb: 60px 0;">
+    <div class="container">
+        <div class="vela-section__inner">
+            <div class="vela-section__content"><div class="js-carousel slick-carousel row g-2 g-sm-3"
+                    data-nav="true"
+                    data-infinite="true"
+                    data-autoplay="false"
+                    data-autoplayspeed="10000"
+                    data-columnone="5" 
+                    data-columntwo="3" 
+                    data-columnthree="2" 
+                    data-columnfour="2">
+                        
+                            <div class="slick-carousel__item">
+                                <div class="logo-list-item position-relative d-flex justify-content-center logo-effect">
+                                    <div style="width: 210px;"><span><div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:47.61904761904761%;" role="img"
+            aria-label=""
+            data-alt=""
+            data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/logo_image1_180x.png?v=1613719814 180w ,//vela-kazan.myshopify.com/cdn/shop/files/logo_image1_210x100.png?v=1613719814 210w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+</span></div>
+                                </div>
+                            </div>
+                            <div class="slick-carousel__item">
+                                <div class="logo-list-item position-relative d-flex justify-content-center logo-effect">
+                                    <div style="width: 210px;"><span><div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:47.61904761904761%;" role="img"
+            aria-label=""
+            data-alt=""
+            data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/logo_image2_180x.png?v=1613719814 180w ,//vela-kazan.myshopify.com/cdn/shop/files/logo_image2_210x100.png?v=1613719814 210w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+</span></div>
+                                </div>
+                            </div>
+                            <div class="slick-carousel__item">
+                                <div class="logo-list-item position-relative d-flex justify-content-center logo-effect">
+                                    <div style="width: 210px;"><span><div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:47.61904761904761%;" role="img"
+            aria-label=""
+            data-alt=""
+            data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/logo_image3_180x.png?v=1613719814 180w ,//vela-kazan.myshopify.com/cdn/shop/files/logo_image3_210x100.png?v=1613719814 210w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+</span></div>
+                                </div>
+                            </div>
+                            <div class="slick-carousel__item">
+                                <div class="logo-list-item position-relative d-flex justify-content-center logo-effect">
+                                    <div style="width: 210px;"><span><div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:47.61904761904761%;" role="img"
+            aria-label=""
+            data-alt=""
+            data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/logo_image4_180x.png?v=1613719815 180w ,//vela-kazan.myshopify.com/cdn/shop/files/logo_image4_210x100.png?v=1613719815 210w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+</span></div>
+                                </div>
+                            </div>
+                            <div class="slick-carousel__item">
+                                <div class="logo-list-item position-relative d-flex justify-content-center logo-effect">
+                                    <div style="width: 210px;"><span><div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:47.61904761904761%;" role="img"
+            aria-label=""
+            data-alt=""
+            data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/logo_image5_180x.png?v=1613719815 180w ,//vela-kazan.myshopify.com/cdn/shop/files/logo_image5_210x100.png?v=1613719815 210w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+</span></div>
+                                </div>
+                            </div>
+                            <div class="slick-carousel__item">
+                                <div class="logo-list-item position-relative d-flex justify-content-center logo-effect">
+                                    <div style="width: 210px;"><span><div class="card_wrap w-100" >
+            <div class="card__image position-relative lazyload js" style="padding-top:47.61904761904761%;" role="img"
+            aria-label=""
+            data-alt=""
+            data-bgset="//vela-kazan.myshopify.com/cdn/shop/files/logo_image1_180x.png?v=1613719814 180w ,//vela-kazan.myshopify.com/cdn/shop/files/logo_image1_210x100.png?v=1613719814 210w"
+            data-sizes="auto"
+            ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+</span></div>
+                                </div>
+                            </div></div></div>
+        </div>
+    </div>
+</div>
+</section><section id="shopify-section-template--14955324833857__164183282059eae023" class="shopify-section velaFramework"><div class="vela-section velaBorder overflow-hidden" style="--st-mg: 0;">
+    <div class="container">
+        <div class="vela-section__inner">
+            <div class="borderStyle" style="border-top: solid 1px #e5e5e5;">&nbsp;</div>
+        </div>
+    </div>
+</div>
+</section><section id="shopify-section-template--14955324833857__48703595-f4b4-480b-8131-69957444d9b3" class="shopify-section velaFramework"><div class="vela-section section__heading overflow-hidden" style="--st-pd-dt: 80px 0 40px;--st-pd-mb: 60px 0 30px;">
+    <div class="container">
+        <div class="vela-section-inner position-relative">
+            <div class="heading-wrapper"><div class="heading__text heading__default text-center ff-heading fw-medium" style=" --ht-cl: #222222; --ht-fs: 40px;--ht-fs-l: 36px;--ht-fs-m: 30px; --ht-m: 0 0 15px;--ht-m-l: 0 0 10px;--ht-m-m: 0 0 10px;"><span>Our Teams</span></div><div class="heading__text heading__default text-center text fw-normal" style=" --ht-cl: #444444; --ht-fs: 16px;--ht-fs-l: 16px;--ht-fs-m: 16px;"><span><div class="mx-auto" style="max-width: 840px;">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div></span></div></div>
+        </div>
+    </div>
+</div>
+</section><section id="shopify-section-template--14955324833857__16268371625be60272" class="shopify-section velaFramework"> <div class="our-teams vela-section overflow-hidden" style="--st-pd-dt: 0 0 90px;--st-pd-mb: 0 0 60px;">
+        <div class="container">
+            <div class="our-teams__inner"><div class="vela-section__content"><div class="our-teams__content"><div class="row g-3 gy-4 gy-lg-5 row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3">
+                                    
+                                        <div class="col">
+    <div class="about-member text-center grid__style px-2 px-md-3">
+        <div class="about-member__image position-relative mb-3 mb-md-4">
+            <div class="aboutIcon d-flex justify-content-center rounded-circle overflow-hidden"><div class="card_wrap w-100" style="max-width: 626px;"><div class="card__image position-relative lazyload js" style="padding-top:136.5814696485623%;" >
+                <img
+                    class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto"
+                    srcset="//vela-kazan.myshopify.com/cdn/shop/files/Rectangle-618_180x.jpg?v=1690475400 180w ,//vela-kazan.myshopify.com/cdn/shop/files/Rectangle-618_360x.jpg?v=1690475400 360w ,//vela-kazan.myshopify.com/cdn/shop/files/Rectangle-618_540x.jpg?v=1690475400 540w ,//vela-kazan.myshopify.com/cdn/shop/files/Rectangle-618_626x855.jpg?v=1690475400 626w"
+                    data-sizes="auto"
+                    src="../cdn/shop/files/Rectangle-6180b3b.jpg?v=1690475400"
+                    alt=""
+                    loading="lazy"
+                    width="626"
+                    height="855"
+                ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+</div>
+        </div>
+        <div class="about-member__content"><h6 class="about-member__name mb-0 text-uppercase fw-semibold">Irina Mikailova</h6><div class="about-member__position pb-1">Designer</div><div class="about-member__social mb-3">
+                    <ul class="about-member__social-list mb-0 list-unstyled d-flex justify-content-center"><li class="facebook">
+                                <a target="_blank" href="#" class="d-flex justify-content-center align-items-center btn-social--facebook"><svg   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512"><path fill="currentColor" d="M215.8 85H264V3.6C255.7 2.5 227.1 0 193.8 0 124.3 0 76.7 42.4 76.7 120.3V192H0v91h76.7v229h94V283h73.6l11.7-91h-85.3v-62.7c0-26.3 7.3-44.3 45.1-44.3z"/></svg></a>
+                            </li><li class="twitter">
+                                <a target="_blank" href="#" class="d-flex justify-content-center align-items-center btn-social--twitter"><svg   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                            </li><li class="instagram">
+                                <a target="_blank" href="#" class="d-flex justify-content-center align-items-center btn-social--instagram"><svg   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                            </li><li class="tiktok">
+                                <a target="_blank" href="#" class="d-flex justify-content-center align-items-center btn-social--tiktok"><svg  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"><path fill="currentColor" d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 0 1 3.183-4.51v-3.5a6.329 6.329 0 0 0-5.394 10.692 6.33 6.33 0 0 0 10.857-4.424V8.687a8.182 8.182 0 0 0 4.773 1.526V6.79a4.831 4.831 0 0 1-1.003-.104z"/></svg></a>
+                            </li></ul>
+                </div><div class="about-member__desc">Bemet nisl suscipit adipiscing. Amet cursus sit amet dictum.</div></div>
+    </div></div>
+                                        <div class="col">
+    <div class="about-member text-center grid__style px-2 px-md-3">
+        <div class="about-member__image position-relative mb-3 mb-md-4">
+            <div class="aboutIcon d-flex justify-content-center rounded-circle overflow-hidden"><div class="card_wrap w-100" style="max-width: 626px;"><div class="card__image position-relative lazyload js" style="padding-top:136.5814696485623%;" >
+                <img
+                    class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto"
+                    srcset="//vela-kazan.myshopify.com/cdn/shop/files/Rectangle-618-4_180x.jpg?v=1690475400 180w ,//vela-kazan.myshopify.com/cdn/shop/files/Rectangle-618-4_360x.jpg?v=1690475400 360w ,//vela-kazan.myshopify.com/cdn/shop/files/Rectangle-618-4_540x.jpg?v=1690475400 540w ,//vela-kazan.myshopify.com/cdn/shop/files/Rectangle-618-4_626x855.jpg?v=1690475400 626w"
+                    data-sizes="auto"
+                    src="../cdn/shop/files/Rectangle-618-40b3b.jpg?v=1690475400"
+                    alt=""
+                    loading="lazy"
+                    width="626"
+                    height="855"
+                ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+</div>
+        </div>
+        <div class="about-member__content"><h6 class="about-member__name mb-0 text-uppercase fw-semibold">Irina Mikailova</h6><div class="about-member__position pb-1">Designer</div><div class="about-member__social mb-3">
+                    <ul class="about-member__social-list mb-0 list-unstyled d-flex justify-content-center"><li class="facebook">
+                                <a target="_blank" href="#" class="d-flex justify-content-center align-items-center btn-social--facebook"><svg   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512"><path fill="currentColor" d="M215.8 85H264V3.6C255.7 2.5 227.1 0 193.8 0 124.3 0 76.7 42.4 76.7 120.3V192H0v91h76.7v229h94V283h73.6l11.7-91h-85.3v-62.7c0-26.3 7.3-44.3 45.1-44.3z"/></svg></a>
+                            </li><li class="twitter">
+                                <a target="_blank" href="#" class="d-flex justify-content-center align-items-center btn-social--twitter"><svg   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                            </li><li class="instagram">
+                                <a target="_blank" href="#" class="d-flex justify-content-center align-items-center btn-social--instagram"><svg   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                            </li><li class="tiktok">
+                                <a target="_blank" href="#" class="d-flex justify-content-center align-items-center btn-social--tiktok"><svg  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"><path fill="currentColor" d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 0 1 3.183-4.51v-3.5a6.329 6.329 0 0 0-5.394 10.692 6.33 6.33 0 0 0 10.857-4.424V8.687a8.182 8.182 0 0 0 4.773 1.526V6.79a4.831 4.831 0 0 1-1.003-.104z"/></svg></a>
+                            </li></ul>
+                </div><div class="about-member__desc">Bemet nisl suscipit adipiscing. Amet cursus sit amet dictum.</div></div>
+    </div></div>
+                                        <div class="col">
+    <div class="about-member text-center grid__style px-2 px-md-3">
+        <div class="about-member__image position-relative mb-3 mb-md-4">
+            <div class="aboutIcon d-flex justify-content-center rounded-circle overflow-hidden"><div class="card_wrap w-100" style="max-width: 626px;"><div class="card__image position-relative lazyload js" style="padding-top:136.5814696485623%;" >
+                <img
+                    class="position-absolute top-50 translate-middle-y start-0 w-100 h-auto"
+                    srcset="//vela-kazan.myshopify.com/cdn/shop/files/Rectangle-618-2_180x.jpg?v=1690475400 180w ,//vela-kazan.myshopify.com/cdn/shop/files/Rectangle-618-2_360x.jpg?v=1690475400 360w ,//vela-kazan.myshopify.com/cdn/shop/files/Rectangle-618-2_540x.jpg?v=1690475400 540w ,//vela-kazan.myshopify.com/cdn/shop/files/Rectangle-618-2_626x855.jpg?v=1690475400 626w"
+                    data-sizes="auto"
+                    src="../cdn/shop/files/Rectangle-618-20b3b.jpg?v=1690475400"
+                    alt=""
+                    loading="lazy"
+                    width="626"
+                    height="855"
+                ><div  class="pre-loading position-absolute"><span class="pre-loading__bar"></span>
+        <div class="vela-loading__icon"><span></span><span></span><span></span><span></span></div></div></div>
+        
+    </div>
+</div>
+        </div>
+        <div class="about-member__content"><h6 class="about-member__name mb-0 text-uppercase fw-semibold">Irina Mikailova</h6><div class="about-member__position pb-1">designer</div><div class="about-member__social mb-3">
+                    <ul class="about-member__social-list mb-0 list-unstyled d-flex justify-content-center"><li class="facebook">
+                                <a target="_blank" href="#" class="d-flex justify-content-center align-items-center btn-social--facebook"><svg   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512"><path fill="currentColor" d="M215.8 85H264V3.6C255.7 2.5 227.1 0 193.8 0 124.3 0 76.7 42.4 76.7 120.3V192H0v91h76.7v229h94V283h73.6l11.7-91h-85.3v-62.7c0-26.3 7.3-44.3 45.1-44.3z"/></svg></a>
+                            </li><li class="twitter">
+                                <a target="_blank" href="#" class="d-flex justify-content-center align-items-center btn-social--twitter"><svg   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
+                            </li><li class="instagram">
+                                <a target="_blank" href="#" class="d-flex justify-content-center align-items-center btn-social--instagram"><svg   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                            </li><li class="tiktok">
+                                <a target="_blank" href="#" class="d-flex justify-content-center align-items-center btn-social--tiktok"><svg  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" xml:space="preserve"><path fill="currentColor" d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 0 1 3.183-4.51v-3.5a6.329 6.329 0 0 0-5.394 10.692 6.33 6.33 0 0 0 10.857-4.424V8.687a8.182 8.182 0 0 0 4.773 1.526V6.79a4.831 4.831 0 0 1-1.003-.104z"/></svg></a>
+                            </li></ul>
+                </div><div class="about-member__desc">Bemet nisl suscipit adipiscing. Amet cursus sit amet dictum.</div></div>
+    </div></div></div></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+			</div>
+		</main>
+
+
+
+
+
+
+
+      
+
+
+
+
+        <%- include('../layout/footer') %>
