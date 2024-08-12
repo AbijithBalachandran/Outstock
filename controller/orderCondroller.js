@@ -527,10 +527,9 @@ const wishlistLoad = asyncHandler(async (req, res) => {
     }
 
     const wishlist = await Whishlist.findOne({ user: userId }).populate('wishlistItem.products');
-    console.log('wishlist:', wishlist);  // Add this line for debugging
 
     if (!wishlist || wishlist.wishlistItem.length === 0) {
-        res.render('wishlist', { user, wishlistItems: [], total: 0, count: 0, wishlist, cartCount,activePage:"wishlist" });
+        res.render('wishlist', { user, wishlistItem: [], total: 0, count: 0, wishlist, cartCount,activePage:"wishlist" });
         return;
     }
 
