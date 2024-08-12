@@ -1,7 +1,8 @@
 const mongoose =require('mongoose');
 mongoose.connect('mongodb://127.0.0.1:27017/user_storing_system');
+// mongoose.connect('mongodb+srv://abijithpbalachandran:C7QQz27FRl1ysO0M@cluster0.qu6xj.mongodb.net/');
 const session = require('express-session');
-const { sessionSecret } = require('./Config/config');
+const { sessionSecret } = require('./config/config');
 require('dotenv').config();
 const morgan = require('morgan');
 

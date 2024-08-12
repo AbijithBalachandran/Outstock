@@ -499,7 +499,7 @@ const updateProfileLoad = asyncHandler(async(req,res)=>{
 
       const user = await User.findById(userId);
       // console.log('user'+user);
-      res.render('update-Profile', { user,cartCount,activePage:"update-Profile"});
+      res.render('update-profile', { user,cartCount,activePage:"update-profile"});
 });
 
 
