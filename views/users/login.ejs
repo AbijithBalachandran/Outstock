@@ -106,39 +106,7 @@ document.getElementById('Search-In-Modal-1').focus();
 <div class="customer login">
 <div class="container">
 <div class="customer__inner">
-<!-- <div id="recover">
-  <h1 class="main-page-title page-title m-0" tabindex="-1">Reset your password</h1>
-  <div class="login__wrapper">
-    <p>
-      We will send you an email to reset your password
-    </p><form method="post" action="https://vela-kazan.myshopify.com/account/recover" accept-charset="UTF-8"><input type="hidden" name="form_type" value="recover_customer_password" /><input type="hidden" name="utf8" value="✓" />
-<div class="mb-4 mb-lg-5">
-      <label class="form-label" for="RecoverEmail">
-        Email
-      </label>
-      <input class="form-control" type="email"
-      value=""
-      name="email"
-      id="RecoverEmail"
-      autocorrect="off"
-      autocapitalize="off"
-      autocomplete="email"
-      required
-      
-      placeholder="Email"
-      >
-      
-    </div>
-    <div class="d-flex justify-content-between align-items-center">
-      <button class="btn btn-default">
-        <span>Submit</span>
-      </button>
-    
-      <a href="#login">
-        <u>Cancel</u>
-      </a>
-    </div></form></div>
-</div> -->
+
 
 <div class="login__form">
   <div class="page-header page-account__header text-center">
@@ -182,26 +150,33 @@ document.getElementById('Search-In-Modal-1').focus();
         autocapitalize="off"
         required
         placeholder="Email"
-        value="abijithp24799@gmail.com"
+        value=""
         >
         
-      </div><div class="mb-3 mb-lg-4">  
+      </div>
+      <div class="mb-3 mb-lg-4">  
           <div class="d-flex justify-content-between"> 
             <label class="form-label" for="CustomerPassword">
               Password  <span id="invalid-pass" class="text-danger"  style="display: none;"> The password is at least 8 characters long and contains both letters and numbers</span>
             </label>  
-            <a href="/forgotPass" class="">
+
+            <a href="/forgotPassword" class="">
               <u>Forgot your password?</u>
             </a>
-          </div>     
+          </div>  
+          <div class="input-group">  
           <input class="form-control"
             type="password"
-            value="123456ab"
+            value=""
             name="password"
             id="CustomerPassword"
             autocomplete="current-password"
             required
             placeholder="Password">
+            <span class="input-group-text password-toggle-icon">
+						<i class="bi bi-eye-slash-fill"></i>
+					  </span>
+          </div> 
         </div>
         <div class="d-flex justify-content-between align-items-center pt-2"> 
        

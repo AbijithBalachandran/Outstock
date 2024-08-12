@@ -15,6 +15,7 @@ const Order =require('../Models/order');
 const Cart = require('../Models/cart')
 const { consumers } = require('nodemailer/lib/xoauth2');
 const Offer = require('../Models/offer');
+const { trusted } = require('mongoose');
 
 
 //-----------------------------------password Hashing -----------------------------------------
@@ -55,9 +56,9 @@ const insertUser = async (req, res) => {
                   password: sPassword,
                   createdAt: new Date(),
                   is_block: false,
-                  is_Admin: false
+                  is_Admin: false,
+                  is_varified:true
             })
-            //console.log("user : "+userData)
             const existingUser = await User.findOne({ email: req.body.email });
             if (existingUser) {
                   res.render('register', { message: 'This user already existed' });
@@ -100,7 +101,8 @@ const insertUser = async (req, res) => {
 
 const otpLoad = async (req, res) => {
       try {
-            res.render('OTP',{activePage:"OTP"});
+       const userData = req.session.userData ||'';
+            res.render('OTP',{activePage:"OTP",userData});
       } catch (error) {
             console.log(error.message);
       }
@@ -111,17 +113,17 @@ const otpLoad = async (req, res) => {
 
 const insertOTP = async (req, res) => {
       try {
-          const userData = req.session.userData;
+          const userData = req.session.userData ||'';
           const email = userData.email;
           console.log("insertOTP=" + email);
   
           if (!req.body || !req.body.OTP) {
-              return res.status(400).render('OTP', { message: `${email} OTP Not Found` });
+              return res.status(400).render('OTP', { message: `${email} OTP Not Found`,activePage:"OTP",userData });
           }
   
           const otpS = await otpSchema.findOne({ email: email }).sort({ createdAt: -1 });
           if (!otpS) {
-              return res.status(400).render('OTP', { email, message: 'OTP not found for this email.' });
+              return res.status(400).render('OTP', { email, message: 'OTP not found for this email.',activePage:"OTP",userData });
           }
   
           const userOTP = parseInt(req.body.OTP.join(''), 10);
@@ -135,14 +137,14 @@ const insertOTP = async (req, res) => {
                   const message = encodeURIComponent('Successfully Registered, You Can Login Now');
                   return res.redirect(`/login?message=${message}`);
               } else {
-                  return res.status(500).render('OTP', { email, message: 'User registration failed, please try again.' });
+                  return res.status(500).render('OTP', { email, message: 'User registration failed, please try again.',activePage:"OTP",userData });
               }
           } else {
-              return res.render('OTP', { email, message: 'Entered OTP is wrong, try again' });
+              return res.render('OTP', { email, message: 'Entered OTP is wrong, try again',activePage:"OTP",userData });
           }
       } catch (error) {
           console.log(error.message);
-          return res.status(500).render('OTP', { message: 'An error occurred. Please try again later.' });
+          return res.status(500).render('OTP', { message: 'An error occurred. Please try again later.',activePage:"OTP" ,userData});
       }
   };
   
@@ -190,10 +192,10 @@ const validLogin = async (req, res) => {
                         req.session.userData_id = userData.id;
                         res.redirect('/home');
                   } else {
-                        res.render('login', { Warning: 'Invalide Email and PassWord ' });
+                        res.render('login', { Warning: 'Invalide Email and PassWord ',activePage:"login" });
                   }
             } else {
-                  res.render('login', { Warning:'user is blocked'});
+                  res.render('login', { Warning:'user is blocked',activePage:"login"});
             }
 
 
@@ -576,7 +578,7 @@ const getBestSellingProducts = async (limit = 5) => {
       }
   };
 
-
+//------------------------------------------------shop page loads ---------------------------------------------------------------------------
 
 const shopLoad = asyncHandler(async (req, res) => {
 
@@ -677,7 +679,7 @@ const shopLoad = asyncHandler(async (req, res) => {
   });
 
 
-//------------------------------Search Products ------------------------------
+//------------------------------Search Products --------------------------------------------------------------------------------------------------------------
 
 const searchProduct = asyncHandler(async (req, res) => {
       
@@ -707,6 +709,96 @@ const searchProduct = asyncHandler(async (req, res) => {
   });
   
 
+//-----------------------------------Forgot Password page load ---------------------------------------------------------------------------------------------------
+
+const forgotPasswordPage = asyncHandler(async(req,res)=>{
+    const userData = req.session.userData ||'';
+    res.render('forgotPassword',{activePage:'forgotPassword',userData});
+});
+
+//-----------------------------------if forget the password - change old password ----------------------------------------------------------------------------------
+
+const changePassword = asyncHandler(async (req, res) => {
+    const email = req.body.email;
+    console.log('email',email);
+    
+    req.session.email = email;
+    const sPassword = await hashingPassword(req.body.password);
+    req.session.sPassword = sPassword;
+
+    const user = await User.findOne({ email: email });
+    console.log('user==',user);
+    
+    if (!user) {
+        return res.status(400).json({ message: 'User Not Found' });
+    }
+
+    const generatedOtp = generate4DigitOTP();
+    console.log('generatedOtp==', generatedOtp);
+
+    const createOTP = new otpSchema({
+        email: email,
+        otp: generatedOtp
+    });
+
+    const saveOTP = await createOTP.save();
+    if (!saveOTP) {
+        throw new Error('Failed to save OTP');
+    }
+
+    await sendMailer(generatedOtp, email);
+
+    req.session.userData = { email: email }; 
+    res.redirect('/forgetpasswordOTP');
+});
+
+
+const EnterOtp = asyncHandler(async(req, res) => {
+    const email = req.session.email;
+    const userData = req.session.userData || '';
+
+    if (!email) {
+        return res.redirect('/forgotPassword?message=Session expired, please try again.');
+    }
+
+    res.render('forgetpasswordOTP', { email, message: '', activePage: 'OTP', userData });
+});
+
+
+const EnterOtpAndChangePassword = asyncHandler(async(req,res)=>{
+    const email = req.session.email;
+    const sPassword = req.session.sPassword;
+    const userData = req.session.userData || '';
+    if (!req.body || !req.body.OTP) {
+            return res.status(400).render('OTP', { message: `${email}, OTP Not Found`, activePage: "OTP", userData });
+        }
+        
+        const userOTP = parseInt(req.body.OTP.join(''), 10);
+        const otps = await otpSchema.findOne({ email: email }).sort({ createdAt: -1 });
+        
+        if (!otps) {
+            return res.status(400).render('OTP', { email, message: "OTP not Found for this email.", activePage: "OTP", userData });
+        }
+        
+        const otp = otps.otp;
+        if (otp === userOTP) {
+            const updatedUser = await User.findOneAndUpdate(
+                { email: email },
+                { $set: { password: sPassword } },
+                { new: true }
+            );
+        
+            if (updatedUser) {
+                req.session.destroy(); 
+                return res.redirect('/login?message=Password successfully changed. Please log in.');
+            } else {
+                return res.status(500).json({ message: 'Failed to update password' });
+            }
+        } else {
+            return res.render('OTP', { email, message: 'Entered OTP is incorrect, please try again.', activePage: "OTP", userData });
+        }
+});
+
 //-----------------------------------------------------------------------------------------------
 
 module.exports = {
@@ -732,6 +824,9 @@ module.exports = {
       deleteUser,
       updateProfileLoad,
       updateProfile,
-      searchProduct
-      
+      searchProduct,
+      forgotPasswordPage,
+      changePassword,
+      EnterOtp,
+      EnterOtpAndChangePassword
 }

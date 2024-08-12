@@ -82,6 +82,12 @@ user_Router.delete('/manage-address',userController.deleteUser);
 user_Router.get('/update-Profile',userAuth.isLogin,userController.updateProfileLoad);
 user_Router.put('/update-Profile',userController.updateProfile);
 
+user_Router.get('/forgotPassword',userController.forgotPasswordPage);
+user_Router.post('/forgotPassword',userController.changePassword);
+user_Router.get('/forgetpasswordOTP',userController.EnterOtp);
+user_Router.post('/forgetpasswordOTP',userController.EnterOtpAndChangePassword);
+
+
 //----------------------------cart router --------------------------------------------
 
 user_Router.get('/cart',userAuth.isLogin,cartController.cartLoad);
@@ -115,7 +121,7 @@ user_Router.get('/wishlist-add',is_Authenticate.isAuthenticate,userAuth.isLogin,
 user_Router.delete('/remove-productWishlist',orderController.removeProduct);
 
 
-//--wallet -----------
+//----------------------------------- wallet -----------------------------------------------
 
 user_Router.get('/wallet',orderController.walletPage);
 

@@ -59,52 +59,6 @@ const editOfferPage = asyncHandler(async (req, res) => {
 
 
 //--------------------Edit and Update the offers ---------------------
-
-
-// const editOffer = asyncHandler(async (req, res) => {
-//       const { offerName, offerType, discount, expiryDate, selectedItems, id } = req.body;
-          
-//       // Debugging output
-//       console.log('Received data:', req.body);
-  
-//       if (!offerName || !offerType || !discount || !expiryDate || !selectedItems) {
-//           return res.status(400).json({ message: 'All fields are required' });
-//       }
-  
-//       const offer = await Offer.findOne({_id:id});
-//       console.log('offer==='+offer);
-//       if (!offer) {
-//           return res.status(404).json({ message: 'Offer Not Found' });
-//       }
-  
-//       const existOffer = await Offer.findOne({
-//           offerName: { $regex: new RegExp(`^${offerName}$`, 'i') },
-//           _id: { $ne: id }
-//       });
-  
-//       if (existOffer) {
-//           return res.status(400).json({ message: 'Offer Already exists' });
-//       }
-  
-//       offer.offerName = offerName;
-//       offer.offerType = offerType;
-//       offer.discount = discount;
-//       offer.expDate = expiryDate;
-  
-//       await offer.save();
-  
-//       if (offerType === 'Category Base') {
-//           const productsToUpdate = await Prodcut.find({ category: { $in: selectedItems.categories } });
-//           const updatePromises = productsToUpdate.map(product =>
-//               Prodcut.findByIdAndUpdate(product._id, { $set: { offer: offer._id } })
-//           );
-//           await Promise.all(updatePromises);
-//       } else if (offerType === 'Product Base') {
-//           await Prodcut.updateMany({ _id: { $in: selectedItems.products } }, { $set: { offer: offer._id } });
-//       }
-  
-//       res.status(200).json({ message: 'Offer applied successfully' });
-//   });
  
 
 const editOffer = asyncHandler(async (req, res) => {
