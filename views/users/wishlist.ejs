@@ -158,6 +158,7 @@
 
  <nav aria-label="Page navigation example" class="d-flex justify-content-end me-4">
     <ul class="pagination">
+        <%- JSON.stringify(currentPage) %>
         <% if (currentPage > 1) { %>
             <li class="page-item">
                 <a class="page-link" href="/wishlist?id=<%= user.id %>&&page=<%= currentPage - 1 %>" tabindex="-1">Previous</a>
