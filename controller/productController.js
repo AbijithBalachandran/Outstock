@@ -7,9 +7,7 @@ const categories = require('../Models/category')
 //---------------------product detail page rendering------------------------
 
 const productManagementLoad = asyncHandler(async(req,res)=>{
-      //const product = await Products.find({});
-      //console.log("products________________"+product);
-
+   
       const FirstPage = 8;
       const currentPage = parseInt(req.query.page) || 1;
 

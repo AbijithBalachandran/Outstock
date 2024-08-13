@@ -2,14 +2,24 @@ const Cart = require('../Models/cart');
 const User = require('../Models/user');
 const Products = require('../Models/products');
 const asyncHandler = require('express-async-handler');
+const mongoose = require('mongoose')
 
 
 //----------------------------------Cart Page Rendering------------------------------//
 
 const cartLoad = asyncHandler(async (req, res) => {
     const userId = req.query.id;
+
+    if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
+        return res.status(404).render('404User')
+       }
+
     const user = await User.findById(userId);
     
+    if(user== undefined){
+        return res.status(404).render('404User')
+      }
+
     const itemsPerPage = 3; 
     const currentPage = parseInt(req.query.page) || 1;
     const start = (currentPage - 1) * itemsPerPage;
@@ -45,8 +55,9 @@ const cartProduct = asyncHandler(async (req, res) => {
     const userId = req.session.userData_id;
     const productId = req.query.id;
 
-    console.log('User ID:', userId);
-    console.log('Product ID:', productId);
+    if (!productId || !mongoose.Types.ObjectId.isValid(productId)) { 
+        return res.status(404).render('404User')
+       }
 
     const product = await Products.findById(productId);
     if (!product) {

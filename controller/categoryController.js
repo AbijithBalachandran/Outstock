@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const Category = require('../Models/category');
 const { name } = require('ejs');
-
+const mongoose = require('mongoose')
 
 
 
@@ -63,7 +63,7 @@ const addNewCategory = async (req, res) => {
 
       const id = req.query.categoryId;
       const categoryInfo = await Category.findById({_id:id});
-              //console.log("-----------------------categoryINFO"+categoryInfo);
+              
               categoryInfo.is_Delete = !categoryInfo.is_Delete;
               await categoryInfo.save();
         
@@ -77,9 +77,13 @@ const addNewCategory = async (req, res) => {
    
     const editCategoryLoad = asyncHandler(async(req,res)=>{
       const id = req.query.categoryId;
-     // console.log('hgasdfgh'+id);
+    
+      if (!id || !mongoose.Types.ObjectId.isValid(id)) { 
+        return res.status(404).render('404User')
+       }
+
       const categories = await Category.findById({_id:id});
-                //  console.log('categories------------------------'+categories);
+           
        if(categories){
             res.render('editCategory',{categories , ActivePage: 'categoryManagement' });
        }else{
@@ -92,8 +96,6 @@ const addNewCategory = async (req, res) => {
 
 const editAndUpdateLoad = asyncHandler(async (req, res) => {
       const { name, description, id } = req.body;
-    //   console.log('description==', description);
-    //   console.log('existingCategory====', name);
     
       const existingCategory = await Category.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
       if (existingCategory) {

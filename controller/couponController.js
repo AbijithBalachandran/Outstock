@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const Coupon = require('../Models/coupon');
 const { logOut } = require('./adminController');
 const { findOne } = require('../Models/cart');
-
+const mongoose = require('mongoose')
 
 
 //------------------couponManagement Page Load---------------
@@ -62,7 +62,14 @@ const addNewCoupon = asyncHandler(async (req, res) => {
 
 const editCouponPage = asyncHandler(async(req,res)=>{
       const coupon_id = req.query.id;
+
+      if (!coupon_id || !mongoose.Types.ObjectId.isValid(coupon_id)) { 
+            return res.status(404).render('404User')
+           }
       const coupon = await Coupon.findById({_id:coupon_id});
+      if(coupon== undefined){
+            return res.status(404).render('404User')
+          }
 
       res.render('editcoupon',{coupon,ActivePage: 'couponManagement' });
 });
@@ -72,9 +79,8 @@ const editCouponPage = asyncHandler(async(req,res)=>{
 const editCoupons = asyncHandler(async(req,res)=>{
       const { codeNumber, discount, minPurchaseAmount, maxRedeemableAmount, expiryDate,id } = req.body;
 
-console.log('coupon id=='+req.body.id);
       const coupon = await Coupon.findById(id);
-      console.log('coupon '+coupon);
+
   if (!coupon) {
     return res.status(404).json({ message: 'Coupon not found' });
   }
@@ -105,6 +111,11 @@ console.log('coupon id=='+req.body.id);
 
 const updateCouponStatus =asyncHandler(async(req,res)=>{
       const id = req.query.couponId;
+
+      if (!id || !mongoose.Types.ObjectId.isValid(id)) { 
+            return res.status(404).render('404User')
+           }
+
       const coupon = await Coupon.findById({_id:id});
 
       coupon.couponStatus = !coupon.couponStatus ;
@@ -118,24 +129,23 @@ const updateCouponStatus =asyncHandler(async(req,res)=>{
 
 const deleteCoupon = asyncHandler(async(req,res)=>{
       const id = req.query.id;
+      if (!id || !mongoose.Types.ObjectId.isValid(id)) { 
+            return res.status(404).render('404User')
+           }
       await Coupon.deleteOne({_id:id});
       res.redirect('/admin/couponManagement');
 })
 //------------------------------------Apply Coupon------------------------------------------
 
 const applyCoupon = asyncHandler(async (req, res) => {
-      // console.log('apply coupon');
       const { couponCode, total } = req.body;
-      // console.log('apply');
       if (!couponCode) {
-            // console.log('!couponCode');
+            
           return res.status(400).json({ message: 'Coupon code is required.' });
       }
-  
       const couponData = await Coupon.findOne({ code: couponCode });
   
       if (!couponData) {
-            // console.log('!couponData');
           return res.status(400).json({ message: 'Invalid coupon code.' });
       }
   

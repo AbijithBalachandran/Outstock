@@ -16,6 +16,8 @@ require('dotenv').config();
 
 const PDFDocument = require('pdfkit');
 const { PassThrough } = require('stream');
+const mongoose = require('mongoose')
+
 
 //----------------------------------------------------------
 
@@ -477,6 +479,10 @@ const myOrderLoad = asyncHandler(async (req, res) => {
     try {
         const userId = req.query.id;
 
+        if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
+            return res.status(404).render('404User')
+           }
+
         const FirstPage = 6;
         const currentPage = parseInt(req.query.page) || 1;
 
@@ -513,12 +519,20 @@ const myOrderLoad = asyncHandler(async (req, res) => {
 const wishlistLoad = asyncHandler(async (req, res) => {
     const userId = req.query.id;
 
+    if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
+        return res.status(404).render('404User')
+       }
+
     const itemsPerPage = 6;
     const currentPage = parseInt(req.query.page) || 1;
     const start = (currentPage - 1) * itemsPerPage;
 
-    console.log('userId' + userId);
     const user = await User.findById(userId);
+
+    if(user== undefined){
+        return res.status(404).render('404User')
+      }
+
     const cart = await Cart.findOne({ user: userId });
 
     let cartCount = 0;
@@ -549,7 +563,7 @@ const wishlistLoad = asyncHandler(async (req, res) => {
 const wishlistProduct = asyncHandler(async (req, res) => {
     const userId = req.session.userData_id;
     const productId = req.query.id;
-    console.log('ProductId==' + productId);
+
     let wishlist = await Whishlist.findOne({ user: userId });
 
     if (!wishlist) {
@@ -601,15 +615,13 @@ const trakingPageLoad = asyncHandler(async (req, res) => {
     const orderId = req.query.orderId;
     const discountedTotal = req.session.total;
     const userId =req.session.userData_id
-    console.log('orderID -======' + orderId);
 
-    if (!orderId) {
-        return res.status(400).send('Order ID is required');
-    }
-    
+    if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
+        return res.status(404).render('404User')
+       }
+  
     const order = await Order.findById(orderId)
-    // console.log('Order=====>' + order);
-
+ 
     if (!order) {
         return res.status(404).send('Order not found');
     }
@@ -873,6 +885,11 @@ const cancelOrder = asyncHandler(async (req, res) => {
 const walletPage = asyncHandler(async (req, res) => {
     
     const userId = req.query.id;
+
+    if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
+        return res.status(404).render('404User')
+       }
+
     const FirstPage = 4;
     const currentPage = parseInt(req.query.page) || 1;
 
@@ -1079,6 +1096,15 @@ const walletParchase = asyncHandler(async(req,res)=>{
 const retryCreateOrder = asyncHandler(async (req, res) => {
     try {
         const { userId, orderId } = req.query;
+
+        if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
+            return res.status(404).render('404User')
+           }
+
+           if (!orderId|| !mongoose.Types.ObjectId.isValid(orderId)) { 
+            return res.status(404).render('404User')
+           }
+
         const order = await Order.findById(orderId);
 
         if (!order) {

@@ -16,6 +16,7 @@ const Cart = require('../Models/cart')
 const { consumers } = require('nodemailer/lib/xoauth2');
 const Offer = require('../Models/offer');
 const { trusted } = require('mongoose');
+const mongoose = require('mongoose')
 
 
 //-----------------------------------password Hashing -----------------------------------------
@@ -208,7 +209,6 @@ const validLogin = async (req, res) => {
 
 const successGoogleLogin = async (req, res) => {
     try {
-      console.log('req.user:=====', req.user);
       if (req.user) {
         const existingUser = await User.findOne({ email: req.user.email });
   
@@ -335,9 +335,18 @@ const productDetails = asyncHandler(async (req, res) => {
       let user_id = req.session.userData_id ? req.session.userData_id : " ";
       let product_Id = req.query.id;
   
+      if (!product_Id || !mongoose.Types.ObjectId.isValid(product_Id)) { 
+        return res.status(404).render('404User')
+       }
+    
+
       // Fetch the product by its ID and populate the 'category' field
       let product = await Products.findById({ _id: product_Id }).populate('category');
-  
+
+      if(product== undefined){
+        return res.status(404).render('404User')
+      }
+
       let disPrice = null;
       let offerDetails =null;
 
@@ -396,22 +405,42 @@ const contactPage = asyncHandler(async(req,res)=>{
 const profileLoad = asyncHandler(async(req,res)=>{
 
       let user_id = req.query.id;
+
+      if (!user_id || !mongoose.Types.ObjectId.isValid(user_id)) { 
+        return res.status(404).render('404User')
+       }
+
       const user = await User.findById({_id:user_id});
+         
+      if(user== undefined){
+       return res.status(404).render('404User')
+     }
+
       const cart = await Cart.findOne({ user: user_id });
       let cartCount = 0;
       if (cart) {
           cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
       }
-      // console.log("profile"+user);
+      
       res.render('profile',{user,cartCount,activePage:"profile"});
-})
+
+});
 
 //-----------------------------------------Manage-Address page Load -----------------//
 
 const addressManagemtLoad  = asyncHandler(async(req,res)=>{
       let user_id = req.query.id;
 
+      if (!user_id || !mongoose.Types.ObjectId.isValid(user_id)) { 
+        return res.status(404).render('404User')
+       }
+
       const user = await User.findById(user_id);
+
+      if(user== undefined){
+        return res.status(404).render('404User')
+      }
+
       const address= await Address.find({user:user_id});
       
       const cart = await Cart.findOne({ user: user_id });
@@ -428,10 +457,9 @@ const addressManagemtLoad  = asyncHandler(async(req,res)=>{
 const saveAddress = asyncHandler(async(req,res)=>{
     
       const userId = req.session.userData_id;
-      // console.log('UserId=='+userId);
+      
       const user =await User.findById(userId);
-      // console.log("user"+user);
-      // console.log("email"+user.email);
+   
       const {address,name,phone,location,landmark,pincode,city}=req.body;
 
       const userAddress = new Address ({
@@ -482,6 +510,11 @@ const editAddress = asyncHandler(async(req,res)=>{
 
 const deleteUser = asyncHandler(async(req,res)=>{
       const id = req.query.id;
+
+      if (!user_id || !mongoose.Types.ObjectId.isValid(user_id)) { 
+        return res.status(404).render('404User')
+       }
+
       await Address.deleteOne({_id:id});
       res.sendStatus(200);
 });
@@ -491,6 +524,11 @@ const deleteUser = asyncHandler(async(req,res)=>{
 const updateProfileLoad = asyncHandler(async(req,res)=>{
 
       let userId = req.query.id;
+
+      if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
+        return res.status(404).render('404User')
+       }
+       
       const cart = await Cart.findOne({ user: userId });
       let cartCount = 0;
       if (cart) {
@@ -498,6 +536,10 @@ const updateProfileLoad = asyncHandler(async(req,res)=>{
       }
 
       const user = await User.findById(userId);
+
+      if(user== undefined){
+        return res.status(404).render('404User')
+      }
       // console.log('user'+user);
       res.render('update-profile', { user,cartCount,activePage:"update-profile"});
 });
@@ -509,6 +551,11 @@ const updateProfileLoad = asyncHandler(async(req,res)=>{
 const updateProfile = asyncHandler(async (req, res) => {
 
         const userId = req.query.id;
+
+        if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
+            return res.status(404).render('404User')
+           }
+
         const { email,Fname, Lname, password } = req.body;
         console.log(req.body.email);
         const user = await User.findOne({email:email});
@@ -643,7 +690,7 @@ const shopLoad = asyncHandler(async (req, res) => {
   
       try {
             const category = await Category.find({});
-            console.log('category======='+category);
+        
           const product = await Products.find(query).sort(sortCriteria).populate('offer').populate('category').skip(start).limit(FirstPage);
           
           product.forEach(product => {
@@ -727,7 +774,7 @@ const changePassword = asyncHandler(async (req, res) => {
     req.session.sPassword = sPassword;
 
     const user = await User.findOne({ email: email });
-    console.log('user==',user);
+   
     
     if (!user) {
         return res.status(400).json({ message: 'User Not Found' });

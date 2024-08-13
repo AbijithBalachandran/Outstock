@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const Offer = require('../Models/offer');
 const Prodcut = require('../Models/products');
 const Category = require('../Models/category');
-
+const mongoose = require('mongoose')
 
 
 //-------------------Offer Management Page Load -----------------------
@@ -36,8 +36,16 @@ const addNewOfferPage =  asyncHandler(async(req,res)=>{
 const editOfferPage = asyncHandler(async (req, res) => {
     try {
         const offer_id = req.query.id;
+
+        if (!offer_id|| !mongoose.Types.ObjectId.isValid(offer_id)) { 
+            return res.status(404).render('404User')
+           }
+
         const offer = await Offer.findById(offer_id);
         
+        if(offer== undefined){
+            return res.status(404).render('404User')
+          }
         // Initialize selectedItems properly
         let selectedItems = [];
 
@@ -67,7 +75,7 @@ const editOffer = asyncHandler(async (req, res) => {
       if (!offerName || !offerType || !discount || !expiryDate || !selectedItems) {
           return res.status(400).json({ message: 'All fields are required' });
       }
-    console.log('Received data:', req.body);
+
 
     const offer = await Offer.findOne({ _id: id });
     if (!offer) {

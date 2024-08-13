@@ -147,17 +147,12 @@
                     </td>
                   </tr>
                   <%})%>
-                  <% }else{%>
-                   <p>Order Not Found</p>
-                 <%}%>
-              </tbody>
-          </table>
-      </div>
 
+                  
 
- <!-- Pagination Start -->
+<!-- Pagination Start -->
 
- <nav aria-label="Page navigation example" class="d-flex justify-content-end me-4">
+<nav aria-label="Page navigation example" class="d-flex justify-content-end me-4">
   <ul class="pagination">
       <% if (currentPage > 1) { %>
           <li class="page-item">
@@ -188,6 +183,19 @@
 </nav>
 
 <!-- Pagination End -->
+
+
+
+
+                  <% }else{%>
+                   <p>Order Not Found</p>
+                 <%}%>
+              </tbody>
+          </table>
+      </div>
+
+
+ 
 
 
 <style>
