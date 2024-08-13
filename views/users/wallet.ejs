@@ -110,8 +110,9 @@
       </div>
     </div>
     <!-- Content Area -->
-    <% if (wallet) {%>
+    
     <div class="col-md-9 profile-content mt-5 mb-3">
+      <% if (wallet) {%>
       <div class="wallet-card text-center">
         <div class="wallet-balance">Balance: ₹ <%= wallet.walletAmount %></div>
         <div class="add-money">
@@ -188,7 +189,7 @@
 
 
        <% } else { %>
-           <h6>No Transations</h6> 
+           <h5>No Transations</h5> 
         <% } %>
 
 
@@ -196,6 +197,7 @@
       
 
      </div> 
+     
     </div>
   </div>
 </div>
