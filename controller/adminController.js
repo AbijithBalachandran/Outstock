@@ -6,7 +6,7 @@ const Notification =require('../Models/notification')
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const ExcelJS = require('exceljs');
-
+const mongoose = require('mongoose')
 //--------------------------------------------------
 
 //----------------singup page rendering --------------
@@ -126,6 +126,7 @@ const getBestSellingProducts = async (limit = 5) => {
 };
 
 
+//-----------------------------------dashboard page Load ------------------------------------------------------------------------------------------
 
 const dashboard = async (req, res) => {
       try {
@@ -323,6 +324,10 @@ const userLoad = async (req, res) => {
 const updateUserStatus = async (req, res) => {
       try {
             const id = req.query.userId;
+
+            if (!id  || !mongoose.Types.ObjectId.isValid(id )) { 
+              return res.status(404).redirect('/404')
+             }
             const userData = await User.findById({ _id: id });
 
             userData.is_block = !userData.is_block
@@ -420,7 +425,11 @@ const SearchUser = asyncHandler(async (req, res) => {
 
 const OrderDetailPage = asyncHandler(async (req, res) => {
       const orderId = req.query.id;
-      // console.log("orderId: " + orderId);
+      
+      if (!orderId || !mongoose.Types.ObjectId.isValid(orderId)) { 
+        return res.status(404).redirect('/404')
+       }
+
     
       const orderStatusEnum = ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Returned', 'Completed', 'Return requested', 'Return approved', 'Return Rejected', 'Refunded'];
       const order = await Order.findById(orderId).populate('user').exec();
@@ -475,8 +484,6 @@ const salesReportPage   = asyncHandler(async(req,res)=>{
 const filterSalesReport = asyncHandler(async (req, res) => {
 
       const { sortValue,startDate, endDate} = req.body;
-      console.log("sortedOrders >>>>",sortValue);
-      
   
       let filterCriteria = {};
   
@@ -518,12 +525,7 @@ const filterSalesReport = asyncHandler(async (req, res) => {
               .populate('user')
               .populate('orderItem.productId');
   
-      //     if (sortValue === 'Daily') {
-      //         console.log('Daily orders:', orders);
-      //     }
-      // console.log("sortedOrders >>>>",sortOrders);
-      console.log("orders data  >>>>",orders.length);
-          res.json({ orders });
+              res.json({ orders });
       } catch (error) {
           console.error('Error fetching orders:', error);
           res.status(500).json({ message: 'An error occurred while fetching orders' });
@@ -690,6 +692,8 @@ const getSalesData = asyncHandler (async(req, res) => {
         res.status(500).json({ message: error.message });
       }
     });
+
+
 
  //-----------------------------------------------------------------------------------
 

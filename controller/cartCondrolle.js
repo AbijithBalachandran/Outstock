@@ -11,13 +11,13 @@ const cartLoad = asyncHandler(async (req, res) => {
     const userId = req.query.id;
 
     if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
-        return res.status(404).render('404User')
+        return res.status(404).redirect('/404')
        }
 
     const user = await User.findById(userId);
     
     if(user== undefined){
-        return res.status(404).render('404User')
+        return res.status(404).redirect('/404')
       }
 
     const itemsPerPage = 3; 
@@ -56,7 +56,7 @@ const cartProduct = asyncHandler(async (req, res) => {
     const productId = req.query.id;
 
     if (!productId || !mongoose.Types.ObjectId.isValid(productId)) { 
-        return res.status(404).render('404User')
+        return res.status(404).redirect('/404')
        }
 
     const product = await Products.findById(productId);

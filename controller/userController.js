@@ -336,7 +336,7 @@ const productDetails = asyncHandler(async (req, res) => {
       let product_Id = req.query.id;
   
       if (!product_Id || !mongoose.Types.ObjectId.isValid(product_Id)) { 
-        return res.status(404).render('404User')
+        return res.status(404).redirect('/404')
        }
     
 
@@ -344,7 +344,7 @@ const productDetails = asyncHandler(async (req, res) => {
       let product = await Products.findById({ _id: product_Id }).populate('category');
 
       if(product== undefined){
-        return res.status(404).render('404User')
+        return res.status(404).redirect('/404')
       }
 
       let disPrice = null;
@@ -407,13 +407,13 @@ const profileLoad = asyncHandler(async(req,res)=>{
       let user_id = req.query.id;
 
       if (!user_id || !mongoose.Types.ObjectId.isValid(user_id)) { 
-        return res.status(404).render('404User')
+        return res.status(404).redirect('/404')
        }
 
       const user = await User.findById({_id:user_id});
          
       if(user== undefined){
-       return res.status(404).render('404User')
+       return res.status(404).redirect('/404')
      }
 
       const cart = await Cart.findOne({ user: user_id });
@@ -432,13 +432,13 @@ const addressManagemtLoad  = asyncHandler(async(req,res)=>{
       let user_id = req.query.id;
 
       if (!user_id || !mongoose.Types.ObjectId.isValid(user_id)) { 
-        return res.status(404).render('404User')
+        return res.status(404).redirect('/404')
        }
 
       const user = await User.findById(user_id);
 
       if(user== undefined){
-        return res.status(404).render('404User')
+        return res.status(404).redirect('/404')
       }
 
       const address= await Address.find({user:user_id});
@@ -512,7 +512,7 @@ const deleteUser = asyncHandler(async(req,res)=>{
       const id = req.query.id;
 
       if (!user_id || !mongoose.Types.ObjectId.isValid(user_id)) { 
-        return res.status(404).render('404User')
+        return res.status(404).redirect('/404')
        }
 
       await Address.deleteOne({_id:id});
@@ -526,7 +526,7 @@ const updateProfileLoad = asyncHandler(async(req,res)=>{
       let userId = req.query.id;
 
       if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
-        return res.status(404).render('404User')
+        return res.status(404).redirect('/404')
        }
        
       const cart = await Cart.findOne({ user: userId });
@@ -538,7 +538,7 @@ const updateProfileLoad = asyncHandler(async(req,res)=>{
       const user = await User.findById(userId);
 
       if(user== undefined){
-        return res.status(404).render('404User')
+        return res.status(404).redirect('/404')
       }
       // console.log('user'+user);
       res.render('update-profile', { user,cartCount,activePage:"update-profile"});
@@ -553,7 +553,7 @@ const updateProfile = asyncHandler(async (req, res) => {
         const userId = req.query.id;
 
         if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
-            return res.status(404).render('404User')
+            return res.status(404).redirect('/404')
            }
 
         const { email,Fname, Lname, password } = req.body;

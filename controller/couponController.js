@@ -64,11 +64,11 @@ const editCouponPage = asyncHandler(async(req,res)=>{
       const coupon_id = req.query.id;
 
       if (!coupon_id || !mongoose.Types.ObjectId.isValid(coupon_id)) { 
-            return res.status(404).render('404User')
+            return res.status(404).redirect('/404')
            }
       const coupon = await Coupon.findById({_id:coupon_id});
       if(coupon== undefined){
-            return res.status(404).render('404User')
+            return res.status(404).redirect('/404')
           }
 
       res.render('editcoupon',{coupon,ActivePage: 'couponManagement' });
@@ -113,7 +113,7 @@ const updateCouponStatus =asyncHandler(async(req,res)=>{
       const id = req.query.couponId;
 
       if (!id || !mongoose.Types.ObjectId.isValid(id)) { 
-            return res.status(404).render('404User')
+            return res.status(404).redirect('/404')
            }
 
       const coupon = await Coupon.findById({_id:id});
@@ -130,7 +130,7 @@ const updateCouponStatus =asyncHandler(async(req,res)=>{
 const deleteCoupon = asyncHandler(async(req,res)=>{
       const id = req.query.id;
       if (!id || !mongoose.Types.ObjectId.isValid(id)) { 
-            return res.status(404).render('404User')
+            return res.status(404).redirect('/404')
            }
       await Coupon.deleteOne({_id:id});
       res.redirect('/admin/couponManagement');

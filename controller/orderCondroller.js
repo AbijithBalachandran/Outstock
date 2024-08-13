@@ -126,7 +126,7 @@ let offerDetails = {
 
     async function calculateOfferDiscount(product) {
         if (product.offer && product.offer.length > 0) {
-            // Get the latest offer
+           
             const latestOfferId = product.offer[product.offer.length - 1];
             const offerDetails = await Offer.findById(latestOfferId);
             if (offerDetails && offerDetails.offerStatus) {
@@ -258,7 +258,6 @@ req.session.orderId = orderData._id;
 
 const verifyPayment = asyncHandler(async (req, res) => {
 
-    // const discounttotal = req.session.totalDiscount;
     const offerProducts = req.session.offerProducts ;
    
     const couponId = req.session.couponId;
@@ -332,11 +331,9 @@ const checkoutSubmit = asyncHandler(async (req, res) => {
     const offerProducts = req.session.offerProducts ;
     const userId = req.session.userData_id;
     const couponId = req.session.couponId;
-    console.log('couponCode====='+couponId);
     const cartTotal = req.session.total;
    
 
-    // console.log(userId);
     const cart = await Cart.findOne({ user: userId }).populate('cartItem.products');
     console.log(cart);
     let productId
@@ -480,7 +477,7 @@ const myOrderLoad = asyncHandler(async (req, res) => {
         const userId = req.query.id;
 
         if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
-            return res.status(404).render('404User')
+            return res.status(404).redirect('/404')
            }
 
         const FirstPage = 6;
@@ -520,7 +517,7 @@ const wishlistLoad = asyncHandler(async (req, res) => {
     const userId = req.query.id;
 
     if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
-        return res.status(404).render('404User')
+        return res.status(404).redirect('/404')
        }
 
     const itemsPerPage = 6;
@@ -530,7 +527,7 @@ const wishlistLoad = asyncHandler(async (req, res) => {
     const user = await User.findById(userId);
 
     if(user== undefined){
-        return res.status(404).render('404User')
+        return res.status(404).redirect('/404')
       }
 
     const cart = await Cart.findOne({ user: userId });
@@ -617,7 +614,7 @@ const trakingPageLoad = asyncHandler(async (req, res) => {
     const userId =req.session.userData_id
 
     if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
-        return res.status(404).render('404User')
+        return res.status(404).redirect('/404')
        }
   
     const order = await Order.findById(orderId)
@@ -887,7 +884,7 @@ const walletPage = asyncHandler(async (req, res) => {
     const userId = req.query.id;
 
     if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
-        return res.status(404).render('404User')
+        return res.status(404).redirect('/404');
        }
 
     const FirstPage = 4;
@@ -1098,11 +1095,11 @@ const retryCreateOrder = asyncHandler(async (req, res) => {
         const { userId, orderId } = req.query;
 
         if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
-            return res.status(404).render('404User')
+            return res.status(404).redirect('/404')
            }
 
            if (!orderId|| !mongoose.Types.ObjectId.isValid(orderId)) { 
-            return res.status(404).render('404User')
+            return res.status(404).redirect('/404')
            }
 
         const order = await Order.findById(orderId);

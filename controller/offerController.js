@@ -38,13 +38,13 @@ const editOfferPage = asyncHandler(async (req, res) => {
         const offer_id = req.query.id;
 
         if (!offer_id|| !mongoose.Types.ObjectId.isValid(offer_id)) { 
-            return res.status(404).render('404User')
+            return res.status(404).redirect('/404')
            }
 
         const offer = await Offer.findById(offer_id);
         
         if(offer== undefined){
-            return res.status(404).render('404User')
+            return res.status(404).redirect('/404')
           }
         // Initialize selectedItems properly
         let selectedItems = [];

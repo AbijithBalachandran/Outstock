@@ -3,7 +3,6 @@ const Products = require('../Models/products');
 const { default: mongoose } = require('mongoose');
 const categories = require('../Models/category')
 
-
 //---------------------product detail page rendering------------------------
 
 const productManagementLoad = asyncHandler(async(req,res)=>{
@@ -86,7 +85,11 @@ const addNewproduct = asyncHandler(async(req,res)=>{
 
 const editProductLoad = asyncHandler(async(req,res)=>{
       const id = req.query.productId;
-     // console.log('product Id'+id);
+
+      if (!id  || !mongoose.Types.ObjectId.isValid(id )) { 
+        return res.status(404).redirect('/404')
+       }
+    
       const category = await categories.find({});
       const product = await Products.findById({_id:id}).populate('category');
                   // console.log('prodict------------------------'+products);
@@ -156,6 +159,11 @@ const editAndUpdateProduct = asyncHandler(async (req, res) => {
     const updateProductStatus = asyncHandler(async(req,res)=>{
 
       const id = req.query.productId;
+
+      if (!id  || !mongoose.Types.ObjectId.isValid(id )) { 
+        return res.status(404).redirect('/404')
+       }
+
       const productInfo = await Products.findById({_id:id});
              // console.log("-----------------------productINFO"+productInfo);
               productInfo.action = !productInfo.action;
@@ -171,7 +179,9 @@ const editAndUpdateProduct = asyncHandler(async (req, res) => {
  const deleteProduct = asyncHandler(async(req,res)=>{
 
             const id = req.query.productId;
-           // console.log('id_ for delete'+id);
+            if (!id  || !mongoose.Types.ObjectId.isValid(id )) { 
+                return res.status(404).redirect('/404')
+               }
 
            await Products.deleteOne({ _id:id });
             res.redirect('/admin/productManagement');
