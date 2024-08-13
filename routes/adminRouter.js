@@ -55,8 +55,8 @@ admin_Router.post('/downloadExcel',fetchOrders,adminController.generateExcel);
 
 //--------------catogorymanagement in categoryController ----------------------------//
 
-admin_Router.get('/addcategory',adminAuth.isLogin,categoryController.addCategoryLoad);
-admin_Router.post('/addcategory',categoryController.addNewCategory);
+admin_Router.get('/addCategory',adminAuth.isLogin,categoryController.addCategoryLoad);
+admin_Router.post('/addCategory',categoryController.addNewCategory);
 
 admin_Router.get('/categoryManagement',adminAuth.isLogin,categoryController.categoryLoad);
 admin_Router.put('/updateCategoyListAndUnlist',categoryController.updateCategoyStatus);

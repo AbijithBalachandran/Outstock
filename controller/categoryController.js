@@ -9,7 +9,6 @@ const mongoose = require('mongoose')
 
 const categoryLoad = asyncHandler(async (req, res) => {
       const categories = await Category.find({});
-      //console.log("categories --------------------------------", categories);
       res.render('categoryManagement', { categories,ActivePage: 'categoryManagement' });
   }); 
 
@@ -18,7 +17,7 @@ const categoryLoad = asyncHandler(async (req, res) => {
 const addCategoryLoad = async (req,res)=>{
       try {
            
-            res.render('addcategory',{ActivePage: 'categoryManagement' });
+            res.render('addCategory',{ActivePage: 'categoryManagement' });
       } catch (error) {
             console.log(error.message);
       }
