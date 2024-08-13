@@ -99,7 +99,7 @@
 <body>
     <div class="container mt-5">
         <div class="row">
-            <% if (wishlistItem && wishlistItem.length > 0) { %>
+            <% if (typeof wishlistItem !== 'undefined'&& wishlistItem.length > 0) { %>
                 <% wishlistItem.forEach(item => { %>
                     <% if (item.products) { %>
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
