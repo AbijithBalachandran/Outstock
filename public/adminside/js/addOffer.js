@@ -45,26 +45,74 @@ document.getElementById('offerForm').addEventListener('submit', async function(e
         offerDiscount: form.offerDiscount.value,
         expiryDate: form.expiryDate.value
       };
-
-      // try {
-      //   let response = await fetch('/admin/addOffer', {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json'
-      //     },
-      //     body: JSON.stringify(data)
-      //   });
-
-      //   if (response.ok) {
-      //     window.location.href = "/admin/offerManagement";
-      //     // form.classList.remove('was-validated');
-      //   } else {
-      //       const data = await response.json();
-      //       Swal.fire(data.message);
-
-      //   }
-      // } catch (error) {
-      //   console.error('Error:', error);
-      //   alert('An error occurred. Please try again.');
-      // }
+      document.getElementById('offerType').addEventListener('change', function () {
+        const selectedValue = this.value;
+        if (selectedValue === 'Category Base') {
+            $('#categoryModal').modal('show');
+        } else if (selectedValue === 'Product Base') {
+            $('#productModal').modal('show');
+        }
     });
+    
+    function saveSelections(formId) {
+        const form = document.getElementById(formId);
+        const selectedItems = Array.from(form.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        $('#' + formId.replace('Form', 'Modal')).modal('hide');
+        return selectedItems;
+    }
+    
+    function closeModal(modalId) {
+        $('#' + modalId).modal('hide');
+    }
+    
+    });
+
+
+    function applyOffer(event) {
+      event.preventDefault();
+  
+      const offerName = document.getElementById('offerName').value.trim();
+      const offerType = document.getElementById('offerType').value.trim();
+      const discount = document.getElementById('offerDiscount').value.trim();
+      const expiryDate = document.getElementById('expiryDate').value.trim();
+  
+      const selectedItems = getSelectedItems();
+  
+      const offerData = {
+          offerName,
+          offerType,
+          discount,
+          expiryDate,
+          selectedItems
+      };
+  
+      fetch('/admin/apply-Offer', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(offerData)
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              window.location.href = "/admin/offerManagement";
+          } else {
+              Swal.fire(data.message);
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred. Please try again.');
+      });
+  }
+  
+  function getSelectedItems() {
+      const categoryItems = Array.from(document.querySelectorAll('#categoryModal input[type="checkbox"]:checked')).map(cb => cb.value);
+      const productItems = Array.from(document.querySelectorAll('#productModal input[type="checkbox"]:checked')).map(cb => cb.value);
+  
+      return {
+          categories: categoryItems,
+          products: productItems
+      };
+  }

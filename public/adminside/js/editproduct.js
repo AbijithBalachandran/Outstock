@@ -13,26 +13,19 @@ function previewImage(event, previewId) {
 // form validation
 document.addEventListener('DOMContentLoaded', (event) => {
       const form = document.getElementById('productForm');
-      console.log("AA=======1");
-  
+      
       form.addEventListener('submit', async (event) => {
           event.preventDefault();
-          console.log("AA=======2");
   
           const formData = new FormData(form);
           console.log("Form Data Entries:", Array.from(formData.entries())); // Log all form data
           const validationErrors = validateForm(formData);
-          console.log("AA=======3");
   
           if (validationErrors.length > 0) {
               console.log("Validation errors found:", validationErrors);
               displayErrors(validationErrors);
-              console.log("AA=======4");
               return;
           }
-  
-          console.log("AA=======5");
-          console.log('Script continues executing...');
   
           try {
               const response = await fetch('/admin/editProduct', {
@@ -61,14 +54,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
           const discountPattern = /^(100|[1-9]?[0-9])$/;
   
           // Product Name validation
-          const name = formData.get('name');
+          const name = formData.get('name').trim();
           if (!name || !namePattern.test(name)) {
             //   console.log("Name validation failed", name);
               errors.push({ field: 'name', message: 'Product Name is required and can only contain letters, numbers, spaces, and hyphens.' });
           }
   
           // Category validation
-          const category = formData.get('category');
+          const category = formData.get('category').trim();
           if (!category || !categoryPattern.test(category)) {
               console.log("Category validation failed", category);
               errors.push({ field: 'category', message: 'Category is required and can only contain letters and spaces.' });
@@ -82,21 +75,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
           }
   
           // Quantity validation
-          const quantity = formData.get('quantity');
+          const quantity = formData.get('quantity').trim();
           if (!(quantityPattern.test(quantity))) {
               console.log("Quantity validation failed", quantity);
               errors.push({ field: 'quantity', message: 'Quantity is required and can not be negative number.' });
           }
   
           // Original Price validation
-          const price = formData.get('price');
+          const price = formData.get('price').trim();
           if (!price || !pricePattern.test(price) || parseFloat(price) <= 0) {
               console.log("Price validation failed", price);
               errors.push({ field: 'price', message: 'Original Price is required and must be a positive number.' });
           }
   
           // Discount validation
-          const discount = formData.get('discount');
+          const discount = formData.get('discount').trim();
           if (!discount || !discountPattern.test(discount)) {
               console.log("Discount validation failed", discount);
               errors.push({ field: 'discount', message: 'Discount is required and must be a number between 0 and 100.' });
@@ -114,14 +107,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
           }
   
           // Type validation
-          const type = formData.get('type');
+          const type = formData.get('type').trim();
           if (!type || !categoryPattern.test(type)) {
               console.log("Type validation failed", type);
               errors.push({ field: 'type', message: 'Type is required and can only contain letters and spaces.' });
           }
   
           // Description validation
-          const description = formData.get('description');
+          const description = formData.get('description').trim();
           if (!description) {
               console.log("Description validation failed", description);
               errors.push({ field: 'description', message: 'Description is required.' });

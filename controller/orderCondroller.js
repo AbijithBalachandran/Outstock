@@ -613,7 +613,7 @@ const trakingPageLoad = asyncHandler(async (req, res) => {
     const discountedTotal = req.session.total;
     const userId =req.session.userData_id
 
-    if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
+    if (!orderId || !mongoose.Types.ObjectId.isValid(orderId)) { 
         return res.status(404).redirect('/404')
        }
   

@@ -326,7 +326,7 @@ const updateUserStatus = async (req, res) => {
             const id = req.query.userId;
 
             if (!id  || !mongoose.Types.ObjectId.isValid(id )) { 
-              return res.status(404).redirect('/404')
+              return res.status(404).redirect('/admin/404')
              }
             const userData = await User.findById({ _id: id });
 
@@ -427,7 +427,10 @@ const OrderDetailPage = asyncHandler(async (req, res) => {
       const orderId = req.query.id;
       
       if (!orderId || !mongoose.Types.ObjectId.isValid(orderId)) { 
-        return res.status(404).redirect('/404')
+        return res.status(404).redirect('/admin/404')
+       }
+       if(!orderId){
+        return res.status(404).redirect('/admin/404')
        }
 
     

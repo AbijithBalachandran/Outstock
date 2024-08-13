@@ -78,7 +78,7 @@ const addNewCategory = async (req, res) => {
       const id = req.query.categoryId;
     
       if (!id || !mongoose.Types.ObjectId.isValid(id)) { 
-        return res.status(404).redirect('/404');
+        return res.status(404).redirect('/admin/404');
        }
 
       const categories = await Category.findById({_id:id});

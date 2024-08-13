@@ -266,80 +266,8 @@
     </div>
     
     
-    <script>
-    document.getElementById('offerType').addEventListener('change', function () {
-        const selectedValue = this.value;
-        if (selectedValue === 'Category Base') {
-            $('#categoryModal').modal('show');
-        } else if (selectedValue === 'Product Base') {
-            $('#productModal').modal('show');
-        }
-    });
-    
-    function saveSelections(formId) {
-        const form = document.getElementById(formId);
-        const selectedItems = Array.from(form.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
-        $('#' + formId.replace('Form', 'Modal')).modal('hide');
-        return selectedItems;
-    }
-    
-    function closeModal(modalId) {
-        $('#' + modalId).modal('hide');
-    }
-    
-    function applyOffer(event) {
-        event.preventDefault();
-    
-        const offerName = document.getElementById('offerName').value;
-        const offerType = document.getElementById('offerType').value;
-        const discount = document.getElementById('offerDiscount').value;
-        const expiryDate = document.getElementById('expiryDate').value;
-    
-        const selectedItems = getSelectedItems();
-    
-        const offerData = {
-            offerName,
-            offerType,
-            discount,
-            expiryDate,
-            selectedItems
-        };
-    
-        fetch('/admin/apply-Offer', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(offerData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                window.location.href = "/admin/offerManagement";
-            } else {
-                Swal.fire(data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again.');
-        });
-    }
-    
-    function getSelectedItems() {
-        const categoryItems = Array.from(document.querySelectorAll('#categoryModal input[type="checkbox"]:checked')).map(cb => cb.value);
-        const productItems = Array.from(document.querySelectorAll('#productModal input[type="checkbox"]:checked')).map(cb => cb.value);
-    
-        return {
-            categories: categoryItems,
-            products: productItems
-        };
-    }
-    </script>
-    
-    
-
-            <!-- <script src="/adminside/js/addOffer.js"></script> -->
+         
+            <script src="/adminside/js/addOffer.js"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

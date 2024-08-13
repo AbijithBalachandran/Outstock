@@ -36,18 +36,14 @@ const addNewproduct = asyncHandler(async(req,res)=>{
            let {name,action,description,price,discount,disPrice,category,quantity,type} = req.body
            const categoryDoc = await categories.findOne({ name: { $regex: new RegExp(`^${category}$`, 'i') } });
 
-        //   console.log('categoryDoc====='+categoryDoc);
         if (!categoryDoc) {
             return res.status(400).json({message: 'Category not found'});
         }
         const categoryId = categoryDoc._id;
-        // console.log("categoryId: " + categoryId);
 
            const images = req.files.map(file => file.filename);
 
            const product =  await Products.findOne({name}).populate('category');
-         
-        //    console.log('product'+name);
             
                 if(action == 'list'){
                  action = true;
@@ -87,7 +83,7 @@ const editProductLoad = asyncHandler(async(req,res)=>{
       const id = req.query.productId;
 
       if (!id  || !mongoose.Types.ObjectId.isValid(id )) { 
-        return res.status(404).redirect('/404')
+        return res.status(404).redirect('/admin/404')
        }
     
       const category = await categories.find({});
@@ -161,7 +157,7 @@ const editAndUpdateProduct = asyncHandler(async (req, res) => {
       const id = req.query.productId;
 
       if (!id  || !mongoose.Types.ObjectId.isValid(id )) { 
-        return res.status(404).redirect('/404')
+        return res.status(404).redirect('/admin/404')
        }
 
       const productInfo = await Products.findById({_id:id});
@@ -180,7 +176,7 @@ const editAndUpdateProduct = asyncHandler(async (req, res) => {
 
             const id = req.query.productId;
             if (!id  || !mongoose.Types.ObjectId.isValid(id )) { 
-                return res.status(404).redirect('/404')
+                return res.status(404).redirect('/admin/404')
                }
 
            await Products.deleteOne({ _id:id });
