@@ -93,23 +93,29 @@ const addNewCategory = async (req, res) => {
 
 //----------------------------------------------Edit and Update The Categories =-----------------------------------//
 
+
 const editAndUpdateLoad = asyncHandler(async (req, res) => {
-      const { name, description, id } = req.body;
+    try {
+        const { name, description, id } = req.body;
     
-      const existingCategory = await Category.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
-      if (existingCategory) {
-          const categories = await Category.findById(id);
-          return res.render('editCategory', { categories, message: 'It\'s already added' });
-      }
+        const existingCategory = await Category.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
+        if (existingCategory) {
+            const categories = await Category.findById(id);
+            return res.render('editCategory', { categories, message: 'It\'s already added' });
+        }
     
-      await Category.findByIdAndUpdate(
-          id,
-          { $set: { name, description } }
-      );
+        await Category.findByIdAndUpdate(
+            id,
+            { $set: { name, description } }
+        );
     
-      res.redirect('/categoryManagement');
-  });
-  
+        res.redirect('/categoryManagement');
+    } catch (error) {
+        console.error('Error occurred in editAndUpdateLoad:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 
 //---------------------------------------------    -----------------------------------------------------------//
 

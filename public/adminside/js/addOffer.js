@@ -46,25 +46,5 @@ document.getElementById('offerForm').addEventListener('submit', async function(e
         expiryDate: form.expiryDate.value
       };
 
-      // try {
-      //   let response = await fetch('/admin/addOffer', {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json'
-      //     },
-      //     body: JSON.stringify(data)
-      //   });
-
-      //   if (response.ok) {
-      //     window.location.href = "/admin/offerManagement";
-      //     // form.classList.remove('was-validated');
-      //   } else {
-      //       const data = await response.json();
-      //       Swal.fire(data.message);
-
-      //   }
-      // } catch (error) {
-      //   console.error('Error:', error);
-      //   alert('An error occurred. Please try again.');
-      // }
+     
     });
