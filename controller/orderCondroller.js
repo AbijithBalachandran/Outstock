@@ -38,12 +38,11 @@ const checkoutPageLoad = asyncHandler(async (req, res) => {
     const address = await Address.find({ user: userId });
     const coupon = await Coupon.find({});
 
-    if (!cart || cart.length === 0) {
-        return res.render('checkout', { address, cart: [], total: 0, user, coupon ,activePage:"chechout"});
-    }
-
-
     const shippingCharge = 100;
+
+    if (!cart || cart.length === 0) {
+        return res.render('checkout', { address, cart: [], total: 0, user, coupon ,shippingCharge,activePage:"chechout"});
+    }
 
     const total = cart[0].cartItem.reduce((acc, val) => acc + val.products.price * val.quantity, 0);
 
@@ -1106,11 +1105,6 @@ const retryCreateOrder = asyncHandler(async (req, res) => {
             return res.status(400).json({ error: "Order not found!" });
         }
 
-        // const cart = await Cart.findOne({ user: userId }).populate('cartItem.products');
-
-        // if (!cart || cart.cartItem.length === 0) {
-        //     return res.status(400).json({ error: "Cart is empty" });
-        // }
 
         const amount = order.totalPrice *100;
 
