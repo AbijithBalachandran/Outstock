@@ -97,7 +97,6 @@ admin_Router.get('/delete-coupon',couponController.deleteCoupon);
 admin_Router.get('/offerManagement',adminAuth.isLogin,offerController.offerManagement);
 
 admin_Router.get('/addOffer',adminAuth.isLogin,offerController.addNewOfferPage);
-// admin_Router.post('/addOffer',offerController.addOffer);
 
 admin_Router.get('/editOffer',adminAuth.isLogin,offerController.editOfferPage);
 admin_Router.put('/editOffer',offerController.editOffer);

@@ -482,11 +482,10 @@ const myOrderLoad = asyncHandler(async (req, res) => {
 
         const FirstPage = 6;
         const currentPage = parseInt(req.query.page) || 1;
-
         const start = (currentPage - 1) * FirstPage;
 
         const orderData = await Order.find({user : userId }).populate('user').skip(start).limit(FirstPage);
-        const orderCount = await Order.countDocuments({}); 
+        const orderCount = await Order.countDocuments({user: userId}); 
         const totalPages = Math.ceil(orderCount / FirstPage);
         
 
@@ -495,8 +494,7 @@ const myOrderLoad = asyncHandler(async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        const order = await Order.find({ user : userId }).populate('user');
-        console.log('orders========', order);
+        // const order = await Order.find({ user : userId }).populate('user');
         const cart = await Cart.findOne({ user : userId});
         let cartCount = 0;
         if (cart) {
@@ -1108,20 +1106,18 @@ const retryCreateOrder = asyncHandler(async (req, res) => {
             return res.status(400).json({ error: "Order not found!" });
         }
 
-        const cart = await Cart.findOne({ user: userId }).populate('cartItem.products');
+        // const cart = await Cart.findOne({ user: userId }).populate('cartItem.products');
 
-        if (!cart || cart.cartItem.length === 0) {
-            return res.status(400).json({ error: "Cart is empty" });
-        }
+        // if (!cart || cart.cartItem.length === 0) {
+        //     return res.status(400).json({ error: "Cart is empty" });
+        // }
 
-        // const amount = cart.cartItem.reduce((acc, val) => acc + (val.products.price * val.quantity), 0) * 100;
-        // console.log('amount', amount);
         const amount = order.totalPrice *100;
 
         const options = {
             amount: amount,
             currency: "INR",
-            receipt: 'abijith',
+            receipt: orderId,
         };
 
         instance.orders.create(options, (err, razorpayOrder) => {
@@ -1143,8 +1139,7 @@ const retryCreateOrder = asyncHandler(async (req, res) => {
             });
 
             // Log after sending the response to avoid ERR_HTTP_HEADERS_SENT error
-            console.log('order_id ', razorpayOrder.id);
-            console.log("Amount in Paise:", amount);
+
         });
 
     } catch (error) {
