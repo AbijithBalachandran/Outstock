@@ -763,6 +763,7 @@ const forgotPasswordPage = asyncHandler(async(req,res)=>{
     res.render('forgotPassword',{activePage:'forgotPassword',userData});
 });
 
+
 //-----------------------------------if forget the password - change old password ----------------------------------------------------------------------------------
 
 const changePassword = asyncHandler(async (req, res) => {
@@ -796,9 +797,10 @@ const changePassword = asyncHandler(async (req, res) => {
     await sendMailer(generatedOtp, email);
 
     req.session.userData = { email: email }; 
-    res.redirect('/forgetpasswordOTP');
+    res.redirect('/forgetPasswordOTP');
 });
 
+//-----------------forgetpasswordOTP page lOad------------------------------------------------------------
 
 const EnterOtp = asyncHandler(async(req, res) => {
     const email = req.session.email;
@@ -808,10 +810,10 @@ const EnterOtp = asyncHandler(async(req, res) => {
         return res.redirect('/forgotPassword?message=Session expired, please try again.');
     }
 
-    res.render('forgetpasswordOTP', { email, message: '', activePage: 'OTP', userData });
+    res.render('forgetPasswordOTP', { email, message: '', activePage: 'OTP', userData });
 });
 
-
+//---------------------------------otp validation --------------------------------------------------------------------
 const EnterOtpAndChangePassword = asyncHandler(async(req,res)=>{
     const email = req.session.email;
     const sPassword = req.session.sPassword;
@@ -875,5 +877,6 @@ module.exports = {
       forgotPasswordPage,
       changePassword,
       EnterOtp,
-      EnterOtpAndChangePassword
+      EnterOtpAndChangePassword,
+
 }

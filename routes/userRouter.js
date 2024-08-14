@@ -84,8 +84,8 @@ user_Router.put('/update-Profile',userController.updateProfile);
 
 user_Router.get('/forgotPassword',userController.forgotPasswordPage);
 user_Router.post('/forgotPassword',userController.changePassword);
-user_Router.get('/forgetpasswordOTP',userController.EnterOtp);
-user_Router.post('/forgetpasswordOTP',userController.EnterOtpAndChangePassword);
+user_Router.get('/forgetPasswordOTP',userController.EnterOtp);
+user_Router.post('/forgetPasswordOTP',userController.EnterOtpAndChangePassword);
 
 
 //----------------------------cart router --------------------------------------------
