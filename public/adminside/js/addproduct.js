@@ -8,7 +8,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
+
         const formData = new FormData(form);
+        const files = formData.getAll('images');
+        const maxSize = 5 * 1024 * 1024; 
+
+        for (const file of files) {
+            if (file.size > maxSize) {
+                displayErrors([{ field: 'images', message: 'Each image must be less than 5MB.' }]);
+                return;
+            }
+        }
+
         const validationErrors = validateForm(formData);
 
         if (validationErrors.length > 0) {
