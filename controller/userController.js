@@ -807,7 +807,7 @@ const EnterOtp = asyncHandler(async(req, res) => {
     const userData = req.session.userData || '';
 
     if (!email) {
-        return res.redirect('/forgotPassword?message=Session expired, please try again.');
+        return res.redirect('/forgetPassword?message=Session expired, please try again.');
     }
 
     res.render('forgetPasswordOTP', { email, message: '', activePage: 'OTP', userData });
