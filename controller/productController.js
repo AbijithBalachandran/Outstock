@@ -32,7 +32,7 @@ const addProductLoad = asyncHandler(async(req,res)=>{
 //--------------------------------------Add Product------------------------
    
 const addNewproduct = asyncHandler(async(req,res)=>{
-
+       try{
            let {name,action,description,price,discount,disPrice,category,quantity,type} = req.body
            const categoryDoc = await categories.findOne({ name: { $regex: new RegExp(`^${category}$`, 'i') } });
 
@@ -74,6 +74,11 @@ const addNewproduct = asyncHandler(async(req,res)=>{
                 }
 
                  res.sendStatus(200);
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    return res.status(500).json({ message: 'An unexpected error occurred' });
+                }
 
 }); 
 
