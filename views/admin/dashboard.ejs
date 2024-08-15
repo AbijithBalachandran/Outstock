@@ -353,9 +353,12 @@
         let myChart;
       
         function renderChart(data) {
-          const xValues = data.map(item => item.category);
-          const yValues = data.map(item => item.totalSales);
-          const barColors = ["red", "green", "blue", "orange", "brown"];
+
+           data = data.filter(item => item.category);
+          var xValues = data.map(item => item.category);
+          var yValues = data.map(item => item.totalSales);
+         
+          var barColors = ["red", "green", "blue", "orange", "brown"];
       
           if (myChart) {
             myChart.destroy();
@@ -380,7 +383,8 @@
             }
           });
         }
-      
+       
+
         async function fetchSalesData(range) {
           try {
             const response = await fetch('/admin/filter-sales-data', {

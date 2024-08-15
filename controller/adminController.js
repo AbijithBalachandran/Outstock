@@ -188,7 +188,8 @@ const dashboard = async (req, res) => {
               category: "$category.name",
               totalSales: 1
             }
-          }
+          },
+          { $match: { category: { $ne: null } } }
         ]);
     
         const {bestSellingProducts,bestSellingCategories} = await getBestSellingProducts();
@@ -284,7 +285,8 @@ const dashboardFilter = async (req, res) => {
               category: "$category.name",
               totalSales: 1
             }
-          }
+          },
+          { $match: { category: { $ne: null } } }
         ]);
     
         res.json({ salesData }); 

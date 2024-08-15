@@ -105,12 +105,15 @@ const createOrder = asyncHandler(async (req, res) => {
         return;
     }
 
-    const amount = cart.cartItem.reduce((acc, val) => acc + (val.products.price * val.quantity), 0) * 100;
-    console.log('amount' + amount);
-
-
     const shippingCharge = 100;
     grandTotal = cartTotal + shippingCharge;
+
+    const cartAmount = cart.cartItem.reduce((acc, val) => acc + (val.products.price * val.quantity), 0) * 100;
+    
+    let amount = cartAmount + shippingCharge;
+
+
+  
 
 
 //-------------------offer apply --------------
@@ -469,6 +472,7 @@ let offerDetails = {
 
 });
 
+
 //----------------------------MY Order page rendering-----------------------------------
 
 const myOrderLoad = asyncHandler(async (req, res) => {
@@ -494,7 +498,7 @@ const myOrderLoad = asyncHandler(async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // const order = await Order.find({ user : userId }).populate('user');
+        
         const cart = await Cart.findOne({ user : userId});
         let cartCount = 0;
         if (cart) {
