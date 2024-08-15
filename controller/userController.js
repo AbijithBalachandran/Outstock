@@ -315,8 +315,6 @@ const homeLoad = async (req, res) => {
               };
       
               const {offerDetails } = await calculateDiscount(product[0]);
-      
-            //   console.log('offerDetails========' + offerDetails);
            
               res.render('home', { product: productData, currentPage, totalPages, cartCount,offerDetails,activePage:"home" });
 
@@ -363,19 +361,17 @@ const productDetails = asyncHandler(async (req, res) => {
               disPrice = product.price - disAmount;
           }
       }
-console.log('offerDetails 22222'+offerDetails);
-      console.log('disPrice'+disPrice);
-  
+      let cartCount = 0;
       if (req.session.userData_id) {
           const user = await User.findById({ _id: user_id });
           const cart = await Cart.findOne({ user: user_id });
-          let cartCount = 0;
+          
           if (cart) {
               cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
           }
           res.render('product-details', { user, product, cartCount, disPrice ,offerDetails,activePage:"home"});
       } else {
-          res.render('product-details', { product, disPrice,offerDetails,activePage:"home"  });
+          res.render('product-details', { product, disPrice,offerDetails,cartCount,activePage:"home"  });
       }
   });
 
@@ -392,14 +388,42 @@ const logOut = asyncHandler(async (req, res) => {
 //------------------------------About page rendering ---------------------------//
 
 const aboutPage = asyncHandler(async(req,res)=>{
-      res.render('about',{activePage:"about"})
+    let user_id = req.session.userData_id ? req.session.userData_id : " ";
+    let cartCount = 0;
+    if (req.session.userData_id) {
+        const user = await User.findById(user_id);
+        const cart = await Cart.findOne({ user: user_id });
+
+        if (cart) {
+            cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
+        }
+
+        res.render('about',{activePage:"about",user,cartCount});
+    }else{
+        res.render('about',{activePage:"about",cartCount});
+    }
+      
 })
 
 //-------------------------------contact page rendering ---------------------------//
 
 const contactPage = asyncHandler(async(req,res)=>{
-      res.render('contact',{activePage:"contact"});
+    let user_id = req.session.userData_id ? req.session.userData_id : " ";
+    
+    let cartCount =0;
+    if (req.session.userData_id) {
+        const user = await User.findById(user_id);
+        const cart = await Cart.findOne({ user: user_id });
+        if (cart) {
+            cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
+        }
+
+        res.render('contact',{activePage:"contact",user,cartCount});
+    }
+
+      res.render('contact',{activePage:"contact",cartCount});
 })
+
 //--------------------------------Profile page Rendering -------------------------//
 
 const profileLoad = asyncHandler(async(req,res)=>{

@@ -483,7 +483,8 @@ const myOrderLoad = asyncHandler(async (req, res) => {
         const currentPage = parseInt(req.query.page) || 1;
         const start = (currentPage - 1) * FirstPage;
 
-        const orderData = await Order.find({user : userId }).populate('user').skip(start).limit(FirstPage);
+        const orderData = await Order.find({user : userId }).populate('user').sort({createdAt:-1}).skip(start).limit(FirstPage);
+
         const orderCount = await Order.countDocuments({user: userId}); 
         const totalPages = Math.ceil(orderCount / FirstPage);
         

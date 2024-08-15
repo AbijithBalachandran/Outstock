@@ -11,41 +11,29 @@ const cartLoad = asyncHandler(async (req, res) => {
     const userId = req.query.id;
 
     if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
-        return res.status(404).redirect('/404')
-       }
+        return res.status(404).redirect('/404');
+    }
 
     const user = await User.findById(userId);
     
-    if(user== undefined){
-        return res.status(404).redirect('/404')
-      }
-
-    const itemsPerPage = 3; 
-    const currentPage = parseInt(req.query.page) || 1;
-    const start = (currentPage - 1) * itemsPerPage;
+    if (user == undefined) {
+        return res.status(404).redirect('/404');
+    }
 
     const cart = await Cart.findOne({ user: userId }).populate('cartItem.products');
     if (!cart) {
-        res.render('cart', { user, cartItems: [], total: 0, cartCount: 0, currentPage, totalPages: 0,activePage:"cart" });
+        res.render('cart', { user, cartItems: [], total: 0, cartCount: 0, activePage: "cart" });
         return;
     }
 
-    // Paginate the cart items
-    const paginatedCartItems = cart.cartItem.slice(start, start + itemsPerPage);
-
     const cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
     
-    const total = paginatedCartItems.reduce((acc, val) => {
+    const total = cart.cartItem.reduce((acc, val) => {
         return acc + val.products.price * val.quantity;
     }, 0);
 
-    const Count = cart.cartItem.length;
-    const totalPages = Math.ceil(Count / itemsPerPage);
-
-    res.render('cart', { user, cartItems: paginatedCartItems, total, cartCount, currentPage, totalPages,activePage:"cart" });
+    res.render('cart', { user, cartItems: cart.cartItem, total, cartCount, activePage: "cart" });
 });
-
-
 
 //-------------------------------Add Product to Cart--------------------------------//
 

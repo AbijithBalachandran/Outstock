@@ -22,10 +22,51 @@
     </style>
 </head>
 <body>
+    
+    <div class="container">
+        <div class="vela-breadcrumbs__inner align-items-center flex-column" aria-label="breadcrumb">
+          <h1 class="vela-breadcrumbs__title mb-1 d-none d-md-block">Checkout</h1>
+          <ol class="breadcrumb m-0" itemscope itemtype="http://schema.org/BreadcrumbList">
+
+            
+            <!-- Home breadcrumb -->
+            <li class="breadcrumb-item breadcrumb__item" itemprop="itemListElement" itemscope
+              itemtype="http://schema.org/ListItem">
+              <a class="breadcrumb__link" href="../home" title="Home" itemprop="item">
+                <span itemprop="name">Home</span>
+              </a>
+              <meta itemprop="position" content="1" />
+            </li>
+
+            <!-- Profile breadcrumb -->
+            <li class="breadcrumb-item breadcrumb__item" itemprop="itemListElement" itemscope
+              itemtype="http://schema.org/ListItem">
+              <a class="breadcrumb__link" href="../cart?id=<%=user.id %>" title="Profile" itemprop="item">
+                <span itemprop="name">Cart</span>
+              </a>
+              <meta itemprop="position" content="2" />
+            </li>
+
+            <!-- Cart breadcrumb (if directly from home) -->
+            <li class="breadcrumb-item breadcrumb__item active" itemprop="itemListElement" itemscope
+              itemtype="http://schema.org/ListItem">
+              <a class="breadcrumb__link" href="../" title="Cart" itemprop="item">
+                <span itemprop="name">Checkout</span>
+              </a>
+              <meta itemprop="position" content="3" />
+            </li>
+
+
+          </ol>
+        </div>
+      </div>
+
+    </div>
+
+    
     <div class="container checkout-container">
         <div class="row">
             <div class="col-md-8">
-                <h3>Checkout</h3>
                 <form class="checkout-form" id="checkout-form" action="/tracking-order" method="post">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="billingAddress" id="differentBilling" class="btn btn-info mt-3" data-toggle="modal" data-target="#addressModal">

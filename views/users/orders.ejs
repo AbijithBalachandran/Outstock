@@ -97,51 +97,47 @@
   </head>
   <body>
       <div class="container my-4">
+        <% if (order && order.length >0) {%>
           <table class="table table-bordered table-custom">
               <thead>
                   <tr>
-                      <th>Product</th>
-                      <th>Quantity</th>
-                      <th>Price</th>
+                      <th>NO</th>
+                      <th>Date</th>
+                      <th>Purchase Amount</th>
                       <th>paymentMethod</th>
                       <th>Status</th>
-                      <th>View</th>
+                      <th>Details</th>
                   </tr>
               </thead>
               <tbody>
-                <% if (order && order.length >0) {%>
-                  <% order.forEach(item=>{%>
+                <% let no = 1 %>
+                  <% order.forEach(order=>{%>
                   <tr>
                       <td>
-                          <div class="d-flex align-items-center">
-                              <img src="/upload/product/<%=item.orderItem[0].images[0]%>" alt="Sofaset" class="product-img mr-3">
-                              <div class="ms-2">
-                                  <div><%= item.orderItem[0].productName %></div>
-                                  <div><%= item.orderItem[0].price %></div>
-                              </div>
-                          </div>
+                        <%= no++ %>
                       </td>
                       <td>
-                          <input type="number" value="<%= item.orderItem[0].quantity %>" class="form-control">
-                      </td> <td>
+                         <%= new Date(order.createdAt).toDateString() %>
+                      </td>
+                       <td>
                         <div>
-                          <%= item.orderItem[0].price %>
+                          <%= order.totalPrice %>
                         </div>
                     </td>
                       <td>
                         <div>
-                          <%= item.paymentMethod %>
+                          <%= order.paymentMethod %>
                         </div>
                     </td>
                       <td>
                           <div class="cancel-btn">
-                            <%= item.orderStatus %>
+                            <%= order.orderStatus %>
                           </div>
                       </td>
                       <td>
                         <div class="cancel-btn">
-                          <a href="/tracking-order?orderId=<%=item.id%>"><button class="btn btn-primary">
-                            <i class="fas fa-eye"></i>
+                          <a href="/tracking-order?orderId=<%=order.id%>"><button class="btn btn-primary">
+                           Details
                         </button></a>
                         </div>
                     </td>
