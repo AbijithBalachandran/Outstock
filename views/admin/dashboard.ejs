@@ -2,7 +2,7 @@
 
       <div class="container-xxl position-relative bg-white d-flex p-0">
 
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
         <%-include('../layout/adSidebarHeader')%>
          
         <%-include('../layout/adSidebarFooter')%>
@@ -142,6 +142,28 @@
               <!-- Sale & Revenue End -->
 
 
+              <style>
+                .filter-container {
+                  margin: 20px;
+                }
+                .charts-container {
+                  display: flex;
+                  flex-wrap: wrap;
+                  justify-content: space-between;
+                  margin: 0 5%;
+                }
+                .chart {
+                  flex: 1 1 48%; 
+                  max-width: 48%;
+                  margin: 10px 0;
+                }
+                canvas {
+                  width: 100% !important;
+                  height: 300px;
+                }
+              </style>
+            </head>
+            <body>
               <div class="filter-container mt-5 ms-5">
                 <label for="timeRange">Select Time Range:</label>
                 <select id="timeRange">
@@ -152,9 +174,20 @@
                 </select>
               </div>
               
-              <!-- Chart Representation -->
-              <canvas id="myChart" style="width:100%;max-width:1000px; margin: 5%;"></canvas>
-  <!-- chart representation  -->
+              <div class="charts-container">
+                <!-- Chart Representation -->
+                <div class="chart">
+                  <canvas id="myChart"></canvas>
+                </div>
+            
+                <!-- Line Chart Representation -->
+                <div class="chart">
+                  <canvas id="lineChart"></canvas>
+                </div>
+              </div>
+              
+              
+
 
 
             <!-- Recent Sales Start -->
@@ -343,73 +376,163 @@
           <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
       </div>
 
-
-
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-
       
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-      <script>
-        let myChart;
-      
-        function renderChart(data) {
 
-           data = data.filter(item => item.category);
-          var xValues = data.map(item => item.category);
-          var yValues = data.map(item => item.totalSales);
-         
-          var barColors = ["red", "green", "blue", "orange", "brown"];
-      
-          if (myChart) {
-            myChart.destroy();
-          }
-      
-          const ctx = document.getElementById('myChart').getContext('2d');
-          myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-              labels: xValues,
-              datasets: [{
-                backgroundColor: barColors,
-                data: yValues
-              }]
-            },
-            options: {
-              legend: { display: false },
-              title: {
-                display: true,
-                text: 'Best Selling Categories'
-              }
-            }
-          });
+
+<script>
+
+    
+ let myChart;
+ let lineChart;
+
+function renderBarChart(data) {
+
+  data = data.filter(item => item.category);
+
+  const xValues = data.map(item => item.category);
+  const yValues = data.map(item => item.totalSales);
+
+
+  const barColors = ["red", "green", "blue", "orange", "brown"];
+
+  
+  if (myChart) {
+    myChart.destroy();
+  }
+
+  const ctx = document.getElementById('myChart').getContext('2d');
+
+ 
+  myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: xValues,
+      datasets: [{
+        backgroundColor: barColors,
+        data: yValues
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Best Selling Categories', 
+          font: {
+            size: 18, 
+            family: 'Arial', 
+            weight: 'bold' 
+          },
+          color: '#333' 
+        },
+        legend: {
+          display: false
         }
-       
-
-        async function fetchSalesData(range) {
-          try {
-            const response = await fetch('/admin/filter-sales-data', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ range })
-            });
-            const data = await response.json();
-            renderChart(data.salesData);
-          } catch (error) {
-            console.error('Error fetching sales data:', error);
-          }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
         }
-      
-        document.getElementById('timeRange').addEventListener('change', function() {
-          fetchSalesData(this.value);
-        });
-      
-        document.addEventListener('DOMContentLoaded', () => {
-          const salesData = JSON.parse('<%- salesData %>');
-          renderChart(salesData);
-        });
-      </script>
+      }
+    }
+  });
+}
+
+
+
+function renderLineChart(data) {
+
+  data = data.filter(item => item.productName);
+
+  const xValues = data.map(item => item.productName);
+  const yValues = data.map(item => item.totalSold);
+
+  if (lineChart) {
+    lineChart.destroy();
+  }
+
+  const ctx = document.getElementById('lineChart').getContext('2d');
+
+  lineChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: xValues,
+      datasets: [{
+        label: 'Best Selling Products',
+        borderColor: 'blue',
+        backgroundColor: 'rgba(0, 0, 255, 0.2)',
+        data: yValues,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Best Selling Products',
+          font: {
+            size: 18,
+            family: 'Arial',
+            weight: 'bold'
+          },
+          color: '#333'
+        },
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true
+        },
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
+
+async function fetchSalesData(range) {
+  try {
+    const response = await fetch('/admin/filter-sales-data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ range })
+    });
+    const data = await response.json();
+    
+    // Assuming 'categories' is for the bar chart and 'products' is for the line chart
+    renderBarChart(data?.salesData.categories); // Pass the categories data to the bar chart
+    renderLineChart(data?.salesData?.products.bestSellingProducts); // Pass the bestSellingProducts array to the line chart
+
+  } catch (error) {
+    console.error('Error fetching sales data:', error);
+  }
+}
+
+
+
+
+// Event listener for time range selection
+document.getElementById('timeRange').addEventListener('change', function() {
+  fetchSalesData(this.value);
+});
+
+// Initial data rendering when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+  const salesData = JSON.parse('<%- salesData %>');
+  renderBarChart(salesData);
+});
+
+
+
+</script>
 
 
       <%- include('../layout/adminFooter') %>

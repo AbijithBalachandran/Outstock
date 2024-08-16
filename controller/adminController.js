@@ -204,7 +204,7 @@ const dashboard = async (req, res) => {
           totalSoldProducts,
           totalRevenue,
           totalUsers,
-          todaySoldProducts
+          todaySoldProducts,
         });
     
       } catch (error) {
@@ -224,6 +224,8 @@ const dashboardFilter = async (req, res) => {
         let matchCondition = {};
     
         const now = new Date();
+
+
         if (range === 'daily') {
           matchCondition = {
             orderDate: {
@@ -261,6 +263,36 @@ const dashboardFilter = async (req, res) => {
           };
         }
     
+        // const salesData = await Order.aggregate([
+        //   { $unwind: "$orderItem" },
+        //   { $match: matchCondition },
+        //   {
+        //     $group: {
+        //       _id: "$orderItem.category",
+        //       totalSales: { $sum: { $multiply: ["$orderItem.quantity", "$orderItem.price"] } }
+        //     }
+        //   },
+        //   {
+        //     $lookup: {
+        //       from: "categories",
+        //       localField: "_id",
+        //       foreignField: "_id",
+        //       as: "category"
+        //     }
+        //   },
+        //   { $unwind: "$category" },
+        //   {
+        //     $project: {
+        //       _id: 0,
+        //       category: "$category.name",
+        //       totalSales: 1
+        //     }
+        //   },
+        //   { $match: { category: { $ne: null } } }
+        // ]);
+    
+        // res.json({ salesData }); 
+        
         const salesData = await Order.aggregate([
           { $unwind: "$orderItem" },
           { $match: matchCondition },
@@ -289,7 +321,10 @@ const dashboardFilter = async (req, res) => {
           { $match: { category: { $ne: null } } }
         ]);
     
-        res.json({ salesData }); 
+        const bestSellingProducts = await getBestSellingProducts();
+    
+        res.json({ salesData: { categories: salesData, products: bestSellingProducts } });
+
       } catch (error) {
         console.error(error.message);
         res.status(500).json({ message: error.message });
