@@ -81,6 +81,7 @@ user_Router.delete('/manage-address',userController.deleteUser);
 
 user_Router.get('/update-Profile',userAuth.isLogin,userController.updateProfileLoad);
 user_Router.put('/update-Profile',userController.updateProfile);
+user_Router.post('/change-password',userController.changePasswordinProfile);
 
 user_Router.get('/forgotPassword',userController.forgotPasswordPage);
 user_Router.post('/forgotPassword',userController.changePassword);

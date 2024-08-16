@@ -872,6 +872,42 @@ const EnterOtpAndChangePassword = asyncHandler(async(req,res)=>{
         }
 });
 
+//---------------------------------------changePassword in Profile ------------------------------------------------------------------------------------------------------------------
+
+const changePasswordinProfile = async (req, res) => {
+    try {
+        const { userId, currentPassword, newPassword } = req.body;
+
+      console.log('userId==',userId);
+      
+        const user = await User.findById(userId);
+        console.log('userrr====',user);
+        
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        // Check if current password matches
+        const isMatch = await user.comparePassword(currentPassword);
+        if (!isMatch) {
+            return res.status(400).json({ success: false, message: 'Current password is incorrect' });
+        }
+
+        // Hash the new password
+        const hashedPassword = await hashingPassword(newPassword);
+
+        // Update the password in the database
+        user.password = hashedPassword;
+        await user.save();
+
+        return res.status(200).json({ success: true, message: 'Password changed successfully' });
+        
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
+
 //-----------------------------------------------------------------------------------------------
 
 module.exports = {
@@ -902,5 +938,6 @@ module.exports = {
       changePassword,
       EnterOtp,
       EnterOtpAndChangePassword,
+      changePasswordinProfile
 
 }
