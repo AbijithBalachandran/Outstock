@@ -3,7 +3,7 @@ const Coupon = require('../Models/coupon');
 const { logOut } = require('./adminController');
 const { findOne } = require('../Models/cart');
 const mongoose = require('mongoose')
-
+const Cart = require('../Models/cart');
 
 //------------------couponManagement Page Load---------------
 
@@ -138,6 +138,10 @@ const deleteCoupon = asyncHandler(async(req,res)=>{
 //------------------------------------Apply Coupon------------------------------------------
 
 const applyCoupon = asyncHandler(async (req, res) => {
+
+      const offerDiscount = req.session.totalDiscount;
+      const offerProducts = req.session.offerProducts;
+
       const { couponCode, total } = req.body;
       if (!couponCode) {
             
@@ -156,21 +160,24 @@ const applyCoupon = asyncHandler(async (req, res) => {
           });
       }
    
+      // console.log('couponData.discount',couponData.discount);
       
       const discountAmount = total * (couponData.discount / 100);
+
       const couponDiscount = Math.min(
             discountAmount,
             couponData.maxredeemableAmt || couponData.maxredeemableAmt
       ); 
       const shippingCharge = 100;
-      const discountedTotal = total - couponDiscount + shippingCharge;
-      console.log(discountedTotal);
+      let discountedTotal = total - couponDiscount + shippingCharge;
+
+      if (offerProducts) {
+            discountedTotal = total - offerDiscount- couponDiscount + shippingCharge
+      }
       
       req.session.coupon = couponData.discount;
       req.session.couponId = couponData._id;
-      req.session.total = discountedTotal;
-  
-
+      req.session.coupontotal = discountedTotal;
 
       res.status(200).json({ discountedTotal,couponDiscount });
   });

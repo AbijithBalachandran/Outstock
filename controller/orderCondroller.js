@@ -33,6 +33,8 @@ var instance = new Razorpay({
 const checkoutPageLoad = asyncHandler(async (req, res) => {
     const userId = req.session.userData_id;
     const couponId = req.session.couponId;
+    const discountedTotal = req.session.coupontotal ? req.session.coupontotal : '0.00' ;
+
     const user = await User.findById(userId);
     const cart = await Cart.find({ user: userId }).populate('cartItem.products');
     const address = await Address.find({ user: userId });
@@ -41,7 +43,7 @@ const checkoutPageLoad = asyncHandler(async (req, res) => {
     const shippingCharge = 100;
 
     if (!cart || cart.length === 0) {
-        return res.render('checkout', { address, cart: [], total: 0, user, coupon ,shippingCharge,activePage:"chechout"});
+        return res.render('checkout', { address, cart: [], total: 0, user, coupon ,shippingCharge,activePage:"chechout",discountedTotal});
     }
 
     const total = cart[0].cartItem.reduce((acc, val) => acc + val.products.price * val.quantity, 0);
@@ -79,7 +81,7 @@ const checkoutPageLoad = asyncHandler(async (req, res) => {
 
     req.session.grandtotal = grandTotal;
 
-    res.render('checkout', { address, cart, total, user, coupon, grandTotal, shippingCharge,couponId ,totalDiscount,offerProducts,activePage:"checkout"});
+    res.render('checkout', { address, cart, total, user, coupon, grandTotal, shippingCharge,couponId ,totalDiscount,offerProducts,activePage:"checkout",discountedTotal});
 });
 
 
@@ -90,7 +92,7 @@ const checkoutPageLoad = asyncHandler(async (req, res) => {
 const createOrder = asyncHandler(async (req, res) => {
 
     const offerProducts = req.session.offerProducts ;
-   
+    let discountedTotal = req.session.coupontotal;
     const couponId = req.session.couponId;
     const cartTotal = req.session.total;
 
@@ -108,9 +110,11 @@ const createOrder = asyncHandler(async (req, res) => {
     const shippingCharge = 100;
     grandTotal = cartTotal + shippingCharge;
 
-    const cartAmount = cart.cartItem.reduce((acc, val) => acc + (val.products.price * val.quantity), 0) * 100;
+    const cartAmount = cart.cartItem.reduce((acc, val) => acc + (val.products.price * val.quantity), 0);
+    console.log('cartAmount '+cartAmount );
     
-    let amount = cartAmount + shippingCharge;
+    let amount = cartAmount + shippingCharge*100;
+
 
 
   
@@ -123,7 +127,7 @@ let offerDetails = {
     discount: 0,
     offerType: ' ',
   };
-
+  let totalDiscount = 0;
   if(offerProducts){
 
     async function calculateOfferDiscount(product) {
@@ -137,7 +141,7 @@ let offerDetails = {
         }
         return 0;
     }
-    let totalDiscount = 0;
+    
     for (const item of offerProducts) {
         const discount = await calculateOfferDiscount(item.products);
         totalDiscount += discount * item.quantity;
@@ -150,7 +154,9 @@ let offerDetails = {
     }
 
     grandTotal -=totalDiscount;
+    amount =grandTotal*100
   }
+  
     
  //-------------------coupon appply------------------------------------
 
@@ -160,6 +166,8 @@ let offerDetails = {
     miniPurchaseAmt: 0,
     maxredeemableAmt: 0
   };
+
+  let couponDiscount = 0;
 
  if(couponId){
      const coupon = await Coupon.findOne({_id:couponId });
@@ -183,9 +191,13 @@ let offerDetails = {
    }
 
    grandTotal -=couponDiscount;
+   amount = discountedTotal* 100;
  }
 
-console.log('grandTotal'+grandTotal);
+   if (offerProducts&&couponId) {
+    grandTotal = cartTotal-couponDiscount-totalDiscount+shippingCharge;
+    amount = discountedTotal* 100;
+   }
 
     const orderItems = cart.cartItem.map(item => ({
         productId: item.products._id,
@@ -252,6 +264,8 @@ req.session.orderId = orderData._id;
         }
     });
 
+    console.log('amount===',amount);
+    
 });
 
 
@@ -612,7 +626,7 @@ const removeProduct = asyncHandler(async (req, res) => {
 
 const trakingPageLoad = asyncHandler(async (req, res) => {
     const orderId = req.query.orderId;
-    const discountedTotal = req.session.total;
+    const discountedTotal = req.session.coupontotal;
     const userId =req.session.userData_id
 
     if (!orderId || !mongoose.Types.ObjectId.isValid(orderId)) { 

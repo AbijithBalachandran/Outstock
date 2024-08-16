@@ -16,7 +16,7 @@ async function applyCoupon(event) {
           });
           if (response.ok) {
               const data = await response.json();
-              document.getElementById('discount').innerText = data.couponDiscount ;
+              document.getElementById('couponDiscount').innerText = data.couponDiscount ;
               document.getElementById('grandTotal').innerText = data.discountedTotal;
               Swal.fire('Coupon applied successfully!');
               window.loca
