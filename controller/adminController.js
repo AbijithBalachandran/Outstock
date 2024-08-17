@@ -225,14 +225,15 @@ const dashboardFilter = async (req, res) => {
     
         const now = new Date();
 
-
-        if (range === 'daily') {
-          matchCondition = {
-            orderDate: {
-              $gte: new Date(now.setHours(0, 0, 0, 0)),
-              $lte: new Date(now.setHours(23, 59, 59, 999))
-            }
-          };
+    if (range === 'daily') {
+      const startOfDay = new Date(now.setHours(0, 0, 0, 0));
+      const endOfDay = new Date(now.setHours(23, 59, 59, 999));
+      matchCondition = {
+        orderDate: {
+          $gte: startOfDay,
+          $lte: endOfDay
+        }
+      };
         } else if (range === 'weekly') {
           const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
           const endOfWeek = new Date(startOfWeek);
