@@ -261,38 +261,7 @@ const dashboardFilter = async (req, res) => {
               $lte: endOfYear
             }
           };
-        }
-    
-        // const salesData = await Order.aggregate([
-        //   { $unwind: "$orderItem" },
-        //   { $match: matchCondition },
-        //   {
-        //     $group: {
-        //       _id: "$orderItem.category",
-        //       totalSales: { $sum: { $multiply: ["$orderItem.quantity", "$orderItem.price"] } }
-        //     }
-        //   },
-        //   {
-        //     $lookup: {
-        //       from: "categories",
-        //       localField: "_id",
-        //       foreignField: "_id",
-        //       as: "category"
-        //     }
-        //   },
-        //   { $unwind: "$category" },
-        //   {
-        //     $project: {
-        //       _id: 0,
-        //       category: "$category.name",
-        //       totalSales: 1
-        //     }
-        //   },
-        //   { $match: { category: { $ne: null } } }
-        // ]);
-    
-        // res.json({ salesData }); 
-        
+        } 
         const salesData = await Order.aggregate([
           { $unwind: "$orderItem" },
           { $match: matchCondition },

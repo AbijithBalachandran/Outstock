@@ -532,6 +532,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const salesData = JSON.parse('<%- salesData %>');
   renderBarChart(salesData);
   renderLineChart(salesData);
+  fetchSalesData('daily');
 });
 
 
