@@ -101,7 +101,7 @@ const editAndUpdateLoad = asyncHandler(async (req, res) => {
         const existingCategory = await Category.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
         if (existingCategory) {
             const categories = await Category.findById(id);
-            return res.render('editCategory', { categories, message: 'It\'s already added' });
+            return res.render('editCategory', { categories, message: 'It\'s already added',ActivePage: 'categoryManagement' });
         }
     
         await Category.findByIdAndUpdate(
