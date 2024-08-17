@@ -511,16 +511,13 @@ async function fetchSalesData(range) {
     const data = await response.json();
     
     // Assuming 'categories' is for the bar chart and 'products' is for the line chart
-    renderBarChart(data?.salesData.categories); // Pass the categories data to the bar chart
+    renderBarChart(data?.salesData?.categories); // Pass the categories data to the bar chart
     renderLineChart(data?.salesData?.products.bestSellingProducts); // Pass the bestSellingProducts array to the line chart
 
   } catch (error) {
     console.error('Error fetching sales data:', error);
   }
 }
-
-
-
 
 // Event listener for time range selection
 document.getElementById('timeRange').addEventListener('change', function() {
@@ -534,8 +531,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderLineChart(salesData);
   fetchSalesData('daily');
 });
-
-
 
 </script>
 
