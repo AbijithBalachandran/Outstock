@@ -527,9 +527,9 @@ document.getElementById('timeRange').addEventListener('change', function() {
 // Initial data rendering when the page loads
 document.addEventListener('DOMContentLoaded', () => {
   const salesData = JSON.parse('<%- salesData %>');
+  fetchSalesData('daily');
   renderBarChart(salesData);
   renderLineChart(salesData);
-  fetchSalesData('daily');
 });
 
 </script>
