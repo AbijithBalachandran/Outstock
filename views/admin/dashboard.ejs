@@ -432,6 +432,9 @@ function renderBarChart(data) {
         }
       },
       scales: {
+        x: {
+          beginAtZero: true
+        },
         y: {
           beginAtZero: true
         }
@@ -528,6 +531,7 @@ document.getElementById('timeRange').addEventListener('change', function() {
 document.addEventListener('DOMContentLoaded', () => {
   const salesData = JSON.parse('<%- salesData %>');
   renderBarChart(salesData);
+  renderLineChart(salesData);
 });
 
 

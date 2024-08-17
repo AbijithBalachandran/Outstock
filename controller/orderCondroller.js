@@ -115,11 +115,6 @@ const createOrder = asyncHandler(async (req, res) => {
     
     let amount = cartAmount + shippingCharge*100;
 
-
-
-  
-
-
 //-------------------offer apply --------------
 
 let offerDetails = {
