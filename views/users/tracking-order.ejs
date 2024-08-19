@@ -59,7 +59,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="order-header">
-                        <span>Order ID : <%= order._id %></span><br>
+                        <span>Order ID : <span class="text-dark"><%= order._id.toString().slice(0, 6) %></span></span><br>
                         <span>Placed On : <%= new Date(order.orderDate).toLocaleDateString('en-US', {
                             weekday: 'short',
                             month: 'short',

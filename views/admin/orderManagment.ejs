@@ -139,7 +139,7 @@
                     <% if (order.length > 0) { %>
                         <% order.forEach(item => { %>
                             <tr>
-                                <th scope="row"><%= item._id %></th>
+                                <th scope="row"><%= item._id.toString().slice(0, 6)  %></th>
                                 <td><%= item.address.userName %></td>
                                 <td><%= item.paymentMethod%></td>
                                 <td>

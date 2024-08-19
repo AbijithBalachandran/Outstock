@@ -187,8 +187,9 @@
 
 
     <div class="total-orders">
-        Total Orders: <span id="totalOrders">11</span>
+        Total Orders: <span id="totalOrders"></span>
     </div>
+
     <div class="row mt-4">
         <div class="col-12">
             <div class="report-item orders-products">
@@ -208,27 +209,17 @@
                     <tbody id="orders-products-table">
                         <% if (order && order.length > 0) { %>
                             <% order.forEach(item => { %>
-                                <tr>
-                                    <td><%= item._id %></td>
-                                    <td>
-                                        <% item.orderItem.forEach(orderItem => { %>
-                                            <%= orderItem.productName %><br>
-                                        <% }); %>
-                                    </td>
-                                    <td>
-                                        <% item.orderItem.forEach(orderItem => { %>
-                                            <%= orderItem.quantity %><br>
-                                        <% }); %>
-                                    </td>
-                                    <td>
-                                        <% item.orderItem.forEach(orderItem => { %>
-                                            <%= orderItem.price %><br>
-                                        <% }); %>
-                                    </td>
-                                    <td><%= item.couponDetails.discount || item.offerDetails.discount %></td>
-                                    <td><%= item.totalPrice %></td>
-                                    <td><%= item.paymentMethod %></td>
-                                </tr>
+                                <% item.orderItem.forEach(orderItem => { %>
+                                    <tr>
+                                        <td><%= item._id.toString().slice(0, 6) %></td>
+                                        <td><%= orderItem.productName %></td>
+                                        <td><%= orderItem.quantity %></td>
+                                        <td><%= orderItem.price %></td>
+                                        <td><%= item.couponDetails.discount || item.offerDetails.discount || 0 %></td>
+                                        <td><%= (orderItem.price * orderItem.quantity) - (item.couponDetails.discount || 0) %></td>
+                                        <td><%= item.paymentMethod %></td>
+                                    </tr>
+                                <% }); %>
                             <% }); %>
                         <% } else { %>
                             <tr>
@@ -243,12 +234,13 @@
 </div>
 
 
+
 <!-- Pagination Start -->
 <nav aria-label="Page navigation example" class="d-flex justify-content-end me-4">
     <ul class="pagination">
         <% if (currentPage > 1) { %>
             <li class="page-item">
-                <a class="page-link" href="/admin/salesReport?page=<%= currentPage - 1 %><%= filterParams.startDate ? '&startDate=' + filterParams.startDate : '' %><%= filterParams.endDate ? '&endDate=' + filterParams.endDate : '' %>" tabindex="-1">Previous</a>
+                <a class="page-link" href="/admin/salesReport?page=<%= currentPage - 1 %>&sortValue=<%= filterParams.sortValue %>&startDate=<%= filterParams.startDate %>&endDate=<%= filterParams.endDate %>" tabindex="-1">Previous</a>
             </li>
         <% } else { %>
             <li class="page-item disabled">
@@ -258,13 +250,13 @@
 
         <% for (let i = 1; i <= totalPages; i++) { %>
             <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                <a class="page-link" href="/admin/salesReport?page=<%= i %><%= filterParams.startDate ? '&startDate=' + filterParams.startDate : '' %><%= filterParams.endDate ? '&endDate=' + filterParams.endDate : '' %>"><%= i %></a>
+                <a class="page-link" href="/admin/salesReport?page=<%= i %>&sortValue=<%= filterParams.sortValue %>&startDate=<%= filterParams.startDate %>&endDate=<%= filterParams.endDate %>"><%= i %></a>
             </li>
         <% } %>
 
         <% if (currentPage < totalPages) { %>
             <li class="page-item">
-                <a class="page-link" href="/admin/salesReport?page=<%= currentPage + 1 %><%= filterParams.startDate ? '&startDate=' + filterParams.startDate : '' %><%= filterParams.endDate ? '&endDate=' + filterParams.endDate : '' %>">Next</a>
+                <a class="page-link" href="/admin/salesReport?page=<%= currentPage + 1 %>&sortValue=<%= filterParams.sortValue %>&startDate=<%= filterParams.startDate %>&endDate=<%= filterParams.endDate %>">Next</a>
             </li>
         <% } else { %>
             <li class="page-item disabled">
@@ -274,6 +266,7 @@
     </ul>
 </nav>
 <!-- Pagination End -->
+
 
 
 

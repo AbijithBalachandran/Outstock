@@ -55,7 +55,7 @@
                                     month: 'short' , day: 'numeric' , year: 'numeric' }) %>
                             </strong></p>
                         <p>Order ID: <strong>
-                                <%= order._id %>
+                                <%= order._id.toString().slice(0, 6)  %>
                             </strong></p>
                     </div>
                     <div>
@@ -155,12 +155,34 @@
                         <tfoot>
                             <tr>
                                 <th colspan="3" class="text-end">Subtotal:</th>
-                                <th></th>
+                                <th><%= order.totalPrice - 100  %></th>
                             </tr>
                             <tr>
                                 <th colspan="3" class="text-end">Shipping cost:</th>
                                 <th>100</th>
                             </tr>
+                            <% if (order.offerDetails && order.couponDetails) { %>
+                                <tr>
+                                    <th colspan="3" class="text-end">Discount:</th>
+                                    <th><%= (order.offerDetails.discount || 0) + (order.couponDetails.discount || 0) %></th>
+                                </tr>
+                            <% } else if (order.offerDetails) { %>
+                                <tr>
+                                    <th colspan="3" class="text-end">Discount:</th>
+                                    <th><%= order.offerDetails.discount %></th>
+                                </tr>
+                            <% } else if (order.couponDetails) { %>
+                                <tr>
+                                    <th colspan="3" class="text-end">Discount:</th>
+                                    <th><%= order.couponDetails.discount %></th>
+                                </tr>
+                            <% } else { %>
+                                <tr>
+                                    <th colspan="3" class="text-end">Discount:</th>
+                                    <th>00.00</th>
+                                </tr>
+                            <% } %>
+                            
                             <tr>
                                 <th colspan="3" class="text-end">Grand total:</th>
                                 <th><%= order.totalPrice %></th>
