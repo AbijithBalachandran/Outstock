@@ -144,6 +144,7 @@ const updateQuantity = asyncHandler(async (req, res) => {
 
   const stockChange = count - product.quantity;
   if (productData.quantity < stockChange) {
+    // console.log('the quantity greter than stock',stockChange );
       return res.status(400).json({ success: false, message: 'Insufficient stock', quantity: product.quantity });
   }
 

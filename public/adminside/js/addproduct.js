@@ -1,21 +1,21 @@
 
-// Image validation
-
-
 document.addEventListener('DOMContentLoaded', (event) => {
     const form = document.getElementById('productForm');
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-
         const formData = new FormData(form);
         const files = formData.getAll('images');
-        const maxSize = 5 * 1024 * 1024; 
+        const maxSize = 5 * 1024 * 1024; // 5MB
 
         for (const file of files) {
             if (file.size > maxSize) {
-                displayErrors([{ field: 'images', message: 'Each image must be less than 5MB.' }]);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Image Size Error',
+                    text: 'Each image must be less than 5MB.',
+                });
                 return;
             }
         }
@@ -23,7 +23,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const validationErrors = validateForm(formData);
 
         if (validationErrors.length > 0) {
-            displayErrors(validationErrors);
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                text: validationErrors.map(error => error.message).join(', '),
+            });
             return;
         }
 
@@ -35,14 +39,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             if (!response.ok) {
                 const errorText = await response.json();
-                displayErrors([{ field: 'form', message: errorText }]);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Submission Error',
+                    text: errorText.message || 'An error occurred while submitting the form.',
+                });
             } else {
-                window.location.href = '/admin/productManagement';
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Product added successfully!',
+                }).then(() => {
+                    window.location.href = '/admin/productManagement';
+                });
             }
         } catch (error) {
-            displayErrors([{ field: 'form', message: 'An error occurred while submitting the form.' }]);
+            Swal.fire({
+                icon: 'error',
+                title: 'Submission Error',
+                text: 'An error occurred while submitting the form.',
+            });
         }
     });
+
 
     function validateForm(formData) {
         const errors = [];

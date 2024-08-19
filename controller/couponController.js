@@ -31,13 +31,17 @@ const addCouponPage = asyncHandler(async(req,res)=>{
 });
 
 //---------------------Adding New Prodcut ------------------------
-
+  
 const addNewCoupon = asyncHandler(async (req, res) => {
-      
       const { codeNumber, discount, minPurchaseAmount, maxRedeemableAmount, expiryDate } = req.body;
   
+      // Check if the expiryDate is in the past
+      if (new Date(expiryDate) < new Date()) {
+          return res.status(400).json({ message: 'Expiry date cannot be in the past' });
+      }
+  
       const existingCoupon = await Coupon.findOne({ code: { $regex: new RegExp(`^${codeNumber}$`, 'i') } });
-    
+  
       if (existingCoupon) {
           return res.status(400).json({ message: 'Coupon already exists' });
       }
@@ -124,7 +128,8 @@ const updateCouponStatus =asyncHandler(async(req,res)=>{
       let message = !coupon.couponStatus?"coupon list successfully ":"coupon Unlist successfully";
 
       res.status(200).json({message});
-})
+});
+
 //----------------------------------------delete Coupon ----------------------------------
 
 const deleteCoupon = asyncHandler(async(req,res)=>{

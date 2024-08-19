@@ -22,7 +22,7 @@ const offerManagement = asyncHandler(async(req,res)=>{
         res.render('offerManagement',{offer:offerData, currentPage, totalPages ,ActivePage: 'offerManagement'});
 });
 
-//--------------------Add New Offer  Page------------------------------
+//-------------------------------------- Add New Offer  Page------------------------------
 
 const addNewOfferPage =  asyncHandler(async(req,res)=>{
       const products = await Prodcut.find({});
@@ -31,7 +31,7 @@ const addNewOfferPage =  asyncHandler(async(req,res)=>{
 });
 
 
-//--------------------Edit Offers page -------------------------------
+//---------------------------------------Edit Offers page -------------------------------
 
 const editOfferPage = asyncHandler(async (req, res) => {
     try {
@@ -144,36 +144,54 @@ const OfferActiveandDeactivate = asyncHandler(async(req,res)=>{
 
 //------------------------Apply Offer ---------------------------------------------------------------
 
+
 const applyOffer = asyncHandler(async (req, res) => {
     const { offerName, offerType, discount, expiryDate, selectedItems } = req.body;
 
+    // Check if all required fields are provided
     if (!offerName || !offerType || !discount || !expiryDate || !selectedItems) {
         return res.status(400).json({ message: 'All fields are required' });
     }
 
+    const existingOffer = await Offer.findOne({offerName:{$regex: new RegExp(`^${offerName}$`, 'i')}});
+
+    if (existingOffer) {
+        return res.status(400).json({message:'Offer Already exists'})
+    }
+
+    // Convert expiryDate from string to Date object
+    const expiryDateObject = new Date(expiryDate);
+
+    // Check if the expiry date is in the past
+    if (expiryDateObject < new Date()) {
+        return res.status(400).json({ message: 'Expiry date must be in the future' });
+    }
+
+    // Create and save the offer
     const offer = new Offer({
         offerName,
         offerType,
         discount,
         offerStatus: true,
-        expDate: new Date(expiryDate)
+        expDate: expiryDateObject
     });
 
     await offer.save();
 
+    // Update products based on offer type
     if (offerType === 'Category Base') {
-      const productsToUpdate = await Prodcut.find({ category: { $in: selectedItems.categories } });
+        const productsToUpdate = await Prodcut.find({ category: { $in: selectedItems.categories } });
 
-      const updatePromises = productsToUpdate.map(product =>
+        const updatePromises = productsToUpdate.map(product =>
             Prodcut.findByIdAndUpdate(product._id, { $set: { offer: offer._id } })
-      );
-      await Promise.all(updatePromises);
+        );
+        await Promise.all(updatePromises);
 
     } else if (offerType === 'Product Base') {
         await Prodcut.updateMany({ _id: { $in: selectedItems.products } }, { $set: { offer: offer._id } });
     }
 
-    res.status(200).json({ success:true, message: 'Offer applied successfully' });
+    res.status(200).json({ success: true, message: 'Offer applied successfully' });
 });
 
 

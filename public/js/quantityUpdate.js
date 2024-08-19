@@ -1,55 +1,62 @@
-async function changeQuantity(productId, mrp) {
-      setTimeout(() => {
-        const value = document.getElementById(`quantity${productId}`)
 
-        const currentQuantity = parseInt(value.value)
-        if (currentQuantity < 1 || currentQuantity > 5) {
-          const button = document.querySelectorAll('js-qty-adjust')
+async function changeQuantity(productId, mrp) {
+  setTimeout(async () => {
+      const value = document.getElementById(`quantity${productId}`);
+      const increaseButton = document.getElementById(`increase${productId}`);
+      const currentQuantity = parseInt(value.value);
+
+      if (currentQuantity < 1 || currentQuantity > 5) {
           value.value = 5;
-          button.disaple = true;
           Swal.fire({
-            position: "center",
-            icon: "warning",
-            title: "The limit exceeds",
-            showConfirmButton: false,
-            timer: 1500
+              position: "center",
+              icon: "warning",
+              title: "The limit exceeds",
+              showConfirmButton: false,
+              timer: 1500
           });
           return;
-        } else {
-          const price = document.getElementById(`price${productId}`)
-          console.log(mrp, currentQuantity);
+      } else {
+          const price = document.getElementById(`price${productId}`);
           price.textContent = mrp * currentQuantity;
-          const response = fetch(`/update-quantity?id=${productId}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ productId, quantity: currentQuantity })
-          }).then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.json(); // or response.text(), response.blob(), etc.
-          })
-            .then(data => {
-              if(data.total){
-                document.getElementById('total').textContent=data.total;
-              }
-              if (data.message) {
-                Swal.fire({
-                  position: "center",
-                  icon: "warning",
-                  title: data.message,
-                  showConfirmButton: false,
-                  timer: 1500
-                });
-                value.value = data.quantity
-              }
-            })
-            .catch(error => {
-              console.error('There was a problem with the fetch operation:', error);
-            })
-        }
 
-      }, 100)
-    }
+          try {
+              const response = await fetch(`/update-quantity?id=${productId}`, {
+                  method: 'PUT',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ productId, quantity: currentQuantity })
+              });
+
+              if (!response.ok) {
+                  const errorData = await response.json();
+                  if (response.status === 400 && errorData.message) {
+                      Swal.fire({
+                          position: "center",
+                          icon: "warning",
+                          title: errorData.message,
+                          showConfirmButton: false,
+                          timer: 1500
+                      });
+
+                      // Disable only the increase button for the specific product
+                      if (increaseButton) {
+                          increaseButton.disabled = true;
+                      }
+
+                      value.value = errorData.quantity;  // Reset to original quantity
+                  } else {
+                      throw new Error('Network response was not ok');
+                  }
+              } else {
+                  const data = await response.json();
+                  if (data.total) {
+                      document.getElementById('total').textContent = data.total;
+                  }
+              }
+          } catch (error) {
+              console.error('There was a problem with the fetch operation:', error);
+          }
+      }
+  }, 100);
+}

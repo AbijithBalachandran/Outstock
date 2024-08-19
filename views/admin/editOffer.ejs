@@ -176,7 +176,7 @@
       </div>
       <div class="form-group">
         <label for="expiryDate">Expiry Date</label>
-        <input type="date" class="form-control" id="expiryDate" value="<%= offer.expDate %>" required>
+        <input type="date" class="form-control" id="expiryDate" value="<%= offer.expDate.toISOString().split('T')[0] %>" required>
         <div class="invalid-feedback">Please enter an expiry date.</div>
       </div>
       <button type="submit" onclick="editOffer(event)" class="btn-update">Update</button>

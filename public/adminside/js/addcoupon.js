@@ -52,6 +52,11 @@ document.addEventListener('DOMContentLoaded', function() {
           if (expiryDate.value === '') {
               isValid = false;
               expiryDate.classList.add('is-invalid');
+              Swal.fire({
+                icon: 'error',
+                title: 'Invalid Expiry Date',
+                text: 'Expiry date cannot be empty.'
+            });
           } else {
               expiryDate.classList.remove('is-invalid');
           }

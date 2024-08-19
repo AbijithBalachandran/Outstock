@@ -22,16 +22,17 @@ const addCategoryLoad = async (req,res)=>{
             console.log(error.message);
       }
 }
+
 //--------------------------admin addining New category --------------------------------------//
 
 const addNewCategory = async (req, res) => {
     try {
         const { name, action, description } = req.body;
-        console.log('category name'+name);
+
         const existingCategory = await Category.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
 
         if (existingCategory) {
-            return res.render('addCategory', { message: 'It\'s already added', name, action, description });
+            return res.status(400).json({ success: false, message: 'Category already exists!' });
         }
 
         const newCategory = new Category({
@@ -48,12 +49,13 @@ const addNewCategory = async (req, res) => {
             await newCategory.save();
         }
 
-        res.redirect('/admin/categoryManagement');
+        res.status(200).json({ success: true, message: 'Category added successfully!' });
+        
     } catch (error) {
-        console.log(error.message);
-        return res.status(500).render('addCategory', { message: 'An error occurred while adding the category', name, action, description });
+        return res.status(500).json({ success: false, message: 'An error occurred while adding the category.' });
     }
 };
+
 
 
 //----------------------------Update the category status to List and Unlist -------------------------------//
@@ -93,28 +95,39 @@ const addNewCategory = async (req, res) => {
 
 //----------------------------------------------Edit and Update The Categories =-----------------------------------//
 
-
 const editAndUpdateLoad = asyncHandler(async (req, res) => {
     try {
         const { name, description, id } = req.body;
-    
-        const existingCategory = await Category.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
-        if (existingCategory) {
-            const categories = await Category.findById(id);
-            return res.render('editCategory', { categories, message: 'It\'s already added',ActivePage: 'categoryManagement' });
+
+        // Check if id is an array and handle it
+        const idToUse = Array.isArray(id) ? id[0] : id;
+
+        // Validate the id
+        if (!mongoose.Types.ObjectId.isValid(idToUse)) {
+            return res.status(400).json({ success: false, message: 'Invalid ID format.' });
         }
-    
+
+        // Check for existing category excluding the current one
+        const existingCategory = await Category.findOne({ _id: { $ne: idToUse }, name: { $regex: new RegExp(`^${name}$`, 'i') } });
+        if (existingCategory) {
+            return res.status(400).json({ success: false, message: 'This category already exists.' });
+        }
+
+        // Update the category
         await Category.findByIdAndUpdate(
-            id,
+            idToUse,
             { $set: { name, description } }
         );
-    
-        res.redirect('/categoryManagement');
+
+        res.status(200).json({ success: true, message: 'Category updated successfully.' });
     } catch (error) {
-        console.error('Error occurred in editAndUpdateLoad:', error);
-        res.status(500).send('Internal Server Error');
+        console.error('Error occurred in editAndUpdateLoad:', error.message);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 });
+
+
+
 
 
 //---------------------------------------------    -----------------------------------------------------------//

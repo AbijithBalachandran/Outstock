@@ -50,6 +50,11 @@ document.getElementById('offerType').addEventListener('change', function () {
   .then(response => response.json())
   .then(data => {
       if (data.message === 'Offer applied successfully') {
+        Swal.fire({
+            title: "'OFFER EDIT SUCCESSFULY'!",
+            text: "You clicked the button!",
+            icon: "success"
+          });
           window.location.href = "/admin/offerManagement";
       } else {
           Swal.fire(data.message);

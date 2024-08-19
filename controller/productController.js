@@ -39,6 +39,14 @@ const addNewproduct = asyncHandler(async(req,res)=>{
         if (!categoryDoc) {
             return res.status(400).json({message: 'Category not found'});
         }
+    
+        // Check for existing Product excluding the current one
+        const existingProduct = await Products.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
+        if (existingProduct ) {
+            return res.status(400).json({ success: false, message: 'This Product already exists.' });
+        }
+
+
         const categoryId = categoryDoc._id;
 
            const images = req.files.map(file => file.filename);
@@ -105,50 +113,67 @@ const editProductLoad = asyncHandler(async(req,res)=>{
 //----------------------------------------------edit product -----------------------------------------------------
 
 const editAndUpdateProduct = asyncHandler(async (req, res) => {
+    const { name, action, description, price, discount, disPrice, category, quantity, type, id } = req.body;
 
-    let {name,action,description,price,discount,disPrice,category,quantity,type} = req.body
-           const categoryDoc = await categories.findOne({ name:{ $regex: new RegExp(`^${category}$`, 'i') }})
-        
+    try {
+        // Find the category
+        const categoryDoc = await categories.findOne({ name: { $regex: new RegExp(`^${category}$`, 'i') } });
         if (!categoryDoc) {
-            return res.status(400).send('Category not found');
+            return res.status(400).json({ success: false, message: 'Category not found' });
         }
         const categoryId = categoryDoc._id;
-        console.log("categoryId: " + categoryId);
 
+        // Check if the product exists, excluding the current product being edited
+        const existingProduct = await Products.findOne({
+            _id: { $ne: id },
+            name: { $regex: new RegExp(`^${name}$`, 'i') }
+        });
 
-     const existingProduct = await Products.findById(req.body.id);
-    console.log('existingProduct'+existingProduct);
-    if (!existingProduct) {
-        return res.status(404).json({ message: 'Product not found' });
-    }
-
-    const newImages = req.files ? req.files.map(file => file.filename) : [];
-
-    const updatedImages = [...existingProduct.images];
-    for (let i = 0; i < newImages.length; i++) {
-        updatedImages[i] = newImages[i];
-    }
-
- await Products.findByIdAndUpdate(
-         req.body.id ,
-        {
-            $set: {
-                name:name,
-                action:action,
-                description:description,
-                price:price,
-                discount:discount,
-                disPrice:disPrice,
-                category:categoryId,
-                images: updatedImages,
-                quantity:quantity,
-                type:type,
-            }
+        if (existingProduct) {
+            return res.status(400).json({ success: false, message: 'This product already exists' });
         }
-    );
 
-    console.log("Edit success");
-    res.redirect('productManagement');
+        // Find the product being edited
+        const productToUpdate = await Products.findById(id);
+        if (!productToUpdate) {
+            return res.status(404).json({ success: false, message: 'Product not found' });
+        }
+
+        // Handle new images
+        const newImages = req.files ? req.files.map(file => file.filename) : [];
+        const updatedImages = [...productToUpdate.images];
+
+        // Replace existing images with new images if new images are provided
+        for (let i = 0; i < newImages.length; i++) {
+            updatedImages[i] = newImages[i];
+        }
+
+        // Update the product
+        await Products.findByIdAndUpdate(
+            id,
+            {
+                $set: {
+                    name: name,
+                    action: action,
+                    description: description,
+                    price: price,
+                    discount: discount,
+                    disPrice: disPrice,
+                    category: categoryId,
+                    images: updatedImages,
+                    quantity: quantity,
+                    type: type,
+                }
+            }
+        );
+
+        console.log("Product updated successfully");
+        res.json({ success: true, message: 'Product updated successfully' });
+
+    } catch (error) {
+        console.error('Error occurred in editAndUpdateProduct:', error);
+        res.status(500).json({ success: false, message: 'An unexpected error occurred' });
+    }
 });
 
 
@@ -166,7 +191,7 @@ const editAndUpdateProduct = asyncHandler(async (req, res) => {
        }
 
       const productInfo = await Products.findById({_id:id});
-             // console.log("-----------------------productINFO"+productInfo);
+
               productInfo.action = !productInfo.action;
               await productInfo.save();
         

@@ -891,22 +891,31 @@ const cancelOrder = asyncHandler(async (req, res) => {
 //-------------------------------wallet rendering --------------------------------------------------------------
 
 const walletPage = asyncHandler(async (req, res) => {
-    
     const userId = req.query.id;
 
     if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
         return res.status(404).redirect('/404');
-       }
+    }
 
-    const FirstPage = 4;
+    const FirstPage = 7;
     const currentPage = parseInt(req.query.page) || 1;
 
     const start = (currentPage - 1) * FirstPage;
 
-    const walletData = await Wallet.findOne({ userId: userId }).skip(start).limit(FirstPage);
-    const wallet = await Wallet.countDocuments({});
+    // Find the wallet
+    const wallet = await Wallet.findOne({ userId: userId });
 
-    const totalPages = Math.ceil(wallet / FirstPage);
+    if (!wallet) {
+        return res.status(404).send('Wallet not found');
+    }
+
+    // Sort transactions by date in descending order
+    const sortedTransactions = wallet.transaction
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    // Pagination
+    const paginatedTransactions = sortedTransactions.slice(start, start + FirstPage);
+    const totalPages = Math.ceil(sortedTransactions.length / FirstPage);
 
     const user = await User.findById(userId);
     
@@ -920,9 +929,9 @@ const walletPage = asyncHandler(async (req, res) => {
         cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
     }
 
-    res.render('wallet', { wallet: walletData, currentPage, totalPages, user, cartCount,activePage:"wallet" });
-
+    res.render('wallet', { wallet: paginatedTransactions, currentPage, totalPages, user, cartCount, activePage: "wallet" });
 });
+
 
 //--------------------------------parchasing product - using wallet amount -------------
 

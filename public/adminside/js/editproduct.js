@@ -11,39 +11,89 @@ function previewImage(event, previewId) {
 
 
 // form validation
-document.addEventListener('DOMContentLoaded', (event) => {
-      const form = document.getElementById('productForm');
+// document.addEventListener('DOMContentLoaded', (event) => {
+//       const form = document.getElementById('productForm');
       
-      form.addEventListener('submit', async (event) => {
-          event.preventDefault();
+//       form.addEventListener('submit', async (event) => {
+//           event.preventDefault();
   
-          const formData = new FormData(form);
-          console.log("Form Data Entries:", Array.from(formData.entries())); // Log all form data
-          const validationErrors = validateForm(formData);
+//           const formData = new FormData(form);
+//           console.log("Form Data Entries:", Array.from(formData.entries())); // Log all form data
+//           const validationErrors = validateForm(formData);
   
-          if (validationErrors.length > 0) {
-              console.log("Validation errors found:", validationErrors);
-              displayErrors(validationErrors);
-              return;
-          }
+//           if (validationErrors.length > 0) {
+//               console.log("Validation errors found:", validationErrors);
+//               displayErrors(validationErrors);
+//               return;
+//           }
   
-          try {
-              const response = await fetch('/admin/editProduct', {
-                  method: 'POST',
-                  body: formData,
-              });
+//           try {
+//               const response = await fetch('/admin/editProduct', {
+//                   method: 'POST',
+//                   body: formData,
+//               });
   
-              if (!response.ok) {
-                  const errorText = await response.text();
-                  displayErrors([{ field: 'form', message: errorText }]);
-              } else {
-                  window.location.href = '/admin/productManagement';
-              }
-          } catch (error) {
-              displayErrors([{ field: 'form', message: 'An error occurred while submitting the form.' }]);
-          }
-      });
+//               if (!response.ok) {
+//                   const errorText = await response.text();
+//                   displayErrors([{ field: 'form', message: errorText }]);
+//               } else {
+//                   window.location.href = '/admin/productManagement';
+//               }
+//           } catch (error) {
+//               displayErrors([{ field: 'form', message: 'An error occurred while submitting the form.' }]);
+//           }
+//       });
   
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    const form = document.getElementById('productForm');
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        console.log("Form Data Entries:", Array.from(formData.entries())); // Log all form data
+
+        const validationErrors = validateForm(formData);
+
+        if (validationErrors.length > 0) {
+            console.log("Validation errors found:", validationErrors);
+            displayErrors(validationErrors);
+            return;
+        }
+
+        try {
+            const response = await fetch('/admin/editProduct', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: result.message || 'An error occurred while submitting the form.',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: result.message || 'Product updated successfully',
+                }).then(() => {
+                    window.location.href = '/admin/productManagement';
+                });
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while submitting the form.',
+            });
+        }
+    });
+
       function validateForm(formData) {
           const errors = [];
   

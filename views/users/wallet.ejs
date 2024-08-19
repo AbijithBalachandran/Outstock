@@ -134,12 +134,12 @@
         </thead>
         <tbody>
           
-        <% for (let i = 0; i < wallet.transaction.length; i++) {%>
+        <% for (let i = 0; i < wallet.length; i++) {%>
             <tr>
               <td><%= i+1 %></td>
-              <td><%= wallet.transaction[i].amount  %></td>
-              <td><%= wallet.transaction[i].PaymentType %></td>
-              <td><%= new Date(wallet.transaction[i].date).toLocaleDateString('en-US', {
+              <td><%= wallet[i].amount  %></td>
+              <td><%= wallet[i].PaymentType %></td>
+              <td><%= new Date(wallet[i].date).toLocaleDateString('en-US', {
                 weekday: 'short',
                 month: 'short',
                 day: 'numeric',
