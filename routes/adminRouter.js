@@ -50,8 +50,8 @@ admin_Router.get('/salesReport',adminAuth.isLogin,adminController.salesReportPag
 admin_Router.post('/filterSalesReport',adminController.filterSalesReport);
 admin_Router.post('/customSalesReport',adminController.customFilter);
 
-admin_Router.post('/downloadPDF',fetchOrders,adminController.generatePDF);
-admin_Router.post('/downloadExcel',fetchOrders,adminController.generateExcel);
+admin_Router.get('/downloadPDF',fetchOrders,adminController.generatePDF);
+admin_Router.get('/downloadExcel',fetchOrders,adminController.generateExcel);
 
 //--------------catogorymanagement in categoryController ----------------------------//
 

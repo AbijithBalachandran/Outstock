@@ -236,11 +236,11 @@
 
 
 <!-- Pagination Start -->
-<nav aria-label="Page navigation example" class="d-flex justify-content-end me-4">
+<nav aria-label="Page navigation example" class="d-flex justify-content-end me-5">
     <ul class="pagination">
         <% if (currentPage > 1) { %>
             <li class="page-item">
-                <a class="page-link" href="/admin/salesReport?page=<%= currentPage - 1 %>&sortValue=<%= filterParams.sortValue %>&startDate=<%= filterParams.startDate %>&endDate=<%= filterParams.endDate %>" tabindex="-1">Previous</a>
+                <a class="page-link" href="/admin/salesReport?page=<%= currentPage - 1 %>&sortValue=<%= filterParams.sortValue || '' %>&startDate=<%= filterParams.startDate || '' %>&endDate=<%= filterParams.endDate || '' %>" tabindex="-1">Previous</a>
             </li>
         <% } else { %>
             <li class="page-item disabled">
@@ -250,13 +250,13 @@
 
         <% for (let i = 1; i <= totalPages; i++) { %>
             <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                <a class="page-link" href="/admin/salesReport?page=<%= i %>&sortValue=<%= filterParams.sortValue %>&startDate=<%= filterParams.startDate %>&endDate=<%= filterParams.endDate %>"><%= i %></a>
+                <a class="page-link" href="/admin/salesReport?page=<%= i %>&sortValue=<%= filterParams.sortValue || '' %>&startDate=<%= filterParams.startDate || '' %>&endDate=<%= filterParams.endDate || '' %>"><%= i %></a>
             </li>
         <% } %>
 
         <% if (currentPage < totalPages) { %>
             <li class="page-item">
-                <a class="page-link" href="/admin/salesReport?page=<%= currentPage + 1 %>&sortValue=<%= filterParams.sortValue %>&startDate=<%= filterParams.startDate %>&endDate=<%= filterParams.endDate %>">Next</a>
+                <a class="page-link" href="/admin/salesReport?page=<%= currentPage + 1 %>&sortValue=<%= filterParams.sortValue || '' %>&startDate=<%= filterParams.startDate || '' %>&endDate=<%= filterParams.endDate || '' %>">Next</a>
             </li>
         <% } else { %>
             <li class="page-item disabled">
@@ -269,68 +269,55 @@
 
 
 
-
 <script>
-
-async function downloadPDF() { 
-    try {
-        const response = await fetch('/admin/downloadPDF', {
-            method: 'POST',
+    async function downloadPDF() { 
+        const url = new URL('/admin/downloadPDF', window.location.origin);
+        const params = new URLSearchParams(window.location.search);
+        url.search = params.toString();
+    
+        const response = await fetch(url, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
         });
-
+    
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            console.error('Network response was not ok');
+            return;
         }
-
+    
         const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = 'sales_report.pdf';
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-    } catch (error) {
-        console.error('Error downloading PDF:', error);
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'sales_report.pdf';
+        link.click();
     }
-}
-
-
-
-async function downloadExcel() {
-    try {
-        const response = await fetch('/admin/downloadExcel', {
-            method: 'POST',
+    
+    async function downloadExcel() {
+        const url = new URL('/admin/downloadExcel', window.location.origin);
+        const params = new URLSearchParams(window.location.search);
+        url.search = params.toString();
+    
+        const response = await fetch(url, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
         });
-
+    
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            console.error('Network response was not ok');
+            return;
         }
-
+    
         const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = 'sales_report.xlsx';
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-    } catch (error) {
-        console.error('Error downloading Excel:', error);
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'sales_report.xlsx';
+        link.click();
     }
-}
-
-
-</script>
-
+    </script>
 
 
 <!-- Bootstrap JS and dependencies -->
@@ -343,7 +330,7 @@ async function downloadExcel() {
 </body>
 
                         <!-- Back to Top -->
-                        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
+                        <a href="#" class="btn btn-lg btn-light btn-lg-square back-to-top ms-4"><i
                                 class="bi bi-arrow-up"></i></a>
                 </div>
     </div>

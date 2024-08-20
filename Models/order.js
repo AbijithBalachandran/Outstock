@@ -151,7 +151,7 @@ const orderSchema = new mongoose.Schema({
         orderStatus: {
             type: String,
             default: 'Processing',
-            enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Returned', 'Return requested', 'Return approved', 'Return Rejected', 'Refunded']
+            enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Returned','Completed', 'Return requested', 'Return approved', 'Return Rejected', 'Refunded']
       },
       returnReason: {
         type: String,

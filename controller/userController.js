@@ -652,72 +652,70 @@ const getBestSellingProducts = async (limit = 5) => {
 //------------------------------------------------shop page loads ---------------------------------------------------------------------------
 
 const shopLoad = asyncHandler(async (req, res) => {
+    const FirstPage = 8;
+    const currentPage = parseInt(req.query.page) || 1;
+    const start = (currentPage - 1) * FirstPage;
 
-      const FirstPage = 8;
-      const currentPage = parseInt(req.query.page) || 1;
+    // Fetch user ID from session
+    const user_id = req.session.userData_id;
+    let user = null;
+    if (user_id) {
+        try {
+            user = await User.findOne({ _id: user_id });
+        } catch (error) {
+            console.error('Error fetching user:', error);
+            return res.status(500).send('Internal Server Error');
+        }
+    }
 
-      const start = (currentPage - 1) * FirstPage;
+    // Fetch query parameters
+    const categoryId = req.query.id;
+    const sortBy = req.query.sort_by;
 
-      const  productData = await Products.find({}).populate('category').skip(start).limit(FirstPage);
-      const products = await Products.countDocuments({});
+    // Build query object for filtering
+    let query = { action: false };
+    if (categoryId) {
+        query.category = categoryId;
+    }
 
-      const totalPages = Math.ceil(products / FirstPage);
+    // Define sorting criteria
+    let sortCriteria = {};
+    if (sortBy === 'title-ascending') {
+        sortCriteria.name = 1; // Ascending alphabetical order
+    } else if (sortBy === 'title-descending') {
+        sortCriteria.name = -1; // Descending alphabetical order
+    } else if (sortBy === 'price-ascending') {
+        sortCriteria.price = 1;
+    } else if (sortBy === 'price-descending') {
+        sortCriteria.price = -1;
+    } else if (sortBy === 'created-ascending') {
+        sortCriteria.createdAt = 1;
+    } else if (sortBy === 'created-descending') {
+        sortCriteria.createdAt = -1;
+    } else {
+        sortCriteria.createdAt = -1; // Default sorting by newest first
+    }
 
+    try {
+        // Fetch categories for filtering options
+        const category = await Category.find({});
 
+        // Fetch filtered, sorted, and paginated products
+        const [products, totalCount] = await Promise.all([
+            Products.find(query)
+                .sort(sortCriteria)
+                .populate('offer')
+                .populate('category')
+                .skip(start)
+                .limit(FirstPage),
+            Products.countDocuments(query)
+        ]);
 
-      let user_id = req.session.userData_id;
+        // Calculate pagination info
+        const totalPages = Math.ceil(totalCount / FirstPage);
 
-      // Validate user_id before making a database query
-      let user = null;
-      if (user_id) {
-          try {
-              user = await User.findOne({ _id: user_id });
-          } catch (error) {
-              console.error('Error fetching user:', error);
-              return res.status(500).send('Internal Server Error');
-          }
-      }
-  
-      const categoryId = req.query.id;
-      const sortBy = req.query.sort_by;
-  
-      let query = { action: false };
-  
-      if (categoryId) {
-          query.category = categoryId;
-          console.log('categoryId ===' + query.category);
-      }
-  
-      let sortCriteria = {};
-      switch (sortBy) {
-          case 'title-ascending':
-              sortCriteria.title = 1;
-              break;
-          case 'title-descending':
-              sortCriteria.title = -1;
-              break;
-          case 'price-ascending':
-              sortCriteria.price = 1;
-              break;
-          case 'price-descending':
-              sortCriteria.price = -1;
-              break;
-          case 'created-ascending':
-              sortCriteria.createdAt = 1;
-              break;
-          case 'created-descending':
-              sortCriteria.createdAt = -1;
-              break;
-          default:
-              sortCriteria.createdAt = -1;
-      }
-  
-      try {
-            const category = await Category.find({});
-        
-          const product = await Products.find(query).sort(sortCriteria).populate('offer').populate('category').skip(start).limit(FirstPage);
-          
-          product.forEach(product => {
+        // Apply discounts
+        products.forEach(product => {
             if (product.offer.length > 0) {
                 const offer = product.offer[0];
                 if (offer && offer.discount) {
@@ -726,28 +724,40 @@ const shopLoad = asyncHandler(async (req, res) => {
                 }
             }
         });
-        
-          if (product.length === 0) {
-              return res.render('shop', { currentPage, totalPages,product, category, user, message: 'Products Not Available',activePage:'shop' });
-          }
-          
-          let cartCount = 0;
-          if (user) {
-              const cart = await Cart.findOne({ user: user_id });
-              if (cart) {
-                  cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
-              }
-          }
 
-          const bestSellingProducts = await getBestSellingProducts();
-  
-          res.render('shop', {bestSellingProducts,currentPage, totalPages, product, category, user, cartCount,activePage:'shop' });
-  
-      } catch (error) {
-          console.error('Error fetching products:', error);
-          res.status(500).send('Internal Server Error');
-      }
-  });
+        // Calculate cart count
+        let cartCount = 0;
+        if (user) {
+            const cart = await Cart.findOne({ user: user_id });
+            if (cart) {
+                cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
+            }
+        }
+
+        // Fetch best selling products
+        const bestSellingProducts = await getBestSellingProducts();
+
+        // Render the shop page
+        res.render('shop', {
+            bestSellingProducts,
+            currentPage,
+            totalPages,
+            product: products,
+            category,
+            user,
+            cartCount,
+            activePage: 'shop',
+            sortBy 
+        });
+
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+
 
 
 //------------------------------Search Products --------------------------------------------------------------------------------------------------------------

@@ -9,7 +9,7 @@ const mongoose = require('mongoose')
 
 const offerManagement = asyncHandler(async(req,res)=>{
       
-          const FirstPage = 2;
+          const FirstPage = 4;
           const currentPage = parseInt(req.query.page) || 1;
 
           const start = (currentPage - 1) * FirstPage;

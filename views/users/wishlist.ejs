@@ -122,46 +122,6 @@
                 <% }) %>
             </div>
 
-
-
-
-
- <!-- Pagination Start -->
-
- <nav aria-label="Page navigation example" class="d-flex justify-content-end me-4">
-    <ul class="pagination">
-        <% if (currentPage > 1) { %>
-            <li class="page-item">
-                <a class="page-link" href="/wishlist?id=<%= user.id %>&&page=<%= currentPage - 1 %>" tabindex="-1">Previous</a>
-            </li>
-        <% } else { %>
-            <li class="page-item disabled">
-                <a class="page-link" href="" tabindex="-1">Previous</a>
-            </li>
-        <% } %>
-  
-        <% for (let i = 1; i <= totalPages; i++) { %>
-            <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                <a class="page-link" href="/wishlist?id=<%= user.id %>&&page=<%= i %>"><%= i %></a>
-            </li>
-        <% } %>
-  
-        <% if (currentPage < totalPages) { %>
-            <li class="page-item">
-                <a class="page-link" href="/wishlist?id=<%= user.id %>&&page=<%= currentPage + 1 %>">Next</a>
-            </li>
-        <% } else { %>
-            <li class="page-item disabled">
-                <a class="page-link" href=" " tabindex="-1">Next</a>
-            </li>
-        <% } %>
-    </ul>
-  </nav>
-  
-  <!-- Pagination End -->
-
-
-
         <% } else{ %>
                 <section id="shopify-section-template--14955325587521__wishlist" class="shopify-section">
                     <div class="wishlist-page vela-section overflow-hidden" style="--st-bg-cl: ;--st-pd-dt: 100px 0;--st-pd-mb: 60px 0;--st-cl: ;--st-cl-l: ;">

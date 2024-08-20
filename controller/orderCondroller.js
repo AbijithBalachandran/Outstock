@@ -527,19 +527,15 @@ const myOrderLoad = asyncHandler(async (req, res) => {
 const wishlistLoad = asyncHandler(async (req, res) => {
     const userId = req.query.id;
 
-    if (!userId || !mongoose.Types.ObjectId.isValid(userId)) { 
-        return res.status(404).redirect('/404')
-       }
-
-    const itemsPerPage = 6;
-    const currentPage = parseInt(req.query.page) || 1;
-    const start = (currentPage - 1) * itemsPerPage;
+    if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(404).redirect('/404');
+    }
 
     const user = await User.findById(userId);
 
-    if(user== undefined){
-        return res.status(404).redirect('/404')
-      }
+    if (!user) {
+        return res.status(404).redirect('/404');
+    }
 
     const cart = await Cart.findOne({ user: userId });
 
@@ -551,18 +547,16 @@ const wishlistLoad = asyncHandler(async (req, res) => {
     const wishlist = await Whishlist.findOne({ user: userId }).populate('wishlistItem.products');
 
     if (!wishlist || wishlist.wishlistItem.length === 0) {
-        
-        res.render('wishlist', { user, wishlistItem: [], total: 0, count: 0, wishlist,currentPage:1, totalPages:1, cartCount,activePage:"wishlist" });
+        res.render('wishlist', { user, wishlistItem: [], total: 0, count: 0, wishlist, cartCount, activePage: "wishlist" });
         return;
     }
 
-    // Paginate the wishlist items
-    const paginatedWishlistItems = wishlist.wishlistItem.slice(start, start + itemsPerPage);
-    const Count = wishlist.wishlistItem.length;
-    const totalPages = Math.ceil(Count / itemsPerPage);
+    // No pagination, fetch all wishlist items
+    const wishlistItems = wishlist.wishlistItem;
 
-    res.render('wishlist', { user, wishlistItem: paginatedWishlistItems, cartCount, currentPage, totalPages,activePage:"wishlist" });
+    res.render('wishlist', { user, wishlistItem: wishlistItems, cartCount, activePage: "wishlist" });
 });
+
 
 
 

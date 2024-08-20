@@ -465,30 +465,61 @@ const aproveToReturn = asyncHandler(async(req,res)=>{
 
 //-----------------------------Sales Report ----------------------------
 
-const salesReportPage   = asyncHandler(async(req,res)=>{
+const salesReportPage = asyncHandler(async (req, res) => {
+  const FirstPage = 3;
+  const currentPage = parseInt(req.query.page) || 1;
 
-      const FirstPage = 7;
-      const currentPage = parseInt(req.query.page) || 1;
-      const filterParams = {}; 
-      if (req.query.startDate) {
-        filterParams.startDate = req.query.startDate;
-      }
-      if (req.query.endDate) {
-        filterParams.endDate = req.query.endDate;
-      }
-      
-      const start = (currentPage - 1) * FirstPage;
-      const orderData = await Order.find(filterParams).skip(start).limit(FirstPage);
-      const orderCount = await Order.countDocuments(filterParams); 
-      const totalPages = Math.ceil(orderCount / FirstPage);
+  const filterParams = {};
 
-      res.render('salesReport',{ order: orderData, currentPage, totalPages , filterParams , ActivePage: 'salesReport'});
+  // Filter by date if provided
+  if (req.query.startDate && req.query.endDate) {
+    filterParams.orderDate = {
+      $gte: new Date(req.query.startDate),
+      $lte: new Date(req.query.endDate)
+    };
+  }
 
+  // Filter by status for delivered and completed orders
+  filterParams.orderStatus = {
+    $in: ['Delivered', 'Completed']
+  };
+
+  // Apply sort filter if specified
+  if (req.query.sortValue) {
+    const now = new Date();
+    if (req.query.sortValue === 'Daily') {
+      filterParams.orderDate = {
+        $gte: new Date().setHours(0, 0, 0, 0),
+        $lte: new Date().setHours(23, 59, 59, 999),
+      };
+    } else if (req.query.sortValue === 'Week') {
+      filterParams.orderDate = {
+        $gte: new Date(now.setDate(now.getDate() - 7)).setHours(0, 0, 0, 0),
+        $lte: new Date().setHours(23, 59, 59, 999),
+      };
+    } else if (req.query.sortValue === 'Month') {
+      filterParams.orderDate = {
+        $gte: new Date(now.setMonth(now.getMonth() - 1)),
+        $lte: new Date(),
+      };
+    } else if (req.query.sortValue === 'Year') {
+      filterParams.orderDate = {
+        $gte: new Date(new Date().getFullYear(), 0, 1),
+        $lte: new Date(new Date().getFullYear(), 11, 31),
+      };
+    }
+  }
+
+  const start = (currentPage - 1) * FirstPage;
+  const orderData = await Order.find(filterParams).skip(start).limit(FirstPage);
+  const orderCount = await Order.countDocuments(filterParams);
+  const totalPages = Math.ceil(orderCount / FirstPage);
+
+  res.render('salesReport', { order: orderData, currentPage, totalPages, filterParams, ActivePage: 'salesReport' });
 });
 
 
-
-//-----------------------------filter the sales report ---------------------
+//-----------------------------filter the sales report ----------------------------------------------------------------------------------------------
 
 const filterSalesReport = asyncHandler(async (req, res) => {
 
@@ -566,10 +597,53 @@ const customFilter = asyncHandler(async(req,res)=>{
 
 //--------------------------------------PDF download --------------------------------------
 
-const generatePDF = asyncHandler(async (req, res) => {
-  const orders = req.orders; // Assuming req.orders is populated with the order data
 
-  const doc = new PDFDocument();
+const generatePDF = asyncHandler(async (req, res) => {
+ 
+  const filterParams = {};
+
+  // Filter by date if provided
+  if (req.query.startDate && req.query.endDate) {
+    filterParams.orderDate = {
+      $gte: new Date(req.query.startDate),
+      $lte: new Date(req.query.endDate)
+    };
+  }
+
+  // Filter by status for delivered and completed orders
+  filterParams.orderStatus = {
+    $in: ['Delivered', 'Completed']
+  };
+
+  // Apply sort filter if specified
+  if (req.query.sortValue) {
+    const now = new Date();
+    if (req.query.sortValue === 'Daily') {
+      filterParams.orderDate = {
+        $gte: new Date().setHours(0, 0, 0, 0),
+        $lte: new Date().setHours(23, 59, 59, 999),
+      };
+    } else if (req.query.sortValue === 'Week') {
+      filterParams.orderDate = {
+        $gte: new Date(now.setDate(now.getDate() - 7)).setHours(0, 0, 0, 0),
+        $lte: new Date().setHours(23, 59, 59, 999),
+      };
+    } else if (req.query.sortValue === 'Month') {
+      filterParams.orderDate = {
+        $gte: new Date(now.setMonth(now.getMonth() - 1)),
+        $lte: new Date(),
+      };
+    } else if (req.query.sortValue === 'Year') {
+      filterParams.orderDate = {
+        $gte: new Date(new Date().getFullYear(), 0, 1),
+        $lte: new Date(new Date().getFullYear(), 11, 31),
+      };
+    }
+  }
+
+  const orders = await Order.find(filterParams).populate('orderItem.productId');
+
+  const doc = new PDFDocument({ margin: 30 });
   let filename = 'sales_report.pdf';
   filename = encodeURIComponent(filename);
 
@@ -578,57 +652,165 @@ const generatePDF = asyncHandler(async (req, res) => {
 
   doc.pipe(res);
 
+  // Add Title
   doc.fontSize(16).text('Sales Report', { align: 'center' });
   doc.moveDown(2);
 
+  // Table setup
   const tableTop = doc.y;
-  const itemCodeX = 50;
-  const descriptionX = 150;
-  const quantityX = 300;
-  const priceX = 350;
-  const discountX = 400;
-  const totalX = 450;
-  const paymentMethodX = 500;
+  const leftMargin = 30; // Left margin of the document
+  const columnWidths = {
+      orderId: 60,
+      productName: 140,
+      quantity: 60,
+      price: 60,
+      discount: 60,
+      totalPrice: 80,
+      paymentMethod: 100
+  };
 
-  // Table Header
-  doc.fontSize(10).text('Order ID', itemCodeX, tableTop);
-  doc.text('Product Name', descriptionX, tableTop);
-  doc.text('Quantity', quantityX, tableTop);
-  doc.text('Price', priceX, tableTop);
-  doc.text('Discount', discountX, tableTop);
-  doc.text('Total Price', totalX, tableTop);
-  doc.text('Payment Method', paymentMethodX, tableTop);
-  doc.moveDown();
+  const rowHeight = 20; // Set a fixed height for each row
 
+  // Draw headers
+  let headerX = leftMargin; // Starting X coordinate for the headers
+  doc.fontSize(10).font('Helvetica-Bold');
 
+  // Draw header cells and borders
+  Object.keys(columnWidths).forEach((key) => {
+      const width = columnWidths[key];
+      doc.text(key.replace(/([A-Z])/g, ' $1').trim(), headerX + 2, tableTop + 2, {
+          width: width - 4,
+          align: 'center'
+      });
+      headerX += width;
+
+      // Draw header borders
+      doc.moveTo(headerX - width, tableTop) // Adjusted the header border drawing
+          .lineTo(headerX, tableTop)
+          .lineTo(headerX, tableTop + rowHeight)
+          .lineTo(headerX - width, tableTop + rowHeight)
+          .lineTo(headerX - width, tableTop)
+          .stroke();
+  });
+
+  // Move to the next line for the table content
+  let rowY = tableTop + rowHeight;
+
+  // Add Table Rows with borders
   orders.forEach(order => {
-    const y = doc.y;
-    doc.fontSize(6).text(order._id, itemCodeX, y);
+      order.orderItem.forEach((item, index) => {
+          let rowX = leftMargin; // Starting X coordinate for the rows
 
-    order.orderItem.forEach((orderItem, index) => {
-      const orderItemY = y + (index * 2 );
-      
-      doc.text(orderItem.productName, descriptionX, orderItemY);
-      doc.text(orderItem.quantity.toString(), quantityX, orderItemY);
-      doc.text(`${orderItem.price}`, priceX, orderItemY);
+          // Draw row cells
+          doc.fontSize(8).font('Helvetica');
+          doc.text(order._id.toString().slice(0, 6), rowX + 2, rowY + 2, {
+              width: columnWidths.orderId - 4,
+              align: 'center'
+          });
+          rowX += columnWidths.orderId;
+          doc.text(item.productName, rowX + 2, rowY + 2, {
+              width: columnWidths.productName - 4,
+              align: 'center'
+          });
+          rowX += columnWidths.productName;
+          doc.text(item.quantity.toString(), rowX + 2, rowY + 2, {
+              width: columnWidths.quantity - 4,
+              align: 'center'
+          });
+          rowX += columnWidths.quantity;
+          doc.text(item.price.toFixed(2), rowX + 2, rowY + 2, {
+              width: columnWidths.price - 4,
+              align: 'center'
+          });
+          rowX += columnWidths.price;
 
-      if (index === 0) {
-        doc.text(order.couponDetails.discount || order.offerDetails.discount || 'N/A', discountX, orderItemY);
-        doc.text(`${order.totalPrice}`, totalX, orderItemY);
-        doc.text(order.paymentMethod, paymentMethodX, orderItemY);
-      }
-    });
+          const discount = order.couponDetails?.discount || order.offerDetails?.discount || 0;
+          if (index === 0) {
+              doc.text(discount.toFixed(2), rowX + 2, rowY + 2, {
+                  width: columnWidths.discount - 4,
+                  align: 'center'
+              });
+              rowX += columnWidths.discount;
+              const totalPrice = (item.price * item.quantity - discount).toFixed(2);
+              doc.text(totalPrice, rowX + 2, rowY + 2, {
+                  width: columnWidths.totalPrice - 4,
+                  align: 'center'
+              });
+              rowX += columnWidths.totalPrice;
+              doc.text(order.paymentMethod, rowX + 2, rowY + 2, {
+                  width: columnWidths.paymentMethod - 4,
+                  align: 'center'
+              });
+          }
 
-    doc.moveDown(order.orderItem.length * 2); 
+          // Draw row borders
+          doc.moveTo(leftMargin, rowY) // Starting point of the row
+              .lineTo(leftMargin + Object.values(columnWidths).reduce((a, b) => a + b), rowY)
+              .stroke();
+
+          doc.moveTo(leftMargin, rowY + rowHeight)
+              .lineTo(leftMargin + Object.values(columnWidths).reduce((a, b) => a + b), rowY + rowHeight)
+              .stroke();
+
+          let borderX = leftMargin;
+          Object.values(columnWidths).forEach(width => {
+              borderX += width;
+              doc.moveTo(borderX, rowY)
+                  .lineTo(borderX, rowY + rowHeight)
+                  .stroke();
+          });
+
+          rowY += rowHeight;
+      });
+
+      doc.moveDown(0.5);
   });
 
   doc.end();
 });
 
+
+
+
+
 //---------------------------------excel Download ---------------------------------
 
 const generateExcel = asyncHandler(async (req, res) => {
-  const orders = req.orders; 
+  const filterParams = {};
+
+  if (req.query.startDate && req.query.endDate) {
+    filterParams.orderDate = {
+      $gte: new Date(req.query.startDate),
+      $lte: new Date(req.query.endDate)
+    };
+  }
+
+  if (req.query.sortValue) {
+    const now = new Date();
+    if (req.query.sortValue === 'Daily') {
+      filterParams.orderDate = {
+        $gte: new Date().setHours(0, 0, 0, 0),
+        $lte: new Date().setHours(23, 59, 59, 999),
+      };
+    } else if (req.query.sortValue === 'Week') {
+      filterParams.orderDate = {
+        $gte: new Date(now.setDate(now.getDate() - 7)).setHours(0, 0, 0, 0),
+        $lte: new Date().setHours(23, 59, 59, 999),
+      };
+    } else if (req.query.sortValue === 'Month') {
+      filterParams.orderDate = {
+        $gte: new Date(now.setMonth(now.getMonth() - 1)),
+        $lte: new Date(),
+      };
+    } else if (req.query.sortValue === 'Year') {
+      filterParams.orderDate = {
+        $gte: new Date(new Date().getFullYear(), 0, 1),
+        $lte: new Date(new Date().getFullYear(), 11, 31),
+      };
+    }
+  }
+
+  const orders = await Order.find(filterParams).populate('orderItem.productId');
 
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Sales Report');
@@ -644,14 +826,14 @@ const generateExcel = asyncHandler(async (req, res) => {
   ];
 
   orders.forEach(order => {
-    order.orderItem.forEach(orderItem => {
+    order.orderItem.forEach(item => {
       worksheet.addRow({
-        id: order._id.toString(), 
-        productName: orderItem.productName,
-        quantity: orderItem.quantity,
-        price: orderItem.price,
+        id: order._id.toString(),
+        productName: item.productName,
+        quantity: item.quantity,
+        price: item.price,
         discount: order.couponDetails?.discount || order.offerDetails?.discount || 'N/A',
-        totalPrice: order.totalPrice,
+        totalPrice: (item.price * item.quantity - (order.couponDetails?.discount || 0)).toFixed(2),
         paymentMethod: order.paymentMethod
       });
     });
@@ -663,7 +845,6 @@ const generateExcel = asyncHandler(async (req, res) => {
   await workbook.xlsx.write(res);
   res.end();
 });
-
 
   
 //------------------------------------------------dashbord chart representation -------------------------

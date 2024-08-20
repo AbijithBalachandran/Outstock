@@ -234,56 +234,59 @@
                                 <div class="collection-filters__dropdown d-flex align-items-center justify-content-between position-relative" data-bs-toggle="dropdown" aria-expanded="false">Alphabetically, A-Z <svg  width="10" height="10" aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 10 6">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor" />
               </svg></div>
+
+
               <ul class="dropdown-menu border-0 facets__list" id="SortBy" aria-describedby="a11y-refresh-page-message">
-                <!-- <li class="facets__item px-3 py-1">
-                    <label for="manual">
-                        <input class="d-none" type="radio" id="manual" name="sort_by" value="manual" onchange="sortProducts()">
-                        <span>Featured</span>
-                    </label>
-                </li> -->
-                <!-- <li class="facets__item px-3 py-1">
-                    <label for="best-selling">
-                        <input class="d-none" type="radio" id="best-selling" name="sort_by" value="best-selling" onchange="sortProducts()">
-                        <span>Best selling</span>
-                    </label>
-                </li> -->
                 <li class="facets__item px-3 py-1">
                     <label for="title-ascending">
-                        <input class="d-none" type="radio" id="title-ascending" name="sort_by" value="title-ascending" onchange="sortProducts()">
+                        <input class="d-none" type="radio" id="title-ascending" name="sort_by" value="title-ascending" 
+                               onchange="sortProducts()" 
+                               <% if (sortBy === 'title-ascending') { %> checked <% } %> >
                         <span>Alphabetically, A-Z</span>
                     </label>
                 </li>
                 <li class="facets__item px-3 py-1">
                     <label for="title-descending">
-                        <input class="d-none" type="radio" id="title-descending" name="sort_by" value="title-descending" onchange="sortProducts()">
+                        <input class="d-none" type="radio" id="title-descending" name="sort_by" value="title-descending" 
+                               onchange="sortProducts()" 
+                               <% if (sortBy === 'title-descending') { %> checked <% } %> >
                         <span>Alphabetically, Z-A</span>
                     </label>
                 </li>
                 <li class="facets__item px-3 py-1">
                     <label for="price-ascending">
-                        <input class="d-none" type="radio" id="price-ascending" name="sort_by" value="price-ascending" onchange="sortProducts()">
+                        <input class="d-none" type="radio" id="price-ascending" name="sort_by" value="price-ascending" 
+                               onchange="sortProducts()" 
+                               <% if (sortBy === 'price-ascending') { %> checked <% } %> >
                         <span>Price, low to high</span>
                     </label>
                 </li>
                 <li class="facets__item px-3 py-1">
                     <label for="price-descending">
-                        <input class="d-none" type="radio" id="price-descending" name="sort_by" value="price-descending" onchange="sortProducts()">
+                        <input class="d-none" type="radio" id="price-descending" name="sort_by" value="price-descending" 
+                               onchange="sortProducts()" 
+                               <% if (sortBy === 'price-descending') { %> checked <% } %> >
                         <span>Price, high to low</span>
                     </label>
                 </li>
                 <li class="facets__item px-3 py-1">
                     <label for="created-ascending">
-                        <input class="d-none" type="radio" id="created-ascending" name="sort_by" value="created-ascending" onchange="sortProducts()">
+                        <input class="d-none" type="radio" id="created-ascending" name="sort_by" value="created-ascending" 
+                               onchange="sortProducts()" 
+                               <% if (sortBy === 'created-ascending') { %> checked <% } %> >
                         <span>Date, old to new</span>
                     </label>
                 </li>
                 <li class="facets__item px-3 py-1">
                     <label for="created-descending">
-                        <input class="d-none" type="radio" id="created-descending" name="sort_by" value="created-descending" onchange="sortProducts()">
+                        <input class="d-none" type="radio" id="created-descending" name="sort_by" value="created-descending" 
+                               onchange="sortProducts()" 
+                               <% if (sortBy === 'created-descending') { %> checked <% } %> >
                         <span>Date, new to old</span>
                     </label>
                 </li>
             </ul>
+            
                             </div>
                         </form>
                     </facet-filters-form>
@@ -457,7 +460,7 @@
     <ul class="pagination">
         <% if (currentPage > 1) { %>
             <li class="page-item">
-                <a class="page-link" href="/shop?page=<%= currentPage - 1 %>">Previous</a>
+                <a class="page-link" href="/shop?page=<%= currentPage - 1 %>&sort_by=<%= sortBy %>">Previous</a>
             </li>
         <% } else { %>
             <li class="page-item disabled">
@@ -467,13 +470,13 @@
 
         <% for (let i = 1; i <= totalPages; i++) { %>
             <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                <a class="page-link" href="/shop?page=<%= i %>"><%= i %></a>
+                <a class="page-link" href="/shop?page=<%= i %>&sort_by=<%= sortBy %>"><%= i %></a>
             </li>
         <% } %>
 
         <% if (currentPage < totalPages) { %>
             <li class="page-item">
-                <a class="page-link" href="/shop?page=<%= currentPage + 1 %>">Next</a>
+                <a class="page-link" href="/shop?page=<%= currentPage + 1 %>&sort_by=<%= sortBy %>">Next</a>
             </li>
         <% } else { %>
             <li class="page-item disabled">
@@ -482,6 +485,7 @@
         <% } %>
     </ul>
 </nav>
+
 
 
 <!-- Pagination End -->
@@ -560,10 +564,13 @@ border-bottom-right-radius: 0.25rem;
 
 
     <script>
-        function sortProducts() {
-            const sortBy = document.querySelector('input[name="sort_by"]:checked').value;
-            window.location.href = `/shop?sort_by=${sortBy}`;
-        }
+function sortProducts() {
+    const sortBy = document.querySelector('input[name="sort_by"]:checked').value;
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPage = urlParams.get('page') || 1; // Get the current page or default to 1
+    window.location.href = `/shop?sort_by=${sortBy}&page=${currentPage}`;
+}
+
     </script>
    
     
