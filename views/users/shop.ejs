@@ -185,14 +185,14 @@
 
                         <%if (product.discountPercentage) {%>
                             <div class="product-price product-price--regular ms-1 text-danger">               
-                                <span class="money"><%= product.price %></span>
+                                <span class="money">₹ <%= product.price %></span>
                             </div>
                             <div class="product-price">
-                                <span class="money"><%=product.discountPrice %></span>
+                                <span class="money">₹ <%=product.discountPrice %></span>
                                 </div>
                        <% } else { %>
                         <div class="product-price text-danger">               
-                            <span class="money"><%= product.price %></span>
+                            <span class="money">₹ <%= product.price %></span>
                         </div>
                         <% } %>
 
@@ -413,14 +413,14 @@
 
                      <%if (product.discountPercentage) {%>
                         <div class="product-price product-price--regular ms-1 text-danger">               
-                            <span class=money><%= product.price %></span>
+                            <span class=money>₹ <%= product.price %></span>
                         </div>
                         <div class="product-price">
-                            <span class=money><%=product.discountPrice %></span>
+                            <span class=money>₹ <%=product.discountPrice %></span>
                             </div>
                    <% } else { %>
                     <div class="product-price text-danger">               
-                        <span class=money><%= product.price %></span>
+                        <span class=money>₹ <%= product.price %></span>
                     </div>
                     <% } %>
 

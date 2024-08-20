@@ -52,6 +52,7 @@ const checkoutPageLoad = asyncHandler(async (req, res) => {
 
     req.session.offerProducts = offerProducts;
 
+    const wallet = await Wallet.findOne({ userId: userId });
     
     async function calculateOfferDiscount(product) {
         if (product.offer && product.offer.length > 0) {
@@ -81,7 +82,10 @@ const checkoutPageLoad = asyncHandler(async (req, res) => {
 
     req.session.grandtotal = grandTotal;
 
-    res.render('checkout', { address, cart, total, user, coupon, grandTotal, shippingCharge,couponId ,totalDiscount,offerProducts,activePage:"checkout",discountedTotal});
+    // Set a default walletAmount if the wallet doesn't exist
+    const walletAmount = wallet ? wallet.walletAmount : 0;
+
+    res.render('checkout', { address, cart, total, user, coupon, grandTotal, shippingCharge,couponId ,totalDiscount,offerProducts,activePage:"checkout",discountedTotal,walletAmount});
 });
 
 
@@ -912,21 +916,6 @@ const walletPage = asyncHandler(async (req, res) => {
 
     const start = (currentPage - 1) * FirstPage;
 
-    // Find the wallet
-    const wallet = await Wallet.findOne({ userId: userId });
-
-    // if (!wallet) {
-    //     return res.status(404).send('Wallet not found');
-    // }
-
-    // Sort transactions by date in descending order
-    const sortedTransactions = wallet.transaction
-        .sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    // Pagination
-    const paginatedTransactions = sortedTransactions.slice(start, start + FirstPage);
-    const totalPages = Math.ceil(sortedTransactions.length / FirstPage);
-
     const user = await User.findById(userId);
     
     if (!user) {
@@ -938,6 +927,21 @@ const walletPage = asyncHandler(async (req, res) => {
     if (cart) {
         cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
     }
+    // Find the wallet
+    const wallet = await Wallet.findOne({ userId: userId });
+
+    if (!wallet) {
+        // return res.status(404).send('Wallet not found');
+        return res.render('wallet', { wallet, currentPage:0, totalPages:0, user, cartCount, activePage: "wallet" });
+    }
+
+    // Sort transactions by date in descending order
+    const sortedTransactions = wallet.transaction
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    // Pagination
+    const paginatedTransactions = sortedTransactions.slice(start, start + FirstPage);
+    const totalPages = Math.ceil(sortedTransactions.length / FirstPage);
 
     res.render('wallet', { wallet: paginatedTransactions, currentPage, totalPages, user, cartCount, activePage: "wallet" });
 });

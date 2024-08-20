@@ -28,7 +28,6 @@ function copyCouponCode(elementId) {
   }
 }
 async function startWalletPayment() {
-  alert('Pay with wallet');
 
   const userId = document.getElementById('wallet-btn').getAttribute('data-user-id');
   
