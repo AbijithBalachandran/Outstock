@@ -9,7 +9,7 @@ const getresend = document.getElementById('resend');
 //------------------------------------------------------------------
 
 
- let startTime = 30;
+ let startTime = 120;
 
   // -----------function for update the timer for the otp---------
  function updateTimer(){
@@ -32,7 +32,7 @@ const getresend = document.getElementById('resend');
 
  getresend.addEventListener('click',()=>{
 
-      startTime =30;
+      startTime =120;
       getStart.textContent =startTime;
       getsendOTP.style.display='inline';
       getresendOTP.style.display='none';
