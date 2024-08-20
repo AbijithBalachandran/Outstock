@@ -396,7 +396,7 @@
                                                                                     value="✓" />
                                                                               <div class="group-wishlits-question text-end pb-2">
                                                                                     <a href="javascript:void(0)" onclick="addWishlist(event,'<%= product.id %>')"
-                                                                                          class="product-single__wishlist btn--wishlist fw-medium position-relative"
+                                                                                          class="product-single__wishlist  fw-medium position-relative"
                                                                                           data-product-handle="plastic-dining-armchair" title="Add to wishlist">
                                                                                           <span class="wishlist-icon">
                                                                                               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 512 512">
@@ -411,98 +411,51 @@
                                                                               <div
                                                                                     class="product-single__buttons row align-items-start g-2">
 
-                                                                                     <div
-                                                                                          class="js-quantity-selector product-quantity align-items-center col-auto d-flex">
-                                                                                          <label for="Quantity"
-                                                                                                class="product-quantity__label d-none">Quantity:</label>
-                                                                                             <!-- <div
-                                                                                                class="product-quantity__selector">
-                                                                                                <div class="vela-qty">
-                                                                                                      <button
-                                                                                                            type="button"
-                                                                                                            class="js-qty-adjust vela-qty__adjust vela-qty__adjust--minus"
-                                                                                                            aria-label="Reduce item quantity by one">
-                                                                                                            <svg viewBox="0 0 10 2"
-                                                                                                                  fill="none"
-                                                                                                                  xmlns="http://www.w3.org/2000/svg">
-                                                                                                                  <path d="M5.625 0H9.79167C9.90677 0 10 0.111875 10 0.25V1.25C10 1.38812 9.90677 1.5 9.79167 1.5H5.625H4.375H0.208333C0.0932292 1.5 0 1.38812 0 1.25V0.25C0 0.111875 0.0932292 0 0.208333 0H4.375H5.625Z"
-                                                                                                                        fill="currentColor" />
-                                                                                                            </svg>
-                                                                                                      </button>
-                                                                                                      <input type="number"
-                                                                                                            name="quantity"
-                                                                                                            class="js-qty-number vela-qty__number"
-                                                                                                            value="1"
-                                                                                                            data-min="1"
-                                                                                                            min="1"
-                                                                                                            aria-label="quantity">
-                                                                                                      <button
-                                                                                                            type="button"
-                                                                                                            class="js-qty-adjust vela-qty__adjust vela-qty__adjust--plus"
-                                                                                                            aria-label="Increase item quantity by one">
-                                                                                                            <svg viewBox="0 0 10 10"
-                                                                                                                  fill="none"
-                                                                                                                  xmlns="http://www.w3.org/2000/svg">
-                                                                                                                  <path d="M9.75 4.25H5.75V0.25C5.75 0.111875 5.63812 0 5.5 0H4.5C4.36188 0 4.25 0.111875 4.25 0.25V4.25H0.25C0.111875 4.25 0 4.36188 0 4.5V5.5C0 5.63812 0.111875 5.75 0.25 5.75H4.25V9.75C4.25 9.88813 4.36188 10 4.5 10H5.5C5.63812 10 5.75 9.88813 5.75 9.75V5.75H9.75C9.88813 5.75 10 5.63812 10 5.5V4.5C10 4.36188 9.88813 4.25 9.75 4.25Z"
-                                                                                                                        fill="currentColor" />
-                                                                                                            </svg>
-                                                                                                      </button>
-                                                                                                      
-                                                                                                </div>
-                                                                                          </div>-->
-
                                                                                     <div class="product-quantity__selector">
-                                                                                    <div class="vela-qty">
-                                                                                      <button type="button"
-                                                                                        onclick="changeQuantity('<%=product.id %>','<%=product.price %>')"
-                                                                                        class="js-qty-adjust vela-qty__adjust vela-qty__adjust--minus"
-                                                                                        data-id="<%=product.id %>">
-                                                                                        <svg viewBox="0 0 10 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                          <path
-                                                                                            d="M5.625 0H9.79167C9.90677 0 10 0.111875 10 0.25V1.25C10 1.38812 9.90677 1.5 9.79167 1.5H5.625H4.375H0.208333C0.0932292 1.5 0 1.38812 0 1.25V0.25C0 0.111875 0.0932292 0 0.208333 0H4.375H5.625Z"
-                                                                                            fill="currentColor" />
-                                                                                        </svg>
-                                                                                      </button>
-                                                  
-                                                                                      <input type="number" id="quantity<%=product._id %>" name="quantity"
-                                                                                        class="js-qty-number vela-qty__number" value="1" data-min="1"
-                                                                                        min="1" max="5" aria-label="quantity">
-                                                  
-                                                                                      <button type="button"
-                                                                                        onclick="changeQuantity('<%=product.id %>','<%=product.price %>')"
-                                                                                        class="js-qty-adjust vela-qty__adjust vela-qty__adjust--plus"
-                                                                                        data-id="<%=product.id %>">
-                                                                                        <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                          <path
-                                                                                            d="M9.75 4.25H5.75V0.25C5.75 0.111875 5.63812 0 5.5 0H4.5C4.36188 0 4.25 0.111875 4.25 0.25V4.25H0.25C0.111875 4.25 0 4.36188 0 4.5V5.5C0 5.63812 0.111875 5.75 0.25 5.75H4.25V9.75C4.25 9.88813 4.36188 10 4.5 10H5.5C5.63812 10 5.75 9.88813 5.75 9.75V5.75H9.75C9.88813 5.75 10 5.63812 10 5.5V4.5C10 4.36188 9.88813 4.25 9.75 4.25Z"
-                                                                                            fill="currentColor" />
-                                                                                        </svg>
-                                                                                      </button>
-                                                                                    </div>
-                                                                                  </div>
-                                                                              </div> 
-                                                                                    <!-- <div class="col">
-                                                                  <button class="btn btn-add-to-cart" type="submit" name="add" id="add-to-cart-button" data-product-id="" data-preorder="false">
-                                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                              <path d="M9.75 4.25H5.75V0.25C5.75 0.111875 5.63812 0 5.5 0H4.5C4.36188 0 4.25 0.111875 4.25 0.25V4.25H0.25C0.111875 4.25 0 4.36188 0 4.5V5.5C0 5.63812 0.111875 5.75 0.25 5.75H4.25V9.75C4.25 9.88813 4.36188 10 4.5 10H5.5C5.63812 10 5.75 9.88813 5.75 9.75V5.75H9.75C9.88813 5.75 10 5.63812 10 5.5V4.5C10 4.36188 9.88813 4.25 9.75 4.25Z" fill="currentColor" />
-                                                                        </svg>
-                                                                         <span class="btn__text"> Add to Cart </span> </button></a>
-                                                                  </div> -->
-                                                                        <% if(product.quantity == 0){%>
-                                                                                    <button
-                                                                                          class="btn cart-modal__btn cart-modal__btn--checkout w-25"
-                                                                                          type="submit" name="checkout"
-                                                                                          onclick="addProductCart(event,'<%=product.id%>')" disabled>
-                                                                                          <span>Add to Cart</span>
-                                                                                    </button>
-                                                                             <%}else{%>
-                                                                              <button
-                                                                              class="btn cart-modal__btn cart-modal__btn--checkout w-25"
-                                                                              type="submit" name="checkout"
-                                                                              onclick="addProductCart(event,'<%=product.id%>')">
-                                                                              <span>Add to Cart</span>
-                                                                               </button>
-                                                                            <%}%>      
+                                                                                          <div class="vela-qty">
+                                                                                              <% if(product.quantity == 0){ %>
+                                                                                                  <button
+                                                                                                      class="btn btn-primary btn-sm w-100"
+                                                                                                      type="submit"
+                                                                                                      name="checkout"
+                                                                                                      onclick="addProductCart(event,'<%=product.id%>')"
+                                                                                                      disabled>
+                                                                                                      <span>Add to Cart</span>
+                                                                                                  </button>
+                                                                                              <% } else { %>
+                                                                                                  <button
+                                                                                                      class="btn btn-primary btn-sm w-100"
+                                                                                                      type="submit"
+                                                                                                      name="checkout"
+                                                                                                      onclick="addProductCart(event,'<%=product.id%>')">
+                                                                                                      <span>Add to Cart</span>
+                                                                                                  </button>
+                                                                                              <% } %>
+                                                                                          </div>
+                                                                                      </div>
+                                                                                      
+  <style>
+ .product-quantity__selector .btn {
+    font-size: 14px; /* Adjust font size */
+    padding: 10px 20px; /* Adjust padding */
+    border-radius: 5px; /* Adjust border radius */
+    text-align: center;
+}
+
+.product-quantity__selector {
+    margin-bottom: 15px; /* Space below the button */
+}
+
+@media (max-width: 768px) {
+    .product-quantity__selector .btn {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+}
+
+</style>  
+                                                                                   
+                                                                          
 
                                                                                     <div class="col col-lg-4">
                                                                                           <div data-shopify="payment-button"

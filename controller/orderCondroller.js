@@ -580,9 +580,9 @@ const wishlistProduct = asyncHandler(async (req, res) => {
 
     const addProduct = await wishlist.save();
 
-     if(addProduct){
-      res.status(200).json({success:'success'});
-     }
+    //  if(addProduct){
+    //   res.status(200).json({success:'success'});
+    //  }
 
     res.status(200).json({ message: 'Product added to wishlist successfully' });
 });
