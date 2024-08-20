@@ -62,7 +62,7 @@ const insertUser = async (req, res) => {
             })
             const existingUser = await User.findOne({ email: req.body.email });
             if (existingUser) {
-                  res.render('register', { message: 'This user already existed' });
+                  res.render('register', { message: 'This user already existed',activePage:"register" });
             }
             req.session.userData = userData;
 
@@ -186,8 +186,6 @@ const validLogin = async (req, res) => {
             const userData = await User.findOne({ email: email,is_block:false});
             if (userData) {
                   const passwordCheck = await bcrypt.compare(password, userData.password);
-                  console.log("checked Password" + userData.password);
-                  console.log(passwordCheck);
                   if (passwordCheck) {
                         req.session.user_id = userData;
                         req.session.userData_id = userData.id;
@@ -238,7 +236,7 @@ const successGoogleLogin = async (req, res) => {
   const failureGoogleLogin = async (req, res) => {
     console.log("failure");
     try {
-      res.render('login', { message: "Google Authentication Failed" });
+      res.render('login', { message: "Google Authentication Failed",activePage:'login' });
     } catch (error) {
       console.log(error.message);
     }
@@ -292,8 +290,7 @@ const homeLoad = async (req, res) => {
               };
       
               const {offerDetails } = await calculateDiscount(product[0]);
-      
-              console.log('offerDetails 22222' + offerDetails);
+    
 
               res.render('home', { product: productData, currentPage, totalPages, user, cartCount ,offerDetails,activePage:"home"});
 
@@ -351,10 +348,9 @@ const productDetails = asyncHandler(async (req, res) => {
       if (product && product.offer && product.offer.length > 0) {
           let offerLength = product.offer.length - 1;
          const offerId = product.offer[offerLength];
-          console.log('offerId=====' + offerId);
-  
+
            offerDetails = await Offer.findById( offerId);
-          console.log('offerDetails'+offerDetails);
+    
 
           if (offerDetails) {
               let disAmount = product.price * (offerDetails.discount / 100);
@@ -581,7 +577,7 @@ const updateProfile = asyncHandler(async (req, res) => {
            }
 
         const { email,Fname, Lname, password } = req.body;
-        console.log(req.body.email);
+       
         const user = await User.findOne({email:email});
 
         const passwordCheck = await bcrypt.compare(password, user.password);
@@ -802,7 +798,6 @@ const forgotPasswordPage = asyncHandler(async(req,res)=>{
 
 const changePassword = asyncHandler(async (req, res) => {
     const email = req.body.email;
-    console.log('email',email);
     
     req.session.email = email;
     const sPassword = await hashingPassword(req.body.password);

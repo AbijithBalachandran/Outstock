@@ -68,6 +68,18 @@
                         }) %></span>
                     </div>
                     <div class="order-details">
+
+                        <% if (order.offerDetails && order.couponDetails) { %>
+                            <p style="font-size: 12px;">Discount : <span class="price"><%= (order.offerDetails.discount || 0) + (order.couponDetails.discount || 0) %></span>
+                                <% } else if (order.offerDetails) { %>
+                            <p style="font-size: 12px;">Discount : <span class="price"><%= order.offerDetails.discount %></span> 
+                                 <% } else if (order.couponDetails) { %>
+                            <p style="font-size: 12px;">Discount : <span class="price"><%= order.couponDetails.discount %></span> 
+                                        <% } else { %>
+                            <p style="font-size: 12px;">Discount : <span class="price">00</span> 
+                                            <% } %>
+                            <p style="font-size: 12px;">shipping charge : <span class="price">100</span> 
+                              
                         <h6 class="price">₹ <%= order.totalPrice %> <small>: <%= order.paymentMethod %></small></h6>
                         <p>Tracking Status : <span class="price"><%= order.orderStatus %></span> <br><br>
                             <span class="badge badge-info"></span></p>

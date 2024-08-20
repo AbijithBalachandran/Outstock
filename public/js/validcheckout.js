@@ -55,7 +55,7 @@ const validateForm = () => {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Please enter a valid mobile number (exactly SIX digits)!",
+          text: "Please enter a valid PIN number (exactly SIX digits)!",
         });
         return false;
       }

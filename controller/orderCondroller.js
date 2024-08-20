@@ -223,7 +223,7 @@ let offerDetails = {
             email: email
         }, 
         offerDetails:offerDetails,
-        totalPrice:grandTotal,
+        totalPrice:amount/100,
         couponDetails:couponDetails,
         paymentMethod: paymentMethod,
         orderStatus: "Pending",
@@ -433,6 +433,12 @@ let offerDetails = {
 
       grandTotal -=couponDiscount;
     }
+
+    if (offerProducts&&couponId) {
+        grandTotal = cartTotal-couponDiscount-totalDiscount+shippingCharge;
+
+       }
+
 
 //----------save to order schema -----------------
 
@@ -716,8 +722,18 @@ const downloadInvoice = async (req, res) => {
             currentY += rowHeight;
         });
 
+        if(order.offerDetails && order.couponDetails){
+            doc.fontSize(10).text(`Discount: ${(order.offerDetails.discount || 0) + (order.couponDetails.discount || 0)}`, startX, currentY + 10);
+        }else if (order.offerDetails) {
+            doc.fontSize(10).text(`Discount: ${order.offerDetails.discount}`, startX, currentY + 10);
+        } else if (order.couponDetails) {
+            doc.fontSize(10).text(`Discount: ${order.couponDetails.discount}`, startX, currentY + 10);
+        } else {
+            doc.fontSize(10).text(`Discount: ${'00.0'}`, startX, currentY + 10);
+        }
+        
         doc.moveDown(2);
-        doc.fontSize(12).text(`Total Price: ${order.totalPrice}`, startX, currentY + 10);
+        doc.fontSize(12).text(`Total Price: ${order.totalPrice}`, startX, currentY + 22);
 
         doc.end();
 
@@ -878,7 +894,7 @@ const cancelOrder = asyncHandler(async (req, res) => {
 
     await notification.save();
 
-    res.status(200).json({ message: 'Order cancelled and quantity updated successfully' });
+    res.status(200).json({ message: 'Order cancelled successfully' });
 }});
 
 
@@ -931,15 +947,13 @@ const walletPage = asyncHandler(async (req, res) => {
 
 const walletParchase = asyncHandler(async(req,res)=>{
   
-        // const discounttotal = req.session.totalDiscount;
         const offerProducts = req.session.offerProducts ;
        
         const couponId = req.session.couponId;
         const cartTotal = req.session.total;
     
         const {userId, firstName, address, landmark, city, phone, pincode, email, paymentMethod } = req.body
-    
-
+ 
         const cart = await Cart.findOne({ user: userId }).populate('cartItem.products');
     
         if (!cart) {
@@ -987,9 +1001,9 @@ const walletParchase = asyncHandler(async(req,res)=>{
         offerType: ' ',
       };
     
+
       if(offerProducts){
          
-          console.log('payment -==========offer ======'+offerProducts);
         // const offerProducts = cart.cartItem.filter(item => item.products.offer && item.products.offer.length > 0);   
     
         
@@ -1027,7 +1041,7 @@ const walletParchase = asyncHandler(async(req,res)=>{
         miniPurchaseAmt: 0,
         maxredeemableAmt: 0
       };
-    
+     let couponDiscount=0
      if(couponId){
          const coupon = await Coupon.findOne({_id:couponId });
         //  console.log('coupon'+coupon);
@@ -1039,7 +1053,7 @@ const walletParchase = asyncHandler(async(req,res)=>{
          let grandTotal = cartTotal + shippingCharge;
         //  console.log('first grandTotal'+grandTotal);
          const discountAmount = cartTotal * (coupon.discount / 100);
-       const couponDiscount = Math.min(
+       let couponDiscount = Math.min(
              discountAmount,
              coupon.maxredeemableAmt || coupon.maxredeemableAmt
        );
@@ -1053,8 +1067,13 @@ const walletParchase = asyncHandler(async(req,res)=>{
     
        grandTotal -=couponDiscount;
      }
-    
-    console.log('grandTotal'+grandTotal);
+
+
+     if (offerProducts&&couponId) {
+        grandTotal = cartTotal-couponDiscount-totalDiscount+shippingCharge;
+
+       }
+
     
         const orderItems = cart.cartItem.map(item => ({
             productId: item.products._id,
@@ -1094,7 +1113,6 @@ const walletParchase = asyncHandler(async(req,res)=>{
         const orderData = await order.save();
     
         // Log the order data for debugging
-        console.log('OrderData:', orderData);
     
         res.status(200).json({ success: true, orderId: orderData._id });
     
