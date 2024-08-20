@@ -12,7 +12,7 @@ const productManagementLoad = asyncHandler(async(req,res)=>{
 
       const start = (currentPage - 1) * FirstPage;
 
-      const  productData = await Products.find({}).populate('category').skip(start).limit(FirstPage);
+      const  productData = await Products.find({}).populate('category').sort({createdAt:-1}).skip(start).limit(FirstPage);
       const products = await Products.countDocuments({});
 
       const totalPages = Math.ceil(products / FirstPage);
