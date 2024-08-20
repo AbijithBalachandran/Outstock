@@ -112,7 +112,7 @@
     <!-- Content Area -->
     
     <div class="col-md-9 profile-content mt-5 mb-3">
-      <% if (wallet) {%>
+      <% if (wallet && wallet.length > 0) {%>
       <div class="wallet-card text-center">
         <div class="wallet-balance">Balance: ₹ <%= wallet.walletAmount %></div>
         <div class="add-money">

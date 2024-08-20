@@ -1,22 +1,21 @@
 
 function addProductCart(event, id) {
-      event.preventDefault();
+      event.preventDefault()
       Swal.fire({
             title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            text: "You wan't to add product!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, Add!"
       }).then((result) => {       
-            if (result.isConfirmed) {
+            if (result.isConfirmed) { 
                   Swal.fire({
-                        title: "Add!",
-                        text: "You add the product to cart.",
+                        title: "Added!",
+                        text: "Product has been Added.",
                         icon: "success"
-                      });
-                      
+                  })    
                   fetch(`/cart-add?id=${id}`) 
                         .then(async response => {
                               if (response.ok) {
@@ -45,7 +44,11 @@ function addProductCart(event, id) {
                                           title: "Added!",
                                           text: "Product has been Added.",
                                           icon: "success"
+                                    }).then(() => {
+                                          // Reload the page after success
+                                          window.location.reload();
                                     }); 
+                                    
                                     }
                                     if (data.exist) {
                                           Swal.fire({
@@ -66,3 +69,4 @@ function addProductCart(event, id) {
       });
 
 }
+
