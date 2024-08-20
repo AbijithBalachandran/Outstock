@@ -915,9 +915,9 @@ const walletPage = asyncHandler(async (req, res) => {
     // Find the wallet
     const wallet = await Wallet.findOne({ userId: userId });
 
-    if (!wallet) {
-        return res.status(404).send('Wallet not found');
-    }
+    // if (!wallet) {
+    //     return res.status(404).send('Wallet not found');
+    // }
 
     // Sort transactions by date in descending order
     const sortedTransactions = wallet.transaction
