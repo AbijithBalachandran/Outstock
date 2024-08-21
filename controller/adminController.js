@@ -393,7 +393,7 @@ const SearchUser = asyncHandler(async (req, res) => {
 
             const start = (currentPage - 1) * FirstPage;
 
-            const orderData = await Order.find({}).skip(start).limit(FirstPage);
+            const orderData = await Order.find({}).sort({createdAt:-1}).skip(start).limit(FirstPage);
             const orderCount = await Order.countDocuments({}); 
             const totalPages = Math.ceil(orderCount / FirstPage);
 
