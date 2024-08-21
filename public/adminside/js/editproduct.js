@@ -10,41 +10,6 @@ function previewImage(event, previewId) {
 }
 
 
-// form validation
-// document.addEventListener('DOMContentLoaded', (event) => {
-//       const form = document.getElementById('productForm');
-      
-//       form.addEventListener('submit', async (event) => {
-//           event.preventDefault();
-  
-//           const formData = new FormData(form);
-//           console.log("Form Data Entries:", Array.from(formData.entries())); // Log all form data
-//           const validationErrors = validateForm(formData);
-  
-//           if (validationErrors.length > 0) {
-//               console.log("Validation errors found:", validationErrors);
-//               displayErrors(validationErrors);
-//               return;
-//           }
-  
-//           try {
-//               const response = await fetch('/admin/editProduct', {
-//                   method: 'POST',
-//                   body: formData,
-//               });
-  
-//               if (!response.ok) {
-//                   const errorText = await response.text();
-//                   displayErrors([{ field: 'form', message: errorText }]);
-//               } else {
-//                   window.location.href = '/admin/productManagement';
-//               }
-//           } catch (error) {
-//               displayErrors([{ field: 'form', message: 'An error occurred while submitting the form.' }]);
-//           }
-//       });
-  
-
 document.addEventListener('DOMContentLoaded', (event) => {
     const form = document.getElementById('productForm');
 
@@ -218,7 +183,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       if (!isNaN(originalPrice) && !isNaN(discount)) {
           const discountAmount = (originalPrice * discount) / 100;
           const discountedPrice = originalPrice - discountAmount;
-          discountPriceInput.value = discountedPrice.toFixed(2);
+          discountPriceInput.value = Math.floor(discountedPrice).toFixed(2);
       }
   }
   

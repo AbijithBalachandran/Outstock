@@ -142,7 +142,7 @@ function calculateDiscountPrice() {
     if (!isNaN(originalPrice) && !isNaN(discount)) {
         const discountAmount = (originalPrice * discount) / 100;
         const discountedPrice = originalPrice - discountAmount;
-        discountPriceInput.value = discountedPrice.toFixed(2);
+        discountPriceInput.value = Math.floor(discountedPrice).toFixed(2);
     }
 }
 
