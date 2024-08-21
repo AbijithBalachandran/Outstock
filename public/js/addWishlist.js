@@ -11,6 +11,11 @@ function addWishlist(event, id) {
             confirmButtonText: "Yes, Add!"
       }).then((result) => {
             if (result.isConfirmed) {
+                  Swal.fire({
+                        title: "Added!",
+                        text: "Product has been Added.",
+                        icon: "success"
+                  }); 
                   fetch(`/wishlist-add?id=${id}`) 
                         .then(async response => {
                               if (response.ok) {

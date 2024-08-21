@@ -35,6 +35,9 @@ const addCouponPage = asyncHandler(async(req,res)=>{
 const addNewCoupon = asyncHandler(async (req, res) => {
       const { codeNumber, discount, minPurchaseAmount, maxRedeemableAmount, expiryDate } = req.body;
   
+      if (discount < 0 || discount > 99) {
+            return res.status(400).json({ message: 'Discount percentage must be between 0 and 99' });
+        }
       // Check if the expiryDate is in the past
       if (new Date(expiryDate) < new Date()) {
           return res.status(400).json({ message: 'Expiry date cannot be in the past' });
@@ -83,6 +86,10 @@ const editCouponPage = asyncHandler(async(req,res)=>{
 const editCoupons = asyncHandler(async(req,res)=>{
       const { codeNumber, discount, minPurchaseAmount, maxRedeemableAmount, expiryDate,id } = req.body;
 
+      if (discount < 0 || discount > 99) {
+            return res.status(400).json({ message: 'Discount percentage must be between 0 and 99' });
+        }
+        
       const coupon = await Coupon.findById(id);
 
   if (!coupon) {

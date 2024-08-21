@@ -313,11 +313,9 @@ const userLoad = async (req, res) => {
 
             const start = (currentPage - 1) * FirstPage;
 
-            const userData = await User.find({ is_Admin: false }).skip(start).limit(FirstPage);
+            const userData = await User.find({ is_Admin: false }).sort({createdAt:-1}).skip(start).limit(FirstPage);
             const user = await User.countDocuments({ is_Admin: false });
             const totalPages = Math.ceil(user / FirstPage);
-
-
 
             res.render('customerManagement', { users: userData, currentPage, totalPages, ActivePage: 'customerManagement' });
       } catch (error) {

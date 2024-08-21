@@ -943,77 +943,215 @@ const walletPage = asyncHandler(async (req, res) => {
     const paginatedTransactions = sortedTransactions.slice(start, start + FirstPage);
     const totalPages = Math.ceil(sortedTransactions.length / FirstPage);
 
-    res.render('wallet', { wallet: paginatedTransactions, currentPage, totalPages, user, cartCount, activePage: "wallet" });
+    res.render('wallet', {  walletAmount: wallet.walletAmount,wallet: paginatedTransactions, currentPage, totalPages, user, cartCount, activePage: "wallet" });
 });
 
 
 //--------------------------------parchasing product - using wallet amount -------------
 
-const walletParchase = asyncHandler(async(req,res)=>{
+
+// const walletParchase = asyncHandler(async(req,res)=>{
   
-        const offerProducts = req.session.offerProducts ;
+//         const offerProducts = req.session.offerProducts ;
        
-        const couponId = req.session.couponId;
-        const cartTotal = req.session.total;
+//         const couponId = req.session.couponId;
+//         const cartTotal = req.session.total;
     
-        const {userId, firstName, address, landmark, city, phone, pincode, email, paymentMethod } = req.body
+//         const {userId, firstName, address, landmark, city, phone, pincode, email, paymentMethod } = req.body
  
-        const cart = await Cart.findOne({ user: userId }).populate('cartItem.products');
+//         const cart = await Cart.findOne({ user: userId }).populate('cartItem.products');
     
-        if (!cart) {
-            res.status(400).json({ error: "Cart not found!" });
-            return;
-        }
+//         if (!cart) {
+//             res.status(400).json({ error: "Cart not found!" });
+//             return;
+//         }
     
-        // Update stock and clear cart
-        await Promise.all(cart.cartItem.map(async (item) => {
-            await Product.updateOne({ _id: item.products._id }, { $inc: { quantity: -item.quantity } });
-        }));
+//         // Update stock and clear cart
+//         await Promise.all(cart.cartItem.map(async (item) => {
+//             await Product.updateOne({ _id: item.products._id }, { $inc: { quantity: -item.quantity } });
+//         }));
     
-        await Cart.updateOne({ user: userId }, { $set: { cartItem: [] } });
+//         await Cart.updateOne({ user: userId }, { $set: { cartItem: [] } });
     
-         const shippingCharge = 100;
-        grandTotal = cartTotal + shippingCharge;
+//          const shippingCharge = 100;
+//         grandTotal = cartTotal + shippingCharge;
     
     
-        const wallet = await Wallet.findOne({userId:userId});
-        let walletAmount = wallet.walletAmount;
+//         const wallet = await Wallet.findOne({userId:userId});
+//         let walletAmount = wallet.walletAmount;
 
-         if(walletAmount  < grandTotal){
-           res.status(400).json({message:'wallet have no efficiant money for purchase '})
-         }else{
-            walletAmount -= grandTotal;
+//          if(walletAmount  < grandTotal){
+//            res.status(400).json({message:'wallet have no efficiant money for purchase '})
+//          }else{
+//             walletAmount -= grandTotal;
 
-           await Wallet.updateOne({ userId: userId }, {
-                 walletAmount: walletAmount,
-        $push: {
-            transaction: {
-                amount: grandTotal,
-                PaymentType: 'Debit',
-                date: new Date()
-            }
-        }
-    });
-         }
+//            await Wallet.updateOne({ userId: userId }, {
+//                  walletAmount: walletAmount,
+//         $push: {
+//             transaction: {
+//                 amount: grandTotal,
+//                 PaymentType: 'Debit',
+//                 date: new Date()
+//             }
+//         }
+//     });
+//          }
 
 
-    //-------------------offer apply --------------
+//     //-------------------offer apply --------------
     
-    let offerDetails = {
-        offerName: "",
-        discount: 0,
-        offerType: ' ',
-      };
+//     let offerDetails = {
+//         offerName: "",
+//         discount: 0,
+//         offerType: ' ',
+//       };
     
 
-      if(offerProducts){
+//       if(offerProducts){
          
-        // const offerProducts = cart.cartItem.filter(item => item.products.offer && item.products.offer.length > 0);   
+//         // const offerProducts = cart.cartItem.filter(item => item.products.offer && item.products.offer.length > 0);   
     
         
+//         async function calculateOfferDiscount(product) {
+//             if (product.offer && product.offer.length > 0) {
+//                 // Get the latest offer
+//                 const latestOfferId = product.offer[product.offer.length - 1];
+//                 const offerDetails = await Offer.findById(latestOfferId);
+//                 if (offerDetails && offerDetails.offerStatus) {
+//                     return product.price * (offerDetails.discount / 100);
+//                 }
+//             }
+//             return 0;
+//         }
+//         let totalDiscount = 0;
+//         for (const item of offerProducts) {
+//             const discount = await calculateOfferDiscount(item.products);
+//             totalDiscount += discount * item.quantity;
+//         }
+    
+//         offerDetails ={
+//             offerName:offerDetails.offerName,
+//             discount: totalDiscount,
+//             offerType: offerDetails.offerType,
+//         }
+    
+//         grandTotal -=totalDiscount;
+//       }
+        
+//      //----------------coupon appply--------------------------
+    
+//      let couponDetails = {
+//         code: "",
+//         discount: 0,
+//         miniPurchaseAmt: 0,
+//         maxredeemableAmt: 0
+//       };
+//      let couponDiscount=0
+//      if(couponId){
+//          const coupon = await Coupon.findOne({_id:couponId });
+//         //  console.log('coupon'+coupon);
+//          if(!coupon ){
+//              return res.status(400).json({ success: false, message: 'Coupon is not valid' });
+    
+//          }
+//          const shippingCharge = 100;
+//          let grandTotal = cartTotal + shippingCharge;
+//         //  console.log('first grandTotal'+grandTotal);
+//          const discountAmount = cartTotal * (coupon.discount / 100);
+//        let couponDiscount = Math.min(
+//              discountAmount,
+//              coupon.maxredeemableAmt || coupon.maxredeemableAmt
+//        );
+    
+//        couponDetails ={
+//          code:coupon.code,
+//          discount:couponDiscount,
+//          miniParchaseAmt:coupon.miniParchaseAmt,
+//          maxredeemableAmt:coupon.maxredeemableAmt
+//        }
+    
+//        grandTotal -=couponDiscount;
+//      }
+
+
+//      if (offerProducts&&couponId) {
+//         grandTotal = cartTotal-couponDiscount-totalDiscount+shippingCharge;
+
+//        }
+
+    
+//         const orderItems = cart.cartItem.map(item => ({
+//             productId: item.products._id,
+//             quantity: item.quantity,
+//             productName: item.products.name,
+//             price: item.products.price,
+//             images: item.products.images,
+//             category: item.products.category,
+//             type: item.products.type,
+//             discount: item.products.discount,
+//             description: item.products.description,
+//             action: item.products.action,
+//             disPrice: item.products.disPrice,
+//             createdAt: new Date(),
+//             is_Delete: false
+//         }));
+    
+//         const order = new Order({
+//             user: userId,
+//             orderItem: orderItems,
+//             address: {
+//                 userName: firstName,
+//                 address: address,
+//                 phone: phone,
+//                 landmark: landmark,
+//                 city: city,
+//                 pincode: pincode,
+//                 email: email
+//             }, 
+//             offerDetails:offerDetails,
+//             totalPrice:grandTotal,
+//             couponDetails:couponDetails,
+//             paymentMethod: paymentMethod,
+//             orderStatus: "Processing",
+//         });
+    
+//         const orderData = await order.save();
+    
+//         // Log the order data for debugging
+    
+//         res.status(200).json({ success: true, orderId: orderData._id });
+    
+    
+// })
+
+
+const walletParchase = asyncHandler(async (req, res) => {
+    const offerProducts = req.session.offerProducts;
+    const couponId = req.session.couponId;
+    const cartTotal = req.session.total;
+    const { userId, firstName, address, landmark, city, phone, pincode, email, paymentMethod } = req.body;
+
+    const cart = await Cart.findOne({ user: userId }).populate('cartItem.products');
+    
+    if (!cart) {
+        return res.status(400).json({ error: "Cart not found!" });
+    }
+
+    // Calculate initial grand total including shipping charges
+    const shippingCharge = 100;
+    let grandTotal = cartTotal + shippingCharge;
+
+    const wallet = await Wallet.findOne({ userId: userId });
+    if (!wallet) {
+        return res.status(400).json({ message: 'Wallet not found' });
+    }
+    let walletAmount = wallet.walletAmount;
+
+    // Apply offer if available
+    let totalDiscount = 0;
+    if (offerProducts) {
         async function calculateOfferDiscount(product) {
             if (product.offer && product.offer.length > 0) {
-                // Get the latest offer
                 const latestOfferId = product.offer[product.offer.length - 1];
                 const offerDetails = await Offer.findById(latestOfferId);
                 if (offerDetails && offerDetails.offerStatus) {
@@ -1022,106 +1160,111 @@ const walletParchase = asyncHandler(async(req,res)=>{
             }
             return 0;
         }
-        let totalDiscount = 0;
+
         for (const item of offerProducts) {
             const discount = await calculateOfferDiscount(item.products);
             totalDiscount += discount * item.quantity;
         }
-    
-        offerDetails ={
-            offerName:offerDetails.offerName,
+
+        grandTotal -= totalDiscount;
+    }
+
+    // Apply coupon if available
+    let couponDiscount = 0;
+    if (couponId) {
+        const coupon = await Coupon.findOne({ _id: couponId });
+        if (coupon) {
+            const discountAmount = cartTotal * (coupon.discount / 100);
+            couponDiscount = Math.min(discountAmount, coupon.maxredeemableAmt);
+            grandTotal -= couponDiscount;
+        } else {
+            return res.status(400).json({ success: false, message: 'Coupon is not valid' });
+        }
+    }
+
+
+    if (offerProducts&&couponId) {
+                grandTotal = cartTotal-couponDiscount-totalDiscount+shippingCharge;
+        
+               }
+        
+
+
+    if (walletAmount < grandTotal) {
+        return res.status(400).json({ message: 'Insufficient wallet balance for this purchase' });
+    }
+
+    // Deduct the total amount from the wallet
+    walletAmount -= grandTotal;
+
+    await Wallet.updateOne({ userId: userId }, {
+        walletAmount: walletAmount,
+        $push: {
+            transaction: {
+                amount: grandTotal,
+                PaymentType: 'Debit',
+                date: new Date()
+            }
+        }
+    });
+
+    // Update stock and clear cart
+    await Promise.all(cart.cartItem.map(async (item) => {
+        await Product.updateOne({ _id: item.products._id }, { $inc: { quantity: -item.quantity } });
+    }));
+
+    await Cart.updateOne({ user: userId }, { $set: { cartItem: [] } });
+
+    // Create order
+    const orderItems = cart.cartItem.map(item => ({
+        productId: item.products._id,
+        quantity: item.quantity,
+        productName: item.products.name,
+        price: item.products.price,
+        images: item.products.images,
+        category: item.products.category,
+        type: item.products.type,
+        discount: item.products.discount,
+        description: item.products.description,
+        action: item.products.action,
+        disPrice: item.products.disPrice,
+        createdAt: new Date(),
+        is_Delete: false
+    }));
+
+    const order = new Order({
+        user: userId,
+        orderItem: orderItems,
+        address: {
+            userName: firstName,
+            address: address,
+            phone: phone,
+            landmark: landmark,
+            city: city,
+            pincode: pincode,
+            email: email
+        },
+        offerDetails: offerProducts ? {
+            offerName: offerDetails.offerName,
             discount: totalDiscount,
             offerType: offerDetails.offerType,
-        }
-    
-        grandTotal -=totalDiscount;
-      }
-        
-     //----------------coupon appply--------------------------
-    
-     let couponDetails = {
-        code: "",
-        discount: 0,
-        miniPurchaseAmt: 0,
-        maxredeemableAmt: 0
-      };
-     let couponDiscount=0
-     if(couponId){
-         const coupon = await Coupon.findOne({_id:couponId });
-        //  console.log('coupon'+coupon);
-         if(!coupon ){
-             return res.status(400).json({ success: false, message: 'Coupon is not valid' });
-    
-         }
-         const shippingCharge = 100;
-         let grandTotal = cartTotal + shippingCharge;
-        //  console.log('first grandTotal'+grandTotal);
-         const discountAmount = cartTotal * (coupon.discount / 100);
-       let couponDiscount = Math.min(
-             discountAmount,
-             coupon.maxredeemableAmt || coupon.maxredeemableAmt
-       );
-    
-       couponDetails ={
-         code:coupon.code,
-         discount:couponDiscount,
-         miniParchaseAmt:coupon.miniParchaseAmt,
-         maxredeemableAmt:coupon.maxredeemableAmt
-       }
-    
-       grandTotal -=couponDiscount;
-     }
+        } : null,
+        totalPrice: grandTotal,
+        couponDetails: couponId ? {
+            code: coupon.code,
+            discount: couponDiscount,
+            miniPurchaseAmt: coupon.miniParchaseAmt,
+            maxredeemableAmt: coupon.maxredeemableAmt
+        } : null,
+        paymentMethod: paymentMethod,
+        orderStatus: "Processing",
+    });
 
+    const orderData = await order.save();
 
-     if (offerProducts&&couponId) {
-        grandTotal = cartTotal-couponDiscount-totalDiscount+shippingCharge;
+    res.status(200).json({ success: true, orderId: orderData._id });
+});
 
-       }
-
-    
-        const orderItems = cart.cartItem.map(item => ({
-            productId: item.products._id,
-            quantity: item.quantity,
-            productName: item.products.name,
-            price: item.products.price,
-            images: item.products.images,
-            category: item.products.category,
-            type: item.products.type,
-            discount: item.products.discount,
-            description: item.products.description,
-            action: item.products.action,
-            disPrice: item.products.disPrice,
-            createdAt: new Date(),
-            is_Delete: false
-        }));
-    
-        const order = new Order({
-            user: userId,
-            orderItem: orderItems,
-            address: {
-                userName: firstName,
-                address: address,
-                phone: phone,
-                landmark: landmark,
-                city: city,
-                pincode: pincode,
-                email: email
-            }, 
-            offerDetails:offerDetails,
-            totalPrice:grandTotal,
-            couponDetails:couponDetails,
-            paymentMethod: paymentMethod,
-            orderStatus: "Processing",
-        });
-    
-        const orderData = await order.save();
-    
-        // Log the order data for debugging
-    
-        res.status(200).json({ success: true, orderId: orderData._id });
-    
-    
-})
 
 
 //-----------------------------Failed payment to retry to pay ----------------------------------------------------------

@@ -82,11 +82,24 @@ document.addEventListener('DOMContentLoaded', function() {
                       window.location.href = "/admin/couponManagement";
                   } else {
                       const data = await response.json();
-                      alert('An error occurred: ' + data.message);
+                      Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: data.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    //   alert('An error occurred: ' + data.message);
                   }
               } catch (error) {
                   console.error('Error:', error);
-                  alert('An error occurred while updating the coupon.');
+                  Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'An error occurred. Please try again.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
               }
           }
       });

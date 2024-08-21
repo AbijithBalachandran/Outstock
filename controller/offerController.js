@@ -76,6 +76,9 @@ const editOffer = asyncHandler(async (req, res) => {
           return res.status(400).json({ message: 'All fields are required' });
       }
 
+      if (discount < 0 || discount > 99) {
+        return res.status(400).json({ message: 'Discount percentage must be between 0 and 99' });
+    }
 
     const offer = await Offer.findOne({ _id: id });
     if (!offer) {
@@ -151,6 +154,11 @@ const applyOffer = asyncHandler(async (req, res) => {
     // Check if all required fields are provided
     if (!offerName || !offerType || !discount || !expiryDate || !selectedItems) {
         return res.status(400).json({ message: 'All fields are required' });
+    }
+
+     // Validate discount percentage (must be between 0 and 99)
+     if (discount < 0 || discount > 99) {
+        return res.status(400).json({ message: 'Discount percentage must be between 0 and 99' });
     }
 
     const existingOffer = await Offer.findOne({offerName:{$regex: new RegExp(`^${offerName}$`, 'i')}});

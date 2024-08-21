@@ -296,7 +296,10 @@
                                 <a class="position-relative" href="/wishlist?id=<%=user.id %>" title="Wishlist"
                                   data-count-wishlist>Wishlist<span class="count">0</span></a>
                               </li>
-                              <li class="link"><a href="/logout" id="customer_register_link">LogOut</a></li>
+                              <li class="link">
+                                <!-- <a href="/logout" id="customer_register_link">LogOut</a> -->
+                                <a href="/logout" id="customer_register_link" onclick="return confirmLogout(event)">LogOut</a>
+                              </li>
                             </ul>
                             <% }else{%>
                               <ul class="list-unstyled m-0">
@@ -320,3 +323,25 @@
     </header>
   </div>
 </div>
+
+
+<script>
+  function confirmLogout(event) {
+      event.preventDefault(); // Prevent the default link behavior
+  
+      Swal.fire({
+          title: 'Are you sure you want to log out?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, log out',
+          cancelButtonText: 'Cancel'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              window.location.href = event.target.href; // Redirect to the logout URL
+          }
+      });
+  }
+  </script>
+  

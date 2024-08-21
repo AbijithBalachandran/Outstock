@@ -5,7 +5,7 @@ document.getElementById('offerForm').addEventListener('submit', async function(e
       // Regular expressions for validation
       const nameRegex = /^[a-zA-Z0-9\s]{3,50}$/;
       const typeRegex = /^[a-zA-Z\s]{3,20}$/;
-      const discountRegex = /^([1-9][0-9]?|100)$/;
+      const discountRegex = /^(100|[1-9]?[0-9])$/;
 
       let isValid = true;
 

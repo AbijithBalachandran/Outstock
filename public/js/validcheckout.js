@@ -3,7 +3,7 @@ const validateForm = () => {
       const name = document.getElementById("firstName").value;
       const address = document.getElementById("address").value;
       const city = document.getElementById("city").value;
-    
+      const landMark = document.getElementById('landMark').value
       const pincode = document.getElementById("pinCode").value;
       const mobile = document.getElementById("phone").value;
       const email = document.getElementById("email").value;
@@ -21,7 +21,7 @@ const validateForm = () => {
       const isValidName = nameRegex.test(name);
       const isValidAddress = addressRegex.test(address);
       const isValidCity = cityRegex.test(city);
-    
+      const isValidlandmark = cityRegex.test(landMark)
       const isValidPincode = pincodeRegex.test(pincode);
       const isValidMobile = mobileRegex.test(mobile);
       const isValidEmail = emailRegex.test(email);
@@ -49,6 +49,10 @@ const validateForm = () => {
       }
       if (!isValidCity) {
         sweetAlert("city");
+        return false;
+      }
+      if (!isValidlandmark) {
+        sweetAlert("landMark");
         return false;
       }
       if (!isValidPincode) {
