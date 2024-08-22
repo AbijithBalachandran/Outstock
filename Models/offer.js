@@ -28,7 +28,7 @@ const offerSchema = new mongoose.Schema({
     },
     selectedItems: {
         categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }],
-        products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
+        products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Products' }]
     }
 });
 

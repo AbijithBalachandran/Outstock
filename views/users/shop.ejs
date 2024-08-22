@@ -564,12 +564,20 @@ border-bottom-right-radius: 0.25rem;
 
 
     <script>
-function sortProducts() {
+        
+  function sortProducts() {
     const sortBy = document.querySelector('input[name="sort_by"]:checked').value;
     const urlParams = new URLSearchParams(window.location.search);
-    const currentPage = urlParams.get('page') || 1; // Get the current page or default to 1
-    window.location.href = `/shop?sort_by=${sortBy}&page=${currentPage}`;
-}
+    const currentPage = urlParams.get('page') || 1;
+    const categoryId = urlParams.get('id'); // Get the category ID if it's in the URL
+    
+    let url = `/shop?sort_by=${sortBy}&page=${currentPage}`;
+    if (categoryId) {
+        url += `&id=${categoryId}`;
+    }
+    
+    window.location.href = url;
+  }
 
     </script>
    

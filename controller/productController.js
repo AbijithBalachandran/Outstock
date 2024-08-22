@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const Products = require('../Models/products');
 const { default: mongoose } = require('mongoose');
 const categories = require('../Models/category')
-
+const Offer = require('../Models/offer');
 //---------------------product detail page rendering------------------------
 
 const productManagementLoad = asyncHandler(async(req,res)=>{
@@ -17,7 +17,17 @@ const productManagementLoad = asyncHandler(async(req,res)=>{
 
       const totalPages = Math.ceil(products / FirstPage);
 
-      res.render('productManagement',{ product: productData, currentPage, totalPages,ActivePage: 'productManagement' });
+      const offers = await Offer.find({offerStatus:true}).populate('selectedItems.categories');
+
+      const productDiscount = new Map();
+
+      offers.forEach(offer =>{
+        offer.selectedItems.products.forEach(products =>{
+            productDiscount.set(products._id.toString(),offer.discount);
+        });
+      });
+
+      res.render('productManagement',{ product: productData, currentPage, totalPages,ActivePage: 'productManagement',productDiscount });
 });
 
 

@@ -16,24 +16,32 @@ const cartLoad = asyncHandler(async (req, res) => {
 
     const user = await User.findById(userId);
     
-    if (user == undefined) {
+    if (!user) {
         return res.status(404).redirect('/404');
     }
 
-    const cart = await Cart.findOne({ user: userId }).populate('cartItem.products');
+    // Fetch the cart with products where action is false
+    const cart = await Cart.findOne({ user: userId }).populate({
+        path: 'cartItem.products',
+        match: { action: false },  // Ensure only products with action: false are included
+    });
+
     if (!cart) {
-        res.render('cart', { user, cartItems: [], total: 0, cartCount: 0, activePage: "cart" });
-        return;
+        return res.render('cart', { user, cartItems: [], total: 0, cartCount: 0, activePage: "cart" });
     }
 
-    const cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
+    // Filter out any cart items with products that didn't populate (i.e., action: true or not found)
+    const filteredCartItems = cart.cartItem.filter(item => item.products);
+
+    const cartCount = filteredCartItems.reduce((total, item) => total + item.quantity, 0);
     
-    const total = cart.cartItem.reduce((acc, val) => {
+    const total = filteredCartItems.reduce((acc, val) => {
         return acc + val.products.price * val.quantity;
     }, 0);
 
-    res.render('cart', { user, cartItems: cart.cartItem, total, cartCount, activePage: "cart" });
+    res.render('cart', { user, cartItems: filteredCartItems, total, cartCount, activePage: "cart" });
 });
+
 
 //-------------------------------Add Product to Cart--------------------------------//
 

@@ -1,4 +1,4 @@
-// const { ObjectId } = require('mongodb');
+ const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
@@ -50,7 +50,7 @@ const productSchema = new mongoose.Schema({
       },
       createdAt:{
             type:Date,
-            require:new Date()
+            default: Date.now
       },
       is_Delete:{
             type:Boolean,

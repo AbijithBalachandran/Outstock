@@ -59,7 +59,24 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="order-header">
-                        <span>Order ID : <span class="text-dark"><%= order._id.toString().slice(0, 6) %></span></span><br>
+
+                        <div class="header-left col col-lg-auto mb-3">
+                            <h1 class="header__heading mb-0">
+                              <a href=" " class="header__heading-link d-flex" style="max-width: 150px">
+                                <img class="header__heading-logo img-fluid"
+                                  srcset="//vela-kazan.myshopify.com/cdn/shop/files/logo_dark.svg?v=1676480977&width=150 1x, //vela-kazan.myshopify.com/cdn/shop/files/logo_dark.svg?v=1676480977&width=409 2x"
+                                  src="cdn/shop/files/logo_dark64cb.svg?v=1676480977&amp;width=150" loading="lazy" width="150"
+                                  alt="Outstock"></a>
+                            </h1>
+                          </div>
+
+                          
+                        <p style="margin: 0;">OutStock Furniture PLDT</p>
+                        <p style="margin: 0;">Email : outstock@gmail.com</p>
+                        <p style="margin: 0;">contact: 9876543210</p>
+
+                        
+                        <span>Order ID : <span class="text-dark" style="font-weight: 600;"><%= order._id.toString().slice(0, 6) %></span></span><br>
                         <span>Placed On : <%= new Date(order.orderDate).toLocaleDateString('en-US', {
                             weekday: 'short',
                             month: 'short',
@@ -70,15 +87,15 @@
                     <div class="order-details">
 
                         <% if (order.offerDetails && order.couponDetails) { %>
-                            <p style="font-size: 12px;">Discount : <span class="price"><%= (order.offerDetails.discount || 0) + (order.couponDetails.discount || 0) %></span>
+                            <p style="font-size: 12px; margin: 0%;">Discount : <span class="price"><%= (order.offerDetails.discount || 0) + (order.couponDetails.discount || 0) %></span>
                                 <% } else if (order.offerDetails) { %>
-                            <p style="font-size: 12px;">Discount : <span class="price"><%= order.offerDetails.discount %></span> 
+                            <p style="font-size: 12px; margin: 0%;">Discount : <span class="price"><%= order.offerDetails.discount %></span> 
                                  <% } else if (order.couponDetails) { %>
-                            <p style="font-size: 12px;">Discount : <span class="price"><%= order.couponDetails.discount %></span> 
+                            <p style="font-size: 12px; margin: 0%;">Discount : <span class="price"><%= order.couponDetails.discount %></span> 
                                         <% } else { %>
-                            <p style="font-size: 12px;">Discount : <span class="price">00</span> 
+                            <p style="font-size: 12px; margin: 0%;">Discount : <span class="price">00</span> 
                                             <% } %>
-                            <p style="font-size: 12px;">shipping charge : <span class="price">100</span> 
+                            <p style="font-size: 12px; margin: 0%;">shipping charge : <span class="price">100</span> 
                               
                         <h6 class="price">₹ <%= order.totalPrice %> <small>: <%= order.paymentMethod %></small></h6>
                         <p>Tracking Status : <span class="price"><%= order.orderStatus %></span> <br><br>

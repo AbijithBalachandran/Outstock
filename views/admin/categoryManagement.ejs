@@ -102,10 +102,6 @@
                     </nav>
                     <!-- Navbar End -->
 
-                     <!-- <form method="post" class="d-none d-md-flex ms-4 mt-4 w-25">
-                        <input class="form-control border-0" type="search" placeholder="Search">
-                    </form> -->
-
                     <!-- Table Start -->
 
                     <table class="table table-bordered table-hover classic-table mt-4">
@@ -113,6 +109,7 @@
                             <tr>
                                 <th scope="col">Category Name</th>
                                 <th scope="col">Discription</th>
+                                <th scope="col">Offer</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Action</th>
 
@@ -130,6 +127,17 @@
                                             <td>
                                                  <%= categories[i].description %> 
                                             </td>
+
+                                            <td>
+
+                                                <% if (categoryDiscounts.has(categories[i]._id.toString())) { %>
+                                                    <%= categoryDiscounts.get(categories[i]._id.toString()) %>%
+                                                <% } else { %>
+                                                    No offer
+                                                <% } %>
+
+                                            </td>
+
                                             <td>
                                                  <%= new Date(categories[i].createdAt).toLocaleDateString('en-US', {
                                                     weekday: 'short' , month: 'short' , day: 'numeric' , year:'numeric'})%> 

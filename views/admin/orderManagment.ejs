@@ -129,6 +129,7 @@
                     <tr>
                         <th scope="col">ORDER ID</th>
                         <th scope="col">NAME</th>
+                        <th scope="col">T-AMOUNT</th>
                         <th scope="col">PAYMENT METHOD</th>
                         <th scope="col">DETAILS</th>
                     </tr>
@@ -139,6 +140,7 @@
                             <tr>
                                 <th scope="row"><%= item._id.toString().slice(0, 6)  %></th>
                                 <td><%= item.address.userName %></td>
+                                <td><%= item.totalPrice %></td>
                                 <td><%= item.paymentMethod%></td>
                                 <td>
                                <a href="/admin/order-detail?id=<%=item._id%>"><button type="button" class="btn btn-success btn-sm" id="show-btn" data-id="<%=item._id%>">Show</button></a>

@@ -172,45 +172,101 @@
         </style>
 
 <div class="d-flex justify-content-start m-5">
-      <a href="/admin/addOffer"><button type="button" class="btn btn-primary">ADD OFFER</button></a>
-  </div>
-      </head>
-      <body>
-        <div class="container mt-5">
-            <% if(offer && offer.length > 0){%>
+  <a href="/admin/addOffer"><button type="button" class="btn btn-primary">ADD OFFER</button></a>
+</div>
+
+<body>
+  <div class="container mt-5">
+      <% if (offer && offer.length > 0) { %>
           <div class="row">
-            <% offer.forEach(offer => {%>
+              <% offer.forEach(offer => { %>
+                  <div class="col-sm-6">
+                      <div class="card">
+                          <a href="/admin/editOffer?id=<%= offer._id %>">
+                              <button class="edit-btn">
+                                  <i class="fas fa-edit"></i>
+                              </button>
+                          </a>
+                          <div class="card-body">
+                              <h5 class="card-title"><%= offer.offerName %></h5>
+                              <p class="card-text"></p>
+                              <div class="offer-details">
+                                  <p class="offer-type">Offer Type: <span><%= offer.offerType %></span></p>
+                                  <p class="offer-discount">Discount: <span class="disText"><%= offer.discount %>% OFF</span></p>
+                              </div>
+                              <% if (offer.offerType == "Category Base") { %>
+                                  <a class="btn btn-primary" data-bs-toggle="collapse" href="#categoryCollapse<%= offer._id %>" role="button" aria-expanded="false" aria-controls="categoryCollapse<%= offer._id %>">Selected Categories</a>
+                              <% } else if (offer.offerType == "Product Base") { %>
+                                  <a class="btn btn-primary" data-bs-toggle="collapse" href="#productCollapse<%= offer._id %>" role="button" aria-expanded="false" aria-controls="productCollapse<%= offer._id %>">Selected Products</a>
+                              <% } else { %>
+                                  <p>The Offer Type Not Saved</p>
+                              <% } %>
+                              <% if (offer.offerStatus === true) { %>
+                                  <button class="btn btn-activate" onclick="activateDeactivate('<%= offer._id %>', true)">Activate</button>
+                              <% } else { %>
+                                  <button class="btn btn-danger" onclick="activateDeactivate('<%= offer._id %>', false)">Deactivate</button>
+                              <% } %>
+                          </div>
+                      </div>
 
-            <div class="col-sm-6">
-              <div class="card">
-                <a href="/admin/editOffer?id=<%= offer.id %>"><button class="edit-btn">
-                  <i class="fas fa-edit"></i>
-                </button></a>
-                <div class="card-body">
-                  <h5 class="card-title"><%= offer.offerName %></h5>
-                  <p class="card-text"></p>
-                  <div class="offer-details">
-                    <p class="offer-type">Offer Type: <span><%= offer.offerType %></span></p>
-                    <p class="offer-discount">Discount: <span class="disText"><%= offer.discount %>% OFF</span></p>
+                      <!-- Collapse for Selected Categories -->
+                      <div class="collapse multi-collapse" id="categoryCollapse<%= offer._id %>">
+                          <div class="card card-body">
+                              <h5>Selected Categories:</h5>
+                              <ul>
+                                  <% if (offer.selectedItems && offer.selectedItems.categories && offer.selectedItems.categories.length > 0) { %>
+                                      <% offer.selectedItems.categories.forEach(function(category) { %>
+                                          <li><%= category.name %></li>
+                                      <% }) %>
+                                  <% } else { %>
+                                      <li>No categories selected.</li>
+                                  <% } %>
+                              </ul>
+                          </div>
+                      </div>
+
+
+                      <style>
+                        .scrollable-collapse {
+                            max-height: 250px; 
+                            overflow-y: auto; 
+                        }
+                        .fixed-size-collapse {
+                         width: 100%; 
+                          max-height: 250px; 
+                           overflow-y: auto;
+                         overflow-x: hidden; 
+                        }
+                    </style>
+                    
+
+                      <!-- Collapse for Selected Products -->
+                      <div class="collapse multi-collapse" id="productCollapse<%= offer._id %>">
+                        <div class="card card-body scrollable-collapse">
+                            <h5>Selected Products:</h5>
+                            <ul>
+                                <% if (offer.selectedItems && offer.selectedItems.products && offer.selectedItems.products.length > 0) { %>
+                                    <% offer.selectedItems.products.forEach(function(product) { %>
+                                        <li><%= product.name %></li>
+                                    <% }) %>
+                                <% } else { %>
+                                    <li>No products selected.</li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    </div>
+                    
+
+
                   </div>
-
-                 <% if (offer.offerStatus === true) {%>
-                   <button class="btn btn-activate" onclick="activateDeactivate('<%= offer._id %>',true)" >Activate</button>
-                 <%} else {%>
-                   <button class="btn btn-danger" onclick="activateDeactivate('<%= offer._id %>',false)" >Deactivate</button>
-                 <% } %>
-                  
-
-                </div>
-              </div>
-            </div>
-          
-          <% }) %>
-      </div>
-          <% }else{%>
+              <% }) %>
+          </div>
+      <% } else { %>
           <h3>Offers Not Found</h3>
-          <% } %>
-        </div>
+      <% } %>
+  </div>
+</body>
+
       
         <!-- Pagination Start -->
 

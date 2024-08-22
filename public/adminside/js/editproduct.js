@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
           const categoryPattern = /^[a-zA-Z\s]+$/;
           const pricePattern = /^\d+(\.\d{1,2})?$/;
           const quantityPattern = /^\d+$/;
-          const discountPattern = /^(100|[1-9]?[0-9])$/;
+        //   const discountPattern = /^(100|[1-9]?[0-9])$/;
   
           // Product Name validation
           const name = formData.get('name').trim();
@@ -103,24 +103,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
               errors.push({ field: 'price', message: 'Original Price is required and must be a positive number.' });
           }
   
-          // Discount validation
-          const discount = formData.get('discount').trim();
-          if (!discount || !discountPattern.test(discount)) {
-              console.log("Discount validation failed", discount);
-              errors.push({ field: 'discount', message: 'Discount is required and must be a number between 0 and 100.' });
-          }
-  
-          // Discount Price validation
-          const disPrice = formData.get('disPrice');
-          if (!disPrice || !pricePattern.test(disPrice) || parseFloat(disPrice) <= 0) {
-              console.log("Discount Price validation failed", disPrice);
-              errors.push({ field: 'disPrice', message: 'Discount Price is required and must be a positive number.' });
-          }
-          if (parseFloat(disPrice) >= parseFloat(price)) {
-              console.log("Discount Price comparison failed", disPrice, price);
-              errors.push({ field: 'disPrice', message: 'Discount Price must be less than the Original Price.' });
-          }
-  
+        
           // Type validation
           const type = formData.get('type').trim();
           if (!type || !categoryPattern.test(type)) {
@@ -146,7 +129,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       }
   
       function displayErrors(errors) {
-          const errorFields = ['errorName', 'errorCategory', 'errorAction', 'errorQuantity', 'errorPrice', 'errorDiscount', 'errorDisPrice', 'errorType', 'errorDescription', 'errorImages'];
+          const errorFields = ['errorName', 'errorCategory', 'errorAction', 'errorQuantity', 'errorPrice','errorType', 'errorDescription', 'errorImages'];
   
           errorFields.forEach(field => {
               const errorElement = document.getElementById(field);
@@ -172,18 +155,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
       }
   });
   
-  function calculateDiscountPrice() {
-      var originalPriceInput = document.getElementById('originalPrice').value;
-      var discountPriceInput = document.getElementById('discountPrice');
-      var discountInput = document.getElementById('discount').value;
-  
-      var originalPrice = parseFloat(originalPriceInput);
-      var discount = parseFloat(discountInput);
-  
-      if (!isNaN(originalPrice) && !isNaN(discount)) {
-          const discountAmount = (originalPrice * discount) / 100;
-          const discountedPrice = originalPrice - discountAmount;
-          discountPriceInput.value = Math.floor(discountedPrice).toFixed(2);
-      }
-  }
+
   

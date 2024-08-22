@@ -372,14 +372,12 @@ const productDetails = asyncHandler(async (req, res) => {
   });
 
 
-
 //--------------------------logOut-------------------------------------------//
 
 const logOut = asyncHandler(async (req, res) => {
       req.session.destroy();
       res.redirect('home');
 });
-
 
 //------------------------------About page rendering ---------------------------//
 
@@ -667,11 +665,15 @@ const shopLoad = asyncHandler(async (req, res) => {
     // Fetch query parameters
     const categoryId = req.query.id;
     const sortBy = req.query.sort_by;
+    const searchQuery = req.query.search;
 
     // Build query object for filtering
     let query = { action: false };
     if (categoryId) {
         query.category = categoryId;
+    }
+    if (searchQuery) {
+        query.name = { $regex: searchQuery, $options: 'i' };
     }
 
     // Define sorting criteria
@@ -743,7 +745,8 @@ const shopLoad = asyncHandler(async (req, res) => {
             user,
             cartCount,
             activePage: 'shop',
-            sortBy 
+            sortBy,
+            searchQuery // Pass the search query back to the template
         });
 
     } catch (error) {
@@ -755,36 +758,84 @@ const shopLoad = asyncHandler(async (req, res) => {
 
 
 
-
 //------------------------------Search Products --------------------------------------------------------------------------------------------------------------
 
+
 const searchProduct = asyncHandler(async (req, res) => {
-      
-      let product = [];
-      const currentPage = parseInt(req.query.page);
-      const FirstPage = 8;
-      const start = (currentPage - 1) * FirstPage;
-      const totalproduct = await Products.countDocuments({ action:false });
-      const totalPages = Math.ceil(totalproduct / FirstPage);
+    const FirstPage = 8;
+    const currentPage = parseInt(req.query.page) || 1;
+    const start = (currentPage - 1) * FirstPage;
 
-      const productData = {
-            $or:[{name: { $regex: req.query.search, $options: 'i'}}]}
-      
-            console.log('search quary '+req.query.search);
+    // Fetch query parameters
+    const searchQuery = req.query.search;
+    const categoryId = req.query.id;
+    const sortBy = req.query.sort_by;
+
+    // Build query object for filtering and searching
+    let query = { action: false };
+    if (searchQuery) {
+        query.name = { $regex: searchQuery, $options: 'i' };
+    }
+    if (categoryId) {
+        query.category = categoryId;
+    }
+
+    // Define sorting criteria
+    let sortCriteria = {};
+    if (sortBy === 'title-ascending') {
+        sortCriteria.name = 1; // Ascending alphabetical order
+    } else if (sortBy === 'title-descending') {
+        sortCriteria.name = -1; // Descending alphabetical order
+    } else if (sortBy === 'price-ascending') {
+        sortCriteria.price = 1;
+    } else if (sortBy === 'price-descending') {
+        sortCriteria.price = -1;
+    } else if (sortBy === 'created-ascending') {
+        sortCriteria.createdAt = 1;
+    } else if (sortBy === 'created-descending') {
+        sortCriteria.createdAt = -1;
+    } else {
+        sortCriteria.createdAt = -1; // Default sorting by newest first
+    }
+
+    try {
+        // Fetch categories for filtering options
         const category = await Category.find({});
-        
-       if(req.query.search){
-             product = await Products.find(productData).skip(start).limit(FirstPage)
-       }else{
-             product =await Products.find().skip(start).limit(FirstPage);
-       }
 
-       const bestSellingProducts = await getBestSellingProducts();
+        // Fetch filtered, sorted, and paginated products
+        const [products, totalCount] = await Promise.all([
+            Products.find(query)
+                .sort(sortCriteria)
+                .skip(start)
+                .limit(FirstPage),
+            Products.countDocuments(query)
+        ]);
 
-      res.render('shop', {product,currentPage,totalPages,category,bestSellingProducts,activePage:"shop"});
+        // Calculate pagination info
+        const totalPages = Math.ceil(totalCount / FirstPage);
 
-  });
-  
+        // Fetch best selling products
+        const bestSellingProducts = await getBestSellingProducts();
+
+        // Render the shop page
+        res.render('shop', {
+            product: products,
+            currentPage,
+            totalPages,
+            category,
+            bestSellingProducts,
+            activePage: 'shop',
+            sortBy,
+            searchQuery // Pass the search query back to the template
+        });
+
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 
 //-----------------------------------Forgot Password page load ---------------------------------------------------------------------------------------------------
 

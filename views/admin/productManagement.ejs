@@ -123,7 +123,7 @@
                                 <th scope="col">category</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Price</th>
-                                <th scope="col">Discount</th>
+                                <th scope="col">Offers</th>
                                 <th scope="col">Stock</th>
                                 <th scope="col">Action</th>
                                 <th scope="col">Edit</th>
@@ -156,7 +156,11 @@
                                     <%= product[i].price %>
                                 </td>
                                 <td>
-                                    <%= product[i].discount %>
+                                    <% if (productDiscount.has(product[i]._id.toString())) { %>
+                                        <%= productDiscount.get(product[i]._id.toString()) %>%
+                                    <%}else{%>
+                                      No Offer
+                                  <% } %>
                                 </td>
                                 <td>
                                     <%= product[i].quantity %>
@@ -227,10 +231,7 @@
 
                     <!-- Pagination End -->
 
-                    <!-- <div class="d-flex justify-content-center ">
-                        <a href="/admin/addProducts"><button type="button" class="btn btn-primary">ADD
-                                PRODUCT</button></a>
-                    </div> -->
+                  
 
                     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

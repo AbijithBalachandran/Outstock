@@ -180,7 +180,11 @@
                           <% cartItems.forEach((item) => { %>
                             <tr>
                               <td class="d-flex align-items-center">
+                                <% if (item.products && item.products.images && item.products.images.length > 0) { %>
                                 <img src="/upload/product/<%= item.products.images[0] %>" alt="Product Image" class="mr-3">
+                                <% } else { %>
+                                  <img src="/path/to/default-image.jpg" alt="Default Product Image" class="mr-3">
+                                <% } %>
                                 <div>
                                   <p class="mb-1 ms-3"><%= item.products.name %></p>
                                   <p class="mb-0 text-muted ms-3"><%= item.products.price %></p>

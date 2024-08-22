@@ -17,7 +17,7 @@ require('dotenv').config();
 const PDFDocument = require('pdfkit');
 const { PassThrough } = require('stream');
 const mongoose = require('mongoose')
-
+const path = require('path');
 
 //----------------------------------------------------------
 
@@ -554,7 +554,12 @@ const wishlistLoad = asyncHandler(async (req, res) => {
         cartCount = cart.cartItem.reduce((total, item) => total + item.quantity, 0);
     }
 
-    const wishlist = await Whishlist.findOne({ user: userId }).populate('wishlistItem.products');
+    // const wishlist = await Whishlist.findOne({ user: userId }).populate('wishlistItem.products');
+
+    const wishlist = await Whishlist.findOne({ user: userId }).populate({
+        path: 'wishlistItem.products',
+        match: { action: false },  
+    });
 
     if (!wishlist || wishlist.wishlistItem.length === 0) {
         res.render('wishlist', { user, wishlistItem: [], total: 0, count: 0, wishlist, cartCount, activePage: "wishlist" });
@@ -672,8 +677,28 @@ const downloadInvoice = async (req, res) => {
         const stream = new PassThrough();
         doc.pipe(stream);
 
+
+
+        // Add the company logo from local file
+        const logoPath = path.join(__dirname, '..', 'public', 'upload', 'outstock', 'Screenshot 2024-08-22 193828.png');
+        doc.image(logoPath, {
+            fit: [150, 150],
+            align: 'center',
+            valign: 'top'
+        });
+
+        doc.moveDown(4);
+
+
         // Header
         doc.fontSize(16).text(`Invoice for Order ID: ${orderId}`, { underline: true, align: 'center' });
+        doc.moveDown();
+
+
+        // Company details
+        doc.fontSize(12).text(`Company Name: ${'OutStock Furniture PLDT'}`);
+        doc.text(`Email: ${'outstock@gmail.com'}`);
+        doc.text(`contact ${'9876543210'}`);
         doc.moveDown();
 
         // Customer details
@@ -681,6 +706,7 @@ const downloadInvoice = async (req, res) => {
         doc.text(`Customer Email: ${order.address.email}`);
         doc.text(`Order Date: ${new Date(order.orderDate).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}`);
         doc.text(`Order Status: ${order.orderStatus}`);
+        doc.text(`Payment Method: ${order.paymentMethod}`);
         doc.moveDown();
 
         // Address details
@@ -717,13 +743,17 @@ const downloadInvoice = async (req, res) => {
         // Table rows
         let currentY = startY + rowHeight;
         order.orderItem.forEach(item => {
-            doc.rect(startX, currentY, tableWidth, rowHeight).stroke();
+            if (item.productId && item.productId.name) {
+                doc.rect(startX, currentY, tableWidth, rowHeight).stroke();
 
-            doc.text(item.productId.name, startX + 5, currentY + 5, { width: columnWidths[0], align: 'left' });
-            doc.text(item.quantity.toString(), startX + columnWidths[0] + 5, currentY + 5, { width: columnWidths[1], align: 'center' });
-            doc.text(`${item.price}`, startX + columnWidths[0] + columnWidths[1] + 5, currentY + 5, { width: columnWidths[2], align: 'right' });
+                doc.text(item.productId.name, startX + 5, currentY + 5, { width: columnWidths[0], align: 'left' });
+                doc.text(item.quantity.toString(), startX + columnWidths[0] + 5, currentY + 5, { width: columnWidths[1], align: 'center' });
+                doc.text(`${item.price}`, startX + columnWidths[0] + columnWidths[1] + 5, currentY + 5, { width: columnWidths[2], align: 'right' });
 
-            currentY += rowHeight;
+                currentY += rowHeight;
+            } else {
+                console.error('Product or product name is null/undefined');
+            }
         });
 
         if(order.offerDetails && order.couponDetails){
@@ -735,9 +765,10 @@ const downloadInvoice = async (req, res) => {
         } else {
             doc.fontSize(10).text(`Discount: ${'00.0'}`, startX, currentY + 10);
         }
-        
+        doc.fontSize(10).text(`shipping charge: ${'100'}`, startX, currentY + 20);
+
         doc.moveDown(2);
-        doc.fontSize(12).text(`Total Price: ${order.totalPrice}`, startX, currentY + 22);
+        doc.fontSize(12).text(`Total Price: ${order.totalPrice}`, startX, currentY + 34);
 
         doc.end();
 
@@ -755,7 +786,6 @@ const downloadInvoice = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
-
 
 
 //---------------cancel and return the Order ----------------------------

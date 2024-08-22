@@ -768,9 +768,6 @@ const generatePDF = asyncHandler(async (req, res) => {
 });
 
 
-
-
-
 //---------------------------------excel Download ---------------------------------
 
 const generateExcel = asyncHandler(async (req, res) => {

@@ -1,18 +1,33 @@
 const asyncHandler = require('express-async-handler');
 const Category = require('../Models/category');
 const { name } = require('ejs');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const Offer = require('../Models/offer');
 
 
 
 //-------------------------------Rendering category management shows---------------------------//
 
 const categoryLoad = asyncHandler(async (req, res) => {
-      const categories = await Category.find({});
-      res.render('categoryManagement', { categories,ActivePage: 'categoryManagement' });
-  }); 
+    const offers = await Offer.find({offerStatus:true}).populate('selectedItems.categories');
+    const categories = await Category.find({});
 
-//-------------------------- Rendering add category page  ---------------------------------//
+    // Create a mapping from category ID to discount
+    const categoryDiscounts = new Map();
+    offers.forEach(offer => {
+        offer.selectedItems.categories.forEach(category => {
+            categoryDiscounts.set(category._id.toString(), offer.discount);
+        });
+    });
+
+    res.render('categoryManagement', {
+        categories,
+        ActivePage: 'categoryManagement',
+        categoryDiscounts
+    });
+});
+
+//-------------------------- Rendering add category page  --------------------------------------//
 
 const addCategoryLoad = async (req,res)=>{
       try {
@@ -23,7 +38,7 @@ const addCategoryLoad = async (req,res)=>{
       }
 }
 
-//--------------------------admin addining New category --------------------------------------//
+//--------------------------admin addining New category ----------------------------------------//
 
 const addNewCategory = async (req, res) => {
     try {

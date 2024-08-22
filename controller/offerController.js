@@ -14,8 +14,18 @@ const offerManagement = asyncHandler(async(req,res)=>{
 
           const start = (currentPage - 1) * FirstPage;
 
-          const offerData = await Offer.find({}).skip(start).limit(FirstPage);
-          const offerCount = await Offer.countDocuments({}); 
+        //   const offerData = await Offer.find({}).skip(start).limit(FirstPage);
+
+        const [offerData, offerCount] = await Promise.all([
+            Offer.find({})
+                .populate('selectedItems.categories')
+                .populate('selectedItems.products')
+                .skip(start)
+                .limit(FirstPage),
+            Offer.countDocuments({})
+        ]);
+
+        //   const offerCount = await Offer.countDocuments({}); 
           const totalPages = Math.ceil(offerCount / FirstPage);
 
         const offer = await Offer.find({});
@@ -120,29 +130,40 @@ const editOffer = asyncHandler(async (req, res) => {
 
 //-----------------------------------Offer Activating And Deactivating ------------------------
 
-const OfferActiveandDeactivate = asyncHandler(async(req,res)=>{
+const OfferActiveandDeactivate = asyncHandler(async (req, res) => {
+    const id = req.query.offerId;
+    const offer = await Offer.findById({ _id: id });
 
-      const id = req.query.offerId;
-      const offer = await Offer.findById({_id:id});
+    // Toggle the offer status
+    offer.offerStatus = !offer.offerStatus;
 
-      offer.offerStatus = !offer.offerStatus ;
+    await offer.save();
 
-      await offer.save();
-
-      if(offer.offerStatus === true ){
+    if (offer.offerStatus === true) {
+        if (offer.offerType === 'Product Base') {
+   
             await Prodcut.updateMany(
-                  { offer: { $ne: offer._id } }, 
-                  { $push: { offer: offer._id } })
-      }else{
+                { _id: { $in: offer.selectedItems.products } },
+                { $addToSet: { offer: offer._id } } 
+            );
+        } else if (offer.offerType === 'Category Base') {
+        
             await Prodcut.updateMany(
-                  { offer: offer._id },
-                  { $pull: { offer: offer._id } });
-      }
+                { category: { $in: offer.selectedItems.categories } },
+                { $addToSet: { offer: offer._id } } 
+            );
+        }
+    } else {
+       
+        await Prodcut.updateMany(
+            { offer: offer._id },
+            { $pull: { offer: offer._id } }
+        );
+    }
 
-      let message = !offer.offerStatus ? 'offer activate successfully':'offer deactivate successfully';
+    let message = offer.offerStatus ? 'Offer activated successfully' : 'Offer deactivated successfully';
 
-      res.status(200).json({message});
-
+    res.status(200).json({ message });
 });
 
 //------------------------Apply Offer ---------------------------------------------------------------
@@ -181,7 +202,8 @@ const applyOffer = asyncHandler(async (req, res) => {
         offerType,
         discount,
         offerStatus: true,
-        expDate: expiryDateObject
+        expDate: expiryDateObject,
+        selectedItems:selectedItems
     });
 
     await offer.save();
