@@ -132,39 +132,46 @@ const editOffer = asyncHandler(async (req, res) => {
 
 const OfferActiveandDeactivate = asyncHandler(async (req, res) => {
     const id = req.query.offerId;
-    const offer = await Offer.findById({ _id: id });
+    const offer = await Offer.findById(id);
+
+    if (!offer) {
+        return res.status(404).json({ message: 'Offer not found' });
+    }
+
+    // Ensure that all products have 'offer' initialized as an array
+    await Prodcut.updateMany(
+        { offer: { $exists: true, $eq: null } },
+        { $set: { offer: [] } }
+    );
 
     // Toggle the offer status
     offer.offerStatus = !offer.offerStatus;
-
     await offer.save();
 
-    if (offer.offerStatus === true) {
+    if (offer.offerStatus) {
         if (offer.offerType === 'Product Base') {
-   
             await Prodcut.updateMany(
                 { _id: { $in: offer.selectedItems.products } },
-                { $addToSet: { offer: offer._id } } 
+                { $addToSet: { offer: offer._id } }
             );
         } else if (offer.offerType === 'Category Base') {
-        
             await Prodcut.updateMany(
                 { category: { $in: offer.selectedItems.categories } },
-                { $addToSet: { offer: offer._id } } 
+                { $addToSet: { offer: offer._id } }
             );
         }
     } else {
-       
         await Prodcut.updateMany(
             { offer: offer._id },
             { $pull: { offer: offer._id } }
         );
     }
 
-    let message = offer.offerStatus ? 'Offer activated successfully' : 'Offer deactivated successfully';
-
+    const message = offer.offerStatus ? 'Offer activated successfully' : 'Offer deactivated successfully';
     res.status(200).json({ message });
 });
+
+
 
 //------------------------Apply Offer ---------------------------------------------------------------
 

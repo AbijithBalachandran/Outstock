@@ -6,7 +6,10 @@ const Notification =require('../Models/notification')
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const ExcelJS = require('exceljs');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const Wallet = require('../Models/wallet');
+const Product = require('../Models/products');
+
 //--------------------------------------------------
 
 //----------------singup page rendering --------------
@@ -450,11 +453,46 @@ const OrderDetailPage = asyncHandler(async (req, res) => {
 const aproveToReturn = asyncHandler(async(req,res)=>{
       const {orderId,newStatus} = req.body;
 
+      console.log('aroved status',newStatus);
+      
       const order = await Order.findById(orderId);
       if(!order){
             return res.status(400).json({message:'Order Not Found'});
       }
+      const userId = order.user; 
 
+      let refundAmount = 0;
+      if ( newStatus === 'Return approved') {
+          for (let item of order.orderItem) {
+              const product = await Product.findById(item.productId).populate('offer');
+              if (product) {
+                  // const discount = order.offerDetails.discount || order.couponDetails.discount;
+                  refundAmount = order.totalPrice;
+
+                  // console.log('product.offer.discount===', discount);
+                  console.log('refundAmount ===', refundAmount);
+              }
+          }
+
+          await Wallet.findOneAndUpdate(
+              { userId: userId },
+              {
+                  $inc: { walletAmount: refundAmount },
+                  $push: {
+                      transaction: {
+                          amount: refundAmount,
+                          PaymentType: 'Refund',
+                          date: new Date()
+                      }
+                  }
+              },
+              { upsert: true }
+          );
+          console.log(`Updated wallet for user ${order.user}: new balance is ${Wallet.walletAmount}`);
+      }
+    
+      
+      
       order.orderStatus = newStatus ;
       await order.save();
 
@@ -462,6 +500,64 @@ const aproveToReturn = asyncHandler(async(req,res)=>{
 });
 
 //-----------------------------Sales Report ----------------------------
+
+
+
+// const salesReportPage = asyncHandler(async (req, res) => {
+//   const FirstPage = 3;
+//   const currentPage = parseInt(req.query.page) || 1;
+
+//   const filterParams = {};
+
+//   // Filter by date if provided
+//   if (req.query.startDate && req.query.endDate) {
+//     filterParams.orderDate = {
+//       $gte: new Date(req.query.startDate),
+//       $lte: new Date(req.query.endDate)
+//     };
+//   }
+
+//   // Filter by status for delivered and completed orders
+//   filterParams.orderStatus = {
+//     $in: ['Delivered', 'Completed']
+//   };
+
+//   // Apply sort filter if specified
+//   if (req.query.sortValue) {
+//     const now = new Date();
+//     if (req.query.sortValue === 'Daily') {
+//       filterParams.orderDate = {
+//         $gte: new Date().setHours(0, 0, 0, 0),
+//         $lte: new Date().setHours(23, 59, 59, 999),
+//       };
+//     } else if (req.query.sortValue === 'Week') {
+//       filterParams.orderDate = {
+//         $gte: new Date(now.setDate(now.getDate() - 7)).setHours(0, 0, 0, 0),
+//         $lte: new Date().setHours(23, 59, 59, 999),
+//       };
+//     } else if (req.query.sortValue === 'Month') {
+//       filterParams.orderDate = {
+//         $gte: new Date(now.setMonth(now.getMonth() - 1)),
+//         $lte: new Date(),
+//       };
+//     } else if (req.query.sortValue === 'Year') {
+//       filterParams.orderDate = {
+//         $gte: new Date(new Date().getFullYear(), 0, 1),
+//         $lte: new Date(new Date().getFullYear(), 11, 31),
+//       };
+//     }
+//   }
+
+//   const start = (currentPage - 1) * FirstPage;
+//   const orderData = await Order.find(filterParams).skip(start).limit(FirstPage);
+//   const orderCount = await Order.countDocuments(filterParams);
+//   const totalPages = Math.ceil(orderCount / FirstPage);
+
+//   res.render('salesReport', { order: orderData, currentPage, totalPages, filterParams, ActivePage: 'salesReport' });
+
+// });
+
+
 
 const salesReportPage = asyncHandler(async (req, res) => {
   const FirstPage = 3;
@@ -508,13 +604,39 @@ const salesReportPage = asyncHandler(async (req, res) => {
     }
   }
 
+  // Calculate totals
+  const totalAggregation = await Order.aggregate([
+    { $match: filterParams },
+    { $unwind: "$orderItem" },
+    { $group: {
+        _id: null,
+        totalSales: { $sum: "$orderItem.quantity" },
+        totalRevenue: { $sum: "$totalPrice" },
+        totalDiscount: { $sum: { $cond: [ { $ifNull: ["$couponDetails.discount", 0] }, "$couponDetails.discount", 0 ] } }
+    }}
+  ]);
+
+  const totalSales = totalAggregation[0]?.totalSales || 0;
+  const totalRevenue = totalAggregation[0]?.totalRevenue || 0;
+  const totalDiscount = totalAggregation[0]?.totalDiscount || 0;
+
   const start = (currentPage - 1) * FirstPage;
   const orderData = await Order.find(filterParams).skip(start).limit(FirstPage);
   const orderCount = await Order.countDocuments(filterParams);
   const totalPages = Math.ceil(orderCount / FirstPage);
 
-  res.render('salesReport', { order: orderData, currentPage, totalPages, filterParams, ActivePage: 'salesReport' });
+  res.render('salesReport', { 
+    order: orderData, 
+    currentPage, 
+    totalPages, 
+    filterParams, 
+    ActivePage: 'salesReport',
+    totalSales,
+    totalRevenue,
+    totalDiscount
+  });
 });
+
 
 
 //-----------------------------filter the sales report ----------------------------------------------------------------------------------------------
@@ -597,7 +719,6 @@ const customFilter = asyncHandler(async(req,res)=>{
 
 
 const generatePDF = asyncHandler(async (req, res) => {
- 
   const filterParams = {};
 
   // Filter by date if provided
@@ -656,15 +777,17 @@ const generatePDF = asyncHandler(async (req, res) => {
 
   // Table setup
   const tableTop = doc.y;
-  const leftMargin = 30; // Left margin of the document
+  const leftMargin = 15; 
   const columnWidths = {
-      orderId: 60,
-      productName: 140,
-      quantity: 60,
-      price: 60,
-      discount: 60,
-      totalPrice: 80,
-      paymentMethod: 100
+      "":0,
+      orderId: 50,
+      productName: 120,
+      quantity: 50,
+      price: 50,
+      totalPrice: 70,
+      discount: 50,
+      purchaseAmount: 90,  // Added Purchase Amount column
+      paymentMethod: 90
   };
 
   const rowHeight = 20; // Set a fixed height for each row
@@ -700,7 +823,7 @@ const generatePDF = asyncHandler(async (req, res) => {
           let rowX = leftMargin; // Starting X coordinate for the rows
 
           // Draw row cells
-          doc.fontSize(8).font('Helvetica');
+          doc.fontSize(9).font('Helvetica');
           doc.text(order._id.toString().slice(0, 6), rowX + 2, rowY + 2, {
               width: columnWidths.orderId - 4,
               align: 'center'
@@ -721,20 +844,26 @@ const generatePDF = asyncHandler(async (req, res) => {
               align: 'center'
           });
           rowX += columnWidths.price;
-
           const discount = order.couponDetails?.discount || order.offerDetails?.discount || 0;
+
+          const totalPrice = (item.price * item.quantity - discount).toFixed(2);
+              doc.text(totalPrice, rowX + 2, rowY + 2, {
+                  width: columnWidths.totalPrice - 4,
+                  align: 'center'
+              });
+              rowX += columnWidths.totalPrice;
           if (index === 0) {
               doc.text(discount.toFixed(2), rowX + 2, rowY + 2, {
                   width: columnWidths.discount - 4,
                   align: 'center'
               });
               rowX += columnWidths.discount;
-              const totalPrice = (item.price * item.quantity - discount).toFixed(2);
-              doc.text(totalPrice, rowX + 2, rowY + 2, {
-                  width: columnWidths.totalPrice - 4,
+              const purchaseAmount = order.totalPrice;  // Calculate purchase amount
+              doc.text(purchaseAmount.toFixed(2), rowX + 2, rowY + 2, {
+                  width: columnWidths.purchaseAmount - 4,
                   align: 'center'
               });
-              rowX += columnWidths.totalPrice;
+              rowX += columnWidths.purchaseAmount;
               doc.text(order.paymentMethod, rowX + 2, rowY + 2, {
                   width: columnWidths.paymentMethod - 4,
                   align: 'center'
@@ -766,6 +895,8 @@ const generatePDF = asyncHandler(async (req, res) => {
 
   doc.end();
 });
+
+
 
 
 //---------------------------------excel Download ---------------------------------

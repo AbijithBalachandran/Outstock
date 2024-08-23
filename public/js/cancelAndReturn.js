@@ -1,21 +1,21 @@
 
-function submitReturnRequest(orderId) {
+function submitReturnRequest(orderId,userId) {
     const returnReason = document.getElementById('returnReason').value;
     if (!returnReason) {
         Swal.fire('Error', 'Please select a reason for return.', 'error');
         return;
     }
 
-    updateOrderStatus(orderId, 'Return requested', returnReason);
+    updateOrderStatus(orderId,userId, 'Return requested', returnReason);
 }
 
-function updateOrderStatus(orderId, newStatus, returnReason) {
+function updateOrderStatus(orderId,userId, newStatus, returnReason) {
     fetch('/update-status', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ orderId, newStatus, returnReason })
+        body: JSON.stringify({ orderId,userId, newStatus, returnReason })
     })
     .then(response => response.json())
     .then(data => {

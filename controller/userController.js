@@ -69,14 +69,12 @@ const insertUser = async (req, res) => {
             const genaratedOtp = generate4DigitOTP();
 
             const email = userData.email;
-            //console.log(email);
-            console.log("genarating otp in insert otp=="+genaratedOtp);
-
+            
             const creatOTP = new otpSchema({
                   email: email,
                   otp: genaratedOtp
             });
-            //console.log("complted");
+
           const saveOTP = await creatOTP.save();
 
           if (!saveOTP) {
@@ -84,9 +82,8 @@ const insertUser = async (req, res) => {
         }
             // req.session.otp_id = saveOTP._id;
 
-            // console.log("complted");
             await sendMailer(genaratedOtp, email);
-            //      console.log("complted");
+            
             req.session.userData_id = userData._id;
             res.redirect('/OTP');
 
@@ -529,7 +526,7 @@ const editAddress = asyncHandler(async(req,res)=>{
 const deleteUser = asyncHandler(async(req,res)=>{
       const id = req.query.id;
 
-      if (!user_id || !mongoose.Types.ObjectId.isValid(user_id)) { 
+      if (!id || !mongoose.Types.ObjectId.isValid(id)) { 
         return res.status(404).redirect('/404')
        }
 
@@ -714,7 +711,8 @@ const shopLoad = asyncHandler(async (req, res) => {
 
         // Apply discounts
         products.forEach(product => {
-            if (product.offer.length > 0) {
+            // if (product.offer.length > 0) {
+                if (product.offer && Array.isArray(product.offer) && product.offer.length > 0) {
                 const offer = product.offer[0];
                 if (offer && offer.discount) {
                     product.discountPercentage = offer.discount;
@@ -783,9 +781,9 @@ const searchProduct = asyncHandler(async (req, res) => {
     // Define sorting criteria
     let sortCriteria = {};
     if (sortBy === 'title-ascending') {
-        sortCriteria.name = 1; // Ascending alphabetical order
+        sortCriteria.name = 1;
     } else if (sortBy === 'title-descending') {
-        sortCriteria.name = -1; // Descending alphabetical order
+        sortCriteria.name = -1; 
     } else if (sortBy === 'price-ascending') {
         sortCriteria.price = 1;
     } else if (sortBy === 'price-descending') {
@@ -795,7 +793,7 @@ const searchProduct = asyncHandler(async (req, res) => {
     } else if (sortBy === 'created-descending') {
         sortCriteria.createdAt = -1;
     } else {
-        sortCriteria.createdAt = -1; // Default sorting by newest first
+        sortCriteria.createdAt = -1; 
     }
 
     try {

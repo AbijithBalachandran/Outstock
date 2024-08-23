@@ -99,6 +99,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
             errors.push({ field: 'images', message: 'You must upload exactly 3 images.' });
         }
 
+         // Images validation
+         const images = formData.getAll('images');
+         if (images.length !== 3) {
+             console.log("Images validation failed", images.length);
+             errors.push({ field: 'images', message: 'You must upload exactly 3 images.' });
+         }
+
         return errors;
     }
 

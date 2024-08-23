@@ -18,6 +18,7 @@ const PDFDocument = require('pdfkit');
 const { PassThrough } = require('stream');
 const mongoose = require('mongoose')
 const path = require('path');
+const generateOrderId = require('../utils/generateOrderId');
 
 //----------------------------------------------------------
 
@@ -28,7 +29,7 @@ var instance = new Razorpay({
     key_secret: process.env.RAZORPAY_SECRET_KEY,
 });
 
-//------------------rendering checkout page------------------
+//-----------------------------------------------------rendering checkout page---------------------------------------------------------------------
 
 const checkoutPageLoad = asyncHandler(async (req, res) => {
     const userId = req.session.userData_id;
@@ -198,6 +199,13 @@ let offerDetails = {
     amount = discountedTotal* 100;
    }
 
+   const genOrderId = generateOrderId();
+
+
+//    console.log('genOrderId',genOrderId);
+   
+
+
     const orderItems = cart.cartItem.map(item => ({
         productId: item.products._id,
         quantity: item.quantity,
@@ -216,6 +224,7 @@ let offerDetails = {
 
     const order = new Order({
         user: userId,
+        orderId:genOrderId,
         orderItem: orderItems,
         address: {
             userName: firstName,
@@ -232,8 +241,9 @@ let offerDetails = {
         paymentMethod: paymentMethod,
         orderStatus: "Pending",
     });
-
+  
     const orderData = await order.save();
+
 
 req.session.orderId = orderData._id;
     const options = {
@@ -241,7 +251,7 @@ req.session.orderId = orderData._id;
         currency: "INR",
         receipt: 'abijith',
     };
-    console.log('options over');
+    // console.log('options over');
 
     instance.orders.create(options, (err, order) => {
         if (!err) {
@@ -318,8 +328,8 @@ const orderData = await Order.findByIdAndUpdate(orderId, {
         },
     },
 }, { new: true });
+
     // Log the order data for debugging
-    console.log('OrderData:', orderData);
 
     res.status(200).json({ success: true, orderId: orderData._id });
 });
@@ -443,7 +453,7 @@ let offerDetails = {
 
        }
 
-
+       const genOrderId = generateOrderId();
 //----------save to order schema -----------------
 
     const orderItems = cart.cartItem.map(item => ({
@@ -466,6 +476,7 @@ let offerDetails = {
 
     const order = new Order({
         user: userId,
+        orderId:genOrderId,
         orderItem: orderItems,
         address: {
             userName: firstName,
@@ -640,7 +651,7 @@ const trakingPageLoad = asyncHandler(async (req, res) => {
     const order = await Order.findById(orderId)
  
     if (!order) {
-        return res.status(404).send('Order not found');
+        return res.status(404).redirect('/404');
     }
 
     if(!userId){
@@ -691,7 +702,7 @@ const downloadInvoice = async (req, res) => {
 
 
         // Header
-        doc.fontSize(16).text(`Invoice for Order ID: ${orderId}`, { underline: true, align: 'center' });
+        doc.fontSize(16).text(`Invoice`, { underline: true, align: 'center' });
         doc.moveDown();
 
 
@@ -720,7 +731,8 @@ const downloadInvoice = async (req, res) => {
         doc.moveDown();
 
         // Order items title
-        doc.fontSize(12).text('Order Items:');
+        doc.fontSize(12).text(`orderId : ${order.orderId}`);
+        doc.text('Order Items:');
         doc.moveDown(0.5);
 
         // Define table structure
@@ -831,12 +843,12 @@ const updateOrder = asyncHandler(async (req, res) => {
 
         // Calculate refund amount if order is returned
         let refundAmount = 0;
-        if (newStatus === 'Return requested' || newStatus === 'Cancelled') {
+        if ( newStatus === 'Cancelled') {
             for (let item of order.orderItem) {
                 const product = await Product.findById(item.productId).populate('offer');
                 if (product) {
                     const discount = order.offerDetails.discount || order.couponDetails.discount;
-                    refundAmount = order.totalPrice + discount;
+                    refundAmount = order.totalPrice;
 
                     console.log('product.offer.discount===', discount);
                     console.log('refundAmount ===', refundAmount);
@@ -902,7 +914,7 @@ const cancelOrder = asyncHandler(async (req, res) => {
             if(product){
                 
               const discount = order.offerDetails.discount || order.couponDetails.discount ;
-                refundAmount = order.totalPrice + discount ;
+                refundAmount = order.totalPrice ;
 
               console.log('product.offer.discount==='+discount);
               console.log('refundAmount =='+refundAmount );
@@ -1069,6 +1081,9 @@ const walletParchase = asyncHandler(async (req, res) => {
 
     await Cart.updateOne({ user: userId }, { $set: { cartItem: [] } });
 
+
+    const genOrderId = generateOrderId();
+
     // Create order
     const orderItems = cart.cartItem.map(item => ({
         productId: item.products._id,
@@ -1088,6 +1103,7 @@ const walletParchase = asyncHandler(async (req, res) => {
 
     const order = new Order({
         user: userId,
+        orderId:genOrderId,
         orderItem: orderItems,
         address: {
             userName: firstName,

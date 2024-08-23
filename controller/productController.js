@@ -123,17 +123,21 @@ const editProductLoad = asyncHandler(async(req,res)=>{
 //----------------------------------------------edit product -----------------------------------------------------
 
 const editAndUpdateProduct = asyncHandler(async (req, res) => {
-    const { name, action, description, price, discount, disPrice, category, quantity, type, id } = req.body;
+    const {name,action,description,price,discount,category,quantity,type,id} = req.body;
 
     try {
-        // Find the category
-        const categoryDoc = await categories.findOne({ name: { $regex: new RegExp(`^${category}$`, 'i') } });
+        // Validate and find the category
+        const categoryDoc = await categories.findOne({
+            name: { $regex: new RegExp(`^${category}$`, 'i') }
+        });
+
         if (!categoryDoc) {
             return res.status(400).json({ success: false, message: 'Category not found' });
         }
+
         const categoryId = categoryDoc._id;
 
-        // Check if the product exists, excluding the current product being edited
+        // Check for existing product with the same name (excluding current product)
         const existingProduct = await Products.findOne({
             _id: { $ne: id },
             name: { $regex: new RegExp(`^${name}$`, 'i') }
@@ -143,39 +147,68 @@ const editAndUpdateProduct = asyncHandler(async (req, res) => {
             return res.status(400).json({ success: false, message: 'This product already exists' });
         }
 
-        // Find the product being edited
+        // Find the product to update
         const productToUpdate = await Products.findById(id);
         if (!productToUpdate) {
             return res.status(404).json({ success: false, message: 'Product not found' });
         }
 
-        // Handle new images
+        // Handle image updates
         const newImages = req.files ? req.files.map(file => file.filename) : [];
-        const updatedImages = [...productToUpdate.images];
+        let updatedImages = [...productToUpdate.images];
 
-        // Replace existing images with new images if new images are provided
+        // Replace existing images with new images if provided
         for (let i = 0; i < newImages.length; i++) {
-            updatedImages[i] = newImages[i];
+           updatedImages[i] = newImages[i];
+          }
+            
+
+        // Initialize updated discount and offer details
+        let updatedDiscount = 0;
+        let updatedDisPrice = price;
+        let appliedOffer = null;
+
+        // Fetch applicable category-based offers
+        const currentDate = new Date();
+        const applicableOffers = await Offer.find({
+            offerType: "Category Base",
+            offerStatus: true,
+            expDate: { $gt: currentDate },
+            'selectedItems.categories': categoryId
+        }).sort({ discount: -1 }); // Sort by highest discount
+
+        if (applicableOffers && applicableOffers.length > 0) {
+            // Apply the offer with the highest discount
+            appliedOffer = applicableOffers[0];
+            updatedDiscount = appliedOffer.discount;
+            updatedDisPrice = price - (price * (updatedDiscount / 100));
+            updatedDisPrice = parseFloat(updatedDisPrice.toFixed(2)); // Round to 2 decimal places
+        } else {
+            // If no offer, check if manual discount is provided
+            if (discount && discount > 0) {
+                updatedDiscount = discount;
+                updatedDisPrice = price - (price * (updatedDiscount / 100));
+                updatedDisPrice = parseFloat(updatedDisPrice.toFixed(2));
+            }
         }
 
+        // Prepare the update object
+        const updateData = {
+            name,
+            action,
+            description,
+            price,
+            discount: updatedDiscount,
+            disPrice: updatedDisPrice,
+            category: categoryId,
+            images: updatedImages,
+            quantity,
+            type,
+            offer: appliedOffer ? appliedOffer._id : null
+        };
+
         // Update the product
-        await Products.findByIdAndUpdate(
-            id,
-            {
-                $set: {
-                    name: name,
-                    action: action,
-                    description: description,
-                    price: price,
-                    discount: discount,
-                    disPrice: disPrice,
-                    category: categoryId,
-                    images: updatedImages,
-                    quantity: quantity,
-                    type: type,
-                }
-            }
-        );
+        await Products.findByIdAndUpdate(id, updateData, { new: true });
 
         console.log("Product updated successfully");
         res.json({ success: true, message: 'Product updated successfully' });
@@ -187,8 +220,7 @@ const editAndUpdateProduct = asyncHandler(async (req, res) => {
 });
 
 
-
-   
+ 
  //---------------------------------------------update Product Status ----------------------------------------------------------
  
 

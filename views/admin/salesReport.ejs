@@ -156,10 +156,10 @@
                 <label for="sortOrders">Sort By:</label>
                 <select class="form-control" id="sortOrders" onchange="sortByPredefinedRange()">
                     <option value="all">All Orders</option>
-                    <option value="Daily">1 Day</option>
-                    <option value="Week">1 Week</option>
-                    <option value="Month">1 Month</option>
-                    <option value="Year">1 Year</option>
+                    <option value="Daily">Day</option>
+                    <option value="Week">Week</option>
+                    <option value="Month">Month</option>
+                    <option value="Year">Year</option>
                 </select>
             </div>
             <div class="col-md-2 mb-3">
@@ -201,6 +201,7 @@
                             <th>Price</th>
                             <th>Discount</th>
                             <th>Total Price</th>
+                            <th>Purchase AMT</th>
                             <th>Payment Method</th>
                         </tr>
                     </thead>
@@ -209,12 +210,13 @@
                             <% order.forEach(item => { %>
                                 <% item.orderItem.forEach(orderItem => { %>
                                     <tr>
-                                        <td><%= item._id.toString().slice(0, 6) %></td>
+                                        <td><%= item.orderId %></td>
                                         <td><%= orderItem.productName %></td>
                                         <td><%= orderItem.quantity %></td>
                                         <td><%= orderItem.price %></td>
                                         <td><%= item.couponDetails.discount || item.offerDetails.discount || 0 %></td>
                                         <td><%= (orderItem.price * orderItem.quantity) - (item.couponDetails.discount || 0) %></td>
+                                        <td><%= item.totalPrice %></td>
                                         <td><%= item.paymentMethod %></td>
                                     </tr>
                                 <% }); %>
@@ -226,6 +228,10 @@
                         <% } %>
                     </tbody>
                 </table>
+
+                <h6>Total Sales : <%= totalSales %></h6>
+                <h6>Total Purchase Amount : <%= totalRevenue %></h6>
+                <h6>Total Discount : <%= totalDiscount %></h6>
             </div>
         </div>
     </div>

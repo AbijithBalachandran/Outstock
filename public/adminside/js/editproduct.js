@@ -17,6 +17,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
         event.preventDefault();
 
         const formData = new FormData(form);
+
+        const files = formData.getAll('images');
+        const maxSize = 5 * 1024 * 1024; // 5MB
+
+        for (const file of files) {
+            if (file.size > maxSize) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Image Size Error',
+                    text: 'Each image must be less than 5MB.',
+                });
+                return;
+            }
+        }
+
         console.log("Form Data Entries:", Array.from(formData.entries())); // Log all form data
 
         const validationErrors = validateForm(formData);

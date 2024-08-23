@@ -59,7 +59,8 @@ const productSchema = new mongoose.Schema({
       offer:[{ 
           type:mongoose.Types.ObjectId,
           ref:'Offer',
-          require:true
+          require:true,
+          default: []  
         }]
 
 })
