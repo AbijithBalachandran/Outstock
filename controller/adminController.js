@@ -659,392 +659,6 @@ const customFilter = asyncHandler(async(req,res)=>{
 
 //--------------------------------------PDF download --------------------------------------
 
-
-// const generatePDF = asyncHandler(async (req, res) => {
-//   const filterParams = {};
-
-//   // Filter by date if provided
-//   if (req.query.startDate && req.query.endDate) {
-//     filterParams.orderDate = {
-//       $gte: new Date(req.query.startDate),
-//       $lte: new Date(req.query.endDate)
-//     };
-//   }
-
-//   // Filter by status for delivered and completed orders
-//   filterParams.orderStatus = {
-//     $in: ['Delivered', 'Completed']
-//   };
-
-//   // Apply sort filter if specified
-//   if (req.query.sortValue) {
-//     const now = new Date();
-//     if (req.query.sortValue === 'Daily') {
-//       filterParams.orderDate = {
-//         $gte: new Date().setHours(0, 0, 0, 0),
-//         $lte: new Date().setHours(23, 59, 59, 999),
-//       };
-//     } else if (req.query.sortValue === 'Week') {
-//       filterParams.orderDate = {
-//         $gte: new Date(now.setDate(now.getDate() - 7)).setHours(0, 0, 0, 0),
-//         $lte: new Date().setHours(23, 59, 59, 999),
-//       };
-//     } else if (req.query.sortValue === 'Month') {
-//       filterParams.orderDate = {
-//         $gte: new Date(now.setMonth(now.getMonth() - 1)),
-//         $lte: new Date(),
-//       };
-//     } else if (req.query.sortValue === 'Year') {
-//       filterParams.orderDate = {
-//         $gte: new Date(new Date().getFullYear(), 0, 1),
-//         $lte: new Date(new Date().getFullYear(), 11, 31),
-//       };
-//     }
-//   }
-
-//   const orders = await Order.find(filterParams).populate('orderItem.productId');
-
-//   const doc = new PDFDocument({ margin: 30 });
-//   let filename = 'sales_report.pdf';
-//   filename = encodeURIComponent(filename);
-
-//   res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
-//   res.setHeader('Content-type', 'application/pdf');
-
-//   doc.pipe(res);
-
-//   // Add Title
-//   doc.fontSize(16).text('Sales Report', { align: 'center' });
-//   doc.moveDown(2);
-
-//   // Table setup
-//   const tableTop = doc.y;
-//   const leftMargin = 15; 
-//   const columnWidths = {
-//       "":0,
-//       orderId: 50,
-//       productName: 120,
-//       quantity: 50,
-//       price: 50,
-//       totalPrice: 70,
-//       discount: 50,
-//       purchaseAmount: 90,  // Added Purchase Amount column
-//       paymentMethod: 90
-//   };
-
-//   const rowHeight = 20; // Set a fixed height for each row
-
-//   // Draw headers
-//   let headerX = leftMargin; // Starting X coordinate for the headers
-//   doc.fontSize(10).font('Helvetica-Bold');
-
-//   // Draw header cells and borders
-//   Object.keys(columnWidths).forEach((key) => {
-//       const width = columnWidths[key];
-//       doc.text(key.replace(/([A-Z])/g, ' $1').trim(), headerX + 2, tableTop + 2, {
-//           width: width - 4,
-//           align: 'center'
-//       });
-//       headerX += width;
-
-//       // Draw header borders
-//       doc.moveTo(headerX - width, tableTop) // Adjusted the header border drawing
-//           .lineTo(headerX, tableTop)
-//           .lineTo(headerX, tableTop + rowHeight)
-//           .lineTo(headerX - width, tableTop + rowHeight)
-//           .lineTo(headerX - width, tableTop)
-//           .stroke();
-//   });
-
-//   // Move to the next line for the table content
-//   let rowY = tableTop + rowHeight;
-
-//   // Add Table Rows with borders
-//   orders.forEach(order => {
-//       order.orderItem.forEach((item, index) => {
-//           let rowX = leftMargin; // Starting X coordinate for the rows
-
-//           // Draw row cells
-//           doc.fontSize(9).font('Helvetica');
-//           doc.text(order._id.toString().slice(0, 6), rowX + 2, rowY + 2, {
-//               width: columnWidths.orderId - 4,
-//               align: 'center'
-//           });
-//           rowX += columnWidths.orderId;
-//           doc.text(item.productName, rowX + 2, rowY + 2, {
-//               width: columnWidths.productName - 4,
-//               align: 'center'
-//           });
-//           rowX += columnWidths.productName;
-//           doc.text(item.quantity.toString(), rowX + 2, rowY + 2, {
-//               width: columnWidths.quantity - 4,
-//               align: 'center'
-//           });
-//           rowX += columnWidths.quantity;
-//           doc.text(item.price.toFixed(2), rowX + 2, rowY + 2, {
-//               width: columnWidths.price - 4,
-//               align: 'center'
-//           });
-//           rowX += columnWidths.price;
-//           const discount = order.couponDetails?.discount || order.offerDetails?.discount || 0;
-
-//           const totalPrice = (item.price * item.quantity - discount).toFixed(2);
-//               doc.text(totalPrice, rowX + 2, rowY + 2, {
-//                   width: columnWidths.totalPrice - 4,
-//                   align: 'center'
-//               });
-//               rowX += columnWidths.totalPrice;
-//           if (index === 0) {
-//               doc.text(discount.toFixed(2), rowX + 2, rowY + 2, {
-//                   width: columnWidths.discount - 4,
-//                   align: 'center'
-//               });
-//               rowX += columnWidths.discount;
-//               const purchaseAmount = order.totalPrice;  // Calculate purchase amount
-//               doc.text(purchaseAmount.toFixed(2), rowX + 2, rowY + 2, {
-//                   width: columnWidths.purchaseAmount - 4,
-//                   align: 'center'
-//               });
-//               rowX += columnWidths.purchaseAmount;
-//               doc.text(order.paymentMethod, rowX + 2, rowY + 2, {
-//                   width: columnWidths.paymentMethod - 4,
-//                   align: 'center'
-//               });
-//           }
-
-//           // Draw row borders
-//           doc.moveTo(leftMargin, rowY) // Starting point of the row
-//               .lineTo(leftMargin + Object.values(columnWidths).reduce((a, b) => a + b), rowY)
-//               .stroke();
-
-//           doc.moveTo(leftMargin, rowY + rowHeight)
-//               .lineTo(leftMargin + Object.values(columnWidths).reduce((a, b) => a + b), rowY + rowHeight)
-//               .stroke();
-
-//           let borderX = leftMargin;
-//           Object.values(columnWidths).forEach(width => {
-//               borderX += width;
-//               doc.moveTo(borderX, rowY)
-//                   .lineTo(borderX, rowY + rowHeight)
-//                   .stroke();
-//           });
-
-//           rowY += rowHeight;
-//       });
-
-//       doc.moveDown(0.5);
-//   });
-
-//   doc.end();
-// });
-
-
-
-// const generatePDF = asyncHandler(async (req, res) => {
-//   const filterParams = {};
-
-//   // Filter by date if provided
-//   if (req.query.startDate && req.query.endDate) {
-//     filterParams.orderDate = {
-//       $gte: new Date(req.query.startDate),
-//       $lte: new Date(req.query.endDate)
-//     };
-//   }
-
-//   // Filter by status for delivered and completed orders
-//   filterParams.orderStatus = {
-//     $in: ['Delivered', 'Completed']
-//   };
-
-//   // Apply sort filter if specified
-//   if (req.query.sortValue) {
-//     const now = new Date();
-//     if (req.query.sortValue === 'Daily') {
-//       filterParams.orderDate = {
-//         $gte: new Date().setHours(0, 0, 0, 0),
-//         $lte: new Date().setHours(23, 59, 59, 999),
-//       };
-//     } else if (req.query.sortValue === 'Week') {
-//       filterParams.orderDate = {
-//         $gte: new Date(now.setDate(now.getDate() - 7)).setHours(0, 0, 0, 0),
-//         $lte: new Date().setHours(23, 59, 59, 999),
-//       };
-//     } else if (req.query.sortValue === 'Month') {
-//       filterParams.orderDate = {
-//         $gte: new Date(now.setMonth(now.getMonth() - 1)),
-//         $lte: new Date(),
-//       };
-//     } else if (req.query.sortValue === 'Year') {
-//       filterParams.orderDate = {
-//         $gte: new Date(new Date().getFullYear(), 0, 1),
-//         $lte: new Date(new Date().getFullYear(), 11, 31),
-//       };
-//     }
-//   }
-
-//   const orders = await Order.find(filterParams).populate('orderItem.productId');
-
-//   const doc = new PDFDocument({ margin: 30 });
-//   let filename = 'sales_report.pdf';
-//   filename = encodeURIComponent(filename);
-
-//   res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
-//   res.setHeader('Content-type', 'application/pdf');
-
-//   doc.pipe(res);
-
-//   // Add Title
-//   doc.fontSize(16).text('Sales Report', { align: 'center' });
-//   doc.moveDown(2);
-
-//   // Table setup
-//   const tableTop = doc.y;
-//   const leftMargin = 10; 
-//   const columnWidths = {
-//       "":0,
-//       orderId: 50,
-//       customer: 70,
-//       productName: 90,
-//       quantity: 50,
-//       price: 50,
-//       discount: 50,
-//       totalPrice: 70,
-//       purchaseAmount: 80,  // Added Purchase Amount column
-//       paymentMethod: 80
-//   };
-
-//   const rowHeight = 30; // Set a fixed height for each row
-
-//   // Draw headers
-//   let headerX = leftMargin; // Starting X coordinate for the headers
-//   doc.fontSize(10).font('Helvetica-Bold');
-
-//   Object.keys(columnWidths).forEach((key) => {
-//       const width = columnWidths[key];
-//       doc.text(key.replace(/([A-Z])/g, ' $1').trim(), headerX + 2, tableTop + 2, {
-//           width: width - 4,
-//           align: 'center'
-//       });
-//       headerX += width;
-
-//       // Draw header borders
-//       doc.moveTo(headerX - width, tableTop) // Adjusted the header border drawing
-//           .lineTo(headerX, tableTop)
-//           .lineTo(headerX, tableTop + rowHeight)
-//           .lineTo(headerX - width, tableTop + rowHeight)
-//           .lineTo(headerX - width, tableTop)
-//           .stroke();
-//   });
-
-//   // Move to the next line for the table content
-//   let rowY = tableTop + rowHeight;
-
-//   // Add Table Rows with borders
-//   orders.forEach(order => {
-//       order.orderItem.forEach((item, index) => {
-//           let rowX = leftMargin; // Starting X coordinate for the rows
-
-//           // Draw row cells
-//           doc.fontSize(9).font('Helvetica');
-//           if (index === 0) {
-//           doc.text(order.orderId, rowX + 2, rowY + 2, {
-//               width: columnWidths.orderId - 4,
-//               align: 'center'
-//           });
-//         }
-          
-//           rowX += columnWidths.orderId;
-//           if (index === 0) {
-//           doc.text(order.address.userName, rowX + 2, rowY + 2, {
-//               width: columnWidths.customer - 4,
-//               align: 'center'
-//           });
-
-//         }
-
-//           rowX += columnWidths.customer;
-
-//           doc.text(item.productName, rowX + 2, rowY + 2, {
-//               width: columnWidths.productName - 4,
-//               align: 'center'
-//           });
-
-          
-//           rowX += columnWidths.productName;
-//           doc.text(item.quantity.toString(), rowX + 2, rowY + 2, {
-//               width: columnWidths.quantity - 4,
-//               align: 'center'
-//           });
-        
-
-        
-//           rowX += columnWidths.quantity;
-          
-//           doc.text(item.price.toFixed(2), rowX + 2, rowY + 2, {
-//               width: columnWidths.price - 4,
-//               align: 'center'
-//           });
-     
-          
-//         rowX += columnWidths.price;
-//           // Calculate discount
-//           const discount =  (order.offerDetails.discount+order.couponDetails.discount) || order.couponDetails?.discount || order.offerDetails?.discount || 0;
-//           if (index === 0) {
-//           doc.text(discount.toFixed(2), rowX + 2, rowY + 2, {
-//               width: columnWidths.discount - 4,
-//               align: 'center'
-//           });
-         
-//         }
-//          rowX += columnWidths.discount;
-//           // Calculate total price for each item
-//           const totalPrice = (item.price * item.quantity - discount).toFixed(2);
-//           doc.text(totalPrice, rowX + 2, rowY + 2, {
-//               width: columnWidths.totalPrice - 4,
-//               align: 'center'
-//           });
-//           rowX += columnWidths.totalPrice;
-
-//           if (index === 0) {
-//               const purchaseAmount = order.totalPrice;  // Calculate purchase amount
-//               doc.text(purchaseAmount.toFixed(2), rowX + 2, rowY + 2, {
-//                   width: columnWidths.purchaseAmount - 4,
-//                   align: 'center'
-//               });
-//               rowX += columnWidths.purchaseAmount;
-//               doc.text(order.paymentMethod, rowX + 2, rowY + 2, {
-//                   width: columnWidths.paymentMethod - 4,
-//                   align: 'center'
-//               });
-//           }
-
-//           // Draw row borders
-//           doc.moveTo(leftMargin, rowY) // Starting point of the row
-//               .lineTo(leftMargin + Object.values(columnWidths).reduce((a, b) => a + b), rowY)
-//               .stroke();
-
-//           doc.moveTo(leftMargin, rowY + rowHeight)
-//               .lineTo(leftMargin + Object.values(columnWidths).reduce((a, b) => a + b), rowY + rowHeight)
-//               .stroke();
-
-//           let borderX = leftMargin;
-//           Object.values(columnWidths).forEach(width => {
-//               borderX += width;
-//               doc.moveTo(borderX, rowY)
-//                   .lineTo(borderX, rowY + rowHeight)
-//                   .stroke();
-//           });
-
-//           rowY += rowHeight;
-//       });
-
-//       doc.moveDown(0.5);
-//   });
-
-//   doc.end();
-// });
-
-
 const generatePDF = asyncHandler(async (req, res) => {
   const filterParams = {};
 
@@ -1136,11 +750,11 @@ const generatePDF = asyncHandler(async (req, res) => {
       price: 50,
       discount: 50,
       totalPrice: 70,
-      purchaseAmount: 80,  // Added Purchase Amount column
+      purchaseAmount: 80,  
       paymentMethod: 80
   };
 
-  const rowHeight = 30; // Set a fixed height for each row
+  const rowHeight = 30; 
 
   // Draw headers
   let headerX = leftMargin; // Starting X coordinate for the headers
@@ -1155,7 +769,7 @@ const generatePDF = asyncHandler(async (req, res) => {
       headerX += width;
 
       // Draw header borders
-      doc.moveTo(headerX - width, tableTop) // Adjusted the header border drawing
+      doc.moveTo(headerX - width, tableTop) 
           .lineTo(headerX, tableTop)
           .lineTo(headerX, tableTop + rowHeight)
           .lineTo(headerX - width, tableTop + rowHeight)
@@ -1229,7 +843,7 @@ const generatePDF = asyncHandler(async (req, res) => {
           rowX += columnWidths.totalPrice;
 
           if (index === 0 || order.orderId !== previousOrderId) {
-              const purchaseAmount = order.totalPrice; // Calculate purchase amount
+              const purchaseAmount = order.totalPrice; 
               doc.text(purchaseAmount.toFixed(2), rowX + 2, rowY + 2, {
                   width: columnWidths.purchaseAmount - 4,
                   align: 'center'
@@ -1242,7 +856,6 @@ const generatePDF = asyncHandler(async (req, res) => {
               });
           }
 
-          // Draw row borders only if it's a new order (i.e., the order ID changes)
           if (index === 0 || order.orderId !== previousOrderId) {
               // Draw the top border for the row
               doc.moveTo(leftMargin, rowY)
@@ -1276,26 +889,6 @@ const generatePDF = asyncHandler(async (req, res) => {
   });
 
   doc.moveDown(2);
-
-  // const order = await Order.find(filterParams)
-
-  // const totalSales= order.length;
-  // let totalRevenue = 0;
-  // order.forEach(order=>{
-  //   totalRevenue += order.totalPrice;
-  //   return totalRevenue
-  // });
-
-  // let totalDiscount = 0;
-  // order.forEach(order=>{
-  //   totalDiscount +=  (order.offerDetails.discount+order.couponDetails.discount)||order.offerDetails.discount||order.couponDetails.discount;
-  //   return totalDiscount;
-  // })
-
-  // doc.fontSize(12).text(`Totale Sales : ${totalSales}`, { align: 'left'  });
-  // doc.text(`Total Revenue :${totalRevenue}`, { align: 'left'  });
-  // doc.text(`Total Discount :${totalDiscount}`, { align: 'left'  });
-  
 
   doc.end();
 });
