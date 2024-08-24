@@ -196,31 +196,61 @@
                     <thead class="thead-light">
                         <tr>
                             <th>Order ID</th>
+                            <th>Customer</th>
                             <th>Product Name</th>
                             <th>Quantity</th>
                             <th>Price</th>
                             <th>Discount</th>
                             <th>Total Price</th>
-                            <th>Purchase AMT</th>
+                            <th>Purchase AMT <br>shipping charge(100)</th>
                             <th>Payment Method</th>
                         </tr>
                     </thead>
                     <tbody id="orders-products-table">
                         <% if (order && order.length > 0) { %>
                             <% order.forEach(item => { %>
-                                <% item.orderItem.forEach(orderItem => { %>
                                     <tr>
                                         <td><%= item.orderId %></td>
-                                        <td><%= orderItem.productName %></td>
-                                        <td><%= orderItem.quantity %></td>
-                                        <td><%= orderItem.price %></td>
-                                        <td><%= item.couponDetails.discount || item.offerDetails.discount || 0 %></td>
-                                        <td><%= (orderItem.price * orderItem.quantity) - (item.couponDetails.discount || 0) %></td>
+                                         <td><%= item.address.userName %></td>
+                                       <td>
+                                        <% item.orderItem.forEach(orderItem => { %>
+                                            <%= orderItem.productName %><br><br>
+                                        <% }); %>
+                                       </td> 
+
+                                        <td>
+                                        <% item.orderItem.forEach(orderItem => { %>
+                                            <%= orderItem.quantity %><br><br>
+                                        <% }); %>
+                                        </td>
+
+                                        <td>
+                                            <% item.orderItem.forEach(orderItem => { %>
+                                                <%= orderItem.price %><br><br>
+                                            <% }); %>
+                                        </td>
+
+                                        <% if (item.offerDetails && item.couponDetails) { %>
+                                            <td><%= (item.offerDetails.discount || 0) + (item.couponDetails.discount || 0) %></td>
+                                        <% } else if (item.offerDetails) { %>
+                                            <td><%= item.offerDetails.discount %></td>
+                                         <% } else if (item.couponDetails) { %>
+                                            <td><%= item.couponDetails.discount %></td>
+                                         <% } else { %>
+                                            <td>00.00</td>
+                                        <% } %>
+
+                                        <td>
+                                            <% item.orderItem.forEach(orderItem => { %>
+                                                <%= (orderItem.price * orderItem.quantity) - (item.couponDetails.discount || 0) %><br><br>
+                                            <% }); %>
+                                        </td>
+                                        
                                         <td><%= item.totalPrice %></td>
                                         <td><%= item.paymentMethod %></td>
                                     </tr>
                                 <% }); %>
-                            <% }); %>
+                            
                         <% } else { %>
                             <tr>
                                 <td colspan="7" class="text-center">Order Not Found</td>

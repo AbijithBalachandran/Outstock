@@ -128,6 +128,7 @@
                 <thead>
                     <tr>
                         <th scope="col">ORDER ID</th>
+                        <th scope="col">DATE</th>
                         <th scope="col">NAME</th>
                         <th scope="col">T-AMOUNT</th>
                         <th scope="col">PAYMENT METHOD</th>
@@ -140,6 +141,7 @@
                         <% order.forEach(item => { %>
                             <tr>
                                 <th scope="row"><%= item.orderId  %></th>
+                                <td><%= item.createdAt.toLocaleDateString() %></td>
                                 <td><%= item.address.userName %></td>
                                 <td><%= item.totalPrice %></td>
                                 <td><%= item.paymentMethod%></td>

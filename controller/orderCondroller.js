@@ -13,7 +13,6 @@ const { log } = require('console');
 const Offer = require('../Models/offer');
 const Wallet = require('../Models/wallet');
 require('dotenv').config();
-
 const PDFDocument = require('pdfkit');
 const { PassThrough } = require('stream');
 const mongoose = require('mongoose')
