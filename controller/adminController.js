@@ -547,7 +547,7 @@ const salesReportPage = asyncHandler(async (req, res) => {
   }
 
   const start = (currentPage - 1) * FirstPage;
-  const orderData = await Order.find(filterParams).skip(start).limit(FirstPage);
+  const orderData = await Order.find(filterParams).sort({createdAt:-1}).skip(start).limit(FirstPage);
   const orderCount = await Order.countDocuments(filterParams);
   const totalPages = Math.ceil(orderCount / FirstPage);
 
@@ -701,7 +701,7 @@ const generatePDF = asyncHandler(async (req, res) => {
     }
   }
 
-  const orders = await Order.find(filterParams).populate('orderItem.productId');
+  const orders = await Order.find(filterParams).sort({createdAt:-1}).populate('orderItem.productId');
 
   const doc = new PDFDocument({ margin: 30 });
   let filename = 'sales_report.pdf';
@@ -895,15 +895,16 @@ const generatePDF = asyncHandler(async (req, res) => {
 
 
 
-//---------------------------------excel Download ---------------------------------
+//---------------------------------excel Download ---------------------------------------------------------------------------------------------
 
 const generateExcel = asyncHandler(async (req, res) => {
   const filterParams = {};
 
+  // Filter by date range and sort value
   if (req.query.startDate && req.query.endDate) {
     filterParams.orderDate = {
       $gte: new Date(req.query.startDate),
-      $lte: new Date(req.query.endDate)
+      $lte: new Date(req.query.endDate),
     };
   }
 
@@ -932,34 +933,77 @@ const generateExcel = asyncHandler(async (req, res) => {
     }
   }
 
-  const orders = await Order.find(filterParams).populate('orderItem.productId');
+  const orders = await Order.find(filterParams).sort({createdAt:-1}).populate('orderItem.productId');
 
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Sales Report');
 
   worksheet.columns = [
-    { header: 'Order ID', key: 'id', width: 30 },
-    { header: 'Product Name', key: 'productName', width: 30 },
+    { header: 'Order ID', key: 'id', width: 10 },
+    { header: 'Customer Name', key: 'userName', width: 20 },
+    { header: 'Product Name', key: 'productName', width: 20 },
     { header: 'Quantity', key: 'quantity', width: 10 },
     { header: 'Price', key: 'price', width: 10 },
     { header: 'Discount', key: 'discount', width: 15 },
     { header: 'Total Price', key: 'totalPrice', width: 15 },
-    { header: 'Payment Method', key: 'paymentMethod', width: 20 }
+    {header:'Purchase Amount',key:'parchaseAmt',width: 15},
+    { header: 'Payment Method', key: 'paymentMethod', width: 20 },
   ];
 
   orders.forEach(order => {
+    let isFirstProduct = true;
     order.orderItem.forEach(item => {
       worksheet.addRow({
-        id: order._id.toString(),
+        id: isFirstProduct ? order.orderId : '',
+        userName: isFirstProduct ? order.address?.userName || 'UNKNOWN' : '',
         productName: item.productName,
         quantity: item.quantity,
         price: item.price,
-        discount: order.couponDetails?.discount || order.offerDetails?.discount || 'N/A',
+        discount:isFirstProduct ? order.couponDetails?.discount || order.offerDetails?.discount || 'N/A':'',
         totalPrice: (item.price * item.quantity - (order.couponDetails?.discount || 0)).toFixed(2),
-        paymentMethod: order.paymentMethod
+        parchaseAmt:isFirstProduct ?order.totalPrice:'',
+        paymentMethod: isFirstProduct ? order.paymentMethod : '',
       });
+      isFirstProduct = false;
     });
   });
+
+
+  const order = await Order.find(filterParams)
+
+  const totalSales= order.length;
+  let totalRevenue = 0;
+  order.forEach(order=>{
+    totalRevenue += order.totalPrice;
+    return totalRevenue
+  });
+
+  let totalDiscount = 0;
+  order.forEach(order=>{
+    totalDiscount +=  (order.offerDetails.discount+order.couponDetails.discount)||order.offerDetails.discount||order.couponDetails.discount;
+    return totalDiscount;
+  })
+
+
+// Add an empty row before summary
+worksheet.addRow({});
+
+// Adding summary rows
+worksheet.addRow({ id: `Total Sales: ${totalSales}` });
+worksheet.addRow({ id: `Total Revenue: ${totalRevenue.toFixed(2)}` });
+worksheet.addRow({ id: `Total Discount: ${totalDiscount.toFixed(2)}` });
+
+// Optionally, you can also style the summary rows
+const lastRowNumber = worksheet.lastRow.number;
+
+for (let i = lastRowNumber - 2; i <= lastRowNumber; i++) {
+  worksheet.getRow(i).font = { bold: true };
+  worksheet.getRow(i).getCell('id').alignment = { horizontal: 'left' };
+}
+
+
+  // Increase header size and font thickness
+  worksheet.getRow(1).font = { size: 10, bold: true };
 
   res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
   res.setHeader('Content-Disposition', 'attachment; filename=sales_report.xlsx');
