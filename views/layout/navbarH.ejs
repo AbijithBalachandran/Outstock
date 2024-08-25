@@ -333,7 +333,7 @@
 
 <script>
   function confirmLogout(event) {
-      event.preventDefault(); // Prevent the default link behavior
+      event.preventDefault(); 
   
       Swal.fire({
           title: 'Are you sure you want to log out?',
@@ -345,7 +345,7 @@
           cancelButtonText: 'Cancel'
       }).then((result) => {
           if (result.isConfirmed) {
-              window.location.href = event.target.href; // Redirect to the logout URL
+              window.location.href = event.target.href; 
           }
       });
   }

@@ -22,28 +22,45 @@ const cartLoad = asyncHandler(async (req, res) => {
 
     // Fetch the cart with products where action is false
     let cart = await Cart.findOne({ user: userId }).populate('cartItem.products');
-
+    
     if (!cart) {
         return res.render('cart', { user, cartItems: [], total: 0, cartCount: 0, activePage: "cart" });
     }
 
     // Filter out products with action: true
-    const filteredCartItems = cart.cartItem.filter(item => item.products && item.products.action === false);
+    const filteredCartItems = cart.cartItem.filter(item => item.products && item.products.action === false); 
 
-    // If there are any items removed, update the cart in the database
+        // If there are any items removed, update the cart in the database
     if (filteredCartItems.length !== cart.cartItem.length) {
         cart.cartItem = filteredCartItems;
         await cart.save();
     }
 
-    const cartCount = filteredCartItems.reduce((total, item) => total + item.quantity, 0);
 
+    // Iterate over filteredCartItems and adjust the quantity if it exceeds the product's available stock
+    let updated = false;
+    filteredCartItems.forEach(item => {
+        if (item.quantity > item.products.quantity) {
+            item.quantity = item.products.quantity; 
+            updated = true;
+        }
+    });
+
+    // If any item's quantity was updated, save the cart
+    if (updated) {
+        cart.cartItem = filteredCartItems;
+        await cart.save();
+    }
+
+
+    const cartCount = filteredCartItems.reduce((total, item) => total + item.quantity, 0);
     const total = filteredCartItems.reduce((acc, val) => {
         return acc + val.products.price * val.quantity;
     }, 0);
 
     res.render('cart', { user, cartItems: filteredCartItems, total, cartCount, activePage: "cart" });
 });
+
 
 
 
@@ -82,10 +99,8 @@ const cartProduct = asyncHandler(async (req, res) => {
         return res.status(200).json({ exist: 'product exist' });
     } else {
         cart.cartItem.push({ products: productId, quantity: 1 });
-        // product.quantity -= 1;
     }
 
-    await product.save();
     await cart.save();
 
     res.status(200).json({ message: 'Product added to cart successfully' });
@@ -111,9 +126,6 @@ const removeProduct = asyncHandler(async (req, res) => {
       if (!product) {
           return res.status(404).json({ success: false, message: 'Product not found' });
       }
-
-    //   const removedItem = cart.cartItem[index];
-    //   product.quantity += removedItem.quantity; 
 
       cart.cartItem.splice(index, 1); 
 
@@ -154,16 +166,17 @@ const updateQuantity = asyncHandler(async (req, res) => {
       return res.status(404).json({ success: false, message: 'Product not found' });
   }
 
-//   const stockChange = count - product.quantity;
+
   if (productData.quantity < count) {
-    // console.log('the quantity greter than stock',stockChange );
+      product.quantity = productData.quantity;
       return res.status(400).json({ success: false, message: 'Insufficient stock', quantity: product.quantity });
   }
 
-//   productData.quantity -= stockChange; 
-  product.quantity = count;
+ 
+   product.quantity = count;
 
-  await productData.save();
+//   await product.save();
+
   await cart.save();
 
   const updatedCart = await Cart.findOne({ user: userId }).populate('cartItem.products');

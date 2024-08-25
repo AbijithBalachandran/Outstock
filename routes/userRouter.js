@@ -101,7 +101,7 @@ user_Router.get('/checkout',userAuth.isLogin,orderController.checkoutPageLoad);
 user_Router.get('/checkout-address',orderController.getAddress);
 
 
-user_Router.get('/tracking-order',orderController.trakingPageLoad);  
+user_Router.get('/tracking-order',userAuth.isLogin,orderController.trakingPageLoad);  
 user_Router.post('/tracking-order',orderController.checkoutSubmit);
 user_Router.get('/download-invoice/:orderId', orderController.downloadInvoice);
 
@@ -124,7 +124,7 @@ user_Router.delete('/remove-productWishlist',orderController.removeProduct);
 
 //----------------------------------- wallet -----------------------------------------------
 
-user_Router.get('/wallet',orderController.walletPage);
+user_Router.get('/wallet',userAuth.isLogin,orderController.walletPage);
 
 //------------------------coupon Controller ----------------------------------------
 

@@ -191,6 +191,7 @@ let offerDetails = {
 
    grandTotal -=couponDiscount;
    amount = discountedTotal* 100;
+   
  }
 
    if (offerProducts&&couponId) {
