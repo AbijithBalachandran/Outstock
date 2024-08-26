@@ -4,7 +4,7 @@ function updateProductStatus(productId, status) {
           text: "You won't be able to revert this!",
           icon: "warning",
           showCancelButton: true,
-          confirmButtonText: status ? "Yes, unlist!" : "Yes, list!",
+          confirmButtonText: status ? "Yes, list!" : "Yes, Unlist!",
           cancelButtonText: "No, cancel!",
           reverseButtons: true
       }).then((result) => {
@@ -15,7 +15,7 @@ function updateProductStatus(productId, status) {
                   .then(response => {
                       if (response.ok) {
                           Swal.fire({
-                              title: status ? " listed!" : "Unlist!",
+                              title: status ? "  list!" : "Unlist!",
                               text: status ? "The user has been unlist." : "The user has been listed.",
                               icon: "success"
                           }).then(() => {
@@ -24,7 +24,7 @@ function updateProductStatus(productId, status) {
                       } else {
                           Swal.fire({
                               title: "Error",
-                              text: "An error occurred while listing the user.",
+                              text: "An error occurred while listing the Product.",
                               icon: "error"
                           });
                       }
@@ -34,7 +34,7 @@ function updateProductStatus(productId, status) {
                       console.error("Error:", error);
                       Swal.fire({
                           title: "Error",
-                          text: "An error occurred while listing the user.",
+                          text: "An error occurred while listing the Product.",
                           icon: "error"
                       });
                   });

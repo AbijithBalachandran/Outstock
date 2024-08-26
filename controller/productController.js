@@ -5,30 +5,41 @@ const categories = require('../Models/category')
 const Offer = require('../Models/offer');
 //---------------------product detail page rendering------------------------
 
-const productManagementLoad = asyncHandler(async(req,res)=>{
-   
-      const FirstPage = 8;
-      const currentPage = parseInt(req.query.page) || 1;
 
-      const start = (currentPage - 1) * FirstPage;
+const productManagementLoad = asyncHandler(async (req, res) => {
+    const FirstPage = 8;
+    const currentPage = parseInt(req.query.page) || 1;
+    const start = (currentPage - 1) * FirstPage;
 
-      const  productData = await Products.find({}).populate('category').sort({createdAt:-1}).skip(start).limit(FirstPage);
-      const products = await Products.countDocuments({});
+    const productData = await Products.find({}).populate('category').sort({ createdAt: -1 }).skip(start).limit(FirstPage);
+    const products = await Products.countDocuments({});
+    const totalPages = Math.ceil(products / FirstPage);
 
-      const totalPages = Math.ceil(products / FirstPage);
+    const offers = await Offer.find({ offerStatus: true }).populate('selectedItems.categories');
 
-      const offers = await Offer.find({offerStatus:true}).populate('selectedItems.categories');
+    const productDiscount = new Map();
 
-      const productDiscount = new Map();
-
-      offers.forEach(offer =>{
-        offer.selectedItems.products.forEach(products =>{
-            productDiscount.set(products._id.toString(),offer.discount);
+    // Iterate over each offer
+    offers.forEach(offer => {
+        // Check if offer is applied to specific products
+        offer.selectedItems.products.forEach(product => {
+            productDiscount.set(product._id.toString(), offer.discount);
         });
-      });
 
-      res.render('productManagement',{ product: productData, currentPage, totalPages,ActivePage: 'productManagement',productDiscount });
+        // Check if offer is applied to categories
+        offer.selectedItems.categories.forEach(category => {
+            productData.forEach(product => {
+                if (product.category && product.category._id.toString() === category._id.toString()) {
+                    // If the product's category matches the offer's category, apply the discount
+                    productDiscount.set(product._id.toString(), offer.discount);
+                }
+            });
+        });
+    });
+
+    res.render('productManagement', { product: productData, currentPage, totalPages, ActivePage: 'productManagement', productDiscount });
 });
+
 
 
 //------------------- Add product page rendering---------------------------- 
@@ -64,11 +75,43 @@ const addNewproduct = asyncHandler(async(req,res)=>{
            const product =  await Products.findOne({name}).populate('category');
             
                 if(action == 'list'){
-                 action = true;
-                }
-                else if(action == 'unlist'){
                  action = false;
                 }
+                else if(action == 'unlist'){
+                 action = true;
+                }
+
+
+     // Initialize updated discount and offer details
+        let updatedDiscount = 0;
+        let updatedDisPrice = price;
+        let appliedOffer = null;
+
+        // Fetch applicable category-based offers
+        const currentDate = new Date();
+        const applicableOffers = await Offer.find({
+            offerType: "Category Base",
+            offerStatus: true,
+            expDate: { $gt: currentDate },
+            'selectedItems.categories': categoryId
+        }).sort({ discount: -1 }); // Sort by highest discount
+
+        if (applicableOffers && applicableOffers.length > 0) {
+            // Apply the offer with the highest discount
+            appliedOffer = applicableOffers[0];
+            updatedDiscount = appliedOffer.discount;
+            updatedDisPrice = price - (price * (updatedDiscount / 100));
+            updatedDisPrice = parseFloat(updatedDisPrice.toFixed(2)); // Round to 2 decimal places
+        } else {
+            // If no offer, check if manual discount is provided
+            if (discount && discount > 0) {
+                updatedDiscount = discount;
+                updatedDisPrice = price - (price * (updatedDiscount / 100));
+                updatedDisPrice = parseFloat(updatedDisPrice.toFixed(2));
+            }
+        }
+
+
             const newproduct = new Products ({
                 name:name,
                 action:action,
@@ -80,6 +123,7 @@ const addNewproduct = asyncHandler(async(req,res)=>{
                 images:images,
                 quantity:quantity,
                 type:type,
+                offer: appliedOffer ? appliedOffer._id : null,
                 createdAt:new Date()
             });
 
@@ -87,7 +131,7 @@ const addNewproduct = asyncHandler(async(req,res)=>{
                  console.log(productData)
 
                 if (newproduct.action ==='list') {
-                 newproduct.is_Delete = true;
+                 newproduct.is_Delete = false;
                  await newproduct.save();
                 }
 
