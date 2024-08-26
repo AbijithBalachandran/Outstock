@@ -115,6 +115,15 @@ const editOffer = asyncHandler(async (req, res) => {
     offer.expDate = expiryDate;
     offer.selectedItems = selectedItems;
 
+    // Handle switching from "Product Base" to "Category Base"
+    if (offerType === 'Category Base') {
+        offer.selectedItems.products = []; // Clear the product-based selected items
+        offer.selectedItems.categories = selectedItems.categories; // Set the category-based selected items
+    } else if (offerType === 'Product Base') {
+        offer.selectedItems.categories = []; // Clear the category-based selected items
+        offer.selectedItems.products = selectedItems.products; // Set the product-based selected items
+    }
+
     await offer.save();
 
     if (offerType === 'Category Base') {

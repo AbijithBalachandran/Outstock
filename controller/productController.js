@@ -94,14 +94,13 @@ const addNewproduct = asyncHandler(async(req,res)=>{
             offerStatus: true,
             expDate: { $gt: currentDate },
             'selectedItems.categories': categoryId
-        }).sort({ discount: -1 }); // Sort by highest discount
-
+        }).sort({ discount: -1 }); 
         if (applicableOffers && applicableOffers.length > 0) {
             // Apply the offer with the highest discount
             appliedOffer = applicableOffers[0];
             updatedDiscount = appliedOffer.discount;
             updatedDisPrice = price - (price * (updatedDiscount / 100));
-            updatedDisPrice = parseFloat(updatedDisPrice.toFixed(2)); // Round to 2 decimal places
+            updatedDisPrice = parseFloat(updatedDisPrice.toFixed(2)); 
         } else {
             // If no offer, check if manual discount is provided
             if (discount && discount > 0) {
