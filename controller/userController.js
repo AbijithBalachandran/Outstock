@@ -89,7 +89,7 @@ const insertUser = async (req, res) => {
 
       } catch (error) {
             console.error(`Error during user registration: ${error.message}`);
-            res.status(500).render('register', { message: 'An error occurred during registration. Please try again.' });
+            res.status(500).render('register', {activePage: 'register', message: 'An error occurred during registration. Please try again.' });
 
       }
 }

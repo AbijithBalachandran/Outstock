@@ -15,7 +15,7 @@ require('../utils/passport')
 //---------------------------middleware ---------------------------------
 
 const userAuth = require('../middleware/userAuth');
-const is_Authenticate = require('../middleware/is_Authenticate')
+const is_Authenticate = require('../middleware/is_Authenticate');
 //-----------------------------------------------------------------------
 
 const bodyParser =require('body-parser');
