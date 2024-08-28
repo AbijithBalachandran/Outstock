@@ -7,6 +7,7 @@ const validateForm = () => {
       const pincode = document.getElementById("pinCode").value;
       const mobile = document.getElementById("phone").value;
       const email = document.getElementById("email").value;
+      const paymentMethod = document.getElementById('paymentMethod').value;
 
 
       // Regex patterns for validation
@@ -25,6 +26,7 @@ const validateForm = () => {
       const isValidPincode = pincodeRegex.test(pincode);
       const isValidMobile = mobileRegex.test(mobile);
       const isValidEmail = emailRegex.test(email);
+      // const isValidpaymentMethod = document.getElementById('paymentMethod').value;
 
       const sweetAlert = (thing) => {
         Swal.fire({
@@ -79,7 +81,11 @@ const validateForm = () => {
         });
         return false;
       }
-
+      if (!paymentMethod) {
+        // alert('Please select a payment method.');
+        Swal.fire('Please select a payment method.');
+        return false; // Prevent form submission
+    }
       // All fields are valid
       return true;
     };

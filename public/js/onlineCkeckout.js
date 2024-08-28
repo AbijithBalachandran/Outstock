@@ -19,7 +19,10 @@ function togglePaymentButton() {
         razorpayBtn.style.display = "none";
         submitBtn.style.display = "inline-block";
     }
+
 }
+
+
 
 async function startRazorpayPayment() {
     const userId = document.getElementById('submit-btn').getAttribute('data-user-id');

@@ -119,9 +119,9 @@
                     </div>
                     <div id="payment-buttons">
                         <% if(cart.length > 0 && cart[0].cartItem.length > 0) { %>
-                            <button type="button" onclick="submitForm()" class="btn btn-primary mt-3" id="submit-btn" data-user-id="<%=user.id%>" >Check Out</button>
+                            <button type="button" onclick="submitForm()" class="btn btn-primary mt-3" id="submit-btn" data-user-id="<%=user.id%>" onclick="validatePaymentMethod(event)" >Check Out</button>
                         <% } else { %>
-                            <button type="button" class="btn btn-primary mt-3" id="submit-btn" data-user-id="<%=user.id%>" disabled>Check Out</button>
+                            <button type="button" class="btn btn-primary mt-3" id="submit-btn" data-user-id="<%=user.id%>" disabled  onclick="validatePaymentMethod(event)">Check Out</button>
                         <% } %>
                     </div>
                     <button type="button" onclick="startRazorpayPayment()" class="btn btn-primary mt-3" id="razorpay-btn" data-user-id="<%=user.id%>" style="display: none;">Pay with Razorpay</button>
@@ -375,6 +375,17 @@
             // Initialize tooltips
             $('[data-toggle="tooltip"]').tooltip();
         });
+
+
+        function validatePaymentMethod(event) {
+    const paymentMethod = document.getElementById('paymentMethod').value;
+    if (!paymentMethod) {
+        event.preventDefault(); 
+        // alert('Please select a payment method.');
+        Swal.fire('Please select a payment method.')
+    }
+}
+
     </script>
 
     <script src="/js/walletParchase.js"></script>
