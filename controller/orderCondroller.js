@@ -423,6 +423,8 @@ let offerDetails = {
         maxredeemableAmt: 0
       };
 
+      let couponDiscount = 0; 
+
     if(couponId){
         const coupon = await Coupon.findOne({_id:couponId});
         console.log('coupon'+coupon);

@@ -313,7 +313,7 @@ const searchProduct = asyncHandler(async(req,res)=>{
 
        const productData ={
            $or:[{name :{$regex:searchQuery,$options:'i'}},
-              {category:{$regex:searchQuery,$options:'i'}},
+            //   {category: { $regex: searchQuery.toString(), $options: 'i' }},
            ] 
        } 
        if( req.query.search ){
@@ -322,7 +322,29 @@ const searchProduct = asyncHandler(async(req,res)=>{
             product = await Products.find().skip(start).limit(FirstPage);
        }
 
-       res.render('productManagement',{product,currentPage,totalPages, ActivePage: 'productManagement' });
+       const offers = await Offer.find({ offerStatus: true }).populate('selectedItems.categories');
+
+       const productDiscount = new Map();
+
+    // Iterate over each offer
+    offers.forEach(offer => {
+        // Check if offer is applied to specific products
+        offer.selectedItems.products.forEach(product => {
+            productDiscount.set(product._id.toString(), offer.discount);
+        });
+
+        // Check if offer is applied to categories
+        offer.selectedItems.categories.forEach(category => {
+            product.forEach(product => {
+                if (product.category && product.category._id.toString() === category._id.toString()) {
+                    // If the product's category matches the offer's category, apply the discount
+                    productDiscount.set(product._id.toString(), offer.discount);
+                }
+            });
+        });
+    });
+
+       res.render('productManagement',{product,currentPage,totalPages, ActivePage: 'productManagement',productDiscount });
 });
 
 
