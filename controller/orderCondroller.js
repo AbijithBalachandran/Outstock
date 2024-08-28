@@ -1016,6 +1016,13 @@ const walletParchase = asyncHandler(async (req, res) => {
     let walletAmount = wallet.walletAmount;
 
     // Apply offer if available
+
+    let offerDetails = {
+        offerName: "",
+        discount: 0,
+        offerType: ' ',
+      };
+    
     let totalDiscount = 0;
     if (offerProducts) {
         async function calculateOfferDiscount(product) {
@@ -1038,6 +1045,15 @@ const walletParchase = asyncHandler(async (req, res) => {
     }
 
     // Apply coupon if available
+
+
+    let couponDetails = {
+        code: "",
+        discount: 0,
+        miniPurchaseAmt: 0,
+        maxredeemableAmt: 0
+      };
+
     let couponDiscount = 0;
     if (couponId) {
         const coupon = await Coupon.findOne({ _id: couponId });
@@ -1058,7 +1074,7 @@ const walletParchase = asyncHandler(async (req, res) => {
         
 
 
-    if (walletAmount < grandTotal) {
+    if (  grandTotal > walletAmount) {
         return res.status(400).json({ message: 'Insufficient wallet balance for this purchase' });
     }
 
